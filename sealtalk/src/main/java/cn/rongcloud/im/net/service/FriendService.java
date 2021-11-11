@@ -52,7 +52,7 @@ public interface FriendService {
      * @return
      */
     @POST(SealTalkUrl.IGNORE_FRIENDS)
-    LiveData<Result<Void>> ingoreFriend(@Body RequestBody body);
+    LiveData<Result<Void>> ignoreFriend(@Body RequestBody body);
 
     /**
      * 设置好友备注名

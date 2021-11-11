@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +25,7 @@ public class NewFriendViewModel extends AndroidViewModel {
 
     private SingleSourceMapLiveData<Resource<Boolean>,Resource<Boolean>> agreeResult;
 
-    private SingleSourceMapLiveData<Resource<Void>,Resource<Void>> ingoreResult;
+    private SingleSourceMapLiveData<Resource<Void>,Resource<Void>> ignoreResult;
 
     private FriendTask friendTask ;
     public NewFriendViewModel(@NonNull Application application) {
@@ -70,7 +68,7 @@ public class NewFriendViewModel extends AndroidViewModel {
             return resource;
         });
 
-        ingoreResult = new SingleSourceMapLiveData<>(resource -> {
+        ignoreResult = new SingleSourceMapLiveData<>(resource -> {
             if(resource.status == Status.SUCCESS){
                 // 成功之后刷新列表
                 getFriendsAllData();
@@ -117,14 +115,14 @@ public class NewFriendViewModel extends AndroidViewModel {
      * 忽略好友请求结果
      * @return
      */
-    public LiveData<Resource<Void>> getIngoreResult() {
-        return ingoreResult;
+    public LiveData<Resource<Void>> getIgnoreResult() {
+        return ignoreResult;
     }
 
     /**
      * 忽略好友请求
      * @param friendId
      */
-    public void ingore(String friendId) {
-        ingoreResult.setSource(friendTask.ingore(friendId));}
+    public void ignore(String friendId) {
+        ignoreResult.setSource(friendTask.ignore(friendId));}
 }

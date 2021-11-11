@@ -47,7 +47,6 @@ import cn.rongcloud.im.utils.NetworkOnlyResource;
 import cn.rongcloud.im.utils.RongGenerate;
 import cn.rongcloud.im.utils.SearchUtils;
 import cn.rongcloud.im.utils.log.SLog;
-import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imlib.model.Conversation;
 import okhttp3.RequestBody;
 
@@ -271,7 +270,7 @@ public class FriendTask {
      * @param friendId
      * @return
      */
-    public LiveData<Resource<Void>> ingore(String friendId) {
+    public LiveData<Resource<Void>> ignore(String friendId) {
         return new NetworkOnlyResource<Void, Result<Void>>() {
 
             @NonNull
@@ -280,7 +279,7 @@ public class FriendTask {
                 HashMap<String, Object> paramsMap = new HashMap<>();
                 paramsMap.put("friendId", friendId);
                 RequestBody body = RetrofitUtil.createJsonRequest(paramsMap);
-                return friendService.ingoreFriend(body);
+                return friendService.ignoreFriend(body);
             }
         }.asLiveData();
     }

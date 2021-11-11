@@ -70,7 +70,7 @@ public class SealTalkUrlCode {
 
     public static final int SET_PORTRAIT = 32 * API_CODE_PREFIX;
 
-    public static final int ARGEE_FRIENDS = 33 * API_CODE_PREFIX;
+    public static final int AGREE_FRIENDS = 33 * API_CODE_PREFIX;
 
     public static final int GET_FRIEND_PROFILE = 34 * API_CODE_PREFIX;
 
