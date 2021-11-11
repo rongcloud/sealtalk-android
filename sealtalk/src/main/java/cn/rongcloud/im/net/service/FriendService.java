@@ -43,7 +43,7 @@ public interface FriendService {
      *
      * @return
      */
-    @POST(SealTalkUrl.ARGEE_FRIENDS)
+    @POST(SealTalkUrl.AGREE_FRIENDS)
     LiveData<Result<Boolean>> agreeFriend(@Body RequestBody body);
 
     /**
@@ -51,8 +51,8 @@ public interface FriendService {
      *
      * @return
      */
-    @POST(SealTalkUrl.INGORE_FRIENDS)
-    LiveData<Result<Void>> ingoreFriend(@Body RequestBody body);
+    @POST(SealTalkUrl.IGNORE_FRIENDS)
+    LiveData<Result<Void>> ignoreFriend(@Body RequestBody body);
 
     /**
      * 设置好友备注名

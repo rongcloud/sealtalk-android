@@ -44,7 +44,7 @@ public class ApiErrorCodeMap {
             put(SealTalkUrl.REMOVE_BLACK_LIST, SealTalkUrlCode.REMOVE_BLACK_LIST);
             put(SealTalkUrl.SET_NICK_NAME, SealTalkUrlCode.SET_NICK_NAME);
             put(SealTalkUrl.SET_PORTRAIT, SealTalkUrlCode.SET_PORTRAIT);
-            put(SealTalkUrl.ARGEE_FRIENDS, SealTalkUrlCode.ARGEE_FRIENDS);
+            put(SealTalkUrl.AGREE_FRIENDS, SealTalkUrlCode.AGREE_FRIENDS);
             put(SealTalkUrl.SET_DISPLAY_NAME, SealTalkUrlCode.SET_DISPLAY_NAME);
             put(SealTalkUrl.INVITE_FRIEND, SealTalkUrlCode.INVITE_FRIEND);
             put(SealTalkUrl.DELETE_FREIND, SealTalkUrlCode.DELETE_FREIND);

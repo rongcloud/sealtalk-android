@@ -119,7 +119,7 @@ public class NewFriendListActivity extends TitleBaseActivity {
             }
         });
 
-        newFriendViewModel.getIngoreResult().observe(this, new Observer<Resource<Void>>() {
+        newFriendViewModel.getIgnoreResult().observe(this, new Observer<Resource<Void>>() {
             @Override
             public void onChanged(Resource<Void> voidResource) {
 
@@ -145,7 +145,7 @@ public class NewFriendListActivity extends TitleBaseActivity {
      */
     private void ignoreFriends(String friendId) {
         if (newFriendViewModel != null) {
-            newFriendViewModel.ingore(friendId);
+            newFriendViewModel.ignore(friendId);
         }
     }
 

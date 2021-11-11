@@ -39,7 +39,7 @@ public class GroupNoticeListActivity extends TitleBaseActivity {
     private GroupNoticeListAdapter adapter;
     private List<String> showIdList = new ArrayList<>();
     private Map<String, String> portraitUrlMap = new HashMap<>();
-    private boolean isCanClickIngore = true;
+    private boolean isCanClickIgnore = true;
     private boolean isCanClickAgree = true;
 
 
@@ -128,10 +128,10 @@ public class GroupNoticeListActivity extends TitleBaseActivity {
                         return false;
                     }
                     if (info.getStatus() == 2) {
-                        if (!isCanClickIngore) {
+                        if (!isCanClickIgnore) {
                             return false;
                         }
-                        isCanClickIngore = false;
+                        isCanClickIgnore = false;
                         //状态码0表示忽略
                         LiveData<Resource<Void>> setStatusResult = groupNoticeInfoViewModel.setGroupNoticeStatus(info.getGroupId(), info.getReceiverId(),
                                 "0", info.getId());
@@ -141,10 +141,10 @@ public class GroupNoticeListActivity extends TitleBaseActivity {
                                 if (voidResource.status == Status.SUCCESS) {
                                     setStatusResult.removeObserver(this);
                                     ToastUtils.showToast(getString(R.string.seal_group_notice_success));
-                                    isCanClickIngore = true;
+                                    isCanClickIgnore = true;
                                 } else if (voidResource.status == Status.ERROR) {
                                     setStatusResult.removeObserver(this);
-                                    isCanClickIngore = true;
+                                    isCanClickIgnore = true;
                                     ToastUtils.showToast(getString(R.string.common_network_unavailable));
                                 }
                             }
