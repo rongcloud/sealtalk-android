@@ -91,9 +91,9 @@ public class SealTalkUrl {
 
     public static final String SET_PORTRAIT = "user/set_portrait_uri";
 
-    public static final String ARGEE_FRIENDS = "friendship/agree";
+    public static final String AGREE_FRIENDS = "friendship/agree";
 
-    public static final String INGORE_FRIENDS = "friendship/ignore";
+    public static final String IGNORE_FRIENDS = "friendship/ignore";
 
     public static final String GET_FRIEND_PROFILE = "friendship/{friendId}/profile";
 
