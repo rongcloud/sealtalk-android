@@ -12,7 +12,6 @@ SealTalk 自从 1.3.14 版本起，CallLib 模块引用的音视频引擎已替�
 * 完整的好友体系代码示例。
 * 完整的群组功能代码示例。
 * 单聊,群组,聊天室多种社交场景满足你的需求,如果还想要 [视频直播](http://rongcloud.cn/live) 都可以。
-* 一行代码搞定 [客服](http://rongcloud.cn/customservice)? 你没有听错,比你想象的还要简单。
 
 ## 运行 SealTalk-Android
 1.  替换 sealtalk 中 gradle.properties 中的 SEALTALK_SERVER 值为您所部署的 SealTalk 服务地址。
@@ -114,14 +113,10 @@ SealTalk Server 源码可以参考[这里](https://github.com/sealtalk/sealtalk-
 
 
 ## Gif
-### 新增红包
-![image](./images/redpacket.gif)<br/>
 ### 强大的全局搜索
 ![image](./images/search.gif)<br/>
 ### 单人、多人音视频
 ![image](./images/audio_video.gif)<br/>
-### 客服/机器人服务
-![image](./images/customer_service.gif)<br/>
 ### 群组
 ![image](./images/group.gif)<br/>
 ## APK
