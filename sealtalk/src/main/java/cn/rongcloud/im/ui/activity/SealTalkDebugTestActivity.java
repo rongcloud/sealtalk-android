@@ -27,6 +27,7 @@ import cn.rongcloud.im.ui.test.CommonConversationListTestActivity;
 import cn.rongcloud.im.ui.test.DeviceInfoActivity;
 import cn.rongcloud.im.ui.test.DiscussionActivity;
 import cn.rongcloud.im.ui.test.GRRConversationListTestActivity;
+import cn.rongcloud.im.ui.test.MessageAuditInfoTestActivity;
 import cn.rongcloud.im.ui.test.MsgDeliveryConversationListActivity;
 import cn.rongcloud.im.ui.test.MsgExpansionConversationListActivity;
 import cn.rongcloud.im.ui.test.PushConfigActivity;
@@ -47,6 +48,7 @@ import io.rong.imlib.model.UserInfo;
 
 public class SealTalkDebugTestActivity extends TitleBaseActivity implements View.OnClickListener {
     private SettingItemView pushConfigModeSiv;
+    private SettingItemView messageAuditInfoSiv;
     private SettingItemView pushDiscussion;
     private SettingItemView pushLanguageSiv;
     private SettingItemView chatRoomSiv;
@@ -65,12 +67,14 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView deviceInfo;
     private SettingItemView referMsgTest;
     private SettingItemView permissionlistener;
+    private SettingItemView combineForwardV2;
     private SettingItemView ultraDebug; // 超级群的debug模式
     private SettingItemView isHideLoginPagePicCode; // 是否忽略登录图片验证码
     private SettingItemView quickIntercept; // 是否忽略登录图片验证码
     private SettingItemView createNotificationChannel;
     private SettingItemView bindChatRTCRoom;
     public static final String SP_IS_SHOW = "is_show";
+    public static final String SP_COMBINE_V2 = "combine_v2";
     public static final String SP_PERMISSION_NAME = "permission_config";
     public static final String ULTRA_DEBUG_CONFIG = "ultra_debug_config";
     public static final String ULTRA_IS_DEBUG_KEY = "ultra_isdebug";
@@ -94,8 +98,10 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         groupReadReceiptV2Siv = findViewById(R.id.siv_grr_v2_sender_test);
         pushLanguageSiv = findViewById(R.id.siv_push_language);
         pushConfigModeSiv = findViewById(R.id.siv_push_config);
+        messageAuditInfoSiv = findViewById(R.id.siv_message_audit_info);
         chatRoomSiv = findViewById(R.id.siv_chatroom);
         pushConfigModeSiv.setOnClickListener(this);
+        messageAuditInfoSiv.setOnClickListener(this);
         pushLanguageSiv.setOnClickListener(this);
         chatRoomSiv.setOnClickListener(this);
 
@@ -150,12 +156,13 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         SharedPreferences permissionConfigSP =
                 getSharedPreferences(SP_PERMISSION_NAME, MODE_PRIVATE);
         permissionlistener.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        permissionConfigSP.edit().putBoolean(SP_IS_SHOW, isChecked).commit();
-                    }
-                });
+                (buttonView, isChecked) ->
+                        permissionConfigSP.edit().putBoolean(SP_IS_SHOW, isChecked).commit());
+        combineForwardV2 = findViewById(R.id.siv_combine_forward_v2);
+        combineForwardV2.setChecked(permissionConfigSP.getBoolean(SP_COMBINE_V2, false));
+        combineForwardV2.setSwitchCheckListener(
+                (buttonView, isChecked) ->
+                        permissionConfigSP.edit().putBoolean(SP_COMBINE_V2, isChecked).commit());
         ultraDebug = findViewById(R.id.siv_ultra_debug);
         ultraDebug.setChecked(
                 getSharedPreferences(SealTalkDebugTestActivity.ULTRA_DEBUG_CONFIG, MODE_PRIVATE)
@@ -331,6 +338,9 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         switch (v.getId()) {
             case R.id.siv_push_config:
                 toPushConfig();
+                break;
+            case R.id.siv_message_audit_info:
+                setAuditInfo();
                 break;
             case R.id.siv_discussion:
                 toDiscussion();
@@ -635,6 +645,11 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
 
     private void toPushConfig() {
         Intent intent = new Intent(this, PushConfigActivity.class);
+        startActivity(intent);
+    }
+
+    private void setAuditInfo() {
+        Intent intent = new Intent(this, MessageAuditInfoTestActivity.class);
         startActivity(intent);
     }
 

@@ -40,6 +40,7 @@ public class PushConfigDialog extends Dialog {
     private EditText edImageUrl;
     private EditText edCategory;
     private EditText edRichMediaUri;
+    private EditText edInterruptionLevel;
 
     private CheckBox cbVivo;
     private CheckBox cbDisableTitle;
@@ -86,6 +87,7 @@ public class PushConfigDialog extends Dialog {
         etApnId = dialogView.findViewById(R.id.et_apns_id);
         edCategory = dialogView.findViewById(R.id.et_category);
         edRichMediaUri = dialogView.findViewById(R.id.et_richMediaUri);
+        edInterruptionLevel = dialogView.findViewById(R.id.et_interruptionLevel);
         edTemplateId = dialogView.findViewById(R.id.et_template_id);
 
         cbVivo = dialogView.findViewById(R.id.cb_vivo);
@@ -179,6 +181,14 @@ public class PushConfigDialog extends Dialog {
 
     public void setEdRichMediaUri(EditText edRichMediaUri) {
         this.edRichMediaUri = edRichMediaUri;
+    }
+
+    public EditText getEdInterruptionLevel() {
+        return edInterruptionLevel;
+    }
+
+    public void setEdInterruptionLevel(EditText edInterruptionLevel) {
+        this.edInterruptionLevel = edInterruptionLevel;
     }
 
     public CheckBox getCbVivo() {

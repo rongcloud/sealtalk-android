@@ -2,15 +2,20 @@ package cn.rongcloud.im.net;
 
 import static cn.rongcloud.im.common.NetConstant.REQUEST_SUCCESS_CODE;
 
+import android.content.Intent;
 import androidx.lifecycle.LiveData;
+import cn.rongcloud.im.SealApp;
 import cn.rongcloud.im.common.ApiErrorCodeMap;
 import cn.rongcloud.im.common.ErrorCode;
 import cn.rongcloud.im.common.LogTag;
+import cn.rongcloud.im.common.NetConstant;
 import cn.rongcloud.im.model.Result;
 import cn.rongcloud.im.utils.log.SLog;
 import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import okhttp3.ResponseBody;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Callback;
@@ -57,11 +62,10 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<R>> {
                                             result.setCode(errorCode);
                                             try {
                                                 body = (R) result;
-                                            } catch (Exception e) {
-                                                // 可能部分接口并不是由 result 包裹，此时无法获取错误码
+                                            } catch (Exception ex) {
                                             }
                                         } else {
-                                            body = null;
+                                            parseErrorBody(response);
                                         }
                                     } else if (body instanceof Result) {
                                         Result result = (Result) body;
@@ -108,5 +112,25 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<R>> {
                 }
             }
         };
+    }
+
+    private void parseErrorBody(Response<R> response) {
+        // 登录失效时会返回errorBody {"msg":"Not loged in.","code":"1000"}
+        try (ResponseBody errorBody = response.errorBody()) {
+            if (errorBody != null) {
+                String errorBodyStr = errorBody.string();
+                JSONObject jsonObject = new JSONObject(errorBodyStr);
+                String code = jsonObject.getString("code");
+                int errorCode = Integer.parseInt(code);
+                // 发送广播通知 BaseActivity 进行页面关闭和跳转到登录页
+                if (errorCode == NetConstant.LOGIN_EXPIRATION_CODE_OLD
+                        || errorCode == NetConstant.LOGIN_EXPIRATION_CODE_NEW) {
+                    Intent intent = new Intent("com.rong.im.action.login.expiration");
+                    SealApp.getApplication().sendBroadcast(intent);
+                }
+            }
+        } catch (Exception ex) {
+            // do nothing
+        }
     }
 }

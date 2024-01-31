@@ -105,9 +105,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textColor="#484848"
-                android:textSize="@dimen/seal_login_rongcloud_text_size" />
+                android:textSize="12dp" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/tv_seal_talk_version"
             android:layout_width="wrap_content"
@@ -115,7 +116,7 @@
             android:gravity="center_horizontal"
             android:text="@string/seal_talk_version_text"
             android:textColor="@color/deep_gray"
-            android:textSize="@dimen/seal_login_rongcloud_text_size" />
+            android:textSize="12dp" />
 
     </LinearLayout>
 
@@ -156,8 +157,8 @@
         android:layout_marginTop="20dp"
         android:padding="@dimen/seal_login_text_change_lang_padding"
         android:text="@string/lang_en"
-        android:textColor="@color/white"
-        android:textSize="@dimen/seal_login_text_change_lang_text_size" />
+        android:textSize="16dp"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/tv_proxy_setting"

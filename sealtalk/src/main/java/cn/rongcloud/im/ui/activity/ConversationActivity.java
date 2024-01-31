@@ -1,6 +1,5 @@
 package cn.rongcloud.im.ui.activity;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -42,6 +41,7 @@ import cn.rongcloud.im.model.TypingInfo;
 import cn.rongcloud.im.sp.UserConfigCache;
 import cn.rongcloud.im.task.AppTask;
 import cn.rongcloud.im.ui.dialog.RencentPicturePopWindow;
+import cn.rongcloud.im.ui.test.CustomConversationFragment;
 import cn.rongcloud.im.ui.view.AnnouceView;
 import cn.rongcloud.im.utils.CheckPermissionUtils;
 import cn.rongcloud.im.utils.NavigationBarUtil;
@@ -98,8 +98,6 @@ public class ConversationActivity extends RongBaseActivity
     private static List<String> rencentShowIdList = new ArrayList<>();
     private RencentPicturePopWindow rencentPicturePopWindow;
     private UserConfigCache userConfigCache;
-    private final int REQUEST_CODE_PERMISSION = 118;
-    private String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
 
     private ScreenCaptureUtil screenCaptureUtil;
     private IRongCoreListener.MessageBlockListener blockListener = new BlockListener(this);
@@ -399,10 +397,8 @@ public class ConversationActivity extends RongBaseActivity
                     public void onFaild(Exception e) {
                         // 没有权限异常，申请权限
                         if (e instanceof SecurityException) {
-                            CheckPermissionUtils.requestPermissions(
-                                    ConversationActivity.this,
-                                    permissions,
-                                    REQUEST_CODE_PERMISSION);
+                            CheckPermissionUtils.requestMediaStoragePermissions(
+                                    ConversationActivity.this);
                         }
                     }
                 });
@@ -583,12 +579,8 @@ public class ConversationActivity extends RongBaseActivity
                                         if (screenCaptureResultResource.data != null
                                                 && screenCaptureResultResource.data.status == 1) {
                                             // 判断是否有读取文件的权限
-                                            if (!CheckPermissionUtils.requestPermissions(
-                                                    ConversationActivity.this,
-                                                    permissions,
-                                                    REQUEST_CODE_PERMISSION)) {
-                                                return;
-                                            }
+                                            CheckPermissionUtils.requestMediaStoragePermissions(
+                                                    ConversationActivity.this);
                                         }
                                     }
                                 }
@@ -622,17 +614,20 @@ public class ConversationActivity extends RongBaseActivity
         /** 加载会话界面 。 ConversationFragmentEx 继承自 ConversationFragment */
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment existFragment =
-                fragmentManager.findFragmentByTag(ConversationFragment.class.getCanonicalName());
+                fragmentManager.findFragmentByTag(
+                        CustomConversationFragment.class.getCanonicalName());
         if (existFragment != null) {
-            fragment = (ConversationFragment) existFragment;
+            fragment = (CustomConversationFragment) existFragment;
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.show(fragment);
             transaction.commitAllowingStateLoss();
         } else {
-            fragment = new ConversationFragment();
+            fragment = new CustomConversationFragment();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(
-                    R.id.rong_content, fragment, ConversationFragment.class.getCanonicalName());
+                    R.id.rong_content,
+                    fragment,
+                    CustomConversationFragment.class.getCanonicalName());
             transaction.commitAllowingStateLoss();
         }
     }
@@ -703,8 +698,7 @@ public class ConversationActivity extends RongBaseActivity
             return;
         }
         // 判断是否有读取文件的权限
-        if (!CheckPermissionUtils.requestPermissions(
-                ConversationActivity.this, permissions, REQUEST_CODE_PERMISSION)) {
+        if (!CheckPermissionUtils.checkMediaStoragePermissions(ConversationActivity.this)) {
             return;
         }
         ScreenCaptureUtil.MediaItem mediaItem = screenCaptureUtil.getLastPictureItems(this);
@@ -946,7 +940,7 @@ public class ConversationActivity extends RongBaseActivity
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_PERMISSION
+        if (requestCode == CheckPermissionUtils.REQUEST_CODE_PERMISSION
                 && !CheckPermissionUtils.allPermissionGranted(grantResults)) {
             List<String> permissionsNotGranted = new ArrayList<>();
             for (String permission : permissions) {

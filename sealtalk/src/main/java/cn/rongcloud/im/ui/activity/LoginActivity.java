@@ -9,12 +9,13 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.LayoutDirection;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.text.TextUtilsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,6 +34,7 @@ import cn.rongcloud.im.utils.StatusBarUtil;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.AppViewModel;
 import io.rong.imkit.utils.language.LangUtils;
+import java.util.Locale;
 
 /** 登录界面 用户可以在这个界面通过帐号登录到 业务服务器 并从中获取获取到连接 融云IM 服务器 所必须的 token */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -137,6 +139,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (isUserBlocked) {
             SLog.d(TAG, "isUserBlocked");
             showSecurityKickOutDialog();
+        }
+        boolean isLoginExpiration =
+                intent.getBooleanExtra(IntentExtra.BOOLEAN_LOGIN_EXPIRATION, false);
+        if (isLoginExpiration) {
+            SLog.d(TAG, "isLoginExpiration");
+            showLoginExpirationDialog();
         }
     }
 
@@ -364,10 +372,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     /** 背景微动画 */
     private void startBgAnimation() {
-        Animation animation =
-                AnimationUtils.loadAnimation(
-                        LoginActivity.this, R.anim.seal_login_bg_translate_anim);
-        loginBg.startAnimation(animation);
+        int animId =
+                TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
+                                == LayoutDirection.RTL
+                        ? R.anim.seal_login_bg_translate_anim_rtl
+                        : R.anim.seal_login_bg_translate_anim;
+        loginBg.startAnimation(AnimationUtils.loadAnimation(LoginActivity.this, animId));
     }
 
     @Override
@@ -458,6 +468,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     /** 显示数美踢出对话框 */
     private void showSecurityKickOutDialog() {
         SecurityKickOutDialog dialog = new SecurityKickOutDialog();
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
+    /** 显示登录失效对话框 */
+    private void showLoginExpirationDialog() {
+        CommonDialog.Builder builder = new CommonDialog.Builder();
+        builder.setContentMessage(getString(R.string.seal_login_user_login_expiration));
+        builder.setIsOnlyConfirm(true);
+        builder.isCancelable(false);
+        CommonDialog dialog = builder.build();
         dialog.show(getSupportFragmentManager(), null);
     }
 

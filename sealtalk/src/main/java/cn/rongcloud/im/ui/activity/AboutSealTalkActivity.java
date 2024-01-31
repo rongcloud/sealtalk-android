@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import cn.rongcloud.im.BuildConfig;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.model.Resource;
@@ -20,6 +22,9 @@ import cn.rongcloud.im.utils.DialogWithYesOrNoUtils;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.viewmodel.AppViewModel;
 import cn.rongcloud.im.viewmodel.UserInfoViewModel;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongCoreClientImpl;
+import java.io.File;
 
 /** 关于 SealTalk 的界面 */
 public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnClickListener {
@@ -27,6 +32,7 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
     private SettingItemView sdkVersionSiv;
     private String url;
     private SettingItemView debufModeSiv;
+    private SettingItemView debugEnvSiv;
     private UserInfoViewModel userInfoViewModel;
     long[] mHits = new long[5];
     private SettingItemView sealtalkDebugSettingSiv;
@@ -56,6 +62,10 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
         debufModeSiv.setOnClickListener(this);
         sealtalkVersionSiv.setClickable(false);
         sealtalkDebugSettingSiv.setOnClickListener(this);
+
+        debugEnvSiv = findViewById(R.id.siv_debug_env);
+        String cloud = RongCoreClientImpl.isPrivateSDK() ? "私有云" : "公有云";
+        debugEnvSiv.setContent("Debug 显示：SDK:" + cloud + "; " + stringForDbEncrypted());
     }
 
     /** 初始化 ViewModel */
@@ -111,10 +121,12 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
                                 if (result) {
                                     sdkVersionSiv.setClickable(false);
                                     debufModeSiv.setVisibility(View.VISIBLE);
+                                    debugEnvSiv.setVisibility(View.VISIBLE);
                                     sealtalkDebugSettingSiv.setVisibility(View.VISIBLE);
                                 } else {
                                     sdkVersionSiv.setClickable(true);
                                     debufModeSiv.setVisibility(View.GONE);
+                                    debugEnvSiv.setVisibility(View.GONE);
                                     sealtalkDebugSettingSiv.setVisibility(View.GONE);
                                 }
                             }
@@ -238,5 +250,34 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
     /** 退出 */
     public void logout() {
         userInfoViewModel.logout();
+    }
+
+    /**
+     * 消息数据库是否加密的描述字符串
+     *
+     * @note storage.db 存在说明 db 加密
+     */
+    private String stringForDbEncrypted() {
+        String appKey = BuildConfig.SEALTALK_APP_KEY;
+        String userId = RongIM.getInstance().getCurrentUserId();
+        if (TextUtils.isEmpty(appKey) || TextUtils.isEmpty(userId)) {
+            return "db异常：Appkey：" + appKey + "，UserId：" + userId;
+        }
+        File file = getApplicationContext().getFilesDir();
+        if (!file.exists()) {
+            return "db异常：数据库文件夹不存在";
+        }
+        String dbEncryptedPath =
+                file.getAbsolutePath() + "/" + appKey + "/" + userId + "/storage.db";
+        File dbEncryptedFile = new File(dbEncryptedPath);
+        if (dbEncryptedFile.exists()) {
+            return "db:加密";
+        }
+        String dbNormalPath = file.getAbsolutePath() + "/" + appKey + "/" + userId + "/storage";
+        File dbNormalFile = new File(dbNormalPath);
+        if (dbNormalFile.exists()) {
+            return "db:未加密";
+        }
+        return "db异常：数据库文件不存在";
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,9 +39,9 @@ import cn.rongcloud.im.ui.activity.UltraSettingActivity;
 import cn.rongcloud.im.ui.adapter.UltraConversationListAdapterEx;
 import cn.rongcloud.im.ui.adapter.UltraListAdapter;
 import cn.rongcloud.im.ultraGroup.UltraGroupManager;
+import cn.rongcloud.im.utils.NetworkUtils;
 import cn.rongcloud.im.viewmodel.UltraGroupViewModel;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.rong.common.RLog;
 import io.rong.imkit.conversationlist.model.BaseUiConversation;
 import io.rong.imkit.conversationlist.model.GatheredConversation;
@@ -64,7 +66,7 @@ public class UltraConversationListFragment extends Fragment
                 BaseAdapter.OnItemClickListener {
     private static final String TAG = "UltraConversationListFragment";
     private UltraListAdapter ultraListAdapter;
-    private List<UltraGroupInfo> dataList;
+    private List<UltraGroupInfo> dataList = new ArrayList<>();
     protected ListView mList;
     private ImageView channelImageView;
     private SharedPreferences sharedPreferences;
@@ -78,6 +80,7 @@ public class UltraConversationListFragment extends Fragment
     private LinearLayout linearLayout;
     private TextView invite;
     private RecyclerView recyclerView;
+    private Handler mainHandler = new Handler(Looper.getMainLooper());
 
     {
         mAdapter = onResolveAdapter();
@@ -96,9 +99,6 @@ public class UltraConversationListFragment extends Fragment
 
                             @Override
                             public void onGroupCreate(UltraGroupInfo ultraGroupInfo) {
-                                if (dataList == null) {
-                                    dataList = new ArrayList<>();
-                                }
                                 dataList.add(0, ultraGroupInfo);
                                 ultraListAdapter.setList(dataList);
                             }
@@ -119,7 +119,6 @@ public class UltraConversationListFragment extends Fragment
     }
 
     private void initData(View view) {
-        dataList = new ArrayList<>();
         if (getActivity() == null) {
             return;
         }
@@ -264,127 +263,68 @@ public class UltraConversationListFragment extends Fragment
                                         .apply();
                             }
                         });
-        // 连接状态监听
-        //
-        // mConversationListViewModel.getNoticeContentLiveData().observe(getViewLifecycleOwner(),
-        // noticeContent -> {
-        //            // 当连接通知没有显示时，延迟进行显示，防止连接闪断造成画面闪跳。
-        //            if (mNoticeContainerView.getVisibility() == View.GONE) {
-        //                mHandler.postDelayed(() -> {
-        //                    // 刷新时使用最新的通知内容
-        //
-        // updateNoticeContent(mConversationListViewModel.getNoticeContentLiveData().getValue());
-        //                }, NOTICE_SHOW_DELAY_MILLIS);
-        //            } else {
-        //                updateNoticeContent(noticeContent);
-        //            }
-        //        });
-        // 刷新事件监听
-        //
-        // mConversationListViewModel.getRefreshEventLiveData().observe(getViewLifecycleOwner(),
-        // refreshEvent -> {
-        //            if (refreshEvent.state.equals(RefreshState.LoadFinish)) {
-        //                mRefreshLayout.finishLoadMore();
-        //            } else if (refreshEvent.state.equals(RefreshState.RefreshFinish)) {
-        //                mRefreshLayout.finishRefresh();
-        //            }
-        //        });
     }
 
     Observer<Resource<List<UltraGroupInfo>>> observer =
             new Observer<Resource<List<UltraGroupInfo>>>() {
                 @Override
                 public void onChanged(Resource<List<UltraGroupInfo>> listResource) {
-                    if (listResource.status == Status.LOADING || listResource.data == null) {
-                        if (dataList != null && dataList.isEmpty()) {
-                            mTitleBar.getRightView().setVisibility(View.GONE);
-                            channelImageView.setVisibility(View.GONE);
-                            linearLayout.setVisibility(View.GONE);
-                            invite.setVisibility(View.GONE);
-                        } else {
-                            mTitleBar.getRightView().setVisibility(View.VISIBLE);
-                            channelImageView.setVisibility(View.VISIBLE);
-                            linearLayout.setVisibility(View.VISIBLE);
-                            invite.setVisibility(View.VISIBLE);
+                    if (listResource.status == Status.LOADING) {
+                        return;
+                    }
+                    if (listResource.status == Status.ERROR) {
+                        if (NetworkUtils.isNetWorkAvailable(getActivity())) {
+                            mainHandler.postDelayed(() -> getUltraGroupMemberList(), 1000);
                         }
-                        if (dataList != null && dataList.size() > 0) {
-                            dataList.clear();
-                        }
-                        ultraListAdapter.setList(dataList);
-                        ultraListAdapter.notifyDataSetChanged();
-                        mAdapter.setDataCollection(new ArrayList<>());
-                        textView.setText("");
                         return;
                     }
                     if (listResource.status == Status.SUCCESS) {
-                        if (dataList != null && dataList.size() > 0) {
+                        if (!dataList.isEmpty()) {
                             dataList.clear();
                         }
+                        if (!listResource.data.isEmpty()) {
+                            dataList.addAll(listResource.data);
+                        }
+                        ultraListAdapter.setList(dataList);
                         Gson gson = new Gson();
                         String userJson = gson.toJson(listResource.data);
                         sharedPreferences.edit().putString("member_list", userJson).apply();
-                        if (dataList == null) {
-                            dataList = new ArrayList<>();
-                        }
-                        dataList.addAll(listResource.data);
-                        ultraListAdapter.setList(dataList);
-                    } else if (listResource.status == Status.ERROR) {
-                        Gson gson = new Gson();
-                        String userJson = sharedPreferences.getString("member_list", "");
-                        List<UltraGroupInfo> stringList =
-                                gson.fromJson(
-                                        userJson,
-                                        new TypeToken<List<UltraGroupInfo>>() {}.getType());
-                        dataList = stringList;
-                        ultraListAdapter.setList(stringList);
-                        Toast.makeText(getActivity(), "获取群组列表失败", Toast.LENGTH_LONG).show();
                     }
-                    if (dataList.size() > 0) {
+                    // 处理超级群下频道列表相关逻辑
+                    if (!dataList.isEmpty()) {
                         String id = sharedPreferences.getString("group_id", "");
                         String name = sharedPreferences.getString("name", "");
                         String creatorId = sharedPreferences.getString("creatorId", "");
-                        if (TextUtils.isEmpty(id)) {
-                            currentId = dataList.get(0).groupId;
-                            currentName = dataList.get(0).groupName;
-                        } else {
-                            currentId = id;
-                            currentName = name;
-                        }
+                        UltraGroupInfo info = dataList.get(0);
+                        currentId = TextUtils.isEmpty(id) ? info.groupId : id;
+                        currentName = TextUtils.isEmpty(name) ? info.groupName : name;
+                        currentCreatorId =
+                                TextUtils.isEmpty(creatorId) ? info.creatorId : creatorId;
+                        boolean isCreator =
+                                RongIMClient.getInstance()
+                                        .getCurrentUserId()
+                                        .equals(currentCreatorId);
 
-                        if (TextUtils.isEmpty(name)) {
-                            currentName = dataList.get(0).groupName;
-                        } else {
-                            currentName = name;
-                        }
-
-                        if (TextUtils.isEmpty(creatorId)) {
-                            currentCreatorId = dataList.get(0).creatorId;
-                        } else {
-                            currentCreatorId = creatorId;
-                        }
                         sharedPreferences.edit().putString("creatorId", currentCreatorId).apply();
                         mConversationListViewModel.getConversationList(currentId, false, false);
                         getUltraGroupChannelList(currentId);
-                        textView.setText(currentName);
-                        if (RongIMClient.getInstance()
-                                .getCurrentUserId()
-                                .equals(currentCreatorId)) {
-                            channelImageView.setVisibility(View.VISIBLE);
-                        } else {
-                            channelImageView.setVisibility(View.GONE);
-                        }
-                    }
 
-                    if (dataList != null && dataList.isEmpty()) {
+                        // 处理TitleBar等UI
+                        mTitleBar.getRightView().setVisibility(View.VISIBLE);
+                        channelImageView.setVisibility(isCreator ? View.VISIBLE : View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
+                        invite.setVisibility(View.VISIBLE);
+
+                        textView.setText(currentName);
+                    } else {
+                        mAdapter.setDataCollection(new ArrayList<>());
+
+                        // 处理TitleBar等UI
                         mTitleBar.getRightView().setVisibility(View.GONE);
                         channelImageView.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.GONE);
                         invite.setVisibility(View.GONE);
-                    } else {
-                        mTitleBar.getRightView().setVisibility(View.VISIBLE);
-                        channelImageView.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.VISIBLE);
-                        invite.setVisibility(View.VISIBLE);
+                        textView.setText("");
                     }
                 }
             };

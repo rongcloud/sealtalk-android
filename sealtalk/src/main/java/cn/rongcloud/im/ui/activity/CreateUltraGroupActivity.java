@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.Constant;
 import cn.rongcloud.im.model.Status;
+import cn.rongcloud.im.model.UltraGroupCreateResult;
 import cn.rongcloud.im.model.UltraGroupInfo;
 import cn.rongcloud.im.ui.dialog.SelectPictureBottomDialog;
 import cn.rongcloud.im.ui.view.SealTitleBar;
@@ -104,8 +105,7 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
                                     ToastUtils.showToast("没有数据");
                                     return;
                                 }
-                                processCreateResult(
-                                        resource.data, createGroupViewModel.getChannelId());
+                                processCreateResult(resource.data);
                             } else if (resource.status == Status.ERROR) {
                                 // 当有结果时代表群组创建成功，但上传图片失败
                                 // 处理创建群组结果
@@ -210,13 +210,13 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
     }
 
     /** 处理创建结果 */
-    private void processCreateResult(String groupId, String channelId) {
+    private void processCreateResult(UltraGroupCreateResult group) {
         // 返回结果时候设置结果并结束
         UltraGroupInfo ultraGroupInfo = new UltraGroupInfo();
         ultraGroupInfo.creatorId = RongIMClient.getInstance().getCurrentUserId();
-        ultraGroupInfo.groupId = groupId;
-        ultraGroupInfo.channelId = channelId;
-        ultraGroupInfo.groupName = createGroupName;
+        ultraGroupInfo.groupId = group.groupId;
+        ultraGroupInfo.channelId = group.defaultChannelId;
+        ultraGroupInfo.groupName = group.defaultChannelName;
         if (groupPortraitUri != null) {
             ultraGroupInfo.portraitUri = groupPortraitUri.toString();
         }
@@ -224,15 +224,13 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
         UltraGroupManager.getInstance().notifyGroupCreate(ultraGroupInfo);
         finish();
         // 不返回结果时，创建成功后跳转到群组聊天中
-        toGroupChat(groupId);
+        toGroupChat(group);
     }
 
     /** 跳转到群组聊天 */
-    private void toGroupChat(String groupId) {
+    private void toGroupChat(UltraGroupCreateResult group) {
         Bundle bundle = new Bundle();
         bundle.putString(RouteUtils.TITLE, "综合");
-        // RouteUtils.routeToConversationActivity(this, Conversation.ConversationType.ULTRA_GROUP,
-        // groupId, "default", bundle);
         InformationNotificationMessage informationNotificationMessage;
         long serverTime = System.currentTimeMillis() - RongIMClient.getInstance().getDeltaTime();
         informationNotificationMessage =
@@ -244,7 +242,8 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
 
         IMCenter.getInstance()
                 .insertOutgoingMessage(
-                        ConversationIdentifier.obtainUltraGroup(groupId, "default"),
+                        ConversationIdentifier.obtainUltraGroup(
+                                group.groupId, group.defaultChannelId),
                         Message.SentStatus.SENT,
                         informationNotificationMessage,
                         serverTime,
@@ -255,14 +254,14 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
                                         Uri.parse(
                                                 RongGenerate.generateDefaultAvatar(
                                                         CreateUltraGroupActivity.this,
-                                                        "default",
-                                                        "综合"));
+                                                        group.defaultChannelId,
+                                                        group.defaultChannelName));
                                 sharedPreferences.edit().clear().commit();
                                 RongUserInfoManager.getInstance()
                                         .refreshGroupInfoCache(
                                                 new Group(
-                                                        groupId + "default",
-                                                        "综合",
+                                                        group.groupId + group.defaultChannelId,
+                                                        group.defaultChannelName,
                                                         groupPortraitUri));
                             }
 

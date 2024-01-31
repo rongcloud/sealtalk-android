@@ -15,12 +15,35 @@ import android.text.TextUtils;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import cn.rongcloud.im.R;
+import io.rong.imkit.utils.PermissionCheckUtil;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /** Created by zwfang on 2018/1/29. */
 public class CheckPermissionUtils {
+    public static final int REQUEST_CODE_PERMISSION = 118;
+
+    /**
+     * 检查媒体存储权限（适配 Android13 和 Android14）
+     *
+     * @param activity Activity
+     */
+    public static boolean checkMediaStoragePermissions(Activity activity) {
+        return PermissionCheckUtil.checkMediaStoragePermissions(activity);
+    }
+
+    /**
+     * 申请媒体存储权限（适配 Android13 和 Android14）
+     *
+     * @param activity Activity
+     */
+    public static void requestMediaStoragePermissions(Activity activity) {
+        if (!PermissionCheckUtil.checkMediaStoragePermissions(activity)) {
+            String[] permissions = PermissionCheckUtil.getMediaStoragePermissions(activity);
+            ActivityCompat.requestPermissions(activity, permissions, REQUEST_CODE_PERMISSION);
+        }
+    }
 
     public static boolean requestPermissions(
             Activity activity, String[] permissions, int requestCode) {

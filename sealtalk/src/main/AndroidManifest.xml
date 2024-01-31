@@ -2,7 +2,11 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.rongcloud.im">
-
+    <queries>
+        <intent>
+            <action android:name="com.hihonor.push.action.BIND_PUSH_SERVICE" />
+        </intent>
+    </queries>
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!--用于访问GPS定位-->
@@ -373,6 +377,10 @@
             android:name=".ui.activity.MultiDeleteFriendsActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.CombinePreviewActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".ui.activity.TranslationSettingActivity"
             android:screenOrientation="portrait"/>
 
@@ -494,6 +502,10 @@
 
         <activity
             android:name=".ui.test.PushConfigActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.test.MessageAuditInfoTestActivity"
             android:screenOrientation="portrait" />
 
         <activity

@@ -10,6 +10,7 @@ import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.chatroom.base.RongChatRoomClient;
 import io.rong.imlib.model.ChatRoomMemberAction;
+import io.rong.imlib.model.ChatRoomMemberActionModel;
 import java.util.List;
 
 public class ChatRoomListenerTestActivity extends RongConversationActivity {
@@ -25,10 +26,17 @@ public class ChatRoomListenerTestActivity extends RongConversationActivity {
                     new RongChatRoomClient.ChatRoomMemberActionListener() {
                         @Override
                         public void onMemberChange(
-                                List<ChatRoomMemberAction> chatRoomMemberActions, String roomId) {
+                                List<ChatRoomMemberAction> chatRoomMemberActions, String roomId) {}
+
+                        @Override
+                        public void onMemberChange(ChatRoomMemberActionModel model) {
                             if (ChatRoomListenerTestActivity.this.isFinishing()) {
                                 return;
                             }
+                            List<ChatRoomMemberAction> chatRoomMemberActions =
+                                    model.getChatRoomMemberActions();
+                            String roomId = model.getRoomId();
+                            int memberCount = model.getMemberCount();
                             if (chatRoomMemberActions == null || chatRoomMemberActions.isEmpty()) {
                                 return;
                             }
@@ -62,6 +70,8 @@ public class ChatRoomListenerTestActivity extends RongConversationActivity {
                                 }
                                 builder.append("\n");
                             }
+                            builder.append("\n");
+                            builder.append("当前人数: " + memberCount);
                             new AlertDialog.Builder(
                                             ChatRoomListenerTestActivity.this,
                                             AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
@@ -71,6 +81,11 @@ public class ChatRoomListenerTestActivity extends RongConversationActivity {
                         }
                     });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        onDestroy();
     }
 
     @Override

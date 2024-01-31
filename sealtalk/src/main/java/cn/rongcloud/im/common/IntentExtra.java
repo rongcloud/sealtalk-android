@@ -84,6 +84,8 @@ public class IntentExtra {
 
     public static final String BOOLEAN_USER_BLOCKED = "user_blocked";
 
+    public static final String BOOLEAN_LOGIN_EXPIRATION = "user_login_expiration";
+
     public static final String BOOLEAN_KICKED_BY_SECURITY = "kick_by_security";
 
     /** 创建群组时是否返回结果，默认是 false ，代表创建群组后直接跳转到群聊界面 */

@@ -30,6 +30,7 @@ import cn.rongcloud.im.ultraGroup.UltraGroupManager;
 import cn.rongcloud.im.utils.NetworkOnlyResource;
 import io.rong.imlib.IRongCoreEnum;
 import io.rong.imlib.model.Conversation;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +54,9 @@ public class UltraGroupTask {
     }
 
     /** 超级群创建 */
-    public LiveData<Resource<String>> createUltraGroup(
+    public LiveData<Resource<UltraGroupCreateResult>> createUltraGroup(
             String groupName, Uri portraitUri, String summary) {
-        MediatorLiveData<Resource<String>> result = new MediatorLiveData<>();
+        MediatorLiveData<Resource<UltraGroupCreateResult>> result = new MediatorLiveData<>();
         result.setValue(Resource.loading(null));
         LiveData<Resource<UltraGroupCreateResult>> ultraGroupCreate =
                 new NetworkOnlyResource<UltraGroupCreateResult, Result<UltraGroupCreateResult>>() {
@@ -79,7 +80,7 @@ public class UltraGroupTask {
                         UltraGroupCreateResult ultraGroupCreateResult =
                                 ultraGroupCreateResource.data;
                         if (ultraGroupCreateResult != null) {
-                            result.setValue(Resource.success(ultraGroupCreateResult.groupId));
+                            result.setValue(Resource.success(ultraGroupCreateResult));
                         } else {
                             if (ultraGroupCreateResource.code
                                     == ErrorCode.ULTRA_GROUP_CREATE_OVER_LIMIT.getCode()) {
@@ -260,7 +261,11 @@ public class UltraGroupTask {
                 ultraGroupCreateResource -> {
                     if (ultraGroupCreateResource.status == Status.SUCCESS) {
                         result.removeSource(resourceLiveData);
-                        result.setValue(Resource.success(ultraGroupCreateResource.data));
+                        if (ultraGroupCreateResource.data == null) {
+                            result.setValue(Resource.success(new ArrayList<>()));
+                        } else {
+                            result.setValue(Resource.success(ultraGroupCreateResource.data));
+                        }
                     } else if (ultraGroupCreateResource.status == Status.ERROR) {
                         result.setValue(Resource.error(ultraGroupCreateResource.code, null));
                     }

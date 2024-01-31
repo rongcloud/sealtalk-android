@@ -9,10 +9,12 @@ import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.ChatRoomResult;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.VersionInfo;
 import cn.rongcloud.im.task.AppTask;
+import cn.rongcloud.im.task.UserTask;
 import cn.rongcloud.im.utils.SingleSourceLiveData;
 import cn.rongcloud.im.utils.SingleSourceMapLiveData;
 import cn.rongcloud.im.utils.log.SLog;
@@ -25,6 +27,7 @@ public class AppViewModel extends AndroidViewModel {
     private static final String TAG = "AppViewModel";
 
     private final AppTask appTask;
+    private final UserTask userTask;
     private String sealTalkVersionName;
     private SingleSourceMapLiveData<Resource<VersionInfo>, Resource<VersionInfo.AndroidVersion>>
             hasNew;
@@ -38,6 +41,7 @@ public class AppViewModel extends AndroidViewModel {
     public AppViewModel(@NonNull Application application) {
         super(application);
         appTask = new AppTask(application);
+        userTask = new UserTask(application);
         sealTalkVersionName = getSealTalkVersion(application);
 
         hasNew =
@@ -198,5 +202,11 @@ public class AppViewModel extends AndroidViewModel {
 
     public boolean isUltraGroupDebugMode() {
         return appTask.isDebugMode() && appTask.isUltraGroupDebugMode();
+    }
+
+    /** 登录过期 */
+    public void loginExpiration() {
+        IMManager.getInstance().logout();
+        userTask.logout();
     }
 }

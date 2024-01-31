@@ -20,7 +20,8 @@ public class GRRReceiverTestActivity extends BaseActivity {
         init();
 
         // 添加会话界面
-        CustomConversationFragment conversationFragment = new CustomConversationFragment();
+        CustomUltraConversationFragment conversationFragment =
+                new CustomUltraConversationFragment();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.receiver_container, conversationFragment);

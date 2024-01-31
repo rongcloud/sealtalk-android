@@ -35,6 +35,12 @@
                 app:item_content="@string/seal_mine_about_push_config"
                 app:item_divider="true" />
             <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_message_audit_info"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="@string/seal_mine_about_message_audit_info"
+                app:item_divider="true" />
+            <cn.rongcloud.im.ui.view.SettingItemView
                 android:id="@+id/siv_discussion"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/seal_mine_about_height"
@@ -154,6 +160,15 @@
                 app:item_content="权限申请监听"
                 app:item_divider="true"
                 app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_combine_forward_v2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="合并转发V2开关"
+                app:item_divider="true"
+                app:item_switch="true" />
+
             <cn.rongcloud.im.ui.view.SettingItemView
                 android:id="@+id/siv_ultra_debug"
                 android:layout_width="match_parent"

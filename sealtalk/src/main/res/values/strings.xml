@@ -34,6 +34,7 @@
     <string name="seal_login_connect_time_out">连接超时，请重新登录</string>
     <string name="seal_login_user_logout">该账号已销户！</string>
     <string name="seal_login_user_blocked">此账号被封禁！</string>
+    <string name="seal_login_user_login_expiration">未登录或登录凭证失效</string>
     <string name="common_chat_room">聊天室</string>
     <string name="discovery_chat_room_one">聊天室 I</string>
     <string name="discovery_chat_room_two">聊天室 II</string>
@@ -633,6 +634,7 @@
     <string name="setting_close_debug_promt">是否关闭 App Debug 模式(需要重新打开应用)?</string>
     <string name="setting_close_ultra_group_debug_promt">是否切换 超级群 Debug 模式(需要重新打开应用)?</string>
     <string name="seal_mine_about_push_config">设置推送配置</string>
+    <string name="seal_mine_about_message_audit_info">设置消息审核配置</string>
     <string name="seal_mine_about_debug_setting_push_language">设置推送语言</string>
     <string name="seal_mine_about_group_read_receipt_test">群已读回执V2测试</string>
     <string name="debug_group_read_receipt_count_display_tx">"发送方接收到已读回执：已读人数%d      群内总人数%d      "</string>

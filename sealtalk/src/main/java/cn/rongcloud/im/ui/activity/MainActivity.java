@@ -83,7 +83,6 @@ public class MainActivity extends BaseActivity
     private MainBottomTabGroupView tabGroupView;
     private ImageView ivSearch;
     private ImageView ivMore;
-    private AppViewModel appViewModel;
     public MainViewModel mainViewModel;
     private SecurityViewModel securityViewModel;
     private UltraGroupViewModel mConversationListViewModel;
@@ -112,7 +111,7 @@ public class MainActivity extends BaseActivity
         if (Build.VERSION.SDK_INT >= 33) {
             askNotificationPermission();
         }
-        toastInterceptor();
+        //        toastInterceptor();
     }
 
     private void toastInterceptor() {

@@ -17,7 +17,6 @@ import cn.rongcloud.im.viewmodel.AppViewModel;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.IRongCoreEnum;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.ConversationIdentifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,27 +137,14 @@ public class MainDiscoveryFragment extends BaseFragment {
         ChatRoomResult chatRoomResult = latestChatRoomList.get(roomIndex);
         String roomId = chatRoomResult.getId();
 
-        RongIMClient.getInstance()
-                .joinChatRoom(
-                        roomId,
-                        10,
-                        new RongIMClient.OperationCallback() {
-                            @Override
-                            public void onSuccess() {
-                                if (IMManager.getInstance().getAppTask().isDebugMode()) {
-                                    RouteUtils.registerActivity(
-                                            RouteUtils.RongActivityType.ConversationActivity,
-                                            ChatRoomListenerTestActivity.class);
-                                }
-                                RongIM.getInstance()
-                                        .startConversation(
-                                                getActivity(),
-                                                ConversationIdentifier.obtainChatroom(roomId),
-                                                roomTitle);
-                            }
-
-                            @Override
-                            public void onError(RongIMClient.ErrorCode errorCode) {}
-                        });
+        // 在 ChatRoomBusinessProcessor 的 init 方法中会加入聊天室，所以此处直接进入聊天室页面
+        if (IMManager.getInstance().getAppTask().isDebugMode()) {
+            RouteUtils.registerActivity(
+                    RouteUtils.RongActivityType.ConversationActivity,
+                    ChatRoomListenerTestActivity.class);
+        }
+        RongIM.getInstance()
+                .startConversation(
+                        getActivity(), ConversationIdentifier.obtainChatroom(roomId), roomTitle);
     }
 }

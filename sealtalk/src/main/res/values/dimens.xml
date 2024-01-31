@@ -1,14 +1,14 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="seal_common_normal_margin">16dp</dimen>
-    <dimen name="seal_login_logo_margin_top">80dp</dimen>
+    <dimen name="seal_login_logo_margin_top">70dp</dimen>
     <dimen name="seal_login_buttom_padding">15dp</dimen>
     <dimen name="seal_login_text_button_text_size">14dp</dimen>
     <dimen name="seal_login_text_change_lang_text_size">16dp</dimen>
     <dimen name="seal_login_text_change_lang_padding">20dp</dimen>
     <dimen name="seal_login_rongcloud_text_size">12sp</dimen>
     <dimen name="seal_login_bg_margin_right">-300dp</dimen>
-    <dimen name="seal_login_fragment_login_margin_top">48dp</dimen>
+    <dimen name="seal_login_fragment_login_margin_top">38dp</dimen>
     <dimen name="seal_login_fragment_login_country_select_margin_left">30dp</dimen>
     <dimen name="seal_login_fragment_login_country_select_margin_right">30dp</dimen>
     <dimen name="seal_login_fragment_login_text_padding">10dp</dimen>

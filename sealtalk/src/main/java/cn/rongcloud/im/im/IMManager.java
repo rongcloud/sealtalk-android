@@ -70,6 +70,7 @@ import cn.rongcloud.im.ui.activity.PokeInviteChatActivity;
 import cn.rongcloud.im.ui.activity.SplashActivity;
 import cn.rongcloud.im.ui.activity.SubConversationListActivity;
 import cn.rongcloud.im.ui.activity.UserDetailActivity;
+import cn.rongcloud.im.ui.adapter.CombineV2MessageItemProvider;
 import cn.rongcloud.im.utils.DataCenter;
 import cn.rongcloud.im.utils.log.SLog;
 import com.google.gson.Gson;
@@ -114,6 +115,8 @@ import io.rong.imlib.model.IOSConfig;
 import io.rong.imlib.model.InitOption;
 import io.rong.imlib.model.MentionedInfo;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageAuditInfo;
+import io.rong.imlib.model.MessageAuditType;
 import io.rong.imlib.model.MessageConfig;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.MessagePushConfig;
@@ -124,6 +127,7 @@ import io.rong.imlib.model.UserInfo;
 import io.rong.imlib.publicservice.model.PublicServiceProfile;
 import io.rong.imlib.translation.TranslationClient;
 import io.rong.imlib.translation.TranslationResultListener;
+import io.rong.message.CombineV2Message;
 import io.rong.message.ContactNotificationMessage;
 import io.rong.message.GroupNotificationMessage;
 import io.rong.push.PushEventListener;
@@ -331,6 +335,8 @@ public class IMManager {
                                 String category = sharedPreferences.getString("category", "");
                                 String richMediaUri =
                                         sharedPreferences.getString("richMediaUri", "");
+                                String interruptionLevel =
+                                        sharedPreferences.getString("interruptionLevel", "");
                                 String fcm = sharedPreferences.getString("fcm", "");
                                 String imageUrl = sharedPreferences.getString("imageUrl", "");
                                 String hwCategory = sharedPreferences.getString("hwCategory", null);
@@ -346,6 +352,13 @@ public class IMManager {
                                 String imageUrlMi = sharedPreferences.getString("imageUrlMi", "");
                                 String fcmChannelId =
                                         sharedPreferences.getString("fcmChannelId", "");
+                                String imageUrlHonor =
+                                        sharedPreferences.getString("imageUrlHonor", "");
+                                String importanceHonor =
+                                        sharedPreferences.getString("importanceHonor", "NORMAL");
+                                IOSConfig iosConfig =
+                                        new IOSConfig(threadId, apnsId, category, richMediaUri);
+                                iosConfig.setInterruptionLevel(interruptionLevel);
                                 MessagePushConfig messagePushConfig =
                                         new MessagePushConfig.Builder()
                                                 .setPushTitle(title)
@@ -375,13 +388,14 @@ public class IMManager {
                                                                 .setImageUrlHW(imageUrlHW)
                                                                 .setCategoryHW(hwCategory)
                                                                 .setCategoryVivo(vivoCategory)
+                                                                .setImportanceHonor(
+                                                                        AndroidConfig
+                                                                                .ImportanceHonor
+                                                                                .getImportanceHonor(
+                                                                                        importanceHonor))
+                                                                .setImageUrlHonor(imageUrlHonor)
                                                                 .build())
-                                                .setIOSConfig(
-                                                        new IOSConfig(
-                                                                threadId,
-                                                                apnsId,
-                                                                category,
-                                                                richMediaUri))
+                                                .setIOSConfig(iosConfig)
                                                 .build();
                                 message.setMessagePushConfig(messagePushConfig);
                                 SharedPreferences sharedPreferencesPush =
@@ -393,7 +407,22 @@ public class IMManager {
                                         new MessageConfig.Builder()
                                                 .setDisableNotification(disableNotification)
                                                 .build());
+                                message.getContent().setAuditInfo(getTestAuditInfo());
                                 return false;
+                            }
+
+                            private MessageAuditInfo getTestAuditInfo() {
+                                SharedPreferences sharedPreferences =
+                                        context.getSharedPreferences("audit_config", MODE_PRIVATE);
+                                int switchInt = sharedPreferences.getInt("switch", 0);
+                                String projectText = sharedPreferences.getString("project", "");
+                                String strategyText = sharedPreferences.getString("strategy", "");
+                                MessageAuditInfo messageAuditInfo =
+                                        new MessageAuditInfo(
+                                                MessageAuditType.valueOf(switchInt),
+                                                projectText,
+                                                strategyText);
+                                return messageAuditInfo;
                             }
 
                             @Override
@@ -976,7 +1005,6 @@ public class IMManager {
         Conversation.ConversationType[] supportedTypes = {
             Conversation.ConversationType.PRIVATE,
             Conversation.ConversationType.GROUP,
-            Conversation.ConversationType.ULTRA_GROUP,
             Conversation.ConversationType.SYSTEM,
             Conversation.ConversationType.APP_PUBLIC_SERVICE,
             Conversation.ConversationType.PUBLIC_SERVICE,
@@ -1357,11 +1385,14 @@ public class IMManager {
         myMessages.add(SealGroupConNtfMessage.class);
         myMessages.add(GroupApplyMessage.class);
         myMessages.add(GroupClearMessage.class);
+        myMessages.add(CombineV2Message.class);
         myMessages.add(PokeMessage.class);
         RongIMClient.registerMessageType(myMessages);
         RongConfigCenter.conversationConfig()
                 .addMessageProvider(new ContactNotificationMessageProvider());
         RongConfigCenter.conversationConfig().addMessageProvider(new PokeMessageItemProvider());
+        RongConfigCenter.conversationConfig()
+                .addMessageProvider(new CombineV2MessageItemProvider());
         RongConfigCenter.conversationConfig()
                 .addMessageProvider(new SealGroupConNtfMessageProvider());
         RongConfigCenter.conversationConfig()
@@ -1436,8 +1467,12 @@ public class IMManager {
          */
         // RongIM.init(this);
 
+        RongCoreClient.getInstance().setReconnectKickEnable(true);
+
         // 可在初始 SDK 时直接带入融云 IM 申请的APP KEY
         DataCenter currentDataCenter = appTask.getCurrentDataCenter();
+        String appkey = currentDataCenter.getAppKey();
+
         InitOption initOption =
                 new InitOption.Builder()
                         .setNaviServer(currentDataCenter.getNaviUrl())
@@ -1445,7 +1480,7 @@ public class IMManager {
                         .enablePush(true)
                         .setAreaCode(currentDataCenter.getAreaCode())
                         .build();
-        IMCenter.init(application, currentDataCenter.getAppKey(), initOption);
+        IMCenter.init(application, appkey, initOption);
         SealTalkUrl.DOMAIN = currentDataCenter.getAppServer();
     }
 

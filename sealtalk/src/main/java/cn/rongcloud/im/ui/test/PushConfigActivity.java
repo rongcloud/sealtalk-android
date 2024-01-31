@@ -52,6 +52,7 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
         String apnsId = sharedPreferences.getString("apnsId", "");
         String category = sharedPreferences.getString("category", "");
         String richMediaUri = sharedPreferences.getString("richMediaUri", "");
+        String interruptionLevel = sharedPreferences.getString("interruptionLevel", "");
         String templateId = sharedPreferences.getString("templateId", "");
         String fcm = sharedPreferences.getString("fcm", "");
         String fcmChannelId = sharedPreferences.getString("fcmChannelId", "");
@@ -73,6 +74,7 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
         pushConfigDialog.getEtApnId().setText(apnsId);
         pushConfigDialog.getEdCategory().setText(category);
         pushConfigDialog.getEdRichMediaUri().setText(richMediaUri);
+        pushConfigDialog.getEdInterruptionLevel().setText(interruptionLevel);
         pushConfigDialog.getEdTemplateId().setText(templateId);
         pushConfigDialog.getCbVivo().setChecked(vivo);
         pushConfigDialog.getCbDisableTitle().setChecked(disableTitle);
@@ -104,6 +106,11 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
                                         pushConfigDialog.getEdCategory().getText().toString();
                                 String richMediaUri =
                                         pushConfigDialog.getEdRichMediaUri().getText().toString();
+                                String interruptionLevel =
+                                        pushConfigDialog
+                                                .getEdInterruptionLevel()
+                                                .getText()
+                                                .toString();
                                 String templateId =
                                         pushConfigDialog
                                                 .getEdTemplateId()
@@ -144,6 +151,7 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
                                 edit.putString("apnsId", apnsId);
                                 edit.putString("category", category);
                                 edit.putString("richMediaUri", richMediaUri);
+                                edit.putString("interruptionLevel", interruptionLevel);
                                 edit.putBoolean("vivo", vivo);
                                 edit.putBoolean("disableTitle", disableTitle);
                                 edit.putBoolean("forceDetail", forceDetail);
@@ -153,6 +161,9 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
                                 edit.putString("imageUrlHW", imageUrlHW);
                                 edit.putString("imageUrlMi", imageUrlMI);
                                 edit.putString("fcmChannelId", fcmChannelId);
+                                IOSConfig iosConfig =
+                                        new IOSConfig(threadId, apnsId, category, richMediaUri);
+                                iosConfig.setInterruptionLevel(interruptionLevel);
                                 MessagePushConfig startCallMessagePushConfig =
                                         new MessagePushConfig.Builder()
                                                 .setPushTitle(title)
@@ -183,12 +194,7 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
                                                                                         .OPERATE)
                                                                 .build())
                                                 .setTemplateId(templateId)
-                                                .setIOSConfig(
-                                                        new IOSConfig(
-                                                                threadId,
-                                                                apnsId,
-                                                                category,
-                                                                richMediaUri))
+                                                .setIOSConfig(iosConfig)
                                                 .build();
                                 // SealTalk 发起和挂断的 pushConfig 内容一致，开发者根据实际需求配置
                                 MessagePushConfig hangupCallMessagePushConfig =

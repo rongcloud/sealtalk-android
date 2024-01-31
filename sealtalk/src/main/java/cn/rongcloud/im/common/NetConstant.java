@@ -10,4 +10,9 @@ public class NetConstant {
     public static final String API_SP_KEY_NET_HEADER_AUTH = "header_auth";
 
     public static final int REQUEST_SUCCESS_CODE = 200;
+
+    /** 服务端登录过期旧错误码 10000 */
+    public static final int LOGIN_EXPIRATION_CODE_OLD = 10000;
+    /** 服务端登录过期新错误码 1000 */
+    public static final int LOGIN_EXPIRATION_CODE_NEW = 1000;
 }

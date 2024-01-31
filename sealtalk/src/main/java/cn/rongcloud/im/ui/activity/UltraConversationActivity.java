@@ -40,7 +40,7 @@ import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.TypingInfo;
 import cn.rongcloud.im.sp.UserConfigCache;
 import cn.rongcloud.im.ui.dialog.RencentPicturePopWindow;
-import cn.rongcloud.im.ui.test.CustomConversationFragment;
+import cn.rongcloud.im.ui.test.CustomUltraConversationFragment;
 import cn.rongcloud.im.ui.view.AnnouceView;
 import cn.rongcloud.im.utils.CheckPermissionUtils;
 import cn.rongcloud.im.utils.NavigationBarUtil;
@@ -67,7 +67,7 @@ public class UltraConversationActivity extends RongBaseActivity
         implements UnReadMessageManager.IUnReadMessageObserver {
 
     private String TAG = UltraConversationActivity.class.getSimpleName();
-    private CustomConversationFragment fragment;
+    private CustomUltraConversationFragment fragment;
     private ConversationIdentifier conversationIdentifier;
     private AnnouceView annouceView;
     private ConversationViewModel conversationViewModel;
@@ -592,12 +592,12 @@ public class UltraConversationActivity extends RongBaseActivity
         Fragment existFragment =
                 fragmentManager.findFragmentByTag(ConversationFragment.class.getCanonicalName());
         if (existFragment != null) {
-            fragment = (CustomConversationFragment) existFragment;
+            fragment = (CustomUltraConversationFragment) existFragment;
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.show(fragment);
             transaction.commitAllowingStateLoss();
         } else {
-            fragment = new CustomConversationFragment();
+            fragment = new CustomUltraConversationFragment();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.add(
                     R.id.rong_content, fragment, ConversationFragment.class.getCanonicalName());

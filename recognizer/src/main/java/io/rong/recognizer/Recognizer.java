@@ -18,7 +18,7 @@ import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
-import io.rong.common.RLog;
+import io.rong.common.rlog.RLog;
 import io.rong.imkit.utils.ToastUtils;
 import java.util.Locale;
 import java.util.Random;
@@ -109,6 +109,12 @@ public class Recognizer extends RelativeLayout implements RecognizerListener {
     public void startRecognize() {
         if (null == mIat) {
             mIat = SpeechRecognizer.createRecognizer(getContext(), mInitListener);
+        }
+        // 如果SpeechUtility.createUtility构建异常，导致SpeechUtility.getUtility()为空
+        // 则导致SpeechRecognizer.createRecognizer可能返回null
+        if (null == mIat) {
+            RLog.e(TAG, "startRecognize createRecognizer error");
+            return;
         }
         if (mIat.isListening()) {
             return;

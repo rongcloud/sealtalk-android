@@ -5,6 +5,7 @@ import static io.rong.common.SystemUtils.getCurrentProcessName;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.http.SslCertificate;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,18 +35,18 @@ import io.rong.common.utils.SSLUtils;
 import io.rong.imkit.GlideKitImageEngine;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.config.FeatureConfig;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.utils.language.LangUtils;
 import io.rong.imlib.RongCoreClientImpl;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.InitOption;
 import io.rong.imlib.model.Message;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
@@ -71,40 +72,74 @@ public class SealApp extends MultiDexApplication {
     }
 
     private void setSSL() {
-        try {
-            TrustManager tm[] = {
-                new X509TrustManager() {
-                    @Override
-                    public void checkClientTrusted(X509Certificate[] chain, String authType)
-                            throws CertificateException {
-                        Log.d("checkClientTrusted", "authType:" + authType);
-                    }
-
-                    @Override
-                    public void checkServerTrusted(X509Certificate[] chain, String authType)
-                            throws CertificateException {
-                        Log.d("checkServerTrusted", "authType:" + authType);
-                    }
-
-                    @Override
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return new X509Certificate[0];
-                    }
-                }
-            };
-            SSLContext mySSLContext = SSLContext.getInstance("TLS");
-            mySSLContext.init(null, tm, null);
+        SSLContext mySSLContext = getSslContext();
+        if (mySSLContext != null) {
+            // 设置 SDK 内部的上传下载支持自签证书
             SSLUtils.setSSLContext(mySSLContext);
-            SSLUtils.setHostnameVerifier(
-                    new HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, SSLSession session) {
-                            return true;
-                        }
-                    });
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            // 并且把 Glide 设置成支持自签证书（glide 内部是 HttpsURLConnection）
+            // SDK 内置的图片预览用的是 Glide
+            HttpsURLConnection.setDefaultSSLSocketFactory(mySSLContext.getSocketFactory());
+        }
+        HostnameVerifier hostnameVerifier = getHostnameVerifier();
+        if (hostnameVerifier != null) {
+            // 设置 SDK 内部的上传下载支持自签证书
+            SSLUtils.setHostnameVerifier(hostnameVerifier);
+            // 并且把 Glide 设置成支持自签证书（glide 内部是 HttpsURLConnection）
+            // SDK 内置的图片预览用的是 Glide
+            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+        }
+        // 设置合并转发消息(WebView)支持自签证书
+        RongConfigCenter.featureConfig()
+                .setSSLInterceptor(
+                        new FeatureConfig.SSLInterceptor() {
+                            @Override
+                            public boolean check(SslCertificate sslCertificate) {
+                                return true;
+                            }
+                        });
+    }
+
+    private HostnameVerifier getHostnameVerifier() {
+        HostnameVerifier hostnameVerifier =
+                new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                };
+        return hostnameVerifier;
+    }
+
+    private SSLContext getSslContext() {
+        TrustManager tm[] = {
+            new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType)
+                        throws CertificateException {
+                    Log.d("checkClientTrusted", "authType:" + authType);
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType)
+                        throws CertificateException {
+                    Log.d("checkServerTrusted", "authType:" + authType);
+                }
+
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+            }
+        };
+
+        SSLContext mySSLContext = null;
+        try {
+            mySSLContext = SSLContext.getInstance("TLS");
+            mySSLContext.init(null, tm, null);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return mySSLContext;
     }
 
     @Override

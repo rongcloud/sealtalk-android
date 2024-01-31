@@ -6,13 +6,13 @@ buildscript {
         google()
         mavenCentral()
         jcenter()
-        maven {url  "http://maven.rongcloud.cn/repository/maven-releases/"}
+        maven {url  "https://maven.rongcloud.cn/repository/maven-releases/"}
     }
     dependencies {
         // 华为推送需要开启下面注释
         // classpath 'com.huawei.agconnect:agcp:1.1.1.300'
 
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.3.1'
 
 
         // just for GCM.
@@ -28,8 +28,8 @@ allprojects {
         google()
         mavenCentral()
         jcenter()
-        maven {url 'http://developer.huawei.com/repo/'}
-        maven {url  "http://maven.rongcloud.cn/repository/maven-releases/"}
+        maven {url 'https://developer.huawei.com/repo/'}
+        maven {url  "https://maven.rongcloud.cn/repository/maven-releases/"}
     //UMeng统计
         maven { url 'https://repo1.maven.org/maven2/' }
  }

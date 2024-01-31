@@ -1,5 +1,6 @@
 package cn.rongcloud.im.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,6 +36,7 @@ import cn.rongcloud.im.ui.dialog.LoadingDialog;
 import cn.rongcloud.im.utils.StatusBarUtil;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
+import cn.rongcloud.im.viewmodel.AppViewModel;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.utils.language.RongConfigurationManager;
 import io.rong.imlib.model.Conversation;
@@ -44,10 +46,37 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class BaseActivity extends AppCompatActivity {
+    protected AppViewModel appViewModel;
     private boolean mEnableListenKeyboardState = false;
     private LoadingDialog dialog;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private long lastClickTime;
+
+    private final BroadcastReceiver loginExpirationReceiver =
+            new BroadcastReceiver() {
+
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if (appViewModel != null) {
+                        appViewModel.loginExpiration();
+                    }
+                    sendLogoutNotify();
+                    Intent in = new Intent(BaseActivity.this, LoginActivity.class);
+                    in.putExtra(IntentExtra.BOOLEAN_LOGIN_EXPIRATION, true);
+                    startActivity(in);
+                    finish();
+                }
+            };
+
+    private final BroadcastReceiver logoutReceiver =
+            new BroadcastReceiver() {
+
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    RongIM.getInstance().logout();
+                    finish();
+                }
+            };
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -62,7 +91,6 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         /*
          * 修复部分 Android 8.0 手机在TargetSDK 大于 26 时，在透明主题时指定 Activity 方向时崩溃的问题
          */
@@ -86,6 +114,7 @@ public class BaseActivity extends AppCompatActivity {
 
         // 监听退出
         if (isObserveLogout()) {
+            registerLoginExpiration();
             registerLogoutBoardcast();
             IMManager.getInstance()
                     .getKickedOffline()
@@ -240,6 +269,7 @@ public class BaseActivity extends AppCompatActivity {
         // 注销广播
         if (isObserveLogout()) {
             unRegisterLogoutBroadcast();
+            unRegisterLoginExpirationBroadcast();
         }
         // 移除所有
         handler.removeCallbacksAndMessages(null);
@@ -431,15 +461,32 @@ public class BaseActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private void registerLogoutBoardcast() {
         IntentFilter intentFilter = new IntentFilter("com.rong.im.action.logout");
-        registerReceiver(logoutRecevier, intentFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(logoutReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(logoutReceiver, intentFilter);
+        }
+    }
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    private void registerLoginExpiration() {
+        IntentFilter intentFilter = new IntentFilter("com.rong.im.action.login.expiration");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(loginExpirationReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(loginExpirationReceiver, intentFilter);
+        }
     }
 
     private void unRegisterLogoutBroadcast() {
-        if (logoutRecevier != null) {
-            unregisterReceiver(logoutRecevier);
-        }
+        unregisterReceiver(logoutReceiver);
+    }
+
+    private void unRegisterLoginExpirationBroadcast() {
+        unregisterReceiver(loginExpirationReceiver);
     }
 
     /** 通知通其他注册了登出广播的 Activity 关闭 */
@@ -448,16 +495,6 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent("com.rong.im.action.logout");
         sendBroadcast(intent);
     }
-
-    private BroadcastReceiver logoutRecevier =
-            new BroadcastReceiver() {
-
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    RongIM.getInstance().logout();
-                    finish();
-                }
-            };
 
     /** 安全原因触发退出登录 */
     public void logoutBySecurity() {

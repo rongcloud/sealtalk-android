@@ -168,9 +168,9 @@ public class UserGroupEditActivity extends TitleBaseActivity implements View.OnC
                             @Override
                             public void onChanged(Resource<String> resource) {
                                 if (resource.status == Status.SUCCESS) {
-                                    ToastUtils.showToast("用户组成员添加成功");
                                     List<String> delList = getDelIdList();
                                     if (delList.isEmpty()) {
+                                        ToastUtils.showToast("用户组成员添加成功");
                                         dismissLoadingDialog();
                                         refresh();
                                     } else {
@@ -179,7 +179,7 @@ public class UserGroupEditActivity extends TitleBaseActivity implements View.OnC
                                     }
                                 } else if (resource.status == Status.ERROR) {
                                     dismissLoadingDialog();
-                                    ToastUtils.showToast("用户组成员添加失败");
+                                    ToastUtils.showToast("用户组成员编辑失败");
                                 }
                             }
                         });

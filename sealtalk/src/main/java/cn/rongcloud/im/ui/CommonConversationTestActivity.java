@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.BlockListener;
 import cn.rongcloud.im.im.IMManager;
-import cn.rongcloud.im.ui.test.CustomConversationFragment;
+import cn.rongcloud.im.ui.test.CustomUltraConversationFragment;
 import io.rong.imkit.config.ConversationClickListener;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.widget.dialog.PromptPopupDialog;
@@ -27,7 +27,8 @@ public class CommonConversationTestActivity extends BaseActivity {
         setContentView(R.layout.activity_common_conversation_test);
 
         // 添加会话界面
-        CustomConversationFragment conversationFragment = new CustomConversationFragment();
+        CustomUltraConversationFragment conversationFragment =
+                new CustomUltraConversationFragment();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.common_conversation_container, conversationFragment);

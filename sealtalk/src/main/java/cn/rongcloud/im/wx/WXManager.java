@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.qrcode.QRCodeManager;
 import cn.rongcloud.im.utils.log.SLog;
@@ -58,17 +59,16 @@ public class WXManager {
         // 将应用的appId注册到微信
         api.registerApp(APP_ID);
 
-        // 建议动态监听微信启动广播进行注册到微信
-        context.registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
+        WXBroadcastReceiver broadcastReceiver = new WXBroadcastReceiver(api);
+        IntentFilter intentFilter = new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP);
 
-                        // 将该app注册到微信
-                        api.registerApp(APP_ID);
-                    }
-                },
-                new IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP));
+        // 建议动态监听微信启动广播进行注册到微信
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(
+                    broadcastReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            context.registerReceiver(broadcastReceiver, intentFilter);
+        }
     }
 
     /**
@@ -126,5 +126,19 @@ public class WXManager {
 
     public IWXAPI getWXAPI() {
         return api;
+    }
+
+    public static class WXBroadcastReceiver extends BroadcastReceiver {
+        private final IWXAPI api;
+
+        private WXBroadcastReceiver(IWXAPI api) {
+            this.api = api;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // 将该app注册到微信
+            api.registerApp(APP_ID);
+        }
     }
 }

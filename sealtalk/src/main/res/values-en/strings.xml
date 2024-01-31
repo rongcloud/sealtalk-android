@@ -629,6 +629,7 @@
     <string name="setting_close_debug_promt">Is the App Debug mode disabled (requires re-open to the app)?</string>
     <string name="setting_close_ultra_group_debug_promt">Is switch Ultra Group Debug mode (requires re-open to the app)?</string>
     <string name="seal_mine_about_push_config">Set Push Config</string>
+    <string name="seal_mine_about_message_audit_info">Set message audit info</string>
     <string name="seal_mine_about_debug_setting">Setting</string>
     <string name="seal_mine_about_debug_setting_push_language">Set push language</string>
     <string name="seal_mine_about_group_read_receipt_test">Group read receipt v2 test</string>

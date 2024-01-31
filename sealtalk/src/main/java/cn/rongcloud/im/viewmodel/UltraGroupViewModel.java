@@ -17,6 +17,7 @@ import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.UltraChannelInfo;
+import cn.rongcloud.im.model.UltraGroupCreateResult;
 import cn.rongcloud.im.model.UltraGroupInfo;
 import cn.rongcloud.im.model.UltraGroupMemberListResult;
 import cn.rongcloud.im.task.UltraGroupTask;
@@ -101,7 +102,8 @@ public class UltraGroupViewModel extends AndroidViewModel
             ultraGroupChannelListResult = new SingleSourceLiveData<>();
     private final SingleSourceLiveData<Resource<List<UltraGroupMemberListResult>>>
             ultraGroupMemberInfoListResult = new SingleSourceLiveData<>();
-    private final MediatorLiveData<Resource<String>> createGroupResult = new MediatorLiveData<>();
+    private final MediatorLiveData<Resource<UltraGroupCreateResult>> createGroupResult =
+            new MediatorLiveData<>();
     private final MediatorLiveData<Resource<String>> uploadPortrait = new MediatorLiveData<>();
     private final MediatorLiveData<List<String>> groupMemberChange = new MediatorLiveData<>();
     private final SingleSourceLiveData<Resource<List<String>>> ultraGroupMemberAddResult =
@@ -401,8 +403,7 @@ public class UltraGroupViewModel extends AndroidViewModel
         mApplication = application;
         ultraGroupTask = new UltraGroupTask(application);
         mHandler = new Handler(Looper.getMainLooper());
-        mSupportedTypes =
-                RongConfigCenter.conversationListConfig().getDataProcessor().supportedTypes();
+        mSupportedTypes = ultraGroupSupportedType();
         mSizePerPage = RongConfigCenter.conversationListConfig().getConversationCountPerPage();
         mDataFilter = RongConfigCenter.conversationListConfig().getDataProcessor();
         sharedPreferences = application.getSharedPreferences("ultra", Context.MODE_PRIVATE);
@@ -753,6 +754,26 @@ public class UltraGroupViewModel extends AndroidViewModel
         return false;
     }
 
+    private Conversation.ConversationType[] ultraGroupSupportedType() {
+        Conversation.ConversationType[] mSupportedTypes =
+                RongConfigCenter.conversationListConfig().getDataProcessor().supportedTypes();
+        if (mSupportedTypes == null || mSupportedTypes.length == 0) {
+            return mSupportedTypes;
+        }
+        for (Conversation.ConversationType type : mSupportedTypes) {
+            if (type == Conversation.ConversationType.ULTRA_GROUP) {
+                return mSupportedTypes;
+            }
+        }
+        Conversation.ConversationType[] mixTypes =
+                new Conversation.ConversationType[mSupportedTypes.length + 1];
+        for (int i = 0; i < mSupportedTypes.length; i++) {
+            mixTypes[i] = mSupportedTypes[i];
+        }
+        mixTypes[mSupportedTypes.length] = Conversation.ConversationType.ULTRA_GROUP;
+        return mixTypes;
+    }
+
     @Override
     protected void onCleared() {
         IMCenter.getInstance().removeConnectionStatusListener(mConnectionStatusListener);
@@ -849,7 +870,7 @@ public class UltraGroupViewModel extends AndroidViewModel
     }
 
     public void createUltraGroup(String groupName, Uri portraitUri, String summary) {
-        LiveData<Resource<String>> createGroupResource =
+        LiveData<Resource<UltraGroupCreateResult>> createGroupResource =
                 ultraGroupTask.createUltraGroup(groupName, portraitUri, summary);
 
         createGroupResult.addSource(
@@ -891,7 +912,7 @@ public class UltraGroupViewModel extends AndroidViewModel
         return ultraGroupMemberListResult;
     }
 
-    public MediatorLiveData<Resource<String>> getCreateGroupResult() {
+    public MediatorLiveData<Resource<UltraGroupCreateResult>> getCreateGroupResult() {
         return createGroupResult;
     }
 
