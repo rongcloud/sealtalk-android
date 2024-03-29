@@ -24,7 +24,9 @@ import cn.rongcloud.im.viewmodel.AppViewModel;
 import cn.rongcloud.im.viewmodel.UserInfoViewModel;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongCoreClientImpl;
+import io.rong.imlib.common.DeviceUtils;
 import java.io.File;
+import java.util.Objects;
 
 /** 关于 SealTalk 的界面 */
 public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnClickListener {
@@ -36,6 +38,9 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
     private UserInfoViewModel userInfoViewModel;
     long[] mHits = new long[5];
     private SettingItemView sealtalkDebugSettingSiv;
+    private SettingItemView sivDeviceId;
+
+    static final String LAST_DEVICE_ID = "LAST_DEVICE_ID";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,6 +67,18 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
         debufModeSiv.setOnClickListener(this);
         sealtalkVersionSiv.setClickable(false);
         sealtalkDebugSettingSiv.setOnClickListener(this);
+
+        sivDeviceId = findViewById(R.id.siv_device_id);
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(SealTalkDebugTestActivity.ULTRA_DEBUG_CONFIG, MODE_PRIVATE);
+        String lastDeviceId = sharedPreferences.getString(LAST_DEVICE_ID, "");
+
+        String deviceId = DeviceUtils.getDeviceId(this);
+        sivDeviceId.setContent("old: " + lastDeviceId + "\nnew:" + deviceId);
+
+        if (!Objects.equals(lastDeviceId, deviceId)) {
+            sharedPreferences.edit().putString(LAST_DEVICE_ID, deviceId).commit();
+        }
 
         debugEnvSiv = findViewById(R.id.siv_debug_env);
         String cloud = RongCoreClientImpl.isPrivateSDK() ? "私有云" : "公有云";
@@ -123,11 +140,13 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
                                     debufModeSiv.setVisibility(View.VISIBLE);
                                     debugEnvSiv.setVisibility(View.VISIBLE);
                                     sealtalkDebugSettingSiv.setVisibility(View.VISIBLE);
+                                    sivDeviceId.setVisibility(View.VISIBLE);
                                 } else {
                                     sdkVersionSiv.setClickable(true);
                                     debufModeSiv.setVisibility(View.GONE);
                                     debugEnvSiv.setVisibility(View.GONE);
                                     sealtalkDebugSettingSiv.setVisibility(View.GONE);
+                                    sivDeviceId.setVisibility(View.GONE);
                                 }
                             }
                         });

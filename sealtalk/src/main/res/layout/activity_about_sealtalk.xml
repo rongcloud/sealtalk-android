@@ -88,6 +88,13 @@
         app:item_content="@string/seal_mine_about_debug_setting"
         app:item_divider="true"/>
 
+    <cn.rongcloud.im.ui.view.SettingItemView
+        android:id="@+id/siv_device_id"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_mine_about_height"
+        android:visibility="gone"
+        app:item_content="@string/seal_mine_about_device_id"
+        app:item_divider="true"/>
 
     <TextView
         style="@style/TextStyle.Alignment"

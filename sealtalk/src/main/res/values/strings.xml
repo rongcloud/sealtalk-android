@@ -175,6 +175,7 @@
     <string name="debug_mode_is_open">debug 模式已开启</string>
     <string name="seal_mine_about_close_debug_mode">关闭 debug 模式</string>
     <string name="seal_mine_about_debug_setting">设置</string>
+    <string name="seal_mine_about_device_id">DEVICE ID</string>
     <string name="seal_mine_about_user_online_status">设置用户在线状态</string>
 
     <string name="seal_title_private_chat">发起聊天</string>
