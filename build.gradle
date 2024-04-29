@@ -6,7 +6,9 @@ buildscript {
         google()
         mavenCentral()
         jcenter()
-        maven {url  "https://maven.rongcloud.cn/repository/maven-releases/"}
+        maven { url 'https://developer.hihonor.com/repo' }
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://maven.rongcloud.cn/repository/maven-releases/" }
     }
     dependencies {
         // 华为推送需要开启下面注释
@@ -28,8 +30,9 @@ allprojects {
         google()
         mavenCentral()
         jcenter()
-        maven {url 'https://developer.huawei.com/repo/'}
-        maven {url  "https://maven.rongcloud.cn/repository/maven-releases/"}
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url 'https://developer.hihonor.com/repo' }
+        maven { url "https://maven.rongcloud.cn/repository/maven-releases/" }
     //UMeng统计
         maven { url 'https://repo1.maven.org/maven2/' }
  }

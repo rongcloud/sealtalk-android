@@ -161,9 +161,8 @@ public class SealApp extends MultiDexApplication {
             setSSL();
         }
         // 初始化 bugly BUG 统计
-        // CrashReport.initCrashReport(getApplicationContext());
+        CrashReport.initCrashReport(getApplicationContext(), "cb8ebab203", true);
         // BlockCanary.install(this, new AppBlockCanaryContext()).start();
-        CrashReport.initCrashReport(getApplicationContext(), "c0ac38ea5b", true);
         ErrorCode.init(this);
         ImageLoaderConfiguration imageLoaderConfiguration =
                 ImageLoaderConfiguration.createDefault(this);

@@ -17,6 +17,7 @@ import cn.rongcloud.im.ui.adapter.viewholders.CommonGroupItemViewHolder;
 import cn.rongcloud.im.ui.adapter.viewholders.CommonTextItemViewHolder;
 import cn.rongcloud.im.ui.adapter.viewholders.ViewHolderFactory;
 import cn.rongcloud.im.ui.fragment.CommonListBaseFragment;
+import cn.rongcloud.im.utils.PatternUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,32 +132,12 @@ public abstract class CommonListBaseViewModel extends AppViewModel {
      * @param models
      */
     private void sortByFirstChar(List<ListItemModel> models) {
-        //        Collections.sort(models, new Comparator<ListItemModel>() {
-        //            @Override
-        //            public int compare(ListItemModel lhs, ListItemModel rhs) {
-        //                if (lhs.getItemView().getType() == ListItemModel.ItemView.Type.FUN ||
-        // lhs.getItemView().getType() == ListItemModel.ItemView.Type.TEXT) {
-        //                    return -1;
-        //                } else if (rhs.getItemView().getType() == ListItemModel.ItemView.Type.FUN
-        // || rhs.getItemView().getType() == ListItemModel.ItemView.Type.TEXT) {
-        //                    return 1;
-        //                } else {
-        //                    if (TextUtils.isEmpty(lhs.getFirstChar())) {
-        //                        return -1;
-        //                    }
-        //                    if (TextUtils.isEmpty(rhs.getFirstChar())) {
-        //                        return 1;
-        //                    }
-        //                    return lhs.getFirstChar().compareTo(rhs.getFirstChar());
-        //                }
-        //            }
-        //        });
         List<ListItemModel> tempModels = new ArrayList<>();
         tempModels.addAll(models);
         for (int i = 0; i < tempModels.size(); i++) {
             String firstChar = tempModels.get(i).getFirstChar();
             if (!TextUtils.isEmpty(firstChar)) {
-                if (!firstChar.substring(0, 1).matches("^[A-Za-z]")) {
+                if (!PatternUtils.matchLetter(firstChar.substring(0, 1))) {
                     models.add(models.remove(models.indexOf(tempModels.get(i))));
                 }
             }
@@ -275,10 +256,11 @@ public abstract class CommonListBaseViewModel extends AppViewModel {
                     || type == ListItemModel.ItemView.Type.OTHER) {
                 String c = "";
                 if (model.getFirstChar() != null && model.getFirstChar().length() > 0) {
-                    if (!model.getFirstChar().substring(0, 1).matches("^[A-Za-z]")) {
+                    String substring = model.getFirstChar().substring(0, 1);
+                    if (!PatternUtils.matchLetter(substring)) {
                         c = "#";
                     } else {
-                        c = model.getFirstChar().substring(0, 1);
+                        c = substring;
                     }
                 }
                 if (TextUtils.isEmpty(c)) {

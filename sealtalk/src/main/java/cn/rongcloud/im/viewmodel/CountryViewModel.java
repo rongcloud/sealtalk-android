@@ -15,6 +15,7 @@ import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.task.UserTask;
 import cn.rongcloud.im.utils.CharacterParser;
+import cn.rongcloud.im.utils.PatternUtils;
 import cn.rongcloud.im.utils.SingleSourceMapLiveData;
 import io.rong.imkit.utils.language.LangUtils;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class CountryViewModel extends AndroidViewModel {
                                                         countryInfo.getCountryName());
                                         String firstChar = namePinyin.substring(0, 1).toUpperCase();
                                         // 正则表达式，判断首字母是否是英文字母
-                                        if (firstChar.matches("[A-Z]")) {
+                                        if (PatternUtils.matchUpperLetter(firstChar)) {
                                             countryInfo.setFirstChar(firstChar.toUpperCase());
                                         } else {
                                             countryInfo.setFirstChar("#");

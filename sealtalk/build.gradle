@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 20210127
-        versionName "5.8.0"
+        versionName "5.8.1"
         ndk {
             abiFilters "armeabi-v7a", 'x86'
         }
@@ -47,7 +47,10 @@ android {
 
                 // 魅族相关应用参数
                 MEIZU_APP_ID   : "${SEALTALK_MIZU_PUSH_APPID}",
-                MEIZU_APP_KEY  : "${SEALTALK_MIZU_PUSH_APPKEY}"
+                MEIZU_APP_KEY  : "${SEALTALK_MIZU_PUSH_APPKEY}",
+
+                // 荣耀 相关应用参数
+                HONOR_APP_ID  : "104420774"
         ]
     }
 
@@ -111,22 +114,23 @@ dependencies {
     implementation 'com.umeng.umsdk:common:9.3.8'
     implementation 'com.umeng.umsdk:asms:1.2.2'
 
-    implementation 'cn.rongcloud.sdk.push:rong:5.6.4'
-    implementation 'cn.rongcloud.sdk.push:fcm:5.6.4'
-    implementation 'cn.rongcloud.sdk.push:huawei:5.6.4'
-    implementation 'cn.rongcloud.sdk.push:xiaomi:5.6.4'
-    implementation 'cn.rongcloud.sdk.push:oppo:5.6.4'
-    implementation 'cn.rongcloud.sdk.push:vivo:5.6.4'
-    implementation 'cn.rongcloud.sdk.push:meizu:5.6.4'
+    implementation 'cn.rongcloud.sdk.push:rong:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:fcm:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:huawei:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:xiaomi:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:oppo:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:vivo:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:meizu:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:honor:5.8.1'
 
     //需要替换的版本
-    api 'cn.rongcloud.sdk:im_kit:5.8.0'
-    api 'cn.rongcloud.sdk:im_lib:5.8.0'
-    api 'cn.rongcloud.sdk:rcsticker:5.8.0'
-    api 'cn.rongcloud.sdk:sight:5.8.0'
+    api 'cn.rongcloud.sdk:im_kit:5.8.1'
+    api 'cn.rongcloud.sdk:im_lib:5.8.1'
+    api 'cn.rongcloud.sdk:rcsticker:5.8.1'
+    api 'cn.rongcloud.sdk:sight:5.8.1'
     api 'cn.rongcloud.sdk:call_lib:5.8.0'
     api 'cn.rongcloud.sdk:call_kit:5.8.0'
-    api 'cn.rongcloud.sdk:locationKit:5.8.0'
+    api 'cn.rongcloud.sdk:locationKit:5.8.1'
 
     api project(path: ':contactcard')
     api project(path: ':recognizer')

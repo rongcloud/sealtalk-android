@@ -1,5 +1,7 @@
 package cn.rongcloud.im.viewmodel;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Application;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
@@ -326,28 +328,55 @@ public class SealSearchViewModel extends AndroidViewModel {
     private void searchIMClientMessage(
             ConversationIdentifier identifier, String name, String portrait, String match) {
         SLog.i(TAG, "searchIMClientUltraGroupMessage() match = " + match);
-        ChannelClient.getInstance()
-                .searchMessages(
-                        identifier.getType(),
-                        identifier.getTargetId(),
-                        identifier.getChannelId(),
-                        match,
-                        50,
-                        0,
-                        new IRongCoreCallback.ResultCallback<List<Message>>() {
+        if (IMManager.getInstance()
+                .getContext()
+                .getSharedPreferences("config", MODE_PRIVATE)
+                .getBoolean("isDebug", false)) {
+            ChannelClient.getInstance()
+                    .searchMessages(
+                            identifier,
+                            match,
+                            new String[] {"RC:TxtMsg", "RC:ImgTextMsg", "RC:FileMsg"},
+                            50,
+                            0,
+                            new IRongCoreCallback.ResultCallback<List<Message>>() {
 
-                            @Override
-                            public void onSuccess(List<Message> messages) {
-                                SLog.i(
-                                        TAG,
-                                        "searchIMClientUltraGroupMessage()  onSuccess size = "
-                                                + messages.size());
-                                processSearchMessage(messages, match, name, portrait);
-                            }
+                                @Override
+                                public void onSuccess(List<Message> messages) {
+                                    SLog.i(
+                                            TAG,
+                                            "searchIMClientUltraGroupMessage()  onSuccess size = "
+                                                    + messages.size());
+                                    processSearchMessage(messages, match, name, portrait);
+                                }
 
-                            @Override
-                            public void onError(IRongCoreEnum.CoreErrorCode e) {}
-                        });
+                                @Override
+                                public void onError(IRongCoreEnum.CoreErrorCode e) {}
+                            });
+        } else {
+            ChannelClient.getInstance()
+                    .searchMessages(
+                            identifier.getType(),
+                            identifier.getTargetId(),
+                            identifier.getChannelId(),
+                            match,
+                            50,
+                            0,
+                            new IRongCoreCallback.ResultCallback<List<Message>>() {
+
+                                @Override
+                                public void onSuccess(List<Message> messages) {
+                                    SLog.i(
+                                            TAG,
+                                            "searchIMClientUltraGroupMessage()  onSuccess size = "
+                                                    + messages.size());
+                                    processSearchMessage(messages, match, name, portrait);
+                                }
+
+                                @Override
+                                public void onError(IRongCoreEnum.CoreErrorCode e) {}
+                            });
+        }
     }
 
     private void searchMessageForAllChannel(

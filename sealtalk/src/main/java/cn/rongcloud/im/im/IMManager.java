@@ -2018,7 +2018,7 @@ public class IMManager {
     public void addUnReadMessageCountChangedObserver(
             UnReadMessageManager.IUnReadMessageObserver observer,
             Conversation.ConversationType[] conversationTypes) {
-        UnReadMessageManager.getInstance().addObserver(conversationTypes, observer);
+        UnReadMessageManager.getInstance().addForeverObserver(conversationTypes, observer);
     }
 
     /**
@@ -2028,7 +2028,7 @@ public class IMManager {
      */
     public void removeUnReadMessageCountChangedObserver(
             UnReadMessageManager.IUnReadMessageObserver observer) {
-        UnReadMessageManager.getInstance().removeObserver(observer);
+        UnReadMessageManager.getInstance().removeForeverObserver(observer);
     }
 
     /**

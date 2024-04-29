@@ -16,6 +16,7 @@ import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.task.GroupTask;
 import cn.rongcloud.im.utils.CharacterParser;
+import cn.rongcloud.im.utils.PatternUtils;
 import cn.rongcloud.im.utils.SingleSourceLiveData;
 import cn.rongcloud.im.utils.SingleSourceMapLiveData;
 import java.util.ArrayList;
@@ -168,7 +169,7 @@ public class GroupManagementViewModel extends AndroidViewModel {
                                             }
                                         }
                                         // 正则表达式，判断首字母是否是英文字母
-                                        if (sortString.matches("[A-Z]")) {
+                                        if (PatternUtils.matchUpperLetter(sortString)) {
                                             member.setNameSpelling(sortString.toUpperCase());
                                         } else {
                                             member.setNameSpelling("#");
