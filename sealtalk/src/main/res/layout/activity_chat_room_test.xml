@@ -15,6 +15,14 @@
             android:orientation="vertical">
 
             <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_chat_room_duplicate_msg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="聊天室消息重排"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
                 android:id="@+id/siv_chat_room_kv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/seal_mine_about_height"

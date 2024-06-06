@@ -176,6 +176,15 @@
                 app:item_content="超级群Debug开关"
                 app:item_divider="true"
                 app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_hint_no_more_message"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="没有更多消息提示"
+                app:item_divider="true"
+                app:item_switch="true" />
+
             <cn.rongcloud.im.ui.view.SettingItemView
                 android:id="@+id/siv_create_notification_channel"
                 android:layout_width="match_parent"

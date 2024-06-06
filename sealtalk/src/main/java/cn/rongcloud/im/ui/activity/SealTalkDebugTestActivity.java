@@ -68,6 +68,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView referMsgTest;
     private SettingItemView permissionlistener;
     private SettingItemView combineForwardV2;
+    private SettingItemView sivHintNoMoreMessage;
     private SettingItemView ultraDebug; // 超级群的debug模式
     private SettingItemView isHideLoginPagePicCode; // 是否忽略登录图片验证码
     private SettingItemView quickIntercept; // 是否忽略登录图片验证码
@@ -75,6 +76,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView bindChatRTCRoom;
     public static final String SP_IS_SHOW = "is_show";
     public static final String SP_COMBINE_V2 = "combine_v2";
+    public static final String SP_HINT_NO_MORE_MESSAGE = "sp_hint_no_more_message";
     public static final String SP_PERMISSION_NAME = "permission_config";
     public static final String ULTRA_DEBUG_CONFIG = "ultra_debug_config";
     public static final String ULTRA_IS_DEBUG_KEY = "ultra_isdebug";
@@ -163,6 +165,17 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         combineForwardV2.setSwitchCheckListener(
                 (buttonView, isChecked) ->
                         permissionConfigSP.edit().putBoolean(SP_COMBINE_V2, isChecked).commit());
+
+        sivHintNoMoreMessage = findViewById(R.id.siv_hint_no_more_message);
+        sivHintNoMoreMessage.setChecked(
+                permissionConfigSP.getBoolean(SP_HINT_NO_MORE_MESSAGE, false));
+        sivHintNoMoreMessage.setSwitchCheckListener(
+                (buttonView, isChecked) ->
+                        permissionConfigSP
+                                .edit()
+                                .putBoolean(SP_HINT_NO_MORE_MESSAGE, isChecked)
+                                .commit());
+
         ultraDebug = findViewById(R.id.siv_ultra_debug);
         ultraDebug.setChecked(
                 getSharedPreferences(SealTalkDebugTestActivity.ULTRA_DEBUG_CONFIG, MODE_PRIVATE)

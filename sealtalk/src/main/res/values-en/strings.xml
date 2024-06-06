@@ -315,6 +315,7 @@
     <string name="msg_contact_notification_agree_your_request">Receiptant accepted to you friend request.</string>
     <string name="msg_dialog_item_message_delete">Delete Message</string>
     <string name="seal_search_chatting_records">See More Chat History</string>
+    <string name="msg_no_more_to_fetch">No more history messages.</string>
     <string name="seal_search_more_friend">See More Contacts</string>
     <string name="seal_search_more_group">See More Groups</string>
     <string name="seal_search_more_chatting_records">See More Chat History</string>

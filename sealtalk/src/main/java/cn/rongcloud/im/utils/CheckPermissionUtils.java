@@ -1,5 +1,6 @@
 package cn.rongcloud.im.utils;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -15,7 +17,11 @@ import android.text.TextUtils;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import cn.rongcloud.im.R;
+import io.rong.callkit.util.RongCallPermissionUtil;
+import io.rong.callkit.util.permission.PermissionType;
+import io.rong.common.rlog.RLog;
 import io.rong.imkit.utils.PermissionCheckUtil;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -183,5 +189,135 @@ public class CheckPermissionUtils {
                         "com.huawei.permissionmanager.ui.MainActivity"); // 华为权限管理
         intent.setComponent(comp);
         context.startActivity(intent);
+    }
+
+    public static void setPermissionRequestListener(Context context) {
+        PermissionCheckUtil.setRequestPermissionListListener(
+                new PermissionCheckUtil.IRequestPermissionListListener() {
+                    @Override
+                    public void onRequestPermissionList(
+                            Context activity,
+                            List<String> permissionsNotGranted,
+                            PermissionCheckUtil.IPermissionEventCallback callback) {
+
+                        String notGrantedPermissionMsg =
+                                getNotGrantedPermissionMsg(
+                                        context, permissionsNotGranted.toArray(new String[0]));
+                        StringBuilder messageBuilder =
+                                new StringBuilder(notGrantedPermissionMsg).append("，才能正常使用");
+
+                        if (containsPermissions(
+                                permissionsNotGranted,
+                                PermissionCheckUtil.getMediaStoragePermissions(context))) {
+                            messageBuilder.append("图片、");
+                        }
+
+                        if (containsPermissions(
+                                permissionsNotGranted,
+                                new String[] {
+                                    Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
+                                })) {
+                            messageBuilder.append("拍照、小视频、");
+                        }
+
+                        if (containsPermissions(
+                                permissionsNotGranted,
+                                new String[] {
+                                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                    Manifest.permission.ACCESS_NETWORK_STATE,
+                                    Manifest.permission.READ_PHONE_STATE
+                                })) {
+                            messageBuilder.append("位置消息、位置共享、");
+                        }
+
+                        if (containsPermissions(
+                                permissionsNotGranted,
+                                getCallPermissions(
+                                        RongCallPermissionUtil.getAudioCallPermissions(context)))) {
+                            messageBuilder.append("语音通话、");
+                        }
+
+                        if (containsPermissions(
+                                permissionsNotGranted,
+                                getCallPermissions(
+                                        RongCallPermissionUtil.getVideoCallPermissions(context)))) {
+                            messageBuilder.append("视频通话、");
+                        }
+
+                        if (permissionsNotGranted.contains(Manifest.permission.RECORD_AUDIO)) {
+                            messageBuilder.append("语音输入、");
+                        }
+
+                        // 删除最后一个多余的逗号
+                        if (messageBuilder.charAt(messageBuilder.length() - 1) == '、') {
+                            messageBuilder.deleteCharAt(messageBuilder.length() - 1);
+                        }
+
+                        messageBuilder.append("等相关功能");
+                        String message = messageBuilder.toString().trim();
+
+                        new AlertDialog.Builder(
+                                        activity,
+                                        android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                                .setTitle("权限说明")
+                                .setMessage(message)
+                                .setPositiveButton(
+                                        "去申请",
+                                        (dialog, which) -> {
+                                            dialog.dismiss();
+                                            callback.confirmed();
+                                        })
+                                .setNegativeButton(
+                                        "取消",
+                                        (dialog, which) -> {
+                                            dialog.dismiss();
+                                            callback.cancelled();
+                                        })
+                                .show();
+                    }
+                });
+    }
+
+    private static boolean containsPermissions(
+            List<String> permissionsNotGranted, String[] requiredPermissions) {
+        for (String permission : requiredPermissions) {
+            if (permissionsNotGranted.contains(permission)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String[] getCallPermissions(PermissionType[] permissionTypes) {
+        String[] permissions = new String[permissionTypes.length];
+        for (int i = 0; i < permissionTypes.length; i++) {
+            permissions[i] = permissionTypes[i].getPermissionName();
+        }
+        return permissions;
+    }
+
+    private static String getNotGrantedPermissionMsg(Context context, String[] permissions) {
+        List<String> permissionNameList = new ArrayList<>(permissions.length);
+        for (String permission : permissions) {
+            try {
+                String permissionName =
+                        context.getString(
+                                context.getResources()
+                                        .getIdentifier(
+                                                "rc_" + permission,
+                                                "string",
+                                                context.getPackageName()),
+                                0);
+                if (!permissionNameList.contains(permissionName)) {
+                    permissionNameList.add(permissionName);
+                }
+            } catch (Resources.NotFoundException e) {
+                RLog.e(
+                        "PermissionUtils",
+                        "One of the permissions is not recognized by SDK: " + permission);
+            }
+        }
+        return "需要开启(" + TextUtils.join(" ", permissionNameList) + ")权限";
     }
 }

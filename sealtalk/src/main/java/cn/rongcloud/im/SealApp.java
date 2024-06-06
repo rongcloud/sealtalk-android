@@ -19,6 +19,7 @@ import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.DataCenterJsonModel;
 import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.SplashActivity;
+import cn.rongcloud.im.utils.CheckPermissionUtils;
 import cn.rongcloud.im.utils.DataCenter;
 import cn.rongcloud.im.utils.SearchUtils;
 import cn.rongcloud.im.wx.WXManager;
@@ -247,6 +248,8 @@ public class SealApp extends MultiDexApplication {
                             }
                         });
         RongIM.getInstance().setVoiceMessageType(IMCenter.VoiceMessageType.HighQuality);
+
+        CheckPermissionUtils.setPermissionRequestListener(this);
 
         SearchUtils.init(this);
 

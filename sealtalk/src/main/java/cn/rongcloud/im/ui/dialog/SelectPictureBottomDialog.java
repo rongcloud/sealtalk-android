@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.utils.PhotoUtils;
 import io.rong.imkit.utils.PermissionCheckUtil;
-import io.rong.imkit.utils.RongUtils;
 
 public class SelectPictureBottomDialog extends BaseBottomDialog {
 
@@ -119,20 +118,7 @@ public class SelectPictureBottomDialog extends BaseBottomDialog {
             if (context == null) {
                 return false;
             }
-            String[] permissions;
-            if (RongUtils.checkSDKVersionAndTargetIsTIRAMISU(context)) {
-                permissions =
-                        new String[] {
-                            Manifest.permission.READ_MEDIA_IMAGES,
-                            Manifest.permission.READ_MEDIA_VIDEO
-                        };
-            } else {
-                permissions =
-                        new String[] {
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        };
-            }
+            String[] permissions = PermissionCheckUtil.getMediaStoragePermissions(context);
             boolean checkPermission = PermissionCheckUtil.checkPermissions(context, permissions);
             if (!checkPermission) {
                 requestPermissions(permissions, REQUEST_CODE_ASK_PERMISSIONS);

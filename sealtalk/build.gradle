@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 20210127
-        versionName "5.8.1"
+        versionName "5.8.2"
         ndk {
             abiFilters "armeabi-v7a", 'x86'
         }
@@ -114,23 +114,23 @@ dependencies {
     implementation 'com.umeng.umsdk:common:9.3.8'
     implementation 'com.umeng.umsdk:asms:1.2.2'
 
-    implementation 'cn.rongcloud.sdk.push:rong:5.8.1'
-    implementation 'cn.rongcloud.sdk.push:fcm:5.8.1'
-    implementation 'cn.rongcloud.sdk.push:huawei:5.8.1'
-    implementation 'cn.rongcloud.sdk.push:xiaomi:5.8.1'
-    implementation 'cn.rongcloud.sdk.push:oppo:5.8.1'
-    implementation 'cn.rongcloud.sdk.push:vivo:5.8.1'
-    implementation 'cn.rongcloud.sdk.push:meizu:5.8.1'
-    implementation 'cn.rongcloud.sdk.push:honor:5.8.1'
+    implementation 'cn.rongcloud.sdk.push:rong:5.8.2'
+    implementation 'cn.rongcloud.sdk.push:fcm:5.8.2'
+    implementation 'cn.rongcloud.sdk.push:huawei:5.8.2'
+    implementation 'cn.rongcloud.sdk.push:xiaomi:5.8.2'
+    implementation 'cn.rongcloud.sdk.push:oppo:5.8.2'
+    implementation 'cn.rongcloud.sdk.push:vivo:5.8.2'
+    implementation 'cn.rongcloud.sdk.push:meizu:5.8.2'
+    implementation 'cn.rongcloud.sdk.push:honor:5.8.2'
 
     //需要替换的版本
-    api 'cn.rongcloud.sdk:im_kit:5.8.1'
-    api 'cn.rongcloud.sdk:im_lib:5.8.1'
-    api 'cn.rongcloud.sdk:rcsticker:5.8.1'
-    api 'cn.rongcloud.sdk:sight:5.8.1'
-    api 'cn.rongcloud.sdk:call_lib:5.8.0'
-    api 'cn.rongcloud.sdk:call_kit:5.8.0'
-    api 'cn.rongcloud.sdk:locationKit:5.8.1'
+    api 'cn.rongcloud.sdk:im_kit:5.8.2'
+    api 'cn.rongcloud.sdk:im_lib:5.8.2'
+    api 'cn.rongcloud.sdk:rcsticker:5.8.2'
+    api 'cn.rongcloud.sdk:sight:5.8.2'
+    api 'cn.rongcloud.sdk:call_lib:5.8.2'
+    api 'cn.rongcloud.sdk:call_kit:5.8.2'
+    api 'cn.rongcloud.sdk:locationKit:5.8.2'
 
     api project(path: ':contactcard')
     api project(path: ':recognizer')

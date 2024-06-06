@@ -328,6 +328,7 @@
     <string name="msg_contact_notification_someone_agree_your_request">已同意你的好友请求</string>
     <string name="msg_contact_notification_agree_your_request">对方已同意你的好友请求</string>
     <string name="msg_dialog_item_message_delete">删除消息</string>
+    <string name="msg_no_more_to_fetch">没有更多历史消息</string>
 
 
     <string name="seal_new_message_remind_new_message">接收新消息通知</string>

@@ -4,8 +4,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
+import cn.rongcloud.im.R;
+import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.utils.MessageUtil;
+import cn.rongcloud.im.utils.ToastUtils;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.conversation.ConversationFragment;
 import io.rong.imkit.feature.forward.ForwardClickActions;
@@ -25,6 +28,25 @@ import java.util.List;
  */
 public class CustomConversationFragment extends ConversationFragment {
     private static final String TAG = CustomConversationFragment.class.getSimpleName();
+
+    @Override
+    protected void noMoreMessageToFetch() {
+        // 如果没有更多消息了，关闭下拉刷新
+        if (mRefreshLayout != null) {
+            mRefreshLayout.setEnableRefresh(false);
+        }
+        if (IMManager.getInstance()
+                        .getContext()
+                        .getSharedPreferences("config", MODE_PRIVATE)
+                        .getBoolean("isDebug", false)
+                && IMManager.getInstance()
+                        .getContext()
+                        .getSharedPreferences(
+                                SealTalkDebugTestActivity.SP_PERMISSION_NAME, MODE_PRIVATE)
+                        .getBoolean(SealTalkDebugTestActivity.SP_HINT_NO_MORE_MESSAGE, false)) {
+            ToastUtils.showToast(R.string.msg_no_more_to_fetch);
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
