@@ -13,6 +13,7 @@ import android.provider.CallLog;
 import android.provider.MediaStore;
 import android.util.Log;
 import androidx.loader.content.CursorLoader;
+import io.rong.common.FileUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -213,6 +214,8 @@ public class ScreenCaptureUtil {
 
             // 获取行数据
             String data = cursor.getString(dataIndex);
+            // 优化：对文件路径进行清理，防止路径遍历攻击
+            data = FileUtils.sanitizeFilename(data);
             long dateTaken = cursor.getLong(dateTakenIndex);
 
             // 处理获取到的第一行数据

@@ -17,6 +17,7 @@ import android.util.Log;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import cn.rongcloud.im.R;
+import io.rong.common.FileUtils;
 import io.rong.imkit.utils.KitStorageUtils;
 import java.io.File;
 import java.util.List;
@@ -334,6 +335,8 @@ public class PhotoUtils {
             if (cursor.moveToFirst()) {
                 int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 String path = cursor.getString(columnIndex);
+                // 优化：对文件路径进行清理，防止路径遍历攻击
+                path = FileUtils.sanitizeFilename(path);
                 return new File(path);
             }
         } finally {
