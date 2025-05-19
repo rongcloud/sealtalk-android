@@ -101,8 +101,10 @@ public class ConversationActivity extends RongBaseActivity
 
     private ScreenCaptureUtil screenCaptureUtil;
     private IRongCoreListener.MessageBlockListener blockListener = new BlockListener(this);
+
     /** 在会话类型为群组时：是否为群主 */
     private boolean isGroupOwner;
+
     /** 在会话类型为群组时：是否为群管理员 */
     private boolean isGroupManager;
 
@@ -127,7 +129,7 @@ public class ConversationActivity extends RongBaseActivity
                     this,
                     getResources()
                             .getColor(
-                                    R.color
+                                    io.rong.imkit.R.color
                                             .rc_background_main_color)); // Color.parseColor("#F5F6F9")
         }
         // 没有intent 的则直接返回
@@ -168,8 +170,7 @@ public class ConversationActivity extends RongBaseActivity
                             AlertDialog dialog =
                                     new AlertDialog.Builder(
                                                     activity,
-                                                    android.R
-                                                            .style
+                                                    android.R.style
                                                             .Theme_DeviceDefault_Light_Dialog_Alert)
                                             .setMessage("向用户说明申请权限")
                                             .setPositiveButton(
@@ -253,7 +254,7 @@ public class ConversationActivity extends RongBaseActivity
             if (!TextUtils.isEmpty(configCache.getChatbgUri())) {
                 try {
                     fragment.getView()
-                            .findViewById(R.id.rc_refresh)
+                            .findViewById(io.rong.imkit.R.id.rc_refresh)
                             .setBackground(
                                     Drawable.createFromStream(
                                             getContentResolver()
@@ -470,17 +471,11 @@ public class ConversationActivity extends RongBaseActivity
                                                         typingInfo.typingList.size() - 1);
                                         if (typing.type == TypingInfo.Typing.Type.text) {
                                             mTitleBar.setTyping(
-                                                    io.rong
-                                                            .imkit
-                                                            .R
-                                                            .string
+                                                    io.rong.imkit.R.string
                                                             .rc_conversation_remote_side_is_typing);
                                         } else if (typing.type == TypingInfo.Typing.Type.voice) {
                                             mTitleBar.setTyping(
-                                                    io.rong
-                                                            .imkit
-                                                            .R
-                                                            .string
+                                                    io.rong.imkit.R.string
                                                             .rc_conversation_remote_side_speaking);
                                         }
                                     }
@@ -798,7 +793,7 @@ public class ConversationActivity extends RongBaseActivity
             UnReadMessageManager.getInstance().addObserver(null, this);
         }
 
-        mTitleBar.setBackgroundResource(R.color.rc_background_main_color);
+        mTitleBar.setBackgroundResource(io.rong.imkit.R.color.rc_background_main_color);
 
         if (mConversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)
                 || mConversationType.equals(Conversation.ConversationType.CHATROOM)) {

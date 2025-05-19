@@ -165,7 +165,9 @@ public class SelectMultiFriendsActivity extends SelectBaseActivity
         return new SelectMultiFriendFragment();
     }
 
-    /** @param v 右上角点击 */
+    /**
+     * @param v 右上角点击
+     */
     @Override
     public void onClick(View v) {
         onConfirmClicked(

@@ -277,8 +277,7 @@ public class FileManager {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             String path = cursor.getString(column_index);
-            // 优化：对文件路径进行清理，防止路径遍历攻击
-            return io.rong.common.FileUtils.sanitizeFilename(path);
+            return path;
         } finally {
             if (cursor != null) {
                 cursor.close();

@@ -13,7 +13,6 @@ import android.provider.CallLog;
 import android.provider.MediaStore;
 import android.util.Log;
 import androidx.loader.content.CursorLoader;
-import io.rong.common.FileUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +32,7 @@ public class ScreenCaptureUtil {
         MediaStore.Images.ImageColumns.DATE_TAKEN,
         MediaStore.Images.ImageColumns.DATE_ADDED
     };
+
     /** 读取媒体数据库时需要读取的列 */
     private static final String[] MEDIA_PROJECTIONS_NEW_API = {
         MediaStore.Images.ImageColumns.RELATIVE_PATH,
@@ -52,8 +52,10 @@ public class ScreenCaptureUtil {
 
     private HandlerThread mHandlerThread;
     private Handler mHandler;
+
     /** 内部存储器内容观察者 */
     private ContentObserver mInternalObserver;
+
     /** 外部存储器内容观察者 */
     private ContentObserver mExternalObserver;
 
@@ -214,8 +216,6 @@ public class ScreenCaptureUtil {
 
             // 获取行数据
             String data = cursor.getString(dataIndex);
-            // 优化：对文件路径进行清理，防止路径遍历攻击
-            data = FileUtils.sanitizeFilename(data);
             long dateTaken = cursor.getLong(dateTakenIndex);
 
             // 处理获取到的第一行数据

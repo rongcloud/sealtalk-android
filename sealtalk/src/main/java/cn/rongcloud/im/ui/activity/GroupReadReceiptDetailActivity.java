@@ -2,7 +2,6 @@ package cn.rongcloud.im.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import cn.rongcloud.im.ui.adapter.RlGroupMemberAdapter;
 import cn.rongcloud.im.ui.view.SealTitleBar;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.GroupReadReceiptViewModel;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.utils.RongDateUtils;
 import io.rong.imlib.RongIMClient;
@@ -40,6 +38,7 @@ import java.util.Map;
 /** 群已读回执 */
 public class GroupReadReceiptDetailActivity extends TitleBaseActivity {
     private final String TAG = "GroupReadReceiptDetailActivity";
+
     /** 默认消息区显示行数 */
     private final int DEFAULT_MESSAGE_SHOW_LINE = 4;
 
@@ -107,9 +106,7 @@ public class GroupReadReceiptDetailActivity extends TitleBaseActivity {
         // 发送消息内容
         sendMsgTv = findViewById(R.id.conversation_tv_read_send_message);
         TextMessage textMessage = (TextMessage) targetMessage.getContent();
-        SpannableStringBuilder spannable = new SpannableStringBuilder(textMessage.getContent());
-        AndroidEmoji.ensure(spannable);
-        sendMsgTv.setText(spannable);
+        sendMsgTv.setText(textMessage.getContent() == null ? "" : textMessage.getContent());
 
         // 展开消息区按钮
         ImageView msgExpandIv = findViewById(R.id.conversation_iv_read_msg_expand);
@@ -344,6 +341,7 @@ public class GroupReadReceiptDetailActivity extends TitleBaseActivity {
     /** 更新群组已读和未读成员 */
     // 未读成员列表
     List<GroupMember> unReadMemberList;
+
     // 已读成员列表
     List<GroupMember> readMemberList;
 

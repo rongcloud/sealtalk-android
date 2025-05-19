@@ -24,7 +24,9 @@ import io.rong.imlib.model.ConversationIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author gusd @Date 2022/06/21 */
+/**
+ * @author gusd @Date 2022/06/21
+ */
 public class UltraGroupChannelAddMemberActivity extends TitleBaseActivity {
 
     private ConversationIdentifier conversationIdentifier;

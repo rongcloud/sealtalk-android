@@ -14,7 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** @author gusd @Date 2022/06/17 */
+/**
+ * @author gusd @Date 2022/06/17
+ */
 public class UltraGroupManager {
 
     private List<UltraGroupInfo> mUltraGroupInfoList = new ArrayList<>();

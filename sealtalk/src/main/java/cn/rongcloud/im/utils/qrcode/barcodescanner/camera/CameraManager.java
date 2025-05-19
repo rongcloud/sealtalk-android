@@ -207,7 +207,9 @@ public final class CameraManager {
         }
     }
 
-    /** @return true if the camera rotation is perpendicular to the current display rotation. */
+    /**
+     * @return true if the camera rotation is perpendicular to the current display rotation.
+     */
     public boolean isCameraRotated() {
         if (rotationDegrees == -1) {
             throw new IllegalStateException("Rotation not calculated yet. Call configure() first.");

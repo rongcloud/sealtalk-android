@@ -53,7 +53,8 @@ public class CombineV2MessageItemProvider extends BaseMessageItemProvider<Combin
                 uiMessage.getMessage().getMessageDirection().equals(Message.MessageDirection.SEND);
         holder.setTextColor(
                 R.id.title,
-                ContextCompat.getColor(holder.getContext(), R.color.rc_text_main_color));
+                ContextCompat.getColor(
+                        holder.getContext(), io.rong.imkit.R.color.rc_text_main_color));
 
         String title = MessageUtil.getTitle(holder.getContext(), combineMessage);
         holder.setText(R.id.title, title);
@@ -66,7 +67,8 @@ public class CombineV2MessageItemProvider extends BaseMessageItemProvider<Combin
             textView.setText(summarys.get(i));
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setTextColor(
-                    ContextCompat.getColor(holder.getContext(), R.color.rc_text_color_secondary));
+                    ContextCompat.getColor(
+                            holder.getContext(), io.rong.callkit.R.color.rc_text_color_secondary));
             textView.setTextSize(12);
             textView.setMaxLines(1);
             llSummary.addView(textView);
@@ -96,6 +98,6 @@ public class CombineV2MessageItemProvider extends BaseMessageItemProvider<Combin
     @Override
     public Spannable getSummarySpannable(Context context, CombineV2Message combineMessage) {
         return new SpannableString(
-                context.getString(R.string.rc_conversation_summary_content_combine));
+                context.getString(io.rong.imkit.R.string.rc_conversation_summary_content_combine));
     }
 }

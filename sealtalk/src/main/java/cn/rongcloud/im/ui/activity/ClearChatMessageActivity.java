@@ -150,13 +150,10 @@ public class ClearChatMessageActivity extends TitleBaseActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_remove:
-                showDeleteConfirmDialog();
-                break;
-            case R.id.ll_select_all:
-                selectAll();
-                break;
+        if (v.getId() == R.id.tv_remove) {
+            showDeleteConfirmDialog();
+        } else if (v.getId() == R.id.ll_select_all) {
+            selectAll();
         }
     }
 }

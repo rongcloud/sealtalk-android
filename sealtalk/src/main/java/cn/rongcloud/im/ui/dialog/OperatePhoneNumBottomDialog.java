@@ -38,15 +38,13 @@ public class OperatePhoneNumBottomDialog extends BaseBottomDialog implements Vie
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_take_call:
-                toCallPhone(phoneNum);
-                break;
-            case R.id.btn_copy:
-                copyText(phoneNum);
-                break;
-            case R.id.btn_cancel:
-                break;
+        int id = v.getId();
+        if (id == R.id.btn_take_call) {
+            toCallPhone(phoneNum);
+        } else if (id == R.id.btn_copy) {
+            copyText(phoneNum);
+        } else if (id == R.id.btn_cancel) {
+            // Do nothing
         }
         dismiss();
     }

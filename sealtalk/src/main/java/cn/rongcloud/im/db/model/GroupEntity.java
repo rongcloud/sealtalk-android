@@ -26,33 +26,43 @@ public class GroupEntity implements Parcelable {
 
     @ColumnInfo(name = "order_spelling")
     private String orderSpelling;
+
     /** 群人数 */
     @ColumnInfo(name = "member_count")
     private int memberCount;
+
     /** 群人数上限 */
     @ColumnInfo(name = "max_member_count")
     private int maxMemberCount;
+
     /** 群主 id */
     @ColumnInfo(name = "owner_user_id")
     private String creatorId;
+
     /** 类型: 1,普通群;2,企业群 */
     @ColumnInfo(name = "type")
     private int type;
+
     /** 群公告 */
     @ColumnInfo(name = "bulletin")
     private String bulletin;
+
     /** 群公告更新时间 */
     @ColumnInfo(name = "bulletin_time")
     private long bulletinTime;
+
     /** 删除日期 */
     @ColumnInfo(name = "delete_at")
     private Date deletedAt;
+
     /** 是否在通讯录，0：不在；1：在 */
     @ColumnInfo(name = "is_in_contact")
     private int isInContact;
+
     /** 定时删除时间状态 */
     @ColumnInfo(name = "regular_clear_state")
     private int regularClearState;
+
     /** 全员禁言 */
     @ColumnInfo(name = "is_mute_all")
     private int isMute;

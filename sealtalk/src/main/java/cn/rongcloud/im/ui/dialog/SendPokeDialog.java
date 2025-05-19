@@ -28,8 +28,10 @@ import java.util.ArrayList;
 public class SendPokeDialog extends CommonDialog {
     /** 发送名称最长显示长度 */
     private static final int SEND_TO_NAME_MAX_DISPLAY_LENGTH = 10;
+
     /** 对话框宽度 */
     private static final int POKE_DIALOG_WIDTH_DP = 320;
+
     /** Request Code:选择发送人 */
     private static final int REQUEST_SELECT_SEND_TO = 1000;
 

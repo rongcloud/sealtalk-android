@@ -14,7 +14,9 @@ import cn.rongcloud.im.task.AppTask;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.widget.adapter.ViewHolder;
 
-/** @author gusd */
+/**
+ * @author gusd
+ */
 public class TranslationLanguageListActivity extends TitleBaseActivity {
     private static final String TAG = "TranslationLanguageListActivity";
 

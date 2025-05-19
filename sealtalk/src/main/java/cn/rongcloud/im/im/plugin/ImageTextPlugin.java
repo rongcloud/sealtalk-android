@@ -22,7 +22,7 @@ public class ImageTextPlugin implements IPluginModule {
 
     @Override
     public String obtainTitle(Context context) {
-        return context.getString(R.string.rc_reference_link);
+        return context.getString(io.rong.imkit.R.string.rc_reference_link);
     }
 
     @Override

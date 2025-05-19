@@ -1,6 +1,8 @@
 package cn.rongcloud.im.contact;
 
-/** @author gusd */
+/**
+ * @author gusd
+ */
 public class TranslationLanguage {
     public static final String LANGUAGE_AF = "af"; // 南非荷兰语（南非）
     public static final String LANGUAGE_SQ = "sq"; // 阿尔巴尼亚语（阿尔巴尼亚）

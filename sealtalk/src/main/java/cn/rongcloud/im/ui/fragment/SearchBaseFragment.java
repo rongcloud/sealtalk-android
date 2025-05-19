@@ -99,7 +99,9 @@ public class SearchBaseFragment extends Fragment implements SearchableInterface 
         searchAdapter.updateData(new ArrayList<>());
     }
 
-    /** @return 上次搜索关键字 */
+    /**
+     * @return 上次搜索关键字
+     */
     public String getInitSearch() {
         return initSearch;
     }

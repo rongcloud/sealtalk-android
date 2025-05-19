@@ -51,23 +51,18 @@ public class SearchFriendNetFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.search_country_select:
-                Intent intent = new Intent(getContext(), SelectCountryActivity.class);
-                startActivityForResult(intent, REQUEST_COUNTRY_CODE);
-                break;
-            case R.id.search_search:
-                if (onSearchFriendClick != null) {
-                    String region = tvRegion.getText().toString();
-                    String phone = tvRegion.getText().toString();
-                    if (!TextUtils.isEmpty(region) && !TextUtils.isEmpty(phone)) {
-                        onSearchFriendClick.onSearchClick(
-                                region.substring(1), tvPhone.getText().toString());
-                    }
+        if (v.getId() == R.id.search_country_select) {
+            Intent intent = new Intent(getContext(), SelectCountryActivity.class);
+            startActivityForResult(intent, REQUEST_COUNTRY_CODE);
+        } else if (v.getId() == R.id.search_search) {
+            if (onSearchFriendClick != null) {
+                String region = tvRegion.getText().toString();
+                String phone = tvRegion.getText().toString();
+                if (!TextUtils.isEmpty(region) && !TextUtils.isEmpty(phone)) {
+                    onSearchFriendClick.onSearchClick(
+                            region.substring(1), tvPhone.getText().toString());
                 }
-                break;
-            default:
-                break;
+            }
         }
     }
 

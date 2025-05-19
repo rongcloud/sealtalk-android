@@ -154,38 +154,28 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_update_log:
-                toWeb(
-                        getString(R.string.seal_mine_about_update_log),
-                        "http://www.rongcloud.cn/changelog");
-                break;
-            case R.id.siv_func_introduce:
-                toWeb(
-                        getString(R.string.seal_mine_about_function_introduce),
-                        "http://rongcloud.cn/features");
-                break;
-            case R.id.siv_rongcloud_web:
-                toWeb(getString(R.string.seal_mine_about_rongcloud_web), "http://rongcloud.cn/");
-                break;
-            case R.id.siv_sealtalk_version:
-                showDownloadDialog(url);
-                break;
-            case R.id.siv_sdk_version:
-                // TODO 开启 debug 模式规则
-                showStartDebugDialog();
-                break;
-            case R.id.siv_close_debug_mode:
-                // TODO 关闭 debug 模式
-                sdkVersionSiv.setClickable(true);
-                showCloseDialog();
-                break;
-            case R.id.siv_debug_go:
-                toSetting();
-                break;
-            default:
-                // Do nothing
-                break;
+        int id = v.getId();
+        if (id == R.id.siv_update_log) {
+            toWeb(
+                    getString(R.string.seal_mine_about_update_log),
+                    "http://www.rongcloud.cn/changelog");
+        } else if (id == R.id.siv_func_introduce) {
+            toWeb(
+                    getString(R.string.seal_mine_about_function_introduce),
+                    "http://rongcloud.cn/features");
+        } else if (id == R.id.siv_rongcloud_web) {
+            toWeb(getString(R.string.seal_mine_about_rongcloud_web), "http://rongcloud.cn/");
+        } else if (id == R.id.siv_sealtalk_version) {
+            showDownloadDialog(url);
+        } else if (id == R.id.siv_sdk_version) {
+            // TODO 开启 debug 模式规则
+            showStartDebugDialog();
+        } else if (id == R.id.siv_close_debug_mode) {
+            // TODO 关闭 debug 模式
+            sdkVersionSiv.setClickable(true);
+            showCloseDialog();
+        } else if (id == R.id.siv_debug_go) {
+            toSetting();
         }
     }
 

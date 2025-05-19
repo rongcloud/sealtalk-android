@@ -183,74 +183,67 @@ public class LoginFindPasswordFragment extends BaseFragment {
 
     @Override
     protected void onClick(View v, int id) {
-        switch (id) {
-            case R.id.ll_country_select:
-                startActivityForResult(
-                        new Intent(getActivity(), SelectCountryActivity.class),
-                        REQUEST_CODE_SELECT_COUNTRY);
-                break;
-            case R.id.btn_send_code:
-                String phoneStr = phoneEdit.getText().toString().trim();
-                String phoneCodeStr = countryCodeTv.getText().toString().trim();
-                if (TextUtils.isEmpty(phoneStr)) {
-                    showToast(R.string.seal_login_toast_phone_number_is_null);
-                }
+        if (id == R.id.ll_country_select) {
+            startActivityForResult(
+                    new Intent(getActivity(), SelectCountryActivity.class),
+                    REQUEST_CODE_SELECT_COUNTRY);
+        } else if (id == R.id.btn_send_code) {
+            String phoneStr = phoneEdit.getText().toString().trim();
+            String phoneCodeStr = countryCodeTv.getText().toString().trim();
+            if (TextUtils.isEmpty(phoneStr)) {
+                showToast(R.string.seal_login_toast_phone_number_is_null);
+            }
 
-                sendCodeBtn.setEnabled(false);
-                phoneEdit.setEnabled(false);
-                checkPhoneAndSendCode(phoneCodeStr, phoneStr, null, null);
-                break;
-            case R.id.btn_confirm:
-                String fpPhoneStr = phoneEdit.getText().toString().trim();
-                String fpCodeStr = codeEdit.getText().toString().trim();
-                String fpPasswordStr = passwordEdit.getText().toString().trim();
-                String fpConfirmPasswordStr = confirmPasswordEdit.getText().toString().trim();
-                String fpCountryCodeStr = countryCodeTv.getText().toString().trim();
+            sendCodeBtn.setEnabled(false);
+            phoneEdit.setEnabled(false);
+            checkPhoneAndSendCode(phoneCodeStr, phoneStr, null, null);
+        } else if (id == R.id.btn_confirm) {
+            String fpPhoneStr = phoneEdit.getText().toString().trim();
+            String fpCodeStr = codeEdit.getText().toString().trim();
+            String fpPasswordStr = passwordEdit.getText().toString().trim();
+            String fpConfirmPasswordStr = confirmPasswordEdit.getText().toString().trim();
+            String fpCountryCodeStr = countryCodeTv.getText().toString().trim();
 
-                if (TextUtils.isEmpty(fpPhoneStr)) {
-                    showToast(R.string.seal_login_toast_phone_number_is_null);
-                    phoneEdit.setShakeAnimation();
-                    return;
-                }
+            if (TextUtils.isEmpty(fpPhoneStr)) {
+                showToast(R.string.seal_login_toast_phone_number_is_null);
+                phoneEdit.setShakeAnimation();
+                return;
+            }
 
-                if (TextUtils.isEmpty(fpCodeStr)) {
-                    showToast(R.string.seal_login_toast_code_is_null);
-                    codeEdit.setShakeAnimation();
-                    return;
-                }
+            if (TextUtils.isEmpty(fpCodeStr)) {
+                showToast(R.string.seal_login_toast_code_is_null);
+                codeEdit.setShakeAnimation();
+                return;
+            }
 
-                if (TextUtils.isEmpty(fpPasswordStr)) {
-                    showToast(R.string.seal_login_toast_new_password_not_null);
-                    passwordEdit.setShakeAnimation();
-                    return;
-                }
+            if (TextUtils.isEmpty(fpPasswordStr)) {
+                showToast(R.string.seal_login_toast_new_password_not_null);
+                passwordEdit.setShakeAnimation();
+                return;
+            }
 
-                if (passwordEdit.length() < 6 || passwordEdit.length() > 16) {
-                    showToast(R.string.seal_login_toast_passwords_invalid);
-                    return;
-                }
+            if (passwordEdit.length() < 6 || passwordEdit.length() > 16) {
+                showToast(R.string.seal_login_toast_passwords_invalid);
+                return;
+            }
 
-                if (TextUtils.isEmpty(fpConfirmPasswordStr)) {
-                    showToast(R.string.seal_login_toast_confirm_password_not_null);
-                    confirmPasswordEdit.setShakeAnimation();
-                    return;
-                }
+            if (TextUtils.isEmpty(fpConfirmPasswordStr)) {
+                showToast(R.string.seal_login_toast_confirm_password_not_null);
+                confirmPasswordEdit.setShakeAnimation();
+                return;
+            }
 
-                if (!fpPasswordStr.equals(fpConfirmPasswordStr)) {
-                    showToast(R.string.seal_login_toast_passwords_do_not_match);
-                    return;
-                }
+            if (!fpPasswordStr.equals(fpConfirmPasswordStr)) {
+                showToast(R.string.seal_login_toast_passwords_do_not_match);
+                return;
+            }
 
-                if (!isRequestVerifyCode) {
-                    showToast(R.string.seal_login_toast_not_send_code);
-                    return;
-                }
+            if (!isRequestVerifyCode) {
+                showToast(R.string.seal_login_toast_not_send_code);
+                return;
+            }
 
-                resetPassword(fpCountryCodeStr, fpPhoneStr, fpCodeStr, fpPasswordStr);
-
-                break;
-            default:
-                break;
+            resetPassword(fpCountryCodeStr, fpPhoneStr, fpCodeStr, fpPasswordStr);
         }
     }
 

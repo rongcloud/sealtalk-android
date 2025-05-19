@@ -229,22 +229,17 @@ public class ChatRoomStatusActivity extends TitleBaseActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_chat_room_exist:
-                joinExistRoom();
-                break;
-            case R.id.btn_chat_room1:
-                toDeatail(CHAT_ROOM_1);
-                break;
-            case R.id.btn_chat_room2:
-                toDeatail(CHAT_ROOM_2);
-                break;
-            case R.id.btn_get_kvs_no_join_room1:
-                getAllChatRoomEntries(CHAT_ROOM_1);
-                break;
-            case R.id.btn_get_kvs_no_join_room2:
-                getAllChatRoomEntries(CHAT_ROOM_2);
-                break;
+        int id = v.getId();
+        if (id == R.id.btn_chat_room_exist) {
+            joinExistRoom();
+        } else if (id == R.id.btn_chat_room1) {
+            toDeatail(CHAT_ROOM_1);
+        } else if (id == R.id.btn_chat_room2) {
+            toDeatail(CHAT_ROOM_2);
+        } else if (id == R.id.btn_get_kvs_no_join_room1) {
+            getAllChatRoomEntries(CHAT_ROOM_1);
+        } else if (id == R.id.btn_get_kvs_no_join_room2) {
+            getAllChatRoomEntries(CHAT_ROOM_2);
         }
     }
 

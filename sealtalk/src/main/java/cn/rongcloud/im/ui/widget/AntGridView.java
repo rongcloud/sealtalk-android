@@ -17,6 +17,7 @@ public class AntGridView extends GridView {
     public AntGridView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
+
     /*重点在这里重写onMeasure()*/
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

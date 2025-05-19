@@ -441,37 +441,27 @@ public class ChatRoomStatusDeatilActivity extends TitleBaseActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_set_key:
-                setKey();
-                break;
-            case R.id.btn_set_private_key:
-                setPrivateKey();
-                break;
-            case R.id.btn_remove_key:
-                removeKey();
-                break;
-            case R.id.btn_remove_private_key:
-                removePrivateKey();
-                break;
-            case R.id.btn_get_all_key:
-                getAllKeys();
-                break;
-            case R.id.btn_get_sigle_key:
-                getKeysByBatch();
-                break;
-            case R.id.btn_set_batch_kv_btn:
-                setKVByBatch(false);
-                break;
-            case R.id.btn_remove_batch_kv_btn:
-                removeKVByBatch(false);
-                break;
-            case R.id.btn_set_batch_kv_btn_force:
-                setKVByBatch(true);
-                break;
-            case R.id.btn_remove_batch_kv_btn_force:
-                removeKVByBatch(true);
-                break;
+        int id = v.getId();
+        if (id == R.id.btn_set_key) {
+            setKey();
+        } else if (id == R.id.btn_set_private_key) {
+            setPrivateKey();
+        } else if (id == R.id.btn_remove_key) {
+            removeKey();
+        } else if (id == R.id.btn_remove_private_key) {
+            removePrivateKey();
+        } else if (id == R.id.btn_get_all_key) {
+            getAllKeys();
+        } else if (id == R.id.btn_get_sigle_key) {
+            getKeysByBatch();
+        } else if (id == R.id.btn_set_batch_kv_btn) {
+            setKVByBatch(false);
+        } else if (id == R.id.btn_remove_batch_kv_btn) {
+            removeKVByBatch(false);
+        } else if (id == R.id.btn_set_batch_kv_btn_force) {
+            setKVByBatch(true);
+        } else if (id == R.id.btn_remove_batch_kv_btn_force) {
+            removeKVByBatch(true);
         }
     }
 

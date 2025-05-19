@@ -49,6 +49,7 @@ public class Size implements Comparable<Size> {
             return new Size(width * into.height / height, into.height);
         }
     }
+
     /**
      * Scales the size so that both dimensions will be greater than or equal to the corresponding
      * dimension of the parent. One of width or height will fit exactly. Aspect ratio is preserved.

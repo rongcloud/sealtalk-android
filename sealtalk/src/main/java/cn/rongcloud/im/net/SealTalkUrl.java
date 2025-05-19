@@ -164,7 +164,7 @@ public class SealTalkUrl {
 
     public static final String GET_ULTRA_GROUP_CHANNEL = "ultragroup/channel/list";
 
-    public static final String ULTRA_GROUP_CHANGE_TYPE = "/ultragroup/channel/type/change";
+    public static final String ULTRA_GROUP_CHANGE_TYPE = "ultragroup/channel/type/change";
 
     public static final String ULTRA_GROUP_PRIVATE_ADD_USERS =
             "ultragroup/channel/private/users/add";
@@ -175,7 +175,7 @@ public class SealTalkUrl {
     public static final String ULTRA_GROUP_PRIVATE_GET_USERS =
             "ultragroup/channel/private/users/get";
 
-    public static final String ULTRA_GROUP_CHANNEL_DEL = "/ultragroup/channel/del";
+    public static final String ULTRA_GROUP_CHANNEL_DEL = "ultragroup/channel/del";
 
     public static final String SECURITY_STATUS = "shumei/status";
 
@@ -183,25 +183,25 @@ public class SealTalkUrl {
 
     // 用户组
     // 新建用户组
-    public static final String USER_GROUP_ADD = "/ultragroup/usergroup/add";
+    public static final String USER_GROUP_ADD = "ultragroup/usergroup/add";
     // 删除用户组
-    public static final String USER_GROUP_DEL = "/ultragroup/usergroup/del";
+    public static final String USER_GROUP_DEL = "ultragroup/usergroup/del";
     // 用户组添加成员
-    public static final String USER_GROUP_MEMBER_ADD = "/ultragroup/usergroup/member/add";
+    public static final String USER_GROUP_MEMBER_ADD = "ultragroup/usergroup/member/add";
     // 用户组删除成员
-    public static final String USER_GROUP_MEMBER_DEL = "/ultragroup/usergroup/member/del";
+    public static final String USER_GROUP_MEMBER_DEL = "ultragroup/usergroup/member/del";
     // 频道绑定用户组
-    public static final String USER_GROUP_CHANNEL_BIND = "/ultragroup/channel/usergroup/bind";
+    public static final String USER_GROUP_CHANNEL_BIND = "ultragroup/channel/usergroup/bind";
     // 频道解绑用户组
-    public static final String USER_GROUP_CHANNEL_UNBIND = "/ultragroup/channel/usergroup/unbind";
+    public static final String USER_GROUP_CHANNEL_UNBIND = "ultragroup/channel/usergroup/unbind";
     // 分页查询用户组列表
-    public static final String USER_GROUP_QUERY = "/ultragroup/usergroup/query";
+    public static final String USER_GROUP_QUERY = "ultragroup/usergroup/query";
     // 分页查询频道绑定的用户组列表
-    public static final String USER_GROUP_CHANNEL_QUERY = "/ultragroup/channel/usergroup/query";
+    public static final String USER_GROUP_CHANNEL_QUERY = "ultragroup/channel/usergroup/query";
     // 分页查询用户组下的用户信息
-    public static final String USER_GROUP_MEMBER_QUERY = "/ultragroup/usergroup/member/query";
+    public static final String USER_GROUP_MEMBER_QUERY = "ultragroup/usergroup/member/query";
     // 获取图片验证码
-    public static final String GET_IMAGE_CODE = "/user/pic_code";
+    public static final String GET_IMAGE_CODE = "user/pic_code";
     // 注销账号
-    public static final String DELETE_ACCOUNT = "/user/del";
+    public static final String DELETE_ACCOUNT = "user/del";
 }

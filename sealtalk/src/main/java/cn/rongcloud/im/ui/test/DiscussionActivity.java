@@ -55,31 +55,23 @@ public class DiscussionActivity extends TitleBaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_create_discussion:
-                createDiscussion();
-                break;
-            case R.id.btn_add_member:
-                addMemberToDiscussion();
-                break;
-            case R.id.btn_remove_member:
-                removeMemberFromDiscussion();
-                break;
-            case R.id.btn_rename:
-                renameDiscussion();
-                break;
-            case R.id.btn_quit:
-                quitDiscussion();
-                break;
-            case R.id.btn_get_info:
-                getDiscussionInfo();
-                break;
-            case R.id.btn_set_permission:
-                setDiscussionInviteStatus();
-                break;
-            case R.id.btn_send_message:
-                sendDiscussionMessage();
-                break;
+        int id = v.getId();
+        if (id == R.id.btn_create_discussion) {
+            createDiscussion();
+        } else if (id == R.id.btn_add_member) {
+            addMemberToDiscussion();
+        } else if (id == R.id.btn_remove_member) {
+            removeMemberFromDiscussion();
+        } else if (id == R.id.btn_rename) {
+            renameDiscussion();
+        } else if (id == R.id.btn_quit) {
+            quitDiscussion();
+        } else if (id == R.id.btn_get_info) {
+            getDiscussionInfo();
+        } else if (id == R.id.btn_set_permission) {
+            setDiscussionInviteStatus();
+        } else if (id == R.id.btn_send_message) {
+            sendDiscussionMessage();
         }
     }
 

@@ -171,47 +171,42 @@ public class EvaluateBottomDialog extends BaseBottomDialog implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_submit:
-                if (currentEvaluate == null) {
-                    return;
-                }
-                boolean showSolveStatus = currentEvaluate.getQuestionFlag();
-                CustomServiceConfig.CSEvaSolveStatus resolveStatus =
-                        CustomServiceConfig.CSEvaSolveStatus.UNRESOLVED;
-                if (showSolveStatus
-                        && resolveRg.isSelected()
-                        && resolveRg.getCheckedRadioButtonId() == R.id.rb_resolved) {
-                    resolveStatus = CustomServiceConfig.CSEvaSolveStatus.RESOLVED;
-                }
+        if (v.getId() == R.id.btn_submit) {
+            if (currentEvaluate == null) {
+                return;
+            }
+            boolean showSolveStatus = currentEvaluate.getQuestionFlag();
+            CustomServiceConfig.CSEvaSolveStatus resolveStatus =
+                    CustomServiceConfig.CSEvaSolveStatus.UNRESOLVED;
+            if (showSolveStatus
+                    && resolveRg.isSelected()
+                    && resolveRg.getCheckedRadioButtonId() == R.id.rb_resolved) {
+                resolveStatus = CustomServiceConfig.CSEvaSolveStatus.RESOLVED;
+            }
 
-                String seletedLables = lablesAdapter.getSeletedLablesString();
-                boolean tagMust = currentEvaluate.getTagMust();
-                boolean isInputMust = currentEvaluate.getInputMust();
-                if (starsSv.getStars() >= 5) {
-                    tagMust = false;
-                    isInputMust = false;
-                }
+            String seletedLables = lablesAdapter.getSeletedLablesString();
+            boolean tagMust = currentEvaluate.getTagMust();
+            boolean isInputMust = currentEvaluate.getInputMust();
+            if (starsSv.getStars() >= 5) {
+                tagMust = false;
+                isInputMust = false;
+            }
 
-                if (tagMust && TextUtils.isEmpty(seletedLables)) {
-                    showToast(R.string.seal_evaluate_lable_must);
-                    return;
-                } else if (isInputMust && TextUtils.isEmpty(suggestionEt.getText().toString())) {
-                    showToast(R.string.seal_evaluate_input_must);
-                    return;
-                }
+            if (tagMust && TextUtils.isEmpty(seletedLables)) {
+                showToast(R.string.seal_evaluate_lable_must);
+                return;
+            } else if (isInputMust && TextUtils.isEmpty(suggestionEt.getText().toString())) {
+                showToast(R.string.seal_evaluate_input_must);
+                return;
+            }
 
-                submit(
-                        targetId,
-                        starsSv.getStars(),
-                        seletedLables,
-                        resolveStatus,
-                        suggestionEt.getText().toString(),
-                        dialogId);
-                break;
-            default:
-                // Do nothing
-                break;
+            submit(
+                    targetId,
+                    starsSv.getStars(),
+                    seletedLables,
+                    resolveStatus,
+                    suggestionEt.getText().toString(),
+                    dialogId);
         }
     }
 

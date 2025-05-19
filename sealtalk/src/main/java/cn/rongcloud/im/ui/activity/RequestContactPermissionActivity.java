@@ -40,10 +40,9 @@ public class RequestContactPermissionActivity extends TitleBaseActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.request_permission_tv_to_setting:
-                toSetting();
-                break;
+        int id = v.getId();
+        if (id == R.id.request_permission_tv_to_setting) {
+            toSetting();
         }
     }
 

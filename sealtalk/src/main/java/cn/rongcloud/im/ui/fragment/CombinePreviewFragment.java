@@ -144,10 +144,7 @@ public class CombinePreviewFragment extends Fragment implements IViewProviderLis
                                         ToastUtils.show(
                                                 context,
                                                 context.getString(
-                                                        io.rong
-                                                                .imkit
-                                                                .R
-                                                                .string
+                                                        io.rong.imkit.R.string
                                                                 .rc_ac_file_preview_download_error),
                                                 Toast.LENGTH_SHORT);
                                     }

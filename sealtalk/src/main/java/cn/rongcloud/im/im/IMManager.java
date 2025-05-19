@@ -93,6 +93,7 @@ import io.rong.imkit.feature.quickreply.IQuickReplyProvider;
 import io.rong.imkit.manager.UnReadMessageManager;
 import io.rong.imkit.model.GroupNotificationMessageData;
 import io.rong.imkit.notification.RongNotificationManager;
+import io.rong.imkit.streammessage.StreamMessageItemProvider;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.userinfo.model.GroupUserInfo;
 import io.rong.imkit.utils.RouteUtils;
@@ -111,6 +112,7 @@ import io.rong.imlib.model.AndroidConfig;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.Group;
+import io.rong.imlib.model.HarmonyConfig;
 import io.rong.imlib.model.IOSConfig;
 import io.rong.imlib.model.InitOption;
 import io.rong.imlib.model.MentionedInfo;
@@ -157,6 +159,7 @@ public class IMManager {
     private MutableLiveData<Boolean> kickedOffline = new MutableLiveData<>();
     private MutableLiveData<Boolean> userIsAbandon = new MutableLiveData<>();
     private MutableLiveData<Boolean> userIsBlocked = new MutableLiveData<>();
+
     /** 接收戳一下消息 */
     private volatile Boolean isReceivePokeMessage = null;
 
@@ -203,7 +206,9 @@ public class IMManager {
         return context;
     }
 
-    /** @param application */
+    /**
+     * @param application
+     */
     public void init(Application application) {
         RongCoreClient.getInstance().setAppVer(BuildConfig.VERSION_NAME);
         this.context = application.getApplicationContext();
@@ -356,9 +361,15 @@ public class IMManager {
                                         sharedPreferences.getString("imageUrlHonor", "");
                                 String importanceHonor =
                                         sharedPreferences.getString("importanceHonor", "NORMAL");
+                                String ohosCategory =
+                                        sharedPreferences.getString("ohosCategory", "");
+                                String ohosImageUrl =
+                                        sharedPreferences.getString("ohosImageUrl", "");
                                 IOSConfig iosConfig =
                                         new IOSConfig(threadId, apnsId, category, richMediaUri);
                                 iosConfig.setInterruptionLevel(interruptionLevel);
+                                HarmonyConfig harmonyConfig =
+                                        new HarmonyConfig(ohosCategory, ohosImageUrl);
                                 MessagePushConfig messagePushConfig =
                                         new MessagePushConfig.Builder()
                                                 .setPushTitle(title)
@@ -396,6 +407,7 @@ public class IMManager {
                                                                 .setImageUrlHonor(imageUrlHonor)
                                                                 .build())
                                                 .setIOSConfig(iosConfig)
+                                                .setHarmonyConfig(harmonyConfig)
                                                 .build();
                                 message.setMessagePushConfig(messagePushConfig);
                                 SharedPreferences sharedPreferencesPush =
@@ -1397,6 +1409,7 @@ public class IMManager {
                 .addMessageProvider(new SealGroupConNtfMessageProvider());
         RongConfigCenter.conversationConfig()
                 .addMessageProvider(new GroupApplyMessageItemProvider());
+        RongConfigCenter.conversationConfig().addMessageProvider(new StreamMessageItemProvider());
         RongConfigCenter.conversationConfig()
                 .replaceMessageProvider(
                         GroupNotificationMessageItemProvider.class,
@@ -2044,6 +2057,9 @@ public class IMManager {
                             public void onSuccess(List<Conversation> conversations) {
                                 if (conversations != null && conversations.size() > 0) {
                                     for (Conversation c : conversations) {
+                                        if (c.getUnreadMessageCount() <= 0) {
+                                            continue;
+                                        }
                                         IMCenter.getInstance()
                                                 .clearMessagesUnreadStatus(
                                                         ConversationIdentifier.obtain(c), null);

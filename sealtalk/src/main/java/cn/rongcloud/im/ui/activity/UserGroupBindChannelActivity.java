@@ -94,7 +94,7 @@ public class UserGroupBindChannelActivity extends TitleBaseActivity
         getTitleBar().setOnBtnLeftClickListener(v -> setCheckedResult(null));
 
         findViewById(R.id.rc_tv_finish).setOnClickListener(this);
-        etName = findViewById(R.id.rc_edit_text);
+        etName = findViewById(io.rong.imkit.R.id.rc_edit_text);
         rvContent = findViewById(R.id.rc_rv_content);
 
         // 当前展示用户列表

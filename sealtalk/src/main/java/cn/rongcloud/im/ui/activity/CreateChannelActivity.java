@@ -18,7 +18,6 @@ import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.UltraGroupViewModel;
 import io.rong.imkit.IMCenter;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.IRongCallback;
@@ -118,8 +117,7 @@ public class CreateChannelActivity extends TitleBaseActivity implements View.OnC
             return;
         }
 
-        if (AndroidEmoji.isEmoji(groupName)
-                && groupName.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
+        if (groupName.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
             ToastUtils.showToast(getString(R.string.profile_group_name_emoji_too_short));
             return;
         }

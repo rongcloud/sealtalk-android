@@ -72,17 +72,23 @@ public class SourceData {
         return data;
     }
 
-    /** @return width of the data */
+    /**
+     * @return width of the data
+     */
     public int getDataWidth() {
         return dataWidth;
     }
 
-    /** @return height of the data */
+    /**
+     * @return height of the data
+     */
     public int getDataHeight() {
         return dataHeight;
     }
 
-    /** @return true if the preview image is rotated orthogonal to the display */
+    /**
+     * @return true if the preview image is rotated orthogonal to the display
+     */
     public boolean isRotated() {
         return rotation % 180 != 0;
     }

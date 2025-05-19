@@ -2,7 +2,9 @@ package cn.rongcloud.im.model;
 
 import com.google.gson.annotations.SerializedName;
 
-/** @author gusd */
+/**
+ * @author gusd
+ */
 public class TranslationTokenResult {
 
     @SerializedName("code")

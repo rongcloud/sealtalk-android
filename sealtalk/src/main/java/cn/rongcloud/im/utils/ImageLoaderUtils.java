@@ -15,7 +15,7 @@ public class ImageLoaderUtils {
     private static DisplayImageOptions descriptionOptions;
 
     static {
-        privateOptions = createDefaultDisplayOptions(R.drawable.rc_default_portrait);
+        privateOptions = createDefaultDisplayOptions(io.rong.imkit.R.drawable.rc_default_portrait);
         groupOptions = createDefaultDisplayOptions(R.drawable.seal_default_group_portrait);
         descriptionOptions = createDefaultDisplayOptions(android.R.color.transparent);
     }
@@ -37,7 +37,7 @@ public class ImageLoaderUtils {
         DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
         builder.showImageOnFail(
                         defaultImgId == 0
-                                ? R.drawable.rc_default_portrait
+                                ? io.rong.imkit.R.drawable.rc_default_portrait
                                 : defaultImgId) // 设置加载失败的图片
                 .cacheInMemory(true)
                 .cacheOnDisk(true)

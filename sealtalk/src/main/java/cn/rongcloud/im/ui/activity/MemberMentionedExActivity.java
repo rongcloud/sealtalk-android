@@ -36,7 +36,7 @@ public class MemberMentionedExActivity extends TitleBaseActivity {
 
     // 初始化布局
     private void initView() {
-        getTitleBar().setTitle(R.string.rc_choose_members);
+        getTitleBar().setTitle(io.rong.imkit.R.string.rc_choose_members);
         EditText searchEt = findViewById(R.id.et_menber_search);
         ListView menberListlv = findViewById(R.id.lv_list);
         TextView sideTexttv = findViewById(R.id.tv_popup_bg);

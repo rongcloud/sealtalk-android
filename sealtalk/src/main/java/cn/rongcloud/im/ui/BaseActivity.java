@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.ui.activity.LoginActivity;
@@ -210,7 +209,9 @@ public class BaseActivity extends AppCompatActivity {
         StatusBarUtil.setStatusBarColor(
                 this,
                 getResources()
-                        .getColor(R.color.rc_background_main_color)); // Color.parseColor("#F5F6F9")
+                        .getColor(
+                                io.rong.imkit.R.color
+                                        .rc_background_main_color)); // Color.parseColor("#F5F6F9")
     }
 
     @Override

@@ -40,15 +40,13 @@ public class OperatePictureBottomDialog extends BaseBottomDialog implements View
     @Override
     public void onClick(View v) {
         if (mListener != null) {
-            switch (v.getId()) {
-                case R.id.btn_save:
-                    mListener.onClickSave();
-                    break;
-                case R.id.btn_delete:
-                    mListener.onClickDelete();
-                    break;
-                case R.id.btn_cancel:
-                    break;
+            int id = v.getId();
+            if (id == R.id.btn_save) {
+                mListener.onClickSave();
+            } else if (id == R.id.btn_delete) {
+                mListener.onClickDelete();
+            } else if (id == R.id.btn_cancel) {
+                // Do nothing
             }
             OperatePictureBottomDialog.this.dismiss();
         }

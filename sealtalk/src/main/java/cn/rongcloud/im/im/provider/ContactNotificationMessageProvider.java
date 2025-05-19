@@ -26,7 +26,9 @@ public class ContactNotificationMessageProvider
     protected ViewHolder onCreateMessageContentViewHolder(ViewGroup parent, int viewType) {
         View view =
                 LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.rc_item_information_notification_message, null);
+                        .inflate(
+                                io.rong.imkit.R.layout.rc_item_information_notification_message,
+                                null);
         return new ViewHolder(view.getContext(), view);
     }
 

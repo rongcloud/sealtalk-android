@@ -14,6 +14,11 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="LoginTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:background">@drawable/seal_ic_splash</item>
     </style>

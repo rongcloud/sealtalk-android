@@ -700,4 +700,18 @@
     <string name="ultra_group_conversation_mentioned_me">[%1$d人@我]</string>
     <string name="ultra_group_conversation_mentioned_all">[%1$d人@所有人]</string>
     <string name="ultra_group_conversation_mentioned_me_and_all">[有%1$d人@我，%2$d人@所有人]</string>
+
+    <!-- AI聊天助手相关 -->
+    <string name="ai_chat_assistant_setting_title">AI 聊天助手设置</string>
+    <string name="ai_chat_assistant_chat_style">对话风格</string>
+    <string name="ai_chat_assistant_style_deepseek">DeepSeek</string>
+    <string name="ai_chat_assistant_style_volcano_slow">火山-慢速</string>
+    <string name="ai_chat_assistant_style_volcano_fast">火山-快速</string>
+    <string name="ai_chat_assistant_access_chat_history">授权访问聊天记录</string>
+    <string name="ai_chat_assistant_access_chat_history_tip">授权后，可结合上下文进行智能回复推荐</string>
+    <string name="ai_chat_assistant_function_switch">功能开关</string>
+    <string name="ai_chat_assistant_function_switch_tip">开启后，将在聊天过程中提供聊天建议</string>
+    <string name="ai_chat_assistant_suggestion">AI建议</string>
+    <string name="rc_agent_function_not_enabled">功能未开启，点击立即启用</string>
+    <string name="rc_agent_enable_function">打开功能</string>
 </resources>

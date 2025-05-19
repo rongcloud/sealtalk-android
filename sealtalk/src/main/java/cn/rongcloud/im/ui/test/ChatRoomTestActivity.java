@@ -50,17 +50,12 @@ public class ChatRoomTestActivity extends TitleBaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_chat_room_kv:
-                Intent intent = new Intent(this, ChatRoomStatusActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.siv_chat_room_listener_test:
-                Intent intent1 = new Intent(this, ChatRoomListenerTestActivity.class);
-                startActivity(intent1);
-                break;
-            default:
-                break;
+        if (v.getId() == R.id.siv_chat_room_kv) {
+            Intent intent = new Intent(this, ChatRoomStatusActivity.class);
+            startActivity(intent);
+        } else if (v.getId() == R.id.siv_chat_room_listener_test) {
+            Intent intent1 = new Intent(this, ChatRoomListenerTestActivity.class);
+            startActivity(intent1);
         }
     }
 }

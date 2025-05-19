@@ -7,7 +7,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import cn.rongcloud.im.R;
 
-/** @author gusd */
+/**
+ * @author gusd
+ */
 public class FraudTipsDialog extends Dialog {
     private static final String TAG = "FraudTipsDialog";
 

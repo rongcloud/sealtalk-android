@@ -42,25 +42,19 @@ public class AddFriendActivity extends TitleBaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add_friend_tv_search_friend:
-                toSearchFriend();
-                break;
-            case R.id.add_friend_tv_my_qrcode:
-                showMyQRCode();
-                break;
-            case R.id.add_friend_ll_add_from_contact:
-                addFriendFromContact();
-                break;
-            case R.id.add_friend_ll_scan:
-                toScanQRCode();
-                break;
-            case R.id.add_friend_ll_add_from_wechat:
-                inviteWechatFriend();
-                break;
-            case R.id.add_friend_ll_invite_from_contact:
-                inviteFromContact(true);
-                break;
+        int id = v.getId();
+        if (id == R.id.add_friend_tv_search_friend) {
+            toSearchFriend();
+        } else if (id == R.id.add_friend_tv_my_qrcode) {
+            showMyQRCode();
+        } else if (id == R.id.add_friend_ll_add_from_contact) {
+            addFriendFromContact();
+        } else if (id == R.id.add_friend_ll_scan) {
+            toScanQRCode();
+        } else if (id == R.id.add_friend_ll_add_from_wechat) {
+            inviteWechatFriend();
+        } else if (id == R.id.add_friend_ll_invite_from_contact) {
+            inviteFromContact(true);
         }
     }
 

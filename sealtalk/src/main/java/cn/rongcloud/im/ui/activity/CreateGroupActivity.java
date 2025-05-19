@@ -21,7 +21,6 @@ import cn.rongcloud.im.ui.view.SealTitleBar;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.CreateGroupViewModel;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.ConversationIdentifier;
@@ -41,6 +40,7 @@ public class CreateGroupActivity extends TitleBaseActivity implements View.OnCli
 
     private List<String> memberList;
     private String createGroupName;
+
     /** 是否返回创建群组结果 */
     private boolean isReturnResult;
 
@@ -116,15 +116,10 @@ public class CreateGroupActivity extends TitleBaseActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.main_iv_create_group_portrait:
-                showSelectPortraitDialog();
-                break;
-            case R.id.main_btn_confirm_create:
-                createGroup();
-                break;
-            default:
-                break;
+        if (v.getId() == R.id.main_iv_create_group_portrait) {
+            showSelectPortraitDialog();
+        } else if (v.getId() == R.id.main_btn_confirm_create) {
+            createGroup();
         }
     }
 
@@ -159,8 +154,7 @@ public class CreateGroupActivity extends TitleBaseActivity implements View.OnCli
             return;
         }
 
-        if (AndroidEmoji.isEmoji(groupName)
-                && groupName.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
+        if (groupName.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
             ToastUtils.showToast(getString(R.string.profile_group_name_emoji_too_short));
             return;
         }

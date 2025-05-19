@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
@@ -40,8 +41,10 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
     private final String TAG = "QrCodeDisplayActivity";
     public static final int REQUEST_CODE_ASK_PERMISSIONS = 100;
     private final int REQUEST_CODE_FORWARD_TO_SEALTALK = 1000;
+
     /** 分享类型定义：SealTalk */
     private final int SHARE_TYPE_SEALTALK = 0;
+
     /** 分享类型定义：微信 */
     private final int SHARE_TYPE_WECHAT = 1;
 
@@ -243,16 +246,13 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.profile_tv_qr_save_phone:
-                saveQRCodeToLocal();
-                break;
-            case R.id.profile_tv_qr_share_to_sealtalk:
-                shareToSealTalk();
-                break;
-            case R.id.profile_tv_qr_share_to_wechat:
-                shareToWeChat();
-                break;
+        int id = v.getId();
+        if (id == R.id.profile_tv_qr_save_phone) {
+            saveQRCodeToLocal();
+        } else if (id == R.id.profile_tv_qr_share_to_sealtalk) {
+            shareToSealTalk();
+        } else if (id == R.id.profile_tv_qr_share_to_wechat) {
+            shareToWeChat();
         }
     }
 
@@ -270,17 +270,45 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
         if (resource != null && resource.data != null) {
             shareType = -1;
             // 跳转到转发
-            Uri uri = Uri.fromFile(new File(resource.data));
-            ImageMessage imageMessage = ImageMessage.obtain(uri, uri, true);
-            // 消息中发送目标需要在转发界面中选择，暂时只填充空消息
-            Message message = Message.obtain("", Conversation.ConversationType.NONE, imageMessage);
-            Intent intent = new Intent(this, ForwardActivity.class);
-            ArrayList<Message> messageList = new ArrayList<>();
-            messageList.add(message);
-            intent.putParcelableArrayListExtra(IntentExtra.FORWARD_MESSAGE_LIST, messageList);
-            intent.putExtra(IntentExtra.BOOLEAN_ENABLE_TOAST, false);
-            intent.putExtra(IntentExtra.BOOLEAN_FORWARD_USE_SDK, false);
-            startActivityForResult(intent, REQUEST_CODE_FORWARD_TO_SEALTALK);
+            File imageFile = new File(resource.data);
+            Uri uri;
+
+            // 使用 FileProvider 创建兼容的 URI
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                uri =
+                        FileProvider.getUriForFile(
+                                this,
+                                getPackageName()
+                                        + getResources()
+                                                .getString(
+                                                        io.rong.imkit.R.string
+                                                                .rc_authorities_fileprovider),
+                                imageFile);
+            } else {
+                uri = Uri.fromFile(imageFile);
+            }
+
+            try {
+                ImageMessage imageMessage = ImageMessage.obtain(uri, uri, true);
+                // 消息中发送目标需要在转发界面中选择，暂时只填充空消息
+                Message message =
+                        Message.obtain("", Conversation.ConversationType.NONE, imageMessage);
+                Intent intent = new Intent(this, ForwardActivity.class);
+                ArrayList<Message> messageList = new ArrayList<>();
+                messageList.add(message);
+                intent.putParcelableArrayListExtra(IntentExtra.FORWARD_MESSAGE_LIST, messageList);
+                intent.putExtra(IntentExtra.BOOLEAN_ENABLE_TOAST, false);
+                intent.putExtra(IntentExtra.BOOLEAN_FORWARD_USE_SDK, false);
+
+                // 添加必要的文件访问权限
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+                startActivityForResult(intent, REQUEST_CODE_FORWARD_TO_SEALTALK);
+            } catch (Exception e) {
+                ToastUtils.showToast(R.string.common_share_failed);
+                e.printStackTrace();
+            }
         } else {
             if (!checkHasStoragePermission()) {
                 return;
@@ -295,8 +323,13 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
         Resource<String> resource = qrCodeViewModel.getSaveCacheBitmapResult().getValue();
         if (resource != null && resource.data != null) {
             shareType = -1;
-            // 分享至微信
-            WXManager.getInstance().sharePicture(resource.data);
+            try {
+                // 分享至微信
+                WXManager.getInstance().sharePicture(resource.data);
+            } catch (Exception e) {
+                ToastUtils.showToast(R.string.common_share_failed);
+                e.printStackTrace();
+            }
         } else {
             if (!checkHasStoragePermission()) {
                 return;
@@ -307,8 +340,12 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
     }
 
     private boolean checkHasStoragePermission() {
-        // 从6.0系统(API 23)开始，访问外置存储需要动态申请权限
-        if (Build.VERSION.SDK_INT >= 23) {
+        // Android 10 (API 29) 及以上使用新的存储权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Android 10 及以上使用分区存储，无需 WRITE_EXTERNAL_STORAGE 权限
+            return true;
+        } else if (Build.VERSION.SDK_INT >= 23) {
+            // 从6.0系统(API 23)到10.0系统，访问外置存储仍需动态申请权限
             int checkPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (checkPermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(

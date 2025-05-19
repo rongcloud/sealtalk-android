@@ -98,21 +98,14 @@ public class MainDiscoveryFragment extends BaseFragment {
 
     @Override
     protected void onClick(View v, int id) {
-        switch (id) {
-            case R.id.discovery_ll_chat_room_1:
-                enterChatRoom(0, getString(R.string.discovery_chat_room_one));
-                break;
-            case R.id.discovery_ll_chat_room_2:
-                enterChatRoom(1, getString(R.string.discovery_chat_room_two));
-                break;
-            case R.id.discovery_ll_chat_room_3:
-                enterChatRoom(2, getString(R.string.discovery_chat_room_three));
-                break;
-            case R.id.discovery_ll_chat_room_4:
-                enterChatRoom(3, getString(R.string.discovery_chat_room_four));
-                break;
-            default:
-                break;
+        if (id == R.id.discovery_ll_chat_room_1) {
+            enterChatRoom(0, getString(R.string.discovery_chat_room_one));
+        } else if (id == R.id.discovery_ll_chat_room_2) {
+            enterChatRoom(1, getString(R.string.discovery_chat_room_two));
+        } else if (id == R.id.discovery_ll_chat_room_3) {
+            enterChatRoom(2, getString(R.string.discovery_chat_room_three));
+        } else if (id == R.id.discovery_ll_chat_room_4) {
+            enterChatRoom(3, getString(R.string.discovery_chat_room_four));
         }
     }
 

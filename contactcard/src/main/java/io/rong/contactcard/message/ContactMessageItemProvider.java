@@ -3,7 +3,6 @@ package io.rong.contactcard.message;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import io.rong.contactcard.IContactCardInfoProvider;
 import io.rong.contactcard.R;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 import io.rong.imkit.conversation.messgelist.provider.BaseMessageItemProvider;
 import io.rong.imkit.model.UiMessage;
 import io.rong.imkit.picture.tools.ScreenUtils;
@@ -75,14 +73,12 @@ public class ContactMessageItemProvider extends BaseMessageItemProvider<ContactM
         Glide.with(imageView)
                 .load(contactMessage.getImgUrl())
                 .apply(options)
-                .placeholder(R.drawable.rc_default_portrait)
+                .placeholder(io.rong.imkit.R.drawable.rc_default_portrait)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(imageView);
 
         if (!TextUtils.isEmpty(contactMessage.getName())) {
-            SpannableStringBuilder spannable = new SpannableStringBuilder(contactMessage.getName());
-            AndroidEmoji.ensure(spannable);
-            holder.setText(R.id.rc_name, spannable);
+            holder.setText(R.id.rc_name, contactMessage.getName());
         }
 
         IContactCardInfoProvider iContactCardInfoProvider =
@@ -128,9 +124,9 @@ public class ContactMessageItemProvider extends BaseMessageItemProvider<ContactM
         }
 
         if (uiMessage.getMessage().getMessageDirection() == Message.MessageDirection.RECEIVE) {
-            holder.setBackgroundRes(R.id.rc_layout, R.drawable.rc_contact_bg_receive);
+            holder.setBackgroundRes(io.rong.imkit.R.id.rc_layout, R.drawable.rc_contact_bg_receive);
         } else {
-            holder.setBackgroundRes(R.id.rc_layout, R.drawable.rc_contact_bg_send);
+            holder.setBackgroundRes(io.rong.imkit.R.id.rc_layout, R.drawable.rc_contact_bg_send);
         }
     }
 

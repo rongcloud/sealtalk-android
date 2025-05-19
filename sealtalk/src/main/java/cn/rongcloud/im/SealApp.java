@@ -55,6 +55,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class SealApp extends MultiDexApplication {
     private static SealApp appInstance;
+
     /** 应用是否在后台 */
     private boolean isAppInForeground;
 
@@ -208,10 +209,7 @@ public class SealApp extends MultiDexApplication {
                                         break;
                                     case CHATROOM:
                                         resourceId =
-                                                io.rong
-                                                        .imkit
-                                                        .R
-                                                        .drawable
+                                                io.rong.imkit.R.drawable
                                                         .rc_default_chatroom_portrait;
                                         break;
                                 }

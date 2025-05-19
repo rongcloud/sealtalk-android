@@ -248,6 +248,7 @@
     <dimen name="seal_message_donot_disturb_item_margin_top">20dp</dimen>
     <dimen name="seal_search_empty_text_margin_top">45dp</dimen>
     <dimen name="seal_search_group_text_size">16dp</dimen>
+    <dimen name="style_item_vertical_spacing">16dp</dimen>
     <dimen name="seal_search_group_draw_padding">10dp</dimen>
     <dimen name="seal_search_group_margin_left">8dp</dimen>
     <dimen name="seal_search_group_margin_top">12dp</dimen>

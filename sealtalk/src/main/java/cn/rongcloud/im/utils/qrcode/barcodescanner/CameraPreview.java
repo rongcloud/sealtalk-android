@@ -568,7 +568,9 @@ public class CameraPreview extends ViewGroup {
         return previewFramingRect;
     }
 
-    /** @return the CameraSettings currently in use */
+    /**
+     * @return the CameraSettings currently in use
+     */
     public CameraSettings getCameraSettings() {
         return cameraSettings;
     }

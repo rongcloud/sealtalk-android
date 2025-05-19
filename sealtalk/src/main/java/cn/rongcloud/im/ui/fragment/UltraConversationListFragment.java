@@ -393,24 +393,19 @@ public class UltraConversationListFragment extends Fragment
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageView:
-                Intent intent = new Intent(this.getActivity(), CreateUltraGroupActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.invite:
-                Intent contactIntent =
-                        new Intent(this.getActivity(), SelectUltraCreateGroupActivity.class);
-                contactIntent.putExtra("groupId", currentId);
-                startActivity(contactIntent);
-                break;
-            case R.id.channelImageView:
-                Intent channelIntent = new Intent(this.getActivity(), CreateChannelActivity.class);
-                channelIntent.putExtra("groupId", currentId);
-                startActivity(channelIntent);
-                break;
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.imageView) {
+            Intent intent = new Intent(this.getActivity(), CreateUltraGroupActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.invite) {
+            Intent contactIntent =
+                    new Intent(this.getActivity(), SelectUltraCreateGroupActivity.class);
+            contactIntent.putExtra("groupId", currentId);
+            startActivity(contactIntent);
+        } else if (id == R.id.channelImageView) {
+            Intent channelIntent = new Intent(this.getActivity(), CreateChannelActivity.class);
+            channelIntent.putExtra("groupId", currentId);
+            startActivity(channelIntent);
         }
     }
 

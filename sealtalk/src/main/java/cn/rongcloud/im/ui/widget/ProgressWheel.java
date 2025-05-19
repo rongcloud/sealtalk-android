@@ -31,6 +31,7 @@ public class ProgressWheel extends View {
     private final int barLength = 16;
     private final int barMaxLength = 270;
     private final long pauseGrowingTime = 200;
+
     /** ********* DEFAULTS * ********** */
     // Sizes (with defaults in DP)
     private int circleRadius = 28;
@@ -569,7 +570,9 @@ public class ProgressWheel extends View {
         }
     }
 
-    /** @return the radius of the wheel in pixels */
+    /**
+     * @return the radius of the wheel in pixels
+     */
     public int getCircleRadius() {
         return circleRadius;
     }
@@ -586,7 +589,9 @@ public class ProgressWheel extends View {
         }
     }
 
-    /** @return the width of the spinning bar */
+    /**
+     * @return the width of the spinning bar
+     */
     public int getBarWidth() {
         return barWidth;
     }
@@ -603,7 +608,9 @@ public class ProgressWheel extends View {
         }
     }
 
-    /** @return the color of the spinning bar */
+    /**
+     * @return the color of the spinning bar
+     */
     public int getBarColor() {
         return barColor;
     }
@@ -621,7 +628,9 @@ public class ProgressWheel extends View {
         }
     }
 
-    /** @return the color of the wheel's contour */
+    /**
+     * @return the color of the wheel's contour
+     */
     public int getRimColor() {
         return rimColor;
     }
@@ -657,7 +666,9 @@ public class ProgressWheel extends View {
         this.spinSpeed = spinSpeed * 360.0f;
     }
 
-    /** @return the width of the wheel's contour in pixels */
+    /**
+     * @return the width of the wheel's contour in pixels
+     */
     public int getRimWidth() {
         return rimWidth;
     }

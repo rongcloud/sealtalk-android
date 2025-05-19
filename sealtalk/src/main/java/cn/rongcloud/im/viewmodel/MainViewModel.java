@@ -22,8 +22,10 @@ public class MainViewModel extends AndroidViewModel {
     private LiveData<String> userId = new MutableLiveData<>();
     private MediatorLiveData<FriendShipInfo> privateChatLiveData = new MediatorLiveData<>();
     private FriendTask friendTask;
+
     /** 群通知数 */
     private int groupNotifyNum;
+
     /** 未读消息数 */
     private int unreadMessageNum;
 

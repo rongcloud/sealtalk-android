@@ -143,12 +143,16 @@ public class DecoratedBarcodeView extends FrameLayout {
                 new DefaultDecoderFactory(decodeFormats, decodeHints, characterSet, inverted));
     }
 
-    /** @see BarcodeView#pause() */
+    /**
+     * @see BarcodeView#pause()
+     */
     public void pause() {
         barcodeView.pause();
     }
 
-    /** @see BarcodeView#resume() */
+    /**
+     * @see BarcodeView#resume()
+     */
     public void resume() {
         barcodeView.resume();
     }
@@ -161,12 +165,16 @@ public class DecoratedBarcodeView extends FrameLayout {
         return viewFinder;
     }
 
-    /** @see BarcodeView#decodeSingle(BarcodeCallback) */
+    /**
+     * @see BarcodeView#decodeSingle(BarcodeCallback)
+     */
     public void decodeSingle(BarcodeCallback callback) {
         barcodeView.decodeSingle(new WrappedCallback(callback));
     }
 
-    /** @see BarcodeView#decodeContinuous(BarcodeCallback) */
+    /**
+     * @see BarcodeView#decodeContinuous(BarcodeCallback)
+     */
     public void decodeContinuous(BarcodeCallback callback) {
         barcodeView.decodeContinuous(new WrappedCallback(callback));
     }

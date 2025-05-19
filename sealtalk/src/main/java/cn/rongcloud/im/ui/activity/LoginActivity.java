@@ -382,34 +382,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_register_left:
-            case R.id.tv_register_right:
-                controlBottomView(FRAGMENT_REGISTER);
-                break;
-            case R.id.tv_login:
-                controlBottomView(FRAGMENT_LOGIN);
-                break;
-            case R.id.tv_find_passsword:
-                controlBottomView(FRAGMENT_FIND_PASSWORD);
-                break;
-            case R.id.tv_change_lang:
-                // 切换语言操作
-                String langValue = changLang.getText().toString();
-                if (langValue.equals("EN")) {
-                    changeLanguage(LangUtils.RCLocale.LOCALE_US);
-                } else {
-                    changeLanguage(LangUtils.RCLocale.LOCALE_CHINA);
-                }
-                restartActivity();
-                break;
-            case R.id.tv_proxy_setting:
-                Intent intent = new Intent(this, ProxySettingActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                // Do nothing
-                break;
+        int id = v.getId();
+        if (id == R.id.tv_register_left || id == R.id.tv_register_right) {
+            controlBottomView(FRAGMENT_REGISTER);
+        } else if (id == R.id.tv_login) {
+            controlBottomView(FRAGMENT_LOGIN);
+        } else if (id == R.id.tv_find_passsword) {
+            controlBottomView(FRAGMENT_FIND_PASSWORD);
+        } else if (id == R.id.tv_change_lang) {
+            // 切换语言操作
+            String langValue = changLang.getText().toString();
+            if (langValue.equals("EN")) {
+                changeLanguage(LangUtils.RCLocale.LOCALE_US);
+            } else {
+                changeLanguage(LangUtils.RCLocale.LOCALE_CHINA);
+            }
+            restartActivity();
+        } else if (id == R.id.tv_proxy_setting) {
+            Intent intent = new Intent(this, ProxySettingActivity.class);
+            startActivity(intent);
+        } else {
+            // Do nothing
         }
     }
 

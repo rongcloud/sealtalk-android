@@ -3,19 +3,30 @@ package cn.rongcloud.im.ui.test;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
+import cn.rongcloud.im.ui.view.CustomAgentFacadePage;
 import cn.rongcloud.im.utils.MessageUtil;
 import cn.rongcloud.im.utils.ToastUtils;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.conversation.ConversationFragment;
+import io.rong.imkit.conversation.extension.InputMode;
+import io.rong.imkit.conversation.extension.RongExtension;
+import io.rong.imkit.conversation.extension.RongExtensionViewModel;
 import io.rong.imkit.feature.forward.ForwardClickActions;
 import io.rong.imkit.model.UiMessage;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.Message;
 import io.rong.message.CombineV2Message;
 import java.util.ArrayList;
@@ -28,6 +39,67 @@ import java.util.List;
  */
 public class CustomConversationFragment extends ConversationFragment {
     private static final String TAG = CustomConversationFragment.class.getSimpleName();
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // 私聊
+        if (getRongExtension().getConversationType() == Conversation.ConversationType.PRIVATE) {
+            RongExtensionViewModel mExtensionViewModel =
+                    new ViewModelProvider(this).get(RongExtensionViewModel.class);
+            // 创建一个ImageView
+            ImageView imageView = new ImageView(getContext());
+            // 设置图标资源
+            imageView.setImageResource(io.rong.imkit.R.drawable.rc_agent_button);
+
+            ConversationIdentifier conversationIdentifier =
+                    getRongExtension().getConversationIdentifier();
+            CustomAgentFacadePage customAgentFacadePage =
+                    new CustomAgentFacadePage(
+                            CustomConversationFragment.this, conversationIdentifier);
+            View agentFacadeView = customAgentFacadePage.onCreateView();
+
+            // 添加点击事件
+            imageView.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if (mExtensionViewModel.getInputModeLiveData().getValue() != null
+                                    && mExtensionViewModel
+                                            .getInputModeLiveData()
+                                            .getValue()
+                                            .equals(InputMode.AgentMode)) {
+
+                                getRongExtension().getInputEditText().requestFocus();
+                                mExtensionViewModel
+                                        .getInputModeLiveData()
+                                        .setValue(InputMode.TextInput);
+                            } else {
+                                mExtensionViewModel
+                                        .getInputModeLiveData()
+                                        .setValue(InputMode.AgentMode);
+                                // 点击按钮执行的操作，例如显示表情或插入特定文本
+                                getRongExtension()
+                                        .getInputEditContainer()
+                                        .setBackgroundResource(
+                                                io.rong.imkit.R.drawable.rc_agent_input_bg);
+
+                                RelativeLayout container =
+                                        getRongExtension()
+                                                .getContainer(RongExtension.ContainerType.BOARD);
+                                container.removeAllViews();
+                                customAgentFacadePage.onResume();
+                                container.addView(agentFacadeView);
+                            }
+                        }
+                    });
+
+            // 将ImageView添加到输入框容器
+            getRongExtension().getInputEditContainer().addView(imageView);
+        }
+    }
 
     @Override
     protected void noMoreMessageToFetch() {

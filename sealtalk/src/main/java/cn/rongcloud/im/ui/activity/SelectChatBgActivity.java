@@ -119,10 +119,8 @@ public class SelectChatBgActivity extends TitleBaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_album:
-                photoUtils.selectPicture(this);
-                break;
+        if (v.getId() == R.id.siv_album) {
+            photoUtils.selectPicture(this);
         }
     }
 }

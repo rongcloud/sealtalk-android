@@ -3,18 +3,22 @@ apply plugin: 'com.android.application'
 //apply plugin: 'com.huawei.agconnect'
 
 android {
-    compileSdkVersion 33
+    namespace 'cn.rongcloud.im'
+    compileSdk 35
     defaultConfig {
         applicationId "cn.rongcloud.im"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 35
         versionCode 20210127
-        versionName "5.10.0"
+        versionName "5.18.1"
         ndk {
             abiFilters "armeabi-v7a", 'x86'
         }
         // 若集成过多第三方库时可能导致方法超过65536时需要开启
         multiDexEnabled true
+
+        // 新版本AGP默认为禁用 需要开启开关
+        android.buildFeatures.buildConfig true
 
         buildConfigField "String", "SEALTALK_SERVER", "${SEALTALK_SERVER}"
         buildConfigField "String", "SEALTALK_NAVI_SERVER", "${SEALTALK_NAVI_SERVER}"
@@ -26,31 +30,31 @@ android {
         buildConfigField "String", "SEALTALK_DATA_CENTER", "\"\""
 
         manifestPlaceholders = [
-                MAP_KEY: MAP_KEY.replaceAll('"', ''),
+                MAP_KEY         : MAP_KEY.replaceAll('"', ''),
 
                 FCM_PUSH_ENABLE : "true",
                 // 华为 相关应用参数
                 HW_PUSH_ENABLE  : "true",
-                RONG_PUSH_ENABLE : "true",
+                RONG_PUSH_ENABLE: "true",
 
                 // 小米相关应用参数
-                XIAOMI_APP_ID  : "${SEALTALK_MI_PUSH_APPID}",
-                XIAOMI_APP_KEY : "${SEALTALK_MI_PUSH_APPKEY}",
+                XIAOMI_APP_ID   : "${SEALTALK_MI_PUSH_APPID}",
+                XIAOMI_APP_KEY  : "${SEALTALK_MI_PUSH_APPKEY}",
 
                 // OPPO 相关应用参数
-                OPPO_APP_KEY   : "${SEALTALK_OPPO_PUSH_APPKEY}",
-                OPPO_APP_SECRET: "${SEALTALK_OPPO_PUSH_SECRET}",
+                OPPO_APP_KEY    : "${SEALTALK_OPPO_PUSH_APPKEY}",
+                OPPO_APP_SECRET : "${SEALTALK_OPPO_PUSH_SECRET}",
 
                 // VIVO 相关应用参数
-                VIVO_APP_ID    : "103912318",
-                VIVO_APP_KEY   : "9379dbec440afd82e6d8fd903204c9a7",
+                VIVO_APP_ID     : "103912318",
+                VIVO_APP_KEY    : "9379dbec440afd82e6d8fd903204c9a7",
 
                 // 魅族相关应用参数
-                MEIZU_APP_ID   : "${SEALTALK_MIZU_PUSH_APPID}",
-                MEIZU_APP_KEY  : "${SEALTALK_MIZU_PUSH_APPKEY}",
+                MEIZU_APP_ID    : "${SEALTALK_MIZU_PUSH_APPID}",
+                MEIZU_APP_KEY   : "${SEALTALK_MIZU_PUSH_APPKEY}",
 
                 // 荣耀 相关应用参数
-                HONOR_APP_ID  : "104420774"
+                HONOR_APP_ID    : "104420774"
         ]
     }
 
@@ -65,13 +69,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     packagingOptions {
         exclude 'assets/ap1.data'
     }
-    buildToolsVersion = '28.0.3'
+    buildToolsVersion = '34.0.0'
 
     sourceSets {
         main {
@@ -105,34 +109,33 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     api 'com.google.code.gson:gson:2.8.1'
     api 'com.googlecode.mp4parser:isoparser:1.0.6'
-    api 'com.github.bumptech.glide:glide:4.9.0'
+    api 'com.github.bumptech.glide:glide:4.16.0'
     // 内存检测，性能检测
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
     implementation 'com.tencent.bugly:crashreport:3.0.1'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.30'
     implementation 'com.umeng.umsdk:common:9.3.8'
     implementation 'com.umeng.umsdk:asms:1.2.2'
 
-    implementation 'cn.rongcloud.sdk.push:rong:5.10.0'
-    implementation 'cn.rongcloud.sdk.push:fcm:5.10.0'
-    implementation 'cn.rongcloud.sdk.push:huawei:5.10.0'
-    implementation 'cn.rongcloud.sdk.push:xiaomi:5.10.0'
-    implementation 'cn.rongcloud.sdk.push:oppo:5.10.0'
-    implementation 'cn.rongcloud.sdk.push:vivo:5.10.0'
-    implementation 'cn.rongcloud.sdk.push:meizu:5.10.0'
-    implementation 'cn.rongcloud.sdk.push:honor:5.10.0'
+    implementation 'cn.rongcloud.sdk.push:rong:5.18.1'
+    implementation 'cn.rongcloud.sdk.push:fcm:5.18.1'
+    implementation 'cn.rongcloud.sdk.push:huawei:5.18.1'
+    implementation 'cn.rongcloud.sdk.push:xiaomi:5.18.1'
+    implementation 'cn.rongcloud.sdk.push:oppo:5.18.1'
+    implementation 'cn.rongcloud.sdk.push:vivo:5.18.1'
+    implementation 'cn.rongcloud.sdk.push:meizu:5.18.1'
+    implementation 'cn.rongcloud.sdk.push:honor:5.18.1'
 
     //需要替换的版本
-    api 'cn.rongcloud.sdk:im_kit:5.10.0'
-    api 'cn.rongcloud.sdk:im_lib:5.10.0'
-    api 'cn.rongcloud.sdk:rcsticker:5.10.0'
-    api 'cn.rongcloud.sdk:sight:5.10.0'
-    api 'cn.rongcloud.sdk:call_lib:5.10.0'
-    api 'cn.rongcloud.sdk:call_kit:5.10.0'
-    api 'cn.rongcloud.sdk:locationKit:5.10.0'
+    api 'cn.rongcloud.sdk:im_kit:5.18.1'
+    api 'cn.rongcloud.sdk:im_lib:5.18.1'
+    api 'cn.rongcloud.sdk:rcsticker:5.18.1'
+    api 'cn.rongcloud.sdk:sight:5.18.1'
+    api 'cn.rongcloud.sdk:call_lib:5.18.1'
+    api 'cn.rongcloud.sdk:call_kit:5.18.1'
+    api 'cn.rongcloud.sdk:locationKit:5.18.1'
 
     api project(path: ':contactcard')
     api project(path: ':recognizer')
-    api project(path: ':pushpermission')
 }

@@ -9,7 +9,9 @@ import io.rong.imlib.model.RCIMProxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-/** @author gusd @Date 2022/09/16 */
+/**
+ * @author gusd @Date 2022/09/16
+ */
 public class RetrofitProxyHandler<T> implements InvocationHandler {
     private static final String TAG = "RetrofitProxyHandler";
     private final Context mContext;

@@ -2,7 +2,6 @@ package cn.rongcloud.im.ui.test.provider;
 
 import android.content.Intent;
 import android.view.View;
-import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.ui.test.GRRDetailTestActivity;
 import io.rong.imkit.conversation.messgelist.provider.TextMessageItemProvider;
@@ -34,28 +33,28 @@ public class GroupReadReceiptTextMessageItemProvider extends TextMessageItemProv
         if (!isSender) {
             return;
         }
-        parentHolder.setVisible(R.id.rc_read_receipt_request, false);
-        parentHolder.setVisible(R.id.rc_read_receipt_status, true);
+        parentHolder.setVisible(io.rong.imkit.R.id.rc_read_receipt_request, false);
+        parentHolder.setVisible(io.rong.imkit.R.id.rc_read_receipt_status, true);
 
         Message message = uiMessage.getMessage();
         if (message.getGroupReadReceiptInfoV2() != null
                 && message.getGroupReadReceiptInfoV2().getRespondUserIdList() != null) {
             parentHolder.setText(
-                    R.id.rc_read_receipt_status,
+                    io.rong.imkit.R.id.rc_read_receipt_status,
                     message.getGroupReadReceiptInfoV2().getReadCount()
                             + " "
                             + holder.getContext()
                                     .getString(io.rong.imkit.R.string.rc_read_receipt_status));
         } else {
             parentHolder.setText(
-                    R.id.rc_read_receipt_status,
+                    io.rong.imkit.R.id.rc_read_receipt_status,
                     0
                             + " "
                             + holder.getContext()
                                     .getString(io.rong.imkit.R.string.rc_read_receipt_status));
         }
         parentHolder.setOnClickListener(
-                R.id.rc_read_receipt_status,
+                io.rong.imkit.R.id.rc_read_receipt_status,
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

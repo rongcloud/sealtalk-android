@@ -72,145 +72,112 @@ public class SettingItemView extends LinearLayout {
             final int N = ta.getIndexCount();
             for (int i = 0; i < N; i++) {
                 int attr = ta.getIndex(i);
-                switch (attr) {
-                    case R.styleable.SettingItemView_item_image:
-                        Drawable drawable = ta.getDrawable(attr);
-                        ivImage.setVisibility(VISIBLE);
-                        ivImage.setImageDrawable(drawable);
-                        break;
-                    case R.styleable.SettingItemView_item_image_height:
-                        float imageHeight = ta.getDimension(attr, 0);
-                        if (imageHeight > 0) {
-                            ViewGroup.LayoutParams layoutParamsHeight = ivImage.getLayoutParams();
-                            layoutParamsHeight.height = Math.round(imageHeight);
-                            ivImage.setLayoutParams(layoutParamsHeight);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_image_width:
-                        float imageWidth = ta.getDimension(attr, 0);
-                        if (imageWidth > 0) {
-                            ViewGroup.LayoutParams layoutParamsWidth = ivImage.getLayoutParams();
-                            layoutParamsWidth.width = Math.round(imageWidth);
-                            ivImage.setLayoutParams(layoutParamsWidth);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_content:
-                        String content = ta.getString(attr);
-                        tvContent.setText(content == null ? "" : content);
-                        break;
-                    case R.styleable.SettingItemView_item_content_text_size:
-                        float contentSize = ta.getDimension(attr, 0);
-                        if (contentSize > 0) {
-                            tvContent.setTextSize(
-                                    TypedValue.COMPLEX_UNIT_PX, Math.round(contentSize));
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_content_text_color:
-                        int color = ta.getColor(attr, -1);
-                        if (color > 0) {
-                            tvContent.setTextColor(color);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_value:
-                        String value = ta.getString(attr);
-                        tvValue.setVisibility(VISIBLE);
-                        tvValue.setText(value);
-                        break;
-                    case R.styleable.SettingItemView_item_value_text_size:
-                        float valueSize = ta.getDimension(attr, 0);
-                        if (valueSize > 0) {
-                            tvValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, Math.round(valueSize));
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_value_text_color:
-                        int valueColor = ta.getColor(attr, -1);
-                        if (valueColor > 0) {
-                            tvValue.setTextColor(valueColor);
-                        }
-                        break;
-
-                    case R.styleable.SettingItemView_item_tag_image:
-                        Drawable tagImage =
-                                ta.getDrawable(R.styleable.SettingItemView_item_tag_image);
-                        if (tagImage != null) {
-                            ivTagImage.setImageDrawable(tagImage);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_tag_image_height:
-                        float tagImageHeight =
-                                ta.getDimension(
-                                        R.styleable.SettingItemView_item_tag_image_height, 0);
-                        if (tagImageHeight > 0) {
-                            ViewGroup.LayoutParams layoutParamsTagHeight =
-                                    ivTagImage.getLayoutParams();
-                            layoutParamsTagHeight.height = Math.round(tagImageHeight);
-                            ivTagImage.setLayoutParams(layoutParamsTagHeight);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_tag_image_width:
-                        float tagImageWidth =
-                                ta.getDimension(
-                                        R.styleable.SettingItemView_item_tag_image_width, 0);
-                        if (tagImageWidth > 0) {
-                            ViewGroup.LayoutParams layoutParamsTagWidth =
-                                    ivTagImage.getLayoutParams();
-                            layoutParamsTagWidth.width = Math.round(tagImageWidth);
-                            ivTagImage.setLayoutParams(layoutParamsTagWidth);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_divider:
-                        boolean divider = ta.getBoolean(attr, false);
-                        vDivider.setVisibility(divider ? VISIBLE : GONE);
-                        break;
-                    case R.styleable.SettingItemView_item_switch:
-                        boolean switchCheck = ta.getBoolean(attr, false);
-                        if (switchCheck) {
-                            sbSwitch.setVisibility(VISIBLE);
-                        } else {
-                            sbSwitch.setVisibility(GONE);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_null_background:
-                        Boolean bgNull = ta.getBoolean(attr, false);
-                        if (bgNull) {
-                            setBackground(null);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_background:
-                        Drawable bg = ta.getDrawable(attr);
-                        setBackground(bg);
-                        break;
-                    case R.styleable.SettingItemView_item_show_selected:
-                        isShowSelected = ta.getBoolean(attr, false);
-                        break;
-                    case R.styleable.SettingItemView_item_selected_image:
-                        Drawable selectedImage = ta.getDrawable(attr);
-                        ivSelectImage.setImageDrawable(selectedImage);
-                        break;
-                    case R.styleable.SettingItemView_item_right_image:
-                        Drawable rightImage = ta.getDrawable(attr);
-                        rightImage.setAutoMirrored(true);
-                        ivRightImage.setImageDrawable(rightImage);
-                        ivRightImage.setVisibility(VISIBLE);
-                        break;
-                    case R.styleable.SettingItemView_item_right_image_height:
-                        float rightImageHeight = ta.getDimension(attr, 0);
-                        if (rightImageHeight > 0) {
-                            ViewGroup.LayoutParams layoutParamsHeight =
-                                    ivRightImage.getLayoutParams();
-                            layoutParamsHeight.height = Math.round(rightImageHeight);
-                            ivRightImage.setLayoutParams(layoutParamsHeight);
-                        }
-                        break;
-                    case R.styleable.SettingItemView_item_right_image_width:
-                        float rightImageWidth = ta.getDimension(attr, 0);
-                        if (rightImageWidth > 0) {
-                            ViewGroup.LayoutParams layoutParamsWidth =
-                                    ivRightImage.getLayoutParams();
-                            layoutParamsWidth.width = Math.round(rightImageWidth);
-                            ivRightImage.setLayoutParams(layoutParamsWidth);
-                        }
-                        break;
+                if (attr == R.styleable.SettingItemView_item_image) {
+                    Drawable drawable = ta.getDrawable(attr);
+                    ivImage.setVisibility(VISIBLE);
+                    ivImage.setImageDrawable(drawable);
+                } else if (attr == R.styleable.SettingItemView_item_image_height) {
+                    float imageHeight = ta.getDimension(attr, 0);
+                    if (imageHeight > 0) {
+                        ViewGroup.LayoutParams layoutParamsHeight = ivImage.getLayoutParams();
+                        layoutParamsHeight.height = Math.round(imageHeight);
+                        ivImage.setLayoutParams(layoutParamsHeight);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_image_width) {
+                    float imageWidth = ta.getDimension(attr, 0);
+                    if (imageWidth > 0) {
+                        ViewGroup.LayoutParams layoutParamsWidth = ivImage.getLayoutParams();
+                        layoutParamsWidth.width = Math.round(imageWidth);
+                        ivImage.setLayoutParams(layoutParamsWidth);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_content) {
+                    String content = ta.getString(attr);
+                    tvContent.setText(content == null ? "" : content);
+                } else if (attr == R.styleable.SettingItemView_item_content_text_size) {
+                    float contentSize = ta.getDimension(attr, 0);
+                    if (contentSize > 0) {
+                        tvContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, Math.round(contentSize));
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_content_text_color) {
+                    int color = ta.getColor(attr, -1);
+                    if (color > 0) {
+                        tvContent.setTextColor(color);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_value) {
+                    String value = ta.getString(attr);
+                    tvValue.setVisibility(VISIBLE);
+                    tvValue.setText(value);
+                } else if (attr == R.styleable.SettingItemView_item_value_text_size) {
+                    float valueSize = ta.getDimension(attr, 0);
+                    if (valueSize > 0) {
+                        tvValue.setTextSize(TypedValue.COMPLEX_UNIT_PX, Math.round(valueSize));
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_value_text_color) {
+                    int valueColor = ta.getColor(attr, -1);
+                    if (valueColor > 0) {
+                        tvValue.setTextColor(valueColor);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_tag_image) {
+                    Drawable tagImage = ta.getDrawable(attr);
+                    if (tagImage != null) {
+                        ivTagImage.setImageDrawable(tagImage);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_tag_image_height) {
+                    float tagImageHeight = ta.getDimension(attr, 0);
+                    if (tagImageHeight > 0) {
+                        ViewGroup.LayoutParams layoutParamsTagHeight = ivTagImage.getLayoutParams();
+                        layoutParamsTagHeight.height = Math.round(tagImageHeight);
+                        ivTagImage.setLayoutParams(layoutParamsTagHeight);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_tag_image_width) {
+                    float tagImageWidth = ta.getDimension(attr, 0);
+                    if (tagImageWidth > 0) {
+                        ViewGroup.LayoutParams layoutParamsTagWidth = ivTagImage.getLayoutParams();
+                        layoutParamsTagWidth.width = Math.round(tagImageWidth);
+                        ivTagImage.setLayoutParams(layoutParamsTagWidth);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_divider) {
+                    boolean divider = ta.getBoolean(attr, false);
+                    vDivider.setVisibility(divider ? VISIBLE : GONE);
+                } else if (attr == R.styleable.SettingItemView_item_switch) {
+                    boolean switchCheck = ta.getBoolean(attr, false);
+                    if (switchCheck) {
+                        sbSwitch.setVisibility(VISIBLE);
+                    } else {
+                        sbSwitch.setVisibility(GONE);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_null_background) {
+                    Boolean bgNull = ta.getBoolean(attr, false);
+                    if (bgNull) {
+                        setBackground(null);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_background) {
+                    Drawable bg = ta.getDrawable(attr);
+                    setBackground(bg);
+                } else if (attr == R.styleable.SettingItemView_item_show_selected) {
+                    isShowSelected = ta.getBoolean(attr, false);
+                } else if (attr == R.styleable.SettingItemView_item_selected_image) {
+                    Drawable selectedImage = ta.getDrawable(attr);
+                    ivSelectImage.setImageDrawable(selectedImage);
+                } else if (attr == R.styleable.SettingItemView_item_right_image) {
+                    Drawable rightImage = ta.getDrawable(attr);
+                    rightImage.setAutoMirrored(true);
+                    ivRightImage.setImageDrawable(rightImage);
+                    ivRightImage.setVisibility(VISIBLE);
+                } else if (attr == R.styleable.SettingItemView_item_right_image_height) {
+                    float rightImageHeight = ta.getDimension(attr, 0);
+                    if (rightImageHeight > 0) {
+                        ViewGroup.LayoutParams layoutParamsHeight = ivRightImage.getLayoutParams();
+                        layoutParamsHeight.height = Math.round(rightImageHeight);
+                        ivRightImage.setLayoutParams(layoutParamsHeight);
+                    }
+                } else if (attr == R.styleable.SettingItemView_item_right_image_width) {
+                    float rightImageWidth = ta.getDimension(attr, 0);
+                    if (rightImageWidth > 0) {
+                        ViewGroup.LayoutParams layoutParamsWidth = ivRightImage.getLayoutParams();
+                        layoutParamsWidth.width = Math.round(rightImageWidth);
+                        ivRightImage.setLayoutParams(layoutParamsWidth);
+                    }
                 }
             }
         }

@@ -119,27 +119,20 @@ public class MyAccountActivity extends TitleBaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.uiv_userinfo:
-                showSelectPictureDialog();
-                break;
-            case R.id.siv_nickname:
-                Intent intent = new Intent(this, UpdateNameActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.siv_saccount:
-                if (isCanSetStAccount) {
-                    Intent intentSt = new Intent(this, UpdateStAccountActivity.class);
-                    startActivity(intentSt);
-                }
-                break;
-            case R.id.siv_gender:
-                Intent intentGender = new Intent(this, UpdateGenderActivity.class);
-                startActivity(intentGender);
-                break;
-            default:
-                // DO nothing
-                break;
+        int id = v.getId();
+        if (id == R.id.uiv_userinfo) {
+            showSelectPictureDialog();
+        } else if (id == R.id.siv_nickname) {
+            Intent intent = new Intent(this, UpdateNameActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.siv_saccount) {
+            if (isCanSetStAccount) {
+                Intent intentSt = new Intent(this, UpdateStAccountActivity.class);
+                startActivity(intentSt);
+            }
+        } else if (id == R.id.siv_gender) {
+            Intent intentGender = new Intent(this, UpdateGenderActivity.class);
+            startActivity(intentGender);
         }
     }
 

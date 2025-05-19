@@ -56,31 +56,23 @@ public class SearchAdapter extends RecyclerView.Adapter<BaseViewHolder<SearchMod
         BaseViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(viewType, null, false);
-        switch (viewType) {
-            case R.layout.search_fragment_recycler_title_layout:
-                viewHolder = new SearchTitleViewHolder(itemView);
-                break;
-            case R.layout.serach_fragment_recycler_friend_item:
-                viewHolder = new SearchFriendViewHolder(itemView, onContactItemClickListener);
-                break;
-            case R.layout.serach_fragment_recycler_conversation_item:
-                viewHolder = new SearchConversationViewHolder(itemView, onChatItemClickListener);
-                break;
-            case R.layout.serach_fragment_recycler_group_item:
-                viewHolder = new SearchGroupViewHolder(itemView, onGroupItemClickListener);
-                break;
-            case R.layout.search_frament_show_more_item:
-                viewHolder = new SearchShowMoreViewHolder(itemView, onShowMoreClickListener);
-                break;
-            case R.layout.search_fragment_recycler_div_layout:
-                viewHolder = new SearchDivViewHolder(itemView);
-                break;
-            case R.layout.search_fragment_recycler_chatting_records_list:
-                viewHolder = new SearchMessageViewHolder(itemView, onMessageRecordClickListener);
-                break;
-            default:
-                break;
+
+        if (viewType == R.layout.search_fragment_recycler_title_layout) {
+            viewHolder = new SearchTitleViewHolder(itemView);
+        } else if (viewType == R.layout.serach_fragment_recycler_friend_item) {
+            viewHolder = new SearchFriendViewHolder(itemView, onContactItemClickListener);
+        } else if (viewType == R.layout.serach_fragment_recycler_conversation_item) {
+            viewHolder = new SearchConversationViewHolder(itemView, onChatItemClickListener);
+        } else if (viewType == R.layout.serach_fragment_recycler_group_item) {
+            viewHolder = new SearchGroupViewHolder(itemView, onGroupItemClickListener);
+        } else if (viewType == R.layout.search_frament_show_more_item) {
+            viewHolder = new SearchShowMoreViewHolder(itemView, onShowMoreClickListener);
+        } else if (viewType == R.layout.search_fragment_recycler_div_layout) {
+            viewHolder = new SearchDivViewHolder(itemView);
+        } else if (viewType == R.layout.search_fragment_recycler_chatting_records_list) {
+            viewHolder = new SearchMessageViewHolder(itemView, onMessageRecordClickListener);
         }
+
         return viewHolder;
     }
 

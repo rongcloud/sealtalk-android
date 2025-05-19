@@ -41,7 +41,9 @@ public class BarcodeResult {
         }
     }
 
-    /** @return wrapped {@link Result} */
+    /**
+     * @return wrapped {@link Result}
+     */
     public Result getResult() {
         return mResult;
     }
@@ -93,7 +95,9 @@ public class BarcodeResult {
         return barcode;
     }
 
-    /** @return Bitmap preview scale factor */
+    /**
+     * @return Bitmap preview scale factor
+     */
     public int getBitmapScaleFactor() {
         return mScaleFactor;
     }

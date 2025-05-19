@@ -223,6 +223,7 @@ public class LoginFragment extends BaseFragment {
                             public void onChanged(DataCenter center) {
                                 if (center.getNameId() != 0) {
                                     dataCenter.setText(center.getNameId());
+                                    loginViewModel.getImageCode();
                                 }
                             }
                         });
@@ -302,78 +303,69 @@ public class LoginFragment extends BaseFragment {
 
     @Override
     protected void onClick(View v, int id) {
-        switch (id) {
-            case R.id.cet_login_send_verify_code:
-                String phoneNumber = phoneNumberEdit.getText().toString().trim();
-                String countryCode = countryCodeTv.getText().toString().trim();
-                if (TextUtils.isEmpty(phoneNumberEdit.getText().toString().trim())) {
-                    showToast(R.string.seal_login_toast_phone_number_is_null);
+        if (id == R.id.cet_login_send_verify_code) {
+            String phoneNumber = phoneNumberEdit.getText().toString().trim();
+            String countryCode = countryCodeTv.getText().toString().trim();
+            if (TextUtils.isEmpty(phoneNumberEdit.getText().toString().trim())) {
+                showToast(R.string.seal_login_toast_phone_number_is_null);
+                return;
+            }
+
+            if (!loginViewModel.isHidePicCode()) {
+                if (TextUtils.isEmpty(imageEditText.getText().toString().trim())) {
+                    showToast(R.string.image_verification_code_is_null);
                     return;
                 }
+            }
+            // 请求发送验证码时， 禁止手机号改动和获取验证码的按钮改动
+            // 请求完成后在恢复原来状态
+            sendCodeBtn.setEnabled(false);
+            String imageCode = null;
+            String imageCodeId = null;
+            if (mImageCodeResult != null) {
+                imageCode = imageEditText.getText().toString().trim();
+                imageCodeId = mImageCodeResult.getPicCodeId();
+            }
+            sendCode(countryCode, phoneNumber, imageCode, imageCodeId);
+        } else if (id == R.id.btn_login) {
+            if (loginListener != null && !loginListener.beforeLogin()) {
+                return;
+            }
+            String phoneStr = phoneNumberEdit.getText().toString().trim();
+            String codeStr = verifyCodeEdit.getText().toString().trim();
+            String countryCodeStr = countryCodeTv.getText().toString().trim();
 
-                if (!loginViewModel.isHidePicCode()) {
-                    if (TextUtils.isEmpty(imageEditText.getText().toString().trim())) {
-                        showToast(R.string.image_verification_code_is_null);
-                        return;
-                    }
-                }
-                // 请求发送验证码时， 禁止手机号改动和获取验证码的按钮改动
-                // 请求完成后在恢复原来状态
-                sendCodeBtn.setEnabled(false);
-                String imageCode = null;
-                String imageCodeId = null;
-                if (mImageCodeResult != null) {
-                    imageCode = imageEditText.getText().toString().trim();
-                    imageCodeId = mImageCodeResult.getPicCodeId();
-                }
-                sendCode(countryCode, phoneNumber, imageCode, imageCodeId);
-                break;
-            case R.id.btn_login:
-                if (loginListener != null && !loginListener.beforeLogin()) {
-                    return;
-                }
-                String phoneStr = phoneNumberEdit.getText().toString().trim();
-                String codeStr = verifyCodeEdit.getText().toString().trim();
-                String countryCodeStr = countryCodeTv.getText().toString().trim();
+            if (TextUtils.isEmpty(phoneStr)) {
+                showToast(R.string.seal_login_toast_phone_number_is_null);
+                phoneNumberEdit.setShakeAnimation();
+                return;
+            }
 
-                if (TextUtils.isEmpty(phoneStr)) {
-                    showToast(R.string.seal_login_toast_phone_number_is_null);
-                    phoneNumberEdit.setShakeAnimation();
-                    break;
-                }
+            if (TextUtils.isEmpty(codeStr)) {
+                showToast(R.string.seal_login_toast_code_is_null);
+                verifyCodeEdit.setShakeAnimation();
+                return;
+            }
 
-                if (TextUtils.isEmpty(codeStr)) {
-                    showToast(R.string.seal_login_toast_code_is_null);
-                    verifyCodeEdit.setShakeAnimation();
-                    return;
-                }
+            if (TextUtils.isEmpty(countryCodeStr)) {
+                countryCodeStr = "86";
+            } else if (countryCodeStr.startsWith("+")) {
+                countryCodeStr = countryCodeStr.substring(1);
+            }
 
-                if (TextUtils.isEmpty(countryCodeStr)) {
-                    countryCodeStr = "86";
-                } else if (countryCodeStr.startsWith("+")) {
-                    countryCodeStr = countryCodeStr.substring(1);
-                }
-
-                //                login(countryCodeStr, phoneStr, passwordStr);
-                registerAndLogin(countryCodeStr, phoneStr, codeStr);
-                break;
-            case R.id.ll_country_select:
-                // 跳转区域选择界面
-                startActivityForResult(
-                        new Intent(getActivity(), SelectCountryActivity.class),
-                        REQUEST_CODE_SELECT_COUNTRY);
-                break;
-            case R.id.ll_data_center:
-                startActivityForResult(
-                        new Intent(getActivity(), SelectDataCenterActivity.class),
-                        REQUEST_CODE_SELECT_DATA_CENTER);
-                break;
-            case R.id.iv_verify_code:
-            case R.id.tv_refresh_image_code:
-                loginViewModel.getImageCode();
-                break;
-            default:
-                break;
+            // login(countryCodeStr, phoneStr, passwordStr);
+            registerAndLogin(countryCodeStr, phoneStr, codeStr);
+        } else if (id == R.id.ll_country_select) {
+            // 跳转区域选择界面
+            startActivityForResult(
+                    new Intent(getActivity(), SelectCountryActivity.class),
+                    REQUEST_CODE_SELECT_COUNTRY);
+        } else if (id == R.id.ll_data_center) {
+            startActivityForResult(
+                    new Intent(getActivity(), SelectDataCenterActivity.class),
+                    REQUEST_CODE_SELECT_DATA_CENTER);
+        } else if (id == R.id.iv_verify_code || id == R.id.tv_refresh_image_code) {
+            loginViewModel.getImageCode();
         }
     }
 

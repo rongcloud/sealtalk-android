@@ -115,127 +115,112 @@ public class MessageExpansionDetailActivity extends BaseActivity implements View
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_set_key:
-                Map<String, String> map = new HashMap<>();
-                MsgExtraInputDialog msgSetDialog =
-                        new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_SET);
-                msgSetDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String uid = msgSetDialog.getEtUID().getText().toString();
-                                    String key = msgSetDialog.getEtKey().getText().toString();
-                                    String value = msgSetDialog.getEtValue().getText().toString();
-                                    if (!TextUtils.isEmpty(key) && !TextUtils.isEmpty(value)) {
-                                        map.put(key, value);
-                                    }
-                                    RLog.i(TAG, "uid :" + uid + ",map :" + map);
-                                    // map.put("9", "yi988");
-                                    // uid = "BK3C-9V4M-L8U7-QRCS";
-                                    setMsgExtra(map, uid);
-                                    msgSetDialog.cancel();
-                                });
-
-                msgSetDialog
-                        .getmTVAdd()
-                        .setOnClickListener(
-                                v13 -> {
-                                    String key = msgSetDialog.getEtKey().getText().toString();
-                                    String value = msgSetDialog.getEtValue().getText().toString();
+        if (v.getId() == R.id.btn_set_key) {
+            Map<String, String> map = new HashMap<>();
+            MsgExtraInputDialog msgSetDialog =
+                    new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_SET);
+            msgSetDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String uid = msgSetDialog.getEtUID().getText().toString();
+                                String key = msgSetDialog.getEtKey().getText().toString();
+                                String value = msgSetDialog.getEtValue().getText().toString();
+                                if (!TextUtils.isEmpty(key) && !TextUtils.isEmpty(value)) {
                                     map.put(key, value);
-                                    msgSetDialog.getEtKey().getText().clear();
-                                    msgSetDialog.getEtValue().getText().clear();
-                                });
-                msgSetDialog.getCancelView().setOnClickListener(v12 -> msgSetDialog.cancel());
+                                }
+                                RLog.i(TAG, "uid :" + uid + ",map :" + map);
+                                // map.put("9", "yi988");
+                                // uid = "BK3C-9V4M-L8U7-QRCS";
+                                setMsgExtra(map, uid);
+                                msgSetDialog.cancel();
+                            });
 
-                msgSetDialog.show();
-                break;
-            case R.id.btn_delete_key:
-                List<String> list = new ArrayList<>();
-                MsgExtraInputDialog msgDeleteDialog =
-                        new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_DELETE);
-                msgDeleteDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String uid = msgDeleteDialog.getEtUID().getText().toString();
-                                    String key = msgDeleteDialog.getEtKey().getText().toString();
-                                    if (!TextUtils.isEmpty(key)) {
-                                        list.add(key);
-                                    }
-                                    // list.add("9");
-                                    // uid = "BK3C-9V4M-L8U7-QRCS";
-                                    deleteKey(list, uid);
-                                    RLog.i(
-                                            TAG,
-                                            "uid : " + uid + ",key = " + key + ",list :" + list);
+            msgSetDialog
+                    .getmTVAdd()
+                    .setOnClickListener(
+                            v13 -> {
+                                String key = msgSetDialog.getEtKey().getText().toString();
+                                String value = msgSetDialog.getEtValue().getText().toString();
+                                map.put(key, value);
+                                msgSetDialog.getEtKey().getText().clear();
+                                msgSetDialog.getEtValue().getText().clear();
+                            });
+            msgSetDialog.getCancelView().setOnClickListener(v12 -> msgSetDialog.cancel());
 
-                                    msgDeleteDialog.cancel();
-                                });
+            msgSetDialog.show();
+        } else if (v.getId() == R.id.btn_delete_key) {
+            List<String> list = new ArrayList<>();
+            MsgExtraInputDialog msgDeleteDialog =
+                    new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_DELETE);
+            msgDeleteDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String uid = msgDeleteDialog.getEtUID().getText().toString();
+                                String key = msgDeleteDialog.getEtKey().getText().toString();
+                                if (!TextUtils.isEmpty(key)) {
+                                    list.add(key);
+                                }
+                                // list.add("9");
+                                // uid = "BK3C-9V4M-L8U7-QRCS";
+                                deleteKey(list, uid);
+                                RLog.i(TAG, "uid : " + uid + ",key = " + key + ",list :" + list);
 
-                msgDeleteDialog.getCancelView().setOnClickListener(v12 -> msgDeleteDialog.cancel());
+                                msgDeleteDialog.cancel();
+                            });
 
-                msgDeleteDialog
-                        .getmTVAdd()
-                        .setOnClickListener(
-                                v13 -> {
-                                    list.add(msgDeleteDialog.getEtKey().getText().toString());
-                                    msgDeleteDialog.getEtKey().getText().clear();
-                                });
+            msgDeleteDialog.getCancelView().setOnClickListener(v12 -> msgDeleteDialog.cancel());
 
-                msgDeleteDialog.show();
-                break;
-            case R.id.btn_local_msg:
-                getLocalMsg();
-                break;
-            case R.id.btn_get_remote_msg:
-                getRemoteMsg();
-                break;
-            case R.id.btn_send_msg:
-                Map<String, String> mapSend = new HashMap<>();
-                MsgExtraInputDialog msgExtraInputDialog =
-                        new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_SEND_MESSAGE);
-                msgExtraInputDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String key =
-                                            msgExtraInputDialog.getEtKey().getText().toString();
-                                    String value =
-                                            msgExtraInputDialog.getEtValue().getText().toString();
-                                    mapSend.put(key, value);
-                                    RLog.i(TAG, "mapSend :" + mapSend);
-                                    sendTextMsg(
-                                            msgExtraInputDialog
-                                                    .getEtMsgContent()
-                                                    .getText()
-                                                    .toString(),
-                                            mapSend);
-                                    msgExtraInputDialog.cancel();
-                                });
+            msgDeleteDialog
+                    .getmTVAdd()
+                    .setOnClickListener(
+                            v13 -> {
+                                list.add(msgDeleteDialog.getEtKey().getText().toString());
+                                msgDeleteDialog.getEtKey().getText().clear();
+                            });
 
-                msgExtraInputDialog
-                        .getmTVAdd()
-                        .setOnClickListener(
-                                v13 -> {
-                                    String key =
-                                            msgExtraInputDialog.getEtKey().getText().toString();
-                                    String value =
-                                            msgExtraInputDialog.getEtValue().getText().toString();
-                                    mapSend.put(key, value);
-                                    msgExtraInputDialog.getEtKey().getText().clear();
-                                    msgExtraInputDialog.getEtValue().getText().clear();
-                                });
+            msgDeleteDialog.show();
+        } else if (v.getId() == R.id.btn_local_msg) {
+            getLocalMsg();
+        } else if (v.getId() == R.id.btn_get_remote_msg) {
+            getRemoteMsg();
+        } else if (v.getId() == R.id.btn_send_msg) {
+            Map<String, String> mapSend = new HashMap<>();
+            MsgExtraInputDialog msgExtraInputDialog =
+                    new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_SEND_MESSAGE);
+            msgExtraInputDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String key = msgExtraInputDialog.getEtKey().getText().toString();
+                                String value =
+                                        msgExtraInputDialog.getEtValue().getText().toString();
+                                mapSend.put(key, value);
+                                RLog.i(TAG, "mapSend :" + mapSend);
+                                sendTextMsg(
+                                        msgExtraInputDialog.getEtMsgContent().getText().toString(),
+                                        mapSend);
+                                msgExtraInputDialog.cancel();
+                            });
 
-                msgExtraInputDialog
-                        .getCancelView()
-                        .setOnClickListener(v12 -> msgExtraInputDialog.cancel());
+            msgExtraInputDialog
+                    .getmTVAdd()
+                    .setOnClickListener(
+                            v13 -> {
+                                String key = msgExtraInputDialog.getEtKey().getText().toString();
+                                String value =
+                                        msgExtraInputDialog.getEtValue().getText().toString();
+                                mapSend.put(key, value);
+                                msgExtraInputDialog.getEtKey().getText().clear();
+                                msgExtraInputDialog.getEtValue().getText().clear();
+                            });
 
-                msgExtraInputDialog.show();
-                break;
-            default:
-                break;
+            msgExtraInputDialog
+                    .getCancelView()
+                    .setOnClickListener(v12 -> msgExtraInputDialog.cancel());
+
+            msgExtraInputDialog.show();
         }
     }
 

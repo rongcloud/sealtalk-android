@@ -102,13 +102,10 @@ public class UpdateGenderActivity extends TitleBaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_gender_man:
-                updateGenderStatus(GENDER_MAN);
-                break;
-            case R.id.siv_gender_female:
-                updateGenderStatus(GENDER_FEMALE);
-                break;
+        if (v.getId() == R.id.siv_gender_man) {
+            updateGenderStatus(GENDER_MAN);
+        } else if (v.getId() == R.id.siv_gender_female) {
+            updateGenderStatus(GENDER_FEMALE);
         }
     }
 

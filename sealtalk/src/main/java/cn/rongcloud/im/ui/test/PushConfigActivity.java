@@ -9,6 +9,7 @@ import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.ui.activity.TitleBaseActivity;
 import io.rong.calllib.RongCallClient;
 import io.rong.imlib.model.AndroidConfig;
+import io.rong.imlib.model.HarmonyConfig;
 import io.rong.imlib.model.IOSConfig;
 import io.rong.imlib.model.MessagePushConfig;
 
@@ -28,10 +29,8 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_set:
-                showSetDialog();
-                break;
+        if (v.getId() == R.id.btn_set) {
+            showSetDialog();
         }
     }
 
@@ -60,6 +59,8 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
         boolean vivo = sharedPreferences.getBoolean("vivo", false);
         boolean disableTitle = sharedPreferences.getBoolean("disableTitle", false);
         boolean forceDetail = sharedPreferences.getBoolean("forceDetail", false);
+        String ohosCategory = sharedPreferences.getString("ohosCategory", "");
+        String ohosImageUrl = sharedPreferences.getString("ohosImageUrl", "");
         pushConfigDialog.getEtId().setText(id);
         pushConfigDialog.getEtTitle().setText(title);
         pushConfigDialog.getEtContent().setText(content);
@@ -82,6 +83,8 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
         pushConfigDialog.getEtImageUrlHW().setText(imageUrlHW);
         pushConfigDialog.getEtImageUrlMi().setText(imageUrlMI);
         pushConfigDialog.getEtChannelIdFcm().setText(fcmChannelId);
+        pushConfigDialog.getEtOhosCategory().setText(ohosCategory);
+        pushConfigDialog.getEtOhosImageUrl().setText(ohosImageUrl);
 
         pushConfigDialog
                 .getSureView()
@@ -137,6 +140,10 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
                                         pushConfigDialog.getCbDisableTitle().isChecked();
                                 boolean forceDetail =
                                         pushConfigDialog.getCbForceDetail().isChecked();
+                                String ohosCategory =
+                                        pushConfigDialog.getEtOhosCategory().getText().toString();
+                                String ohosImageUrl =
+                                        pushConfigDialog.getEtOhosImageUrl().getText().toString();
                                 SharedPreferences.Editor edit =
                                         getSharedPreferences("push_config", MODE_PRIVATE).edit();
                                 edit.putString("id", id);
@@ -161,9 +168,13 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
                                 edit.putString("imageUrlHW", imageUrlHW);
                                 edit.putString("imageUrlMi", imageUrlMI);
                                 edit.putString("fcmChannelId", fcmChannelId);
+                                edit.putString("ohosCategory", ohosCategory);
+                                edit.putString("ohosImageUrl", ohosImageUrl);
                                 IOSConfig iosConfig =
                                         new IOSConfig(threadId, apnsId, category, richMediaUri);
                                 iosConfig.setInterruptionLevel(interruptionLevel);
+                                HarmonyConfig harmonyConfig =
+                                        new HarmonyConfig(ohosCategory, ohosImageUrl);
                                 MessagePushConfig startCallMessagePushConfig =
                                         new MessagePushConfig.Builder()
                                                 .setPushTitle(title)
@@ -195,6 +206,7 @@ public class PushConfigActivity extends TitleBaseActivity implements View.OnClic
                                                                 .build())
                                                 .setTemplateId(templateId)
                                                 .setIOSConfig(iosConfig)
+                                                .setHarmonyConfig(harmonyConfig)
                                                 .build();
                                 // SealTalk 发起和挂断的 pushConfig 内容一致，开发者根据实际需求配置
                                 MessagePushConfig hangupCallMessagePushConfig =

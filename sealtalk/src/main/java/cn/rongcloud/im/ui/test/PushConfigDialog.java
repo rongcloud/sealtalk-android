@@ -46,6 +46,9 @@ public class PushConfigDialog extends Dialog {
     private CheckBox cbDisableTitle;
     private CheckBox cbForceDetail;
 
+    private EditText etOhosCategory;
+    private EditText etOhosImageUrl;
+
     private LinearLayout llValue;
     private LinearLayout llCheck;
     private LinearLayout llExtra;
@@ -96,6 +99,9 @@ public class PushConfigDialog extends Dialog {
         edFcm = dialogView.findViewById(R.id.et_fcm);
         etChannelIdFcm = dialogView.findViewById(R.id.et_fcm_channel);
         edImageUrl = dialogView.findViewById(R.id.et_image_url);
+
+        etOhosCategory = dialogView.findViewById(R.id.et_ohos_category);
+        etOhosImageUrl = dialogView.findViewById(R.id.et_ohos_imageurl);
 
         setContentView(dialogView);
     }
@@ -249,5 +255,21 @@ public class PushConfigDialog extends Dialog {
 
     public void setEtChannelIdFcm(EditText etChannelIdFcm) {
         this.etChannelIdFcm = etChannelIdFcm;
+    }
+
+    public EditText getEtOhosCategory() {
+        return etOhosCategory;
+    }
+
+    public void setEtOhosCategory(EditText etOhosCategory) {
+        this.etOhosCategory = etOhosCategory;
+    }
+
+    public EditText getEtOhosImageUrl() {
+        return etOhosImageUrl;
+    }
+
+    public void setEtOhosImageUrl(EditText etOhosImageUrl) {
+        this.etOhosImageUrl = etOhosImageUrl;
     }
 }

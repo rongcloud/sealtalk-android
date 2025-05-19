@@ -273,20 +273,17 @@ public class EditUserDescribeActivity extends TitleBaseActivity implements View.
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fl_more:
-                if (TextUtils.isEmpty(mUri)) {
-                    setMorePhotoDialog();
-                } else {
-                    if (!isFastClick()) {
-                        enterImagePreview();
-                    }
+        if (v.getId() == R.id.fl_more) {
+            if (TextUtils.isEmpty(mUri)) {
+                setMorePhotoDialog();
+            } else {
+                if (!isFastClick()) {
+                    enterImagePreview();
                 }
-                break;
-            case R.id.tv_region:
-                startActivityForResult(
-                        new Intent(this, SelectCountryActivity.class), REQUEST_CODE_SELECT_COUNTRY);
-                break;
+            }
+        } else if (v.getId() == R.id.tv_region) {
+            startActivityForResult(
+                    new Intent(this, SelectCountryActivity.class), REQUEST_CODE_SELECT_COUNTRY);
         }
     }
 

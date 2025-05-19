@@ -47,7 +47,6 @@ import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.GroupDetailViewModel;
 import com.bumptech.glide.Glide;
 import io.rong.imkit.conversation.ConversationSettingViewModel;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 import io.rong.imkit.model.OperationResult;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imlib.model.Conversation;
@@ -59,8 +58,10 @@ import java.util.List;
 /** 群组详细界面 */
 public class GroupDetailActivity extends TitleBaseActivity implements View.OnClickListener {
     private final String TAG = "GroupDetailActivity";
+
     /** 跳转界面请求添加群组成员 */
     private final int REQUEST_ADD_GROUP_MEMBER = 1000;
+
     /** 跳转界面请求移除群组成员 */
     private final int REQUEST_REMOVE_GROUP_MEMBER = 1001;
 
@@ -722,48 +723,35 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.profile_siv_all_group_member:
-                showAllGroupMember();
-                break;
-            case R.id.profile_siv_group_search_history_message:
-                showSearchHistoryMessage();
-                break;
-            case R.id.profile_uiv_group_portrait_container:
-                setGroupPortrait();
-                break;
-            case R.id.profile_siv_group_name_container:
-                editGroupName();
-                break;
-            case R.id.profile_siv_group_qrcode:
-                showGroupQrCode();
-                break;
-            case R.id.profile_siv_group_notice:
-                showGroupNotice();
-                break;
-            case R.id.profile_siv_group_user_info:
-                Intent intentUserInfo = new Intent(this, GroupUserInfoActivity.class);
-                intentUserInfo.putExtra(IntentExtra.GROUP_ID, conversationIdentifier.getTargetId());
-                intentUserInfo.putExtra(
-                        IntentExtra.STR_TARGET_ID, IMManager.getInstance().getCurrentId());
-                startActivity(intentUserInfo);
-                break;
-            case R.id.profile_siv_group_clean_message:
-                showCleanMessageDialog();
-                break;
-            case R.id.profile_btn_group_quit:
-                quitOrDeleteGroup();
-                break;
-            case R.id.profile_siv_group_manager:
-                Intent intent = new Intent(this, GroupManagerActivity.class);
-                intent.putExtra(IntentExtra.GROUP_ID, conversationIdentifier.getTargetId());
-                startActivity(intent);
-                break;
-            case R.id.profile_siv_group_clean_timming:
-                showRegualrClearDialog();
-                break;
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.profile_siv_all_group_member) {
+            showAllGroupMember();
+        } else if (id == R.id.profile_siv_group_search_history_message) {
+            showSearchHistoryMessage();
+        } else if (id == R.id.profile_uiv_group_portrait_container) {
+            setGroupPortrait();
+        } else if (id == R.id.profile_siv_group_name_container) {
+            editGroupName();
+        } else if (id == R.id.profile_siv_group_qrcode) {
+            showGroupQrCode();
+        } else if (id == R.id.profile_siv_group_notice) {
+            showGroupNotice();
+        } else if (id == R.id.profile_siv_group_user_info) {
+            Intent intentUserInfo = new Intent(this, GroupUserInfoActivity.class);
+            intentUserInfo.putExtra(IntentExtra.GROUP_ID, conversationIdentifier.getTargetId());
+            intentUserInfo.putExtra(
+                    IntentExtra.STR_TARGET_ID, IMManager.getInstance().getCurrentId());
+            startActivity(intentUserInfo);
+        } else if (id == R.id.profile_siv_group_clean_message) {
+            showCleanMessageDialog();
+        } else if (id == R.id.profile_btn_group_quit) {
+            quitOrDeleteGroup();
+        } else if (id == R.id.profile_siv_group_manager) {
+            Intent intent = new Intent(this, GroupManagerActivity.class);
+            intent.putExtra(IntentExtra.GROUP_ID, conversationIdentifier.getTargetId());
+            startActivity(intent);
+        } else if (id == R.id.profile_siv_group_clean_timming) {
+            showRegualrClearDialog();
         }
     }
 
@@ -859,8 +847,7 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
                             return true;
                         }
 
-                        if (AndroidEmoji.isEmoji(name)
-                                && name.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
+                        if (name.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
                             ToastUtils.showToast(
                                     getString(R.string.profile_group_name_emoji_too_short));
                             return true;
@@ -937,14 +924,14 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.profile_clean_group_chat_history))
                 .setPositiveButton(
-                        getString(R.string.rc_clear),
+                        getString(io.rong.imkit.R.string.rc_clear),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 conversationSettingViewModel.clearMessages(0, false);
                             }
                         })
-                .setNegativeButton(R.string.rc_cancel, null)
+                .setNegativeButton(io.rong.imkit.R.string.rc_cancel, null)
                 .show();
     }
 

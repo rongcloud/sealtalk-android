@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.TextUtils;
 import androidx.annotation.Nullable;
-import cn.rongcloud.im.R;
 import io.rong.common.RLog;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.config.RongConfigCenter;
@@ -134,7 +133,7 @@ public class MessageUtil {
             return title;
         }
         if (Conversation.ConversationType.GROUP.equals(combineV2Message.getConversationType())) {
-            title = context.getString(R.string.rc_combine_group_chat);
+            title = context.getString(io.rong.imkit.R.string.rc_combine_group_chat);
         } else {
             List<String> nameList = combineV2Message.getNameList();
             if (nameList == null) {
@@ -144,15 +143,17 @@ public class MessageUtil {
             if (nameList.size() == 1) {
                 title =
                         String.format(
-                                context.getString(R.string.rc_combine_the_group_chat_of),
+                                context.getString(
+                                        io.rong.imkit.R.string.rc_combine_the_group_chat_of),
                                 nameList.get(0));
             } else if (nameList.size() == 2) {
                 title =
                         String.format(
-                                context.getString(R.string.rc_combine_the_group_chat_of),
+                                context.getString(
+                                        io.rong.imkit.R.string.rc_combine_the_group_chat_of),
                                 nameList.get(0)
                                         + " "
-                                        + context.getString(R.string.rc_combine_and)
+                                        + context.getString(io.rong.imkit.R.string.rc_combine_and)
                                         + " "
                                         + nameList.get(1));
             }

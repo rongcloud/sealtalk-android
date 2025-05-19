@@ -24,6 +24,7 @@ public class UserInfoItemView extends FrameLayout {
 
     /** 在左侧显示头像 */
     public static final int SHOW_LEFT = 0;
+
     /** 在右侧显示头像 */
     public static final int SHOW_RIGHT = 1;
 
@@ -70,62 +71,45 @@ public class UserInfoItemView extends FrameLayout {
             final int N = ta.getIndexCount();
             for (int i = 0; i < N; i++) {
                 int attr = ta.getIndex(i);
-                switch (attr) {
-                    case R.styleable.UserInfoItemView_item_userinfo_portrait:
-                        drawable =
-                                ta.getDrawable(R.styleable.UserInfoItemView_item_userinfo_portrait);
-                        break;
-                    case R.styleable.UserInfoItemView_item_right_show:
-                        boolean showRight = ta.getBoolean(attr, false);
-                        currentShow = showRight ? SHOW_RIGHT : SHOW_LEFT;
-                        break;
-                    case R.styleable.UserInfoItemView_item_userinfo_portrait_width:
-                        float width =
-                                ta.getDimension(
-                                        R.styleable.UserInfoItemView_item_userinfo_portrait_width,
-                                        0);
-                        ViewGroup.LayoutParams leftLayoutParams = leftHeaderIv.getLayoutParams();
-                        ViewGroup.LayoutParams rightLayoutParams = rightHeaderIv.getLayoutParams();
-                        if (width > 0) {
-                            leftLayoutParams.width = Math.round(width);
-                            rightLayoutParams.width = Math.round(width);
-                        }
-                        rightHeaderIv.setLayoutParams(rightLayoutParams);
-                        leftHeaderIv.setLayoutParams(leftLayoutParams);
-
-                        break;
-
-                    case R.styleable.UserInfoItemView_item_userinfo_portrait_height:
-                        float height = ta.getDimension(attr, 0);
-                        ViewGroup.LayoutParams leftLayoutParamsHeight =
-                                leftHeaderIv.getLayoutParams();
-                        ViewGroup.LayoutParams rightLayoutParamsHeight =
-                                rightHeaderIv.getLayoutParams();
-                        if (height > 0) {
-                            leftLayoutParamsHeight.height = Math.round(height);
-                            rightLayoutParamsHeight.height = Math.round(height);
-                        }
-                        rightHeaderIv.setLayoutParams(rightLayoutParamsHeight);
-                        leftHeaderIv.setLayoutParams(leftLayoutParamsHeight);
-                        break;
-                    case R.styleable.UserInfoItemView_item_userinfo_name:
-                        String content = ta.getString(attr);
-                        if (content != null) {
-                            nameTv.setText(content);
-                        }
-                        break;
-                    case R.styleable.UserInfoItemView_item_userinfo_divider:
-                        boolean divider = ta.getBoolean(attr, false);
-                        vDivider.setVisibility(divider ? VISIBLE : GONE);
-                        break;
-                    case R.styleable.UserInfoItemView_item_userifo_null_background:
-                        Boolean bgNull = ta.getBoolean(attr, false);
-                        if (bgNull) {
-                            setBackground(null);
-                        }
-                        break;
-                    default:
-                        break;
+                if (attr == R.styleable.UserInfoItemView_item_userinfo_portrait) {
+                    drawable = ta.getDrawable(attr);
+                } else if (attr == R.styleable.UserInfoItemView_item_right_show) {
+                    boolean showRight = ta.getBoolean(attr, false);
+                    currentShow = showRight ? SHOW_RIGHT : SHOW_LEFT;
+                } else if (attr == R.styleable.UserInfoItemView_item_userinfo_portrait_width) {
+                    float width = ta.getDimension(attr, 0);
+                    ViewGroup.LayoutParams leftLayoutParams = leftHeaderIv.getLayoutParams();
+                    ViewGroup.LayoutParams rightLayoutParams = rightHeaderIv.getLayoutParams();
+                    if (width > 0) {
+                        leftLayoutParams.width = Math.round(width);
+                        rightLayoutParams.width = Math.round(width);
+                    }
+                    rightHeaderIv.setLayoutParams(rightLayoutParams);
+                    leftHeaderIv.setLayoutParams(leftLayoutParams);
+                } else if (attr == R.styleable.UserInfoItemView_item_userinfo_portrait_height) {
+                    float height = ta.getDimension(attr, 0);
+                    ViewGroup.LayoutParams leftLayoutParamsHeight = leftHeaderIv.getLayoutParams();
+                    ViewGroup.LayoutParams rightLayoutParamsHeight =
+                            rightHeaderIv.getLayoutParams();
+                    if (height > 0) {
+                        leftLayoutParamsHeight.height = Math.round(height);
+                        rightLayoutParamsHeight.height = Math.round(height);
+                    }
+                    rightHeaderIv.setLayoutParams(rightLayoutParamsHeight);
+                    leftHeaderIv.setLayoutParams(leftLayoutParamsHeight);
+                } else if (attr == R.styleable.UserInfoItemView_item_userinfo_name) {
+                    String content = ta.getString(attr);
+                    if (content != null) {
+                        nameTv.setText(content);
+                    }
+                } else if (attr == R.styleable.UserInfoItemView_item_userinfo_divider) {
+                    boolean divider = ta.getBoolean(attr, false);
+                    vDivider.setVisibility(divider ? VISIBLE : GONE);
+                } else if (attr == R.styleable.UserInfoItemView_item_userifo_null_background) {
+                    Boolean bgNull = ta.getBoolean(attr, false);
+                    if (bgNull) {
+                        setBackground(null);
+                    }
                 }
             }
 
@@ -135,7 +119,6 @@ public class UserInfoItemView extends FrameLayout {
                 if (drawable != null) {
                     rightHeaderIv.setImageDrawable(drawable);
                 }
-
             } else {
                 leftHeaderIv.setVisibility(VISIBLE);
                 rightHeaderIv.setVisibility(GONE);

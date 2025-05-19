@@ -120,18 +120,12 @@ public class SealSearchActivity extends SealSearchBaseActivity
     @Override
     public void onSearchShowMoreClicked(int type) {
         SLog.i(TAG, "ShowMore:" + R.string.seal_ac_search_more_chatting_records + " type:" + type);
-        switch (type) {
-            case R.string.seal_search_more_chatting_records:
-                pushFragment(searchConversationFragment);
-                break;
-            case R.string.seal_search_more_friend:
-                pushFragment(searchFriendFragment);
-                break;
-            case R.string.seal_search_more_group:
-                pushFragment(searchGroupFragment);
-                break;
-            default:
-                break;
+        if (type == R.string.seal_search_more_chatting_records) {
+            pushFragment(searchConversationFragment);
+        } else if (type == R.string.seal_search_more_friend) {
+            pushFragment(searchFriendFragment);
+        } else if (type == R.string.seal_search_more_group) {
+            pushFragment(searchGroupFragment);
         }
     }
 

@@ -1,6 +1,8 @@
 package cn.rongcloud.im.model;
 
-/** @author gusd @Date 2023/03/28 */
+/**
+ * @author gusd @Date 2023/03/28
+ */
 public class ImageCodeResult {
     private String picCodeId;
     private String picCode;

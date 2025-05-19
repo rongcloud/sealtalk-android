@@ -13,6 +13,7 @@ public class NetConstant {
 
     /** 服务端登录过期旧错误码 10000 */
     public static final int LOGIN_EXPIRATION_CODE_OLD = 10000;
+
     /** 服务端登录过期新错误码 1000 */
     public static final int LOGIN_EXPIRATION_CODE_NEW = 1000;
 }

@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.utils.DataCenter;
 
-/** @author gusd @Date 2022/03/29 */
+/**
+ * @author gusd @Date 2022/03/29
+ */
 public class SelectDataCenterActivity extends TitleBaseActivity {
     private static final String TAG = "SelectDataCenterActivity";
 

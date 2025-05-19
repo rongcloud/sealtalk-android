@@ -1,12 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
+    namespace 'io.rong.recognizer'
+    compileSdk 35
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 31
-        versionName "5.10.0_opensource"
+        targetSdkVersion 35
+        versionName "5.18.1_opensource"
     }
 
     buildTypes {
@@ -30,7 +31,7 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'cn.rongcloud.sdk:im_kit:5.10.0'
+    api 'cn.rongcloud.sdk:im_kit:5.18.1'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/Msc.jar')
 }

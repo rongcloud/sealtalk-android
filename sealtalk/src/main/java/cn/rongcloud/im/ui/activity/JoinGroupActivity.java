@@ -159,12 +159,8 @@ public class JoinGroupActivity extends TitleBaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.profile_btn_join_group_confirm:
-                joinGroupViewModel.joinToGroup();
-                break;
-            default:
-                // do nothing
+        if (v.getId() == R.id.profile_btn_join_group_confirm) {
+            joinGroupViewModel.joinToGroup();
         }
     }
 }

@@ -3,9 +3,9 @@ package cn.rongcloud.im.ui.dialog;
 import static cn.rongcloud.im.ui.activity.QrCodeDisplayActivity.REQUEST_CODE_ASK_PERMISSIONS;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.utils.PhotoUtils;
+import io.rong.imkit.picture.config.PictureConfig;
+import io.rong.imkit.picture.permissions.PermissionChecker;
 import io.rong.imkit.utils.PermissionCheckUtil;
 
 public class SelectPictureBottomDialog extends BaseBottomDialog {
@@ -36,38 +38,16 @@ public class SelectPictureBottomDialog extends BaseBottomDialog {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (Build.VERSION.SDK_INT >= 23) {
-                                    int checkPermission =
-                                            getActivity()
-                                                    .checkSelfPermission(
-                                                            Manifest.permission.CAMERA);
-                                    if (checkPermission != PackageManager.PERMISSION_GRANTED) {
-                                        // if
-                                        // (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                                        requestPermissions(
-                                                new String[] {Manifest.permission.CAMERA},
-                                                REQUEST_CODE_ASK_PERMISSIONS);
-                                        // }
-                                        return;
-                                    }
-
-                                    // 从6.0系统(API 23)开始，访问外置存储需要动态申请权限
-                                    checkPermission =
-                                            getActivity()
-                                                    .checkSelfPermission(
-                                                            Manifest.permission
-                                                                    .WRITE_EXTERNAL_STORAGE);
-                                    if (checkPermission != PackageManager.PERMISSION_GRANTED) {
-                                        requestPermissions(
-                                                new String[] {
-                                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                },
-                                                REQUEST_CODE_ASK_PERMISSIONS);
-                                        return;
-                                    }
+                                if (PermissionChecker.checkSelfPermission(
+                                        getContext(), Manifest.permission.CAMERA)) {
+                                    photoUtils.takePicture(SelectPictureBottomDialog.this);
+                                } else {
+                                    Activity activity = (Activity) getContext();
+                                    PermissionChecker.requestPermissions(
+                                            activity,
+                                            new String[] {Manifest.permission.CAMERA},
+                                            PictureConfig.APPLY_CAMERA_PERMISSIONS_CODE);
                                 }
-
-                                photoUtils.takePicture(SelectPictureBottomDialog.this);
                             }
                         });
         view.findViewById(R.id.btn_album)

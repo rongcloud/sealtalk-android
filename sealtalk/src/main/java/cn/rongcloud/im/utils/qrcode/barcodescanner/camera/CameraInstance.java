@@ -254,12 +254,16 @@ public class CameraInstance {
         return cameraManager;
     }
 
-    /** @return the CameraThread used to manage the camera */
+    /**
+     * @return the CameraThread used to manage the camera
+     */
     protected CameraThread getCameraThread() {
         return cameraThread;
     }
 
-    /** @return the surface om which the preview is displayed */
+    /**
+     * @return the surface om which the preview is displayed
+     */
     protected CameraSurface getSurface() {
         return surface;
     }

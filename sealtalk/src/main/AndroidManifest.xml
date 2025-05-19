@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -106,7 +107,7 @@
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/LoginTheme"></activity>
         <activity
             android:name=".ui.activity.SelectCountryActivity"
             android:screenOrientation="portrait" />
@@ -195,6 +196,9 @@
 
         <activity
             android:name=".ui.activity.AccountSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AIChatAssistantSettingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ChangeLanguageActivity"

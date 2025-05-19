@@ -77,6 +77,7 @@ public class UserDetailActivity extends TitleBaseActivity implements View.OnClic
     private UserInfo myUserInfo;
     private String fromGroupName;
     private boolean isInBlackList = false;
+
     /** 是否在删除好友操作，如果在删除中则不更新好友状态，防止在删除时会有界面刷新 */
     private boolean isInDeleteAction = false;
 
@@ -507,39 +508,31 @@ public class UserDetailActivity extends TitleBaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.profile_ll_detail_info_group:
-                break;
-            case R.id.profile_siv_detail_group:
-                toGroupUserInfoDetail();
-                break;
-            case R.id.profile_siv_detail_phone:
-                toSetAliasName();
-                break;
-            case R.id.profile_siv_detail_alias:
-                toSetAliasName();
-                break;
-            case R.id.profile_siv_detail_blacklist:
-                toBlackList(!isInBlackList);
-                break;
-            case R.id.profile_siv_detail_delete_contact:
-                deleteFromContact();
-                break;
-            case R.id.profile_btn_detail_start_chat:
-                startChat();
-                break;
-            case R.id.profile_btn_detail_start_voice:
-                startVoice();
-                break;
-            case R.id.profile_btn_detail_start_video:
-                startVideo();
-                break;
-            case R.id.profile_btn_detail_add_friend:
-                showAddFriendDialog();
-                break;
-            case R.id.profile_tv_detail_phone:
-            default:
-                break;
+        int id = v.getId();
+        if (id == R.id.profile_ll_detail_info_group) {
+            // Do nothing
+        } else if (id == R.id.profile_siv_detail_group) {
+            toGroupUserInfoDetail();
+        } else if (id == R.id.profile_siv_detail_phone) {
+            toSetAliasName();
+        } else if (id == R.id.profile_siv_detail_alias) {
+            toSetAliasName();
+        } else if (id == R.id.profile_siv_detail_blacklist) {
+            toBlackList(!isInBlackList);
+        } else if (id == R.id.profile_siv_detail_delete_contact) {
+            deleteFromContact();
+        } else if (id == R.id.profile_btn_detail_start_chat) {
+            startChat();
+        } else if (id == R.id.profile_btn_detail_start_voice) {
+            startVoice();
+        } else if (id == R.id.profile_btn_detail_start_video) {
+            startVideo();
+        } else if (id == R.id.profile_btn_detail_add_friend) {
+            showAddFriendDialog();
+        } else if (id == R.id.profile_tv_detail_phone) {
+            // Do nothing
+        } else {
+            // Do nothing
         }
     }
 

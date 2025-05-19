@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import cn.rongcloud.im.R;
 import cn.rongcloud.im.ui.activity.ConversationActivity;
 import cn.rongcloud.im.ui.activity.UltraConversationActivity;
 import cn.rongcloud.im.utils.log.SLog;
@@ -158,15 +157,15 @@ public class MyConversationListFragment extends ConversationListFragment {
         final String removeItem =
                 view.getContext()
                         .getResources()
-                        .getString(R.string.rc_conversation_list_dialog_remove);
+                        .getString(io.rong.imkit.R.string.rc_conversation_list_dialog_remove);
         final String setTopItem =
                 view.getContext()
                         .getResources()
-                        .getString(R.string.rc_conversation_list_dialog_set_top);
+                        .getString(io.rong.imkit.R.string.rc_conversation_list_dialog_set_top);
         final String cancelTopItem =
                 view.getContext()
                         .getResources()
-                        .getString(R.string.rc_conversation_list_dialog_cancel_top);
+                        .getString(io.rong.imkit.R.string.rc_conversation_list_dialog_cancel_top);
 
         items.add("channelId : " + baseUiConversation.mCore.getChannelId());
         if (!(baseUiConversation instanceof GatheredConversation)) {

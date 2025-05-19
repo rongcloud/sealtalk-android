@@ -4,7 +4,9 @@ import android.content.Context;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 
-/** @author gusd @Date 2022/09/16 */
+/**
+ * @author gusd @Date 2022/09/16
+ */
 public class RetrofitProxyServiceCreator {
 
     private static final HashMap<String, Object> MAP = new HashMap<>();

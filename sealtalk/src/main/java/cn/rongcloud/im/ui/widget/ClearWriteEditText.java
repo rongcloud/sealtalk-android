@@ -56,31 +56,24 @@ public class ClearWriteEditText extends EditText
             final int N = ta.getIndexCount();
             for (int i = 0; i < N; i++) {
                 int attr = ta.getIndex(i);
-                switch (attr) {
-                    case R.styleable.ClearWriteEditText_et_right_image:
-                        drawable = ta.getDrawable(R.styleable.ClearWriteEditText_et_right_image);
-                        mClearDrawable = drawable;
-                        //                        mClearDrawable =
-                        // getResources().getDrawable(R.drawable.seal_ic_search_clear_pressed_write);
-                        mClearDrawable.setBounds(
-                                0,
-                                0,
-                                mClearDrawable.getIntrinsicWidth(),
-                                mClearDrawable.getIntrinsicHeight());
-                        setClearIconVisible(false);
-                        break;
-                    case R.styleable.ClearWriteEditText_et_left_image:
-                        drawable = ta.getDrawable(R.styleable.ClearWriteEditText_et_left_image);
-                        drawable.setBounds(
-                                0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                        setCompoundDrawables(
-                                drawable,
-                                getCompoundDrawables()[1],
-                                getCompoundDrawables()[2],
-                                getCompoundDrawables()[3]);
-                        break;
-                    default:
-                        break;
+                if (attr == R.styleable.ClearWriteEditText_et_right_image) {
+                    drawable = ta.getDrawable(R.styleable.ClearWriteEditText_et_right_image);
+                    mClearDrawable = drawable;
+                    mClearDrawable.setBounds(
+                            0,
+                            0,
+                            mClearDrawable.getIntrinsicWidth(),
+                            mClearDrawable.getIntrinsicHeight());
+                    setClearIconVisible(false);
+                } else if (attr == R.styleable.ClearWriteEditText_et_left_image) {
+                    drawable = ta.getDrawable(R.styleable.ClearWriteEditText_et_left_image);
+                    drawable.setBounds(
+                            0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                    setCompoundDrawables(
+                            drawable,
+                            getCompoundDrawables()[1],
+                            getCompoundDrawables()[2],
+                            getCompoundDrawables()[3]);
                 }
             }
         }

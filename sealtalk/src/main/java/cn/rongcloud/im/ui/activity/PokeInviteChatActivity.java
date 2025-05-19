@@ -34,17 +34,22 @@ import java.io.IOException;
 /** 戳一下消息邀请聊天界面 */
 public class PokeInviteChatActivity extends BaseActivity implements View.OnClickListener {
     private final String TAG = "PokeInviteChatActivity";
+
     /** 来戳一下消息时震动规则 */
     private final long[] VIBRATOR_PATTERN = new long[] {1000, 1000};
 
     /** 默认关闭戳一下邀请界面的时间 */
     private final long TIME_TO_FINISH_POKE_INVITE = 60 * 1000;
+
     /** 邀请人 id */
     private String fromId;
+
     /** 邀请的会话类型 */
     private Conversation.ConversationType conversationType;
+
     /** 邀请到目标的 targetId, 群组时为群组 id，个人时即为发送人 id */
     private String targetId;
+
     /** 戳一下消息内容 */
     private String pokeMessage;
 
@@ -209,31 +214,29 @@ public class PokeInviteChatActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.poke_ll_poke_ignore_container:
-                finish();
-                break;
-            case R.id.poke_ll_poke_start_chat_container:
-                String title = "";
-                if (conversationType == Conversation.ConversationType.GROUP) {
-                    Group groupInfo = RongUserInfoManager.getInstance().getGroupInfo(targetId);
-                    title = groupInfo.getName();
-                } else if (conversationType == Conversation.ConversationType.PRIVATE) {
-                    if (TextUtils.isEmpty(targetUserName)) {
-                        io.rong.imlib.model.UserInfo userInfo =
-                                RongUserInfoManager.getInstance().getUserInfo(targetId);
-                        title = userInfo.getName();
-                    } else {
-                        title = targetUserName;
-                    }
+        int id = v.getId();
+        if (id == R.id.poke_ll_poke_ignore_container) {
+            finish();
+        } else if (id == R.id.poke_ll_poke_start_chat_container) {
+            String title = "";
+            if (conversationType == Conversation.ConversationType.GROUP) {
+                Group groupInfo = RongUserInfoManager.getInstance().getGroupInfo(targetId);
+                title = groupInfo.getName();
+            } else if (conversationType == Conversation.ConversationType.PRIVATE) {
+                if (TextUtils.isEmpty(targetUserName)) {
+                    io.rong.imlib.model.UserInfo userInfo =
+                            RongUserInfoManager.getInstance().getUserInfo(targetId);
+                    title = userInfo.getName();
+                } else {
+                    title = targetUserName;
                 }
-                RongIM.getInstance()
-                        .startConversation(
-                                PokeInviteChatActivity.this,
-                                ConversationIdentifier.obtain(conversationType, targetId, ""),
-                                title);
-                finish();
-                break;
+            }
+            RongIM.getInstance()
+                    .startConversation(
+                            PokeInviteChatActivity.this,
+                            ConversationIdentifier.obtain(conversationType, targetId, ""),
+                            title);
+            finish();
         }
     }
 

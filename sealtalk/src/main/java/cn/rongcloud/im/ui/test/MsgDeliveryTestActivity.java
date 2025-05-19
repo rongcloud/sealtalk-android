@@ -115,10 +115,7 @@ public class MsgDeliveryTestActivity extends BaseActivity implements View.OnClic
                                                 .setMessage(alertStr)
                                                 .setPositiveButton(
                                                         getString(
-                                                                io.rong
-                                                                        .imkit
-                                                                        .R
-                                                                        .string
+                                                                io.rong.imkit.R.string
                                                                         .rc_dialog_ok),
                                                         (dialog, which) -> dialog.dismiss())
                                                 .setCancelable(false);
@@ -137,10 +134,7 @@ public class MsgDeliveryTestActivity extends BaseActivity implements View.OnClic
                                                 .setMessage(alertStr)
                                                 .setPositiveButton(
                                                         getString(
-                                                                io.rong
-                                                                        .imkit
-                                                                        .R
-                                                                        .string
+                                                                io.rong.imkit.R.string
                                                                         .rc_dialog_ok),
                                                         (dialog, which) -> dialog.dismiss())
                                                 .setCancelable(false);
@@ -167,10 +161,7 @@ public class MsgDeliveryTestActivity extends BaseActivity implements View.OnClic
                                                 .setMessage(alertStr)
                                                 .setPositiveButton(
                                                         getString(
-                                                                io.rong
-                                                                        .imkit
-                                                                        .R
-                                                                        .string
+                                                                io.rong.imkit.R.string
                                                                         .rc_dialog_ok),
                                                         (dialog, which) -> dialog.dismiss())
                                                 .setCancelable(false);
@@ -189,10 +180,7 @@ public class MsgDeliveryTestActivity extends BaseActivity implements View.OnClic
                                                 .setMessage(alertStr)
                                                 .setPositiveButton(
                                                         getString(
-                                                                io.rong
-                                                                        .imkit
-                                                                        .R
-                                                                        .string
+                                                                io.rong.imkit.R.string
                                                                         .rc_dialog_ok),
                                                         (dialog, which) -> dialog.dismiss())
                                                 .setCancelable(false);

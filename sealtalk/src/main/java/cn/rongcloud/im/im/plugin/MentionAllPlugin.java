@@ -22,7 +22,7 @@ class MentionAllPlugin implements IPluginModule {
 
     @Override
     public String obtainTitle(Context context) {
-        return context.getString(R.string.rc_message_content_mentioned);
+        return context.getString(io.rong.imkit.R.string.rc_message_content_mentioned);
     }
 
     @Override

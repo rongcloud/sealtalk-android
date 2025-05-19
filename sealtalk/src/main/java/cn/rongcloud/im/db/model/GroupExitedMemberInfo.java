@@ -21,6 +21,7 @@ public class GroupExitedMemberInfo implements Parcelable {
 
     @ColumnInfo(name = "quitPortraitUri")
     private String quitPortraitUri;
+
     /** 退群原因 0 被群主 移除群聊、 1 被管理员 移除、 2 主动退出 */
     @ColumnInfo(name = "quitReason")
     private int quitReason;

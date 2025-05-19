@@ -5,7 +5,9 @@ import cn.rongcloud.rtc.socks.proxy.Socks5ProxyHelper;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.RCIMProxy;
 
-/** @author gusd @Date 2022/09/16 */
+/**
+ * @author gusd @Date 2022/09/16
+ */
 public class AppProxyManager {
 
     private RCIMProxy mProxy;

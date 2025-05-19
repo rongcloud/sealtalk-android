@@ -117,7 +117,9 @@ public class BarcodeView extends CameraPreview {
         return decoder;
     }
 
-    /** @return the current DecoderFactory in use. */
+    /**
+     * @return the current DecoderFactory in use.
+     */
     public DecoderFactory getDecoderFactory() {
         return decoderFactory;
     }
@@ -185,6 +187,7 @@ public class BarcodeView extends CameraPreview {
             decoderThread = null;
         }
     }
+
     /**
      * Stops the live preview and decoding.
      *

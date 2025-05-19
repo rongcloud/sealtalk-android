@@ -41,6 +41,8 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.config.ConversationClickListener;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imlib.IRongCoreEnum;
+import io.rong.imlib.IRongCoreListener;
+import io.rong.imlib.RongCoreClientImpl;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -74,6 +76,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView quickIntercept; // 是否忽略登录图片验证码
     private SettingItemView createNotificationChannel;
     private SettingItemView bindChatRTCRoom;
+    private EditText eTDatabaseOperateThreshold;
     public static final String SP_IS_SHOW = "is_show";
     public static final String SP_COMBINE_V2 = "combine_v2";
     public static final String SP_HINT_NO_MORE_MESSAGE = "sp_hint_no_more_message";
@@ -91,6 +94,35 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         setContentView(R.layout.activity_sealtalk_debug_test);
         initView();
         initViewModel();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        int time = Integer.parseInt(eTDatabaseOperateThreshold.getText().toString());
+        new Thread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                RongCoreClientImpl.getInstance()
+                                        .setDatabaseOperationTimeThreshold(time);
+                                RongCoreClientImpl.getInstance()
+                                        .addDatabaseStatusListener(
+                                                new IRongCoreListener
+                                                        .DatabaseUpgradeStatusListener() {
+                                                    @Override
+                                                    public void databaseUpgradeWillStart() {}
+
+                                                    @Override
+                                                    public void databaseIsUpgrading(int progress) {}
+
+                                                    @Override
+                                                    public void databaseUpgradeDidComplete(
+                                                            IRongCoreEnum.CoreErrorCode code) {}
+                                                });
+                            }
+                        })
+                .start();
     }
 
     /** 初始化布局 */
@@ -340,6 +372,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
 
         bindChatRTCRoom = findViewById(R.id.siv_bind_chat_rtc_room);
         bindChatRTCRoom.setOnClickListener(this);
+
+        eTDatabaseOperateThreshold = findViewById(R.id.et_database_operate_threshold);
     }
 
     private void initViewModel() {
@@ -348,80 +382,53 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_push_config:
-                toPushConfig();
-                break;
-            case R.id.siv_message_audit_info:
-                setAuditInfo();
-                break;
-            case R.id.siv_discussion:
-                toDiscussion();
-                break;
-            case R.id.siv_push_language:
-                toInputTitleDialog();
-                break;
-            case R.id.siv_chatroom:
-                toChatRoom();
-                break;
-            case R.id.siv_message_expansion:
-                toMessageExpansion();
-                break;
-            case R.id.siv_ultra_group:
-                toUltraGroup();
-                break;
-            case R.id.siv_ultra_group_unread_mention_msg_digests:
-                toUltraGroupUnreadMentionDigest();
-                break;
-            case R.id.siv_ultra_group_conversation_by_target_id:
-                toUltraGroupConversationListByTargetIds();
-                break;
-            case R.id.siv_tag:
-                toTagTest();
-                break;
-            case R.id.siv_delivery:
-                toMessageDelivery();
-                break;
-            case R.id.siv_shortage:
-                toShortage();
-                break;
-
-            case R.id.siv_shortage_dialog:
-                toShortageDialog();
-                break;
-            case R.id.siv_delete_remote_dialog:
-                toDelRemoteMessage();
-                break;
-            case R.id.siv_sound_dialog:
-                toSound();
-                break;
-            case R.id.siv_vibrate_dialog:
-                toVibrate();
-                break;
-            case R.id.siv_grr_v2_sender_test:
-                toGroupReadReceiptTest(1);
-                break;
-            case R.id.siv_umeng_info:
-                toDeviceInfo();
-                break;
-            case R.id.siv_reference_msg_test:
-                toReferMsgTest();
-                break;
-            case R.id.siv_block_msg_test:
-                toReferMsgTest();
-                break;
-            case R.id.siv_create_notification_channel:
-                showCreateNotificationDialog();
-                break;
-            case R.id.siv_bind_chat_rtc_room:
-                bindChatRTCRoom();
-                break;
-            case R.id.quick_intercept:
-                bindChatRTCRoom();
-                break;
-            default:
-                // Do nothing
-                break;
+        int id = v.getId();
+        if (id == R.id.siv_push_config) {
+            toPushConfig();
+        } else if (id == R.id.siv_message_audit_info) {
+            setAuditInfo();
+        } else if (id == R.id.siv_discussion) {
+            toDiscussion();
+        } else if (id == R.id.siv_push_language) {
+            toInputTitleDialog();
+        } else if (id == R.id.siv_chatroom) {
+            toChatRoom();
+        } else if (id == R.id.siv_message_expansion) {
+            toMessageExpansion();
+        } else if (id == R.id.siv_ultra_group) {
+            toUltraGroup();
+        } else if (id == R.id.siv_ultra_group_unread_mention_msg_digests) {
+            toUltraGroupUnreadMentionDigest();
+        } else if (id == R.id.siv_ultra_group_conversation_by_target_id) {
+            toUltraGroupConversationListByTargetIds();
+        } else if (id == R.id.siv_tag) {
+            toTagTest();
+        } else if (id == R.id.siv_delivery) {
+            toMessageDelivery();
+        } else if (id == R.id.siv_shortage) {
+            toShortage();
+        } else if (id == R.id.siv_shortage_dialog) {
+            toShortageDialog();
+        } else if (id == R.id.siv_delete_remote_dialog) {
+            toDelRemoteMessage();
+        } else if (id == R.id.siv_sound_dialog) {
+            toSound();
+        } else if (id == R.id.siv_vibrate_dialog) {
+            toVibrate();
+        } else if (id == R.id.siv_grr_v2_sender_test) {
+            toGroupReadReceiptTest(1);
+        } else if (id == R.id.siv_umeng_info) {
+            toDeviceInfo();
+        } else if (id == R.id.siv_reference_msg_test) {
+            toReferMsgTest();
+        } else if (id == R.id.siv_block_msg_test) {
+            toReferMsgTest();
+        } else if (id == R.id.siv_create_notification_channel) {
+            showCreateNotificationDialog();
+        } else if (id == R.id.siv_bind_chat_rtc_room) {
+            bindChatRTCRoom();
+        } else if (id == R.id.quick_intercept) {
+            bindChatRTCRoom();
         }
     }
 
@@ -465,7 +472,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
                             if ("0".equals(dialogText)) {
                                 RongConfigCenter.featureConfig().setSoundInForeground(false);
                             } else if ("1".equals(dialogText)) {
-                                RongConfigCenter.featureConfig().setSoundInForeground(false);
+                                RongConfigCenter.featureConfig().setSoundInForeground(true);
                             }
                         })
                 .show();

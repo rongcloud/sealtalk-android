@@ -56,51 +56,44 @@ public class ForwardSearchAdapter extends RecyclerView.Adapter<ForwardCheckViewH
         ForwardCheckViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(viewType, null, false);
-        switch (viewType) {
-            case R.layout.serach_fragment_forward_recycler_friend_item:
-                viewHolder =
-                        new ForwardSearchFriendViewHolder(
-                                itemView,
-                                new OnContactItemClickListener() {
-                                    @Override
-                                    public void onItemContactClick(FriendShipInfo friendShipInfo) {
 
-                                        if (selectedFriendIds.contains(
-                                                friendShipInfo.getUser().getId())) {
-                                            selectedFriendIds.remove(
-                                                    friendShipInfo.getUser().getId());
-                                        } else {
-                                            selectedFriendIds.add(friendShipInfo.getUser().getId());
-                                        }
-
-                                        if (contactItemClickListener != null) {
-                                            contactItemClickListener.onItemContactClick(
-                                                    friendShipInfo);
-                                        }
+        if (viewType == R.layout.serach_fragment_forward_recycler_friend_item) {
+            viewHolder =
+                    new ForwardSearchFriendViewHolder(
+                            itemView,
+                            new OnContactItemClickListener() {
+                                @Override
+                                public void onItemContactClick(FriendShipInfo friendShipInfo) {
+                                    if (selectedFriendIds.contains(
+                                            friendShipInfo.getUser().getId())) {
+                                        selectedFriendIds.remove(friendShipInfo.getUser().getId());
+                                    } else {
+                                        selectedFriendIds.add(friendShipInfo.getUser().getId());
                                     }
-                                });
-                break;
-            case R.layout.serach_fragment_forward_recycler_group_item:
-                viewHolder =
-                        new ForwardSearchGroupViewHolder(
-                                itemView,
-                                new OnGroupItemClickListener() {
-                                    @Override
-                                    public void onGroupClicked(GroupEntity groupEntity) {
-                                        if (selectedGroupIds.contains(groupEntity.getId())) {
-                                            selectedGroupIds.remove(groupEntity.getId());
-                                        } else {
-                                            selectedGroupIds.add(groupEntity.getId());
-                                        }
-                                        if (groupItemClickListener != null) {
-                                            groupItemClickListener.onGroupClicked(groupEntity);
-                                        }
+                                    if (contactItemClickListener != null) {
+                                        contactItemClickListener.onItemContactClick(friendShipInfo);
                                     }
-                                });
-                break;
-            default:
-                break;
+                                }
+                            });
+        } else if (viewType == R.layout.serach_fragment_forward_recycler_group_item) {
+            viewHolder =
+                    new ForwardSearchGroupViewHolder(
+                            itemView,
+                            new OnGroupItemClickListener() {
+                                @Override
+                                public void onGroupClicked(GroupEntity groupEntity) {
+                                    if (selectedGroupIds.contains(groupEntity.getId())) {
+                                        selectedGroupIds.remove(groupEntity.getId());
+                                    } else {
+                                        selectedGroupIds.add(groupEntity.getId());
+                                    }
+                                    if (groupItemClickListener != null) {
+                                        groupItemClickListener.onGroupClicked(groupEntity);
+                                    }
+                                }
+                            });
         }
+
         return viewHolder;
     }
 
@@ -114,19 +107,15 @@ public class ForwardSearchAdapter extends RecyclerView.Adapter<ForwardCheckViewH
         SearchModel searchModel = searchModelList.get(position);
         holder.update(searchModel);
         int type = searchModel.getType();
-        switch (type) {
-            case R.layout.serach_fragment_forward_recycler_friend_item:
-                if (selectedFriendIds.contains(searchModel.getId())) {
-                    holder.setChecked(true);
-                }
-                break;
-            case R.layout.serach_fragment_forward_recycler_group_item:
-                if (selectedGroupIds.contains(searchModel.getId())) {
-                    holder.setChecked(true);
-                }
-                break;
-            default:
-                break;
+
+        if (type == R.layout.serach_fragment_forward_recycler_friend_item) {
+            if (selectedFriendIds.contains(searchModel.getId())) {
+                holder.setChecked(true);
+            }
+        } else if (type == R.layout.serach_fragment_forward_recycler_group_item) {
+            if (selectedGroupIds.contains(searchModel.getId())) {
+                holder.setChecked(true);
+            }
         }
     }
 

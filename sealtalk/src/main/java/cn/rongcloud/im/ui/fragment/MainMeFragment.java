@@ -100,7 +100,9 @@ public class MainMeFragment extends BaseFragment {
                                                 && getActivity() != null) {
                                             Glide.with(getActivity())
                                                     .load(info.getPortraitUri())
-                                                    .placeholder(R.drawable.rc_default_portrait)
+                                                    .placeholder(
+                                                            io.rong.imkit.R.drawable
+                                                                    .rc_default_portrait)
                                                     .into(uivUserInfo.getHeaderImageView());
                                         }
                                     }
@@ -141,67 +143,53 @@ public class MainMeFragment extends BaseFragment {
 
     @Override
     protected void onClick(View v, int id) {
-        switch (id) {
-            case R.id.siv_setting_qrcode:
-                Intent qrCodeIntent = new Intent(getActivity(), QrCodeDisplayActivity.class);
-                qrCodeIntent.putExtra(
-                        IntentExtra.STR_TARGET_ID, RongIM.getInstance().getCurrentUserId());
-                qrCodeIntent.putExtra(
-                        IntentExtra.SERIA_QRCODE_DISPLAY_TYPE, QrCodeDisplayType.PRIVATE);
-                startActivity(qrCodeIntent);
-                break;
-            case R.id.uiv_userinfo:
-                Intent intentUserInfo = new Intent(getActivity(), MyAccountActivity.class);
-                startActivity(intentUserInfo);
-                break;
-            case R.id.siv_setting_account:
-                startActivity(new Intent(getActivity(), AccountSettingActivity.class));
-
-                break;
-            case R.id.siv_language:
-                startActivity(new Intent(getActivity(), ChangeLanguageActivity.class));
-
-                break;
-            case R.id.siv_feedback:
-                CSCustomServiceInfo.Builder builder = new CSCustomServiceInfo.Builder();
-                builder.province(getString(R.string.beijing));
-                builder.city(getString(R.string.beijing));
-                io.rong.imlib.model.UserInfo info =
-                        RongUserInfoManager.getInstance()
-                                .getUserInfo(RongIM.getInstance().getCurrentUserId());
-                if (info != null && !TextUtils.isEmpty(info.getName())) {
-                    builder.name(info.getName());
-                }
-                // 佳信客服配置
-                builder.referrer("10001");
-                Bundle bundle = new Bundle();
-                bundle.putString(
-                        RouteUtils.TITLE, getString(R.string.seal_main_mine_online_custom_service));
-                bundle.putParcelable(RouteUtils.CUSTOM_SERVICE_INFO, builder.build());
-                RouteUtils.routeToConversationActivity(
-                        getContext(), ConversationIdentifier.obtainCustomer("service"), bundle);
-                break;
-            case R.id.siv_about:
-                Intent intent = new Intent(getActivity(), AboutSealTalkActivity.class);
-                Resource<VersionInfo.AndroidVersion> resource =
-                        appViewModel.getHasNewVersion().getValue();
-                if (resource != null
-                        && resource.data != null
-                        && !TextUtils.isEmpty(resource.data.getUrl())) {
-                    intent.putExtra(IntentExtra.URL, resource.data.getUrl());
-                }
-                startActivity(intent);
-                break;
-            case R.id.siv_translation:
-                intent = new Intent(getActivity(), TranslationSettingActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.siv_proxy_setting:
-                intent = new Intent(getActivity(), ProxySettingActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
+        if (id == R.id.siv_setting_qrcode) {
+            Intent qrCodeIntent = new Intent(getActivity(), QrCodeDisplayActivity.class);
+            qrCodeIntent.putExtra(
+                    IntentExtra.STR_TARGET_ID, RongIM.getInstance().getCurrentUserId());
+            qrCodeIntent.putExtra(IntentExtra.SERIA_QRCODE_DISPLAY_TYPE, QrCodeDisplayType.PRIVATE);
+            startActivity(qrCodeIntent);
+        } else if (id == R.id.uiv_userinfo) {
+            Intent intentUserInfo = new Intent(getActivity(), MyAccountActivity.class);
+            startActivity(intentUserInfo);
+        } else if (id == R.id.siv_setting_account) {
+            startActivity(new Intent(getActivity(), AccountSettingActivity.class));
+        } else if (id == R.id.siv_language) {
+            startActivity(new Intent(getActivity(), ChangeLanguageActivity.class));
+        } else if (id == R.id.siv_feedback) {
+            CSCustomServiceInfo.Builder builder = new CSCustomServiceInfo.Builder();
+            builder.province(getString(R.string.beijing));
+            builder.city(getString(R.string.beijing));
+            io.rong.imlib.model.UserInfo info =
+                    RongUserInfoManager.getInstance()
+                            .getUserInfo(RongIM.getInstance().getCurrentUserId());
+            if (info != null && !TextUtils.isEmpty(info.getName())) {
+                builder.name(info.getName());
+            }
+            // 佳信客服配置
+            builder.referrer("10001");
+            Bundle bundle = new Bundle();
+            bundle.putString(
+                    RouteUtils.TITLE, getString(R.string.seal_main_mine_online_custom_service));
+            bundle.putParcelable(RouteUtils.CUSTOM_SERVICE_INFO, builder.build());
+            RouteUtils.routeToConversationActivity(
+                    getContext(), ConversationIdentifier.obtainCustomer("service"), bundle);
+        } else if (id == R.id.siv_about) {
+            Intent intent = new Intent(getActivity(), AboutSealTalkActivity.class);
+            Resource<VersionInfo.AndroidVersion> resource =
+                    appViewModel.getHasNewVersion().getValue();
+            if (resource != null
+                    && resource.data != null
+                    && !TextUtils.isEmpty(resource.data.getUrl())) {
+                intent.putExtra(IntentExtra.URL, resource.data.getUrl());
+            }
+            startActivity(intent);
+        } else if (id == R.id.siv_translation) {
+            Intent intent = new Intent(getActivity(), TranslationSettingActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.siv_proxy_setting) {
+            Intent intent = new Intent(getActivity(), ProxySettingActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -229,7 +217,9 @@ public class MainMeFragment extends BaseFragment {
                                                 }
                                                 Glide.with(getActivity())
                                                         .load(userInfo.getPortraitUri())
-                                                        .placeholder(R.drawable.rc_default_portrait)
+                                                        .placeholder(
+                                                                io.rong.imkit.R.drawable
+                                                                        .rc_default_portrait)
                                                         .into(uivUserInfo.getHeaderImageView());
                                                 uivUserInfo.setName(userInfo.getName());
                                             }

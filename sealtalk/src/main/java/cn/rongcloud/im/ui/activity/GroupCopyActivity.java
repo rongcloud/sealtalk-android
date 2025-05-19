@@ -181,10 +181,9 @@ public class GroupCopyActivity extends TitleBaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_copy:
-                showCopyCertifiDialog();
-                break;
+        int id = v.getId();
+        if (id == R.id.btn_copy) {
+            showCopyCertifiDialog();
         }
     }
 

@@ -81,7 +81,7 @@ public class MemberMentionedAdapter extends BaseAdapter implements SectionIndexe
                             .into(viewHolder.portrait);
                 } else {
                     Glide.with(convertView)
-                            .load(R.drawable.rc_default_portrait)
+                            .load(io.rong.imkit.R.drawable.rc_default_portrait)
                             .into(viewHolder.portrait);
                 }
             }

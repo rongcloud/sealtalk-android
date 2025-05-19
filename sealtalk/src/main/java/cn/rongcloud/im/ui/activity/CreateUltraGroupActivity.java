@@ -27,7 +27,6 @@ import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.UltraGroupViewModel;
 import io.rong.imkit.IMCenter;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.RongIMClient;
@@ -50,6 +49,7 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
 
     private String createGroupName;
     private SharedPreferences sharedPreferences;
+
     /** 是否返回创建群组结果 */
     private boolean isCreatingGroup;
 
@@ -140,15 +140,10 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.main_iv_create_group_portrait:
-                showSelectPortraitDialog();
-                break;
-            case R.id.main_btn_confirm_create:
-                createGroup();
-                break;
-            default:
-                break;
+        if (v.getId() == R.id.main_iv_create_group_portrait) {
+            showSelectPortraitDialog();
+        } else if (v.getId() == R.id.main_btn_confirm_create) {
+            createGroup();
         }
     }
 
@@ -183,8 +178,7 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
             return;
         }
 
-        if (AndroidEmoji.isEmoji(groupName)
-                && groupName.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
+        if (groupName.length() < Constant.GROUP_NAME_EMOJI_MIN_LENGTH) {
             ToastUtils.showToast(getString(R.string.profile_group_name_emoji_too_short));
             return;
         }

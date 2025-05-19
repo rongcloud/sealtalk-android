@@ -1,6 +1,8 @@
 package cn.rongcloud.im.model;
 
-/** @author gusd @Date 2022/09/14 */
+/**
+ * @author gusd @Date 2022/09/14
+ */
 public class ProxyModel {
     private String testHost;
     private String proxyHost;

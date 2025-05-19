@@ -216,6 +216,36 @@
                 app:item_divider="true"
                 app:item_switch="true"
                 />
+
+            <LinearLayout
+                android:id="@+id/ll_database_operate_threshold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="设置数据库操作时间阈值"
+                    android:textColor="@color/text_black"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/et_database_operate_threshold"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:inputType="number"
+                    android:background="@drawable/rc_edit_text_background"
+                    android:hint="请输入..."
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:text="3000"
+                    android:textColor="@color/text_black" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -74,6 +74,7 @@ public final class BeepManager {
     public void setVibrateEnabled(boolean vibrateEnabled) {
         this.vibrateEnabled = vibrateEnabled;
     }
+
     // 播放声音和震动
     public synchronized void playBeepSoundAndVibrate() {
         if (QRCodeConstant.QR_VOICE_MODE) { // 是否播放声音

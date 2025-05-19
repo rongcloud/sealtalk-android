@@ -62,6 +62,7 @@ public abstract class CommonListBaseFragment extends ListBaseFragment {
     public void setOnItemLongClickListener(CommonListAdapter.OnItemLongClickListener listener) {
         this.longClickListener = listener;
     }
+
     /**
      * 设置同步已经选择的人
      *

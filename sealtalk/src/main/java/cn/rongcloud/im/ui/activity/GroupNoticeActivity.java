@@ -23,7 +23,6 @@ import cn.rongcloud.im.ui.view.SealTitleBar;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.GroupNoticeViewModel;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 import io.rong.imlib.model.ConversationIdentifier;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -112,7 +111,7 @@ public class GroupNoticeActivity extends TitleBaseActivity {
                             int start = noticeInputEt.getSelectionStart();
                             int end = noticeInputEt.getSelectionEnd();
                             noticeInputEt.removeTextChangedListener(this);
-                            noticeInputEt.setText(AndroidEmoji.ensure(s.toString()));
+                            noticeInputEt.setText(s);
                             noticeInputEt.addTextChangedListener(this);
                             noticeInputEt.setSelection(start, end);
                         }

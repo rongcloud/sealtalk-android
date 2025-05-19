@@ -3,20 +3,28 @@ package cn.rongcloud.im.model;
 public class GroupInfo {
     /** 群组 Id */
     private String id;
+
     /** 群名称 */
     private String name;
+
     /** 群头像 */
     private String portraitUri;
+
     /** 群人数 */
     private int memberCount;
+
     /** 群人数上限 */
     private int maxMemberCount;
+
     /** 群主 id */
     private String creatorId;
+
     /** 类型: 1,普通群;2,企业群 */
     private int type;
+
     /** 群公告 */
     private String bulletin;
+
     /** 删除日期 */
     private long deletedAt;
 

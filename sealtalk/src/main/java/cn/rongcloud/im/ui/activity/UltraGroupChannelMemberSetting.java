@@ -26,7 +26,9 @@ import io.rong.imlib.model.UserInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author gusd @Date 2022/06/21 */
+/**
+ * @author gusd @Date 2022/06/21
+ */
 public class UltraGroupChannelMemberSetting extends TitleBaseActivity
         implements RongUserInfoManager.UserDataObserver {
     private static final String TAG = "UltraGroupChannelMemberSetting";

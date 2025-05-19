@@ -12,7 +12,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import cn.rongcloud.im.R;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
@@ -822,24 +821,31 @@ public class UltraGroupViewModel extends AndroidViewModel
         }
         if (status.equals(
                 RongIMClient.ConnectionStatusListener.ConnectionStatus.NETWORK_UNAVAILABLE)) {
-            content = resources.getString(R.string.rc_conversation_list_notice_network_unavailable);
-            resId = R.drawable.rc_ic_error_notice;
+            content =
+                    resources.getString(
+                            io.rong.imkit.R.string.rc_conversation_list_notice_network_unavailable);
+            resId = io.rong.imkit.R.drawable.rc_ic_error_notice;
         } else if (status.equals(
                 RongIMClient.ConnectionStatusListener.ConnectionStatus
                         .KICKED_OFFLINE_BY_OTHER_CLIENT)) {
-            content = resources.getString(R.string.rc_conversation_list_notice_kicked);
-            resId = R.drawable.rc_ic_error_notice;
+            content =
+                    resources.getString(io.rong.imkit.R.string.rc_conversation_list_notice_kicked);
+            resId = io.rong.imkit.R.drawable.rc_ic_error_notice;
         } else if (status.equals(
                 RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED)) {
             isShowContent = false;
         } else if (status.equals(
                 RongIMClient.ConnectionStatusListener.ConnectionStatus.UNCONNECTED)) {
-            content = resources.getString(R.string.rc_conversation_list_notice_disconnect);
-            resId = R.drawable.rc_ic_error_notice;
+            content =
+                    resources.getString(
+                            io.rong.imkit.R.string.rc_conversation_list_notice_disconnect);
+            resId = io.rong.imkit.R.drawable.rc_ic_error_notice;
         } else if (status.equals(RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING)
                 || status.equals(RongIMClient.ConnectionStatusListener.ConnectionStatus.SUSPEND)) {
-            content = resources.getString(R.string.rc_conversation_list_notice_connecting);
-            resId = R.drawable.rc_conversationlist_notice_connecting_animated;
+            content =
+                    resources.getString(
+                            io.rong.imkit.R.string.rc_conversation_list_notice_connecting);
+            resId = io.rong.imkit.R.drawable.rc_conversationlist_notice_connecting_animated;
         }
 
         noticeContent.setContent(content);

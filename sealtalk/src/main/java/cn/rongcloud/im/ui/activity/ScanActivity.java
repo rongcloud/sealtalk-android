@@ -128,13 +128,10 @@ public class ScanActivity extends TitleBaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.zxing_open_light:
-                switchCameraLight();
-                break;
-            case R.id.zxing_select_pic:
-                scanFromAlbum();
-                break;
+        if (v.getId() == R.id.zxing_open_light) {
+            switchCameraLight();
+        } else if (v.getId() == R.id.zxing_select_pic) {
+            scanFromAlbum();
         }
     }
 

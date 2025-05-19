@@ -91,6 +91,7 @@ public class UltraConversationActivity extends RongBaseActivity
 
     /** 在会话类型为群组时：是否为群主 */
     private boolean isGroupOwner;
+
     /** 在会话类型为群组时：是否为群管理员 */
     private boolean isGroupManager;
 
@@ -111,7 +112,7 @@ public class UltraConversationActivity extends RongBaseActivity
                     this,
                     getResources()
                             .getColor(
-                                    R.color
+                                    io.rong.imkit.R.color
                                             .rc_background_main_color)); // Color.parseColor("#F5F6F9")
         }
         // 没有intent 的则直接返回
@@ -145,8 +146,7 @@ public class UltraConversationActivity extends RongBaseActivity
                             AlertDialog dialog =
                                     new AlertDialog.Builder(
                                                     activity,
-                                                    android.R
-                                                            .style
+                                                    android.R.style
                                                             .Theme_DeviceDefault_Light_Dialog_Alert)
                                             .setMessage("向用户说明申请权限")
                                             .setPositiveButton(
@@ -227,7 +227,7 @@ public class UltraConversationActivity extends RongBaseActivity
             if (!TextUtils.isEmpty(configCache.getChatbgUri())) {
                 try {
                     fragment.getView()
-                            .findViewById(R.id.rc_refresh)
+                            .findViewById(io.rong.imkit.R.id.rc_refresh)
                             .setBackground(
                                     Drawable.createFromStream(
                                             getContentResolver()
@@ -770,7 +770,7 @@ public class UltraConversationActivity extends RongBaseActivity
             UnReadMessageManager.getInstance().addObserver(null, this);
         }
 
-        mTitleBar.setBackgroundResource(R.color.rc_background_main_color);
+        mTitleBar.setBackgroundResource(io.rong.imkit.R.color.rc_background_main_color);
         if (conversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)
                 || conversationType.equals(Conversation.ConversationType.CHATROOM)) {
             mTitleBar.setRightVisible(false);

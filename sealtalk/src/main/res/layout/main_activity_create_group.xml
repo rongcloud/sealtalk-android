@@ -18,6 +18,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:background="@drawable/common_portrait_default_group_create"
+            android:scaleType="fitXY"
             app:sriv_left_bottom_corner_radius="3dp"
             app:sriv_left_top_corner_radius="3dp"
             app:sriv_oval="true"

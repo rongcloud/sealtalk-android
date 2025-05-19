@@ -123,26 +123,22 @@ public class ImagePreviewActivity extends TitleBaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_set:
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-                break;
-            case R.id.tv_cancel:
-                setResult(RESULT_CANCELED);
-                finish();
-                break;
-            case R.id.ll_select_orgin:
-                cbSelectOrgin.setChecked(!cbSelectOrgin.isChecked());
-                break;
-            case R.id.tv_send:
-                Intent intentSend = new Intent();
-                intentSend.putExtra(IntentExtra.URL, "file://" + uri);
-                intentSend.putExtra(IntentExtra.ORGIN, cbSelectOrgin.isChecked());
-                setResult(RESULT_OK, intentSend);
-                finish();
-                break;
+        int id = v.getId();
+        if (id == R.id.tv_set) {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        } else if (id == R.id.tv_cancel) {
+            setResult(RESULT_CANCELED);
+            finish();
+        } else if (id == R.id.ll_select_orgin) {
+            cbSelectOrgin.setChecked(!cbSelectOrgin.isChecked());
+        } else if (id == R.id.tv_send) {
+            Intent intentSend = new Intent();
+            intentSend.putExtra(IntentExtra.URL, "file://" + uri);
+            intentSend.putExtra(IntentExtra.ORGIN, cbSelectOrgin.isChecked());
+            setResult(RESULT_OK, intentSend);
+            finish();
         }
     }
 }

@@ -216,79 +216,72 @@ public class LoginRegisterFragment extends BaseFragment {
 
     @Override
     protected void onClick(View v, int id) {
-        switch (id) {
-            case R.id.ll_reg_country_select:
-                startActivityForResult(
-                        new Intent(getActivity(), SelectCountryActivity.class),
-                        REQUEST_CODE_SELECT_COUNTRY);
-                break;
-            case R.id.btn_reg_send_code:
-                String phoneNumber = phoneEdit.getText().toString().trim();
-                String phoneCode = countryCodeTv.getText().toString().trim();
-                if (TextUtils.isEmpty(phoneEdit.getText().toString().trim())) {
-                    showToast(R.string.seal_login_toast_phone_number_is_null);
-                    return;
-                }
-                // 请求发送验证码时， 禁止手机号改动和获取验证码的按钮改动
-                // 请求完成后在恢复原来状态
-                sendCodeBtn.setEnabled(false);
-                // phoneEdit.setEnabled(false);
-                sendCode(phoneCode, phoneNumber, null, null);
+        if (id == R.id.ll_reg_country_select) {
+            startActivityForResult(
+                    new Intent(getActivity(), SelectCountryActivity.class),
+                    REQUEST_CODE_SELECT_COUNTRY);
+        } else if (id == R.id.btn_reg_send_code) {
+            String phoneNumber = phoneEdit.getText().toString().trim();
+            String phoneCode = countryCodeTv.getText().toString().trim();
+            if (TextUtils.isEmpty(phoneEdit.getText().toString().trim())) {
+                showToast(R.string.seal_login_toast_phone_number_is_null);
+                return;
+            }
+            // 请求发送验证码时， 禁止手机号改动和获取验证码的按钮改动
+            // 请求完成后在恢复原来状态
+            sendCodeBtn.setEnabled(false);
+            // phoneEdit.setEnabled(false);
+            sendCode(phoneCode, phoneNumber, null, null);
+        } else if (id == R.id.btn_register) {
+            String phone = phoneEdit.getText().toString().trim();
+            String phoneCodeReg = countryCodeTv.getText().toString().trim();
+            String code = codeEdit.getText().toString().trim();
+            String userName = userNameEdit.getText().toString().trim();
+            String password = passwordEdit.getText().toString().trim();
 
-                break;
-            case R.id.btn_register:
-                String phone = phoneEdit.getText().toString().trim();
-                String phoneCodeReg = countryCodeTv.getText().toString().trim();
-                String code = codeEdit.getText().toString().trim();
-                String userName = userNameEdit.getText().toString().trim();
-                String password = passwordEdit.getText().toString().trim();
+            if (TextUtils.isEmpty(userName)) {
+                showToast(R.string.seal_login_toast_name_is_null);
+                userNameEdit.setShakeAnimation();
+                return;
+            }
+            if (userName.contains(" ")) {
+                showToast(R.string.seal_login_toast_name_contain_spaces);
+                userNameEdit.setShakeAnimation();
+                return;
+            }
 
-                if (TextUtils.isEmpty(userName)) {
-                    showToast(R.string.seal_login_toast_name_is_null);
-                    userNameEdit.setShakeAnimation();
-                    return;
-                }
-                if (userName.contains(" ")) {
-                    showToast(R.string.seal_login_toast_name_contain_spaces);
-                    userNameEdit.setShakeAnimation();
-                    return;
-                }
+            if (TextUtils.isEmpty(phone)) {
+                showToast(R.string.seal_login_toast_phone_number_is_null);
+                phoneEdit.setShakeAnimation();
+                return;
+            }
+            if (TextUtils.isEmpty(code)) {
+                showToast(R.string.seal_login_toast_code_is_null);
+                codeEdit.setShakeAnimation();
+                return;
+            }
+            if (TextUtils.isEmpty(password)) {
+                showToast(R.string.seal_login_toast_password_is_null);
+                passwordEdit.setShakeAnimation();
+                return;
+            }
+            if (password.contains(" ")) {
+                showToast(R.string.seal_login_toast_password_cannot_contain_spaces);
+                passwordEdit.setShakeAnimation();
+                return;
+            }
 
-                if (TextUtils.isEmpty(phone)) {
-                    showToast(R.string.seal_login_toast_phone_number_is_null);
-                    phoneEdit.setShakeAnimation();
-                    return;
-                }
-                if (TextUtils.isEmpty(code)) {
-                    showToast(R.string.seal_login_toast_code_is_null);
-                    codeEdit.setShakeAnimation();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    showToast(R.string.seal_login_toast_password_is_null);
-                    passwordEdit.setShakeAnimation();
-                    return;
-                }
-                if (password.contains(" ")) {
-                    showToast(R.string.seal_login_toast_password_cannot_contain_spaces);
-                    passwordEdit.setShakeAnimation();
-                    return;
-                }
+            if (!isRequestVerifyCode) {
+                showToast(R.string.seal_login_toast_not_send_code);
+                return;
+            }
 
-                if (!isRequestVerifyCode) {
-                    showToast(R.string.seal_login_toast_not_send_code);
-                    return;
-                }
-
-                if (TextUtils.isEmpty(phoneCodeReg)) {
-                    phoneCodeReg = "86";
-                } else if (phoneCodeReg.startsWith("+")) {
-                    phoneCodeReg = phoneCodeReg.substring(1);
-                }
-                register(phoneCodeReg, phone, code, userName, password);
-                break;
-            default:
-                break;
+            if (TextUtils.isEmpty(phoneCodeReg)) {
+                phoneCodeReg = "86";
+            } else if (phoneCodeReg.startsWith("+")) {
+                phoneCodeReg = phoneCodeReg.substring(1);
+            }
+            register(phoneCodeReg, phone, code, userName, password);
         }
     }
 

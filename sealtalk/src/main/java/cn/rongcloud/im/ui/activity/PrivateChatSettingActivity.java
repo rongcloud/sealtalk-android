@@ -45,6 +45,7 @@ import java.util.List;
 
 public class PrivateChatSettingActivity extends TitleBaseActivity implements View.OnClickListener {
     private final String TAG = "PrivateChatSettingActivity";
+
     /** 发起创建群组 */
     private final int REQUEST_START_GROUP = 1000;
 
@@ -284,17 +285,13 @@ public class PrivateChatSettingActivity extends TitleBaseActivity implements Vie
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_clean_chat_message:
-                showCleanMessageDialog();
-                break;
-            case R.id.siv_search_messages:
-                goSearchChatMessage();
-                break;
-            case R.id.profile_iv_add_member:
-                addOtherMemberToGroup();
-                break;
-            default:
+        int id = v.getId();
+        if (id == R.id.siv_clean_chat_message) {
+            showCleanMessageDialog();
+        } else if (id == R.id.siv_search_messages) {
+            goSearchChatMessage();
+        } else if (id == R.id.profile_iv_add_member) {
+            addOtherMemberToGroup();
         }
     }
 

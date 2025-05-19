@@ -27,7 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/** @author zhoujt */
+/**
+ * @author zhoujt
+ */
 public class ShortageDetailActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "ShortageDetailActivity";
@@ -68,42 +70,38 @@ public class ShortageDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_set_key:
-                MsgExtraInputDialog msgSetDialog =
-                        new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_SHORTAGE);
+        if (v.getId() == R.id.btn_set_key) {
+            MsgExtraInputDialog msgSetDialog =
+                    new MsgExtraInputDialog(mContext, MsgExtraInputDialog.TYPE_SHORTAGE);
 
-                msgSetDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String editStr = msgSetDialog.getEtUID().getText().toString();
-                                    if (TextUtils.isEmpty(editStr)) {
-                                        Toast.makeText(
-                                                        getApplicationContext(),
-                                                        "必须输入时间",
-                                                        Toast.LENGTH_LONG)
-                                                .show();
-                                        return;
-                                    }
-                                    long datetime =
-                                            Long.parseLong(
-                                                    msgSetDialog.getEtUID().getText().toString());
-                                    int count =
-                                            Integer.parseInt(
-                                                    msgSetDialog.getEtKey().getText().toString());
-                                    int pullOrder =
-                                            Integer.parseInt(
-                                                    msgSetDialog.getEtValue().getText().toString());
-                                    getLocalMsg(datetime, count, pullOrder);
-                                    msgSetDialog.cancel();
-                                });
+            msgSetDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String editStr = msgSetDialog.getEtUID().getText().toString();
+                                if (TextUtils.isEmpty(editStr)) {
+                                    Toast.makeText(
+                                                    getApplicationContext(),
+                                                    "必须输入时间",
+                                                    Toast.LENGTH_LONG)
+                                            .show();
+                                    return;
+                                }
+                                long datetime =
+                                        Long.parseLong(
+                                                msgSetDialog.getEtUID().getText().toString());
+                                int count =
+                                        Integer.parseInt(
+                                                msgSetDialog.getEtKey().getText().toString());
+                                int pullOrder =
+                                        Integer.parseInt(
+                                                msgSetDialog.getEtValue().getText().toString());
+                                getLocalMsg(datetime, count, pullOrder);
+                                msgSetDialog.cancel();
+                            });
 
-                msgSetDialog.getCancelView().setOnClickListener(v12 -> msgSetDialog.cancel());
-                msgSetDialog.show();
-                break;
-            default:
-                break;
+            msgSetDialog.getCancelView().setOnClickListener(v12 -> msgSetDialog.cancel());
+            msgSetDialog.show();
         }
     }
 

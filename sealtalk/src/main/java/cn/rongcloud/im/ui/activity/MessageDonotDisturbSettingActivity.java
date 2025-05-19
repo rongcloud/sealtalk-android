@@ -106,16 +106,10 @@ public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_start_time:
-                showSelectStartTime();
-                break;
-            case R.id.siv_end_time:
-                showSelectEndTime();
-                break;
-            default:
-                // Do nothing
-                break;
+        if (v.getId() == R.id.siv_start_time) {
+            showSelectStartTime();
+        } else if (v.getId() == R.id.siv_end_time) {
+            showSelectEndTime();
         }
     }
 

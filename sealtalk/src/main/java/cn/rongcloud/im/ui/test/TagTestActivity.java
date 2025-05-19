@@ -106,475 +106,417 @@ public class TagTestActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_conversation:
-                getConversation();
-                break;
-            case R.id.btn_add_tag:
-                TagTestInputDialog tagTestInputDialog =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_SET);
-                tagTestInputDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String id =
-                                            tagTestInputDialog.getEtTagId().getText().toString();
-                                    String name =
-                                            tagTestInputDialog.getEtTagName().getText().toString();
-                                    addTag(id, name);
-                                    tagTestInputDialog.cancel();
-                                });
+        int id = v.getId();
+        if (id == R.id.btn_conversation) {
+            getConversation();
+        } else if (id == R.id.btn_add_tag) {
+            TagTestInputDialog tagTestInputDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_SET);
+            tagTestInputDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String id1 = tagTestInputDialog.getEtTagId().getText().toString();
+                                String name =
+                                        tagTestInputDialog.getEtTagName().getText().toString();
+                                addTag(id1, name);
+                                tagTestInputDialog.cancel();
+                            });
 
-                tagTestInputDialog
-                        .getCancelView()
-                        .setOnClickListener(v12 -> tagTestInputDialog.cancel());
-                tagTestInputDialog.show();
+            tagTestInputDialog
+                    .getCancelView()
+                    .setOnClickListener(v12 -> tagTestInputDialog.cancel());
+            tagTestInputDialog.show();
+        } else if (id == R.id.btn_del_tag) {
+            TagTestInputDialog testInputDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_DELETE);
+            testInputDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String tagId = testInputDialog.getEtTagId().getText().toString();
+                                deleteTag(tagId);
+                                testInputDialog.cancel();
+                            });
 
-                break;
-            case R.id.btn_del_tag:
-                TagTestInputDialog testInputDialog =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_DELETE);
-                testInputDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String tagId =
-                                            testInputDialog.getEtTagId().getText().toString();
-                                    deleteTag(tagId);
-                                    testInputDialog.cancel();
-                                });
+            testInputDialog.getCancelView().setOnClickListener(v12 -> testInputDialog.cancel());
+            testInputDialog.show();
+        } else if (id == R.id.btn_update_tag) {
+            TagTestInputDialog updateTag =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_SET);
+            updateTag
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String id1 = updateTag.getEtTagId().getText().toString();
+                                String name = updateTag.getEtTagName().getText().toString();
+                                updateTag(id1, name);
+                                updateTag.cancel();
+                            });
 
-                testInputDialog.getCancelView().setOnClickListener(v12 -> testInputDialog.cancel());
-                testInputDialog.show();
-                break;
-            case R.id.btn_update_tag:
-                TagTestInputDialog updateTag =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_SET);
-                updateTag
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String id = updateTag.getEtTagId().getText().toString();
-                                    String name = updateTag.getEtTagName().getText().toString();
-                                    updateTag(id, name);
-                                    updateTag.cancel();
-                                });
+            updateTag.getCancelView().setOnClickListener(v12 -> updateTag.cancel());
+            updateTag.show();
+        } else if (id == R.id.btn_get_tags) {
+            getAllTags();
+        } else if (id == R.id.btn_add_tag_conversation) {
+            TagTestInputDialog addDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_ADD_CONVERSATION);
+            List<ConversationIdentifier> list = new ArrayList<>();
+            addDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String id1 = addDialog.getEtTagId().getText().toString();
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    addDialog.getEtType().getText().toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                                String targetId = addDialog.getEtTargetId().getText().toString();
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier(
+                                                Conversation.ConversationType.setValue(type),
+                                                targetId);
+                                list.add(conversationIdentifier);
+                                addTagToConversation(id1, list);
+                                addDialog.cancel();
+                            });
 
-                updateTag.getCancelView().setOnClickListener(v12 -> updateTag.cancel());
-                updateTag.show();
-                break;
+            addDialog
+                    .getAddView()
+                    .setOnClickListener(
+                            v13 -> {
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    addDialog.getEtType().getText().toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
 
-            case R.id.btn_get_tags:
-                getAllTags();
-                break;
-            case R.id.btn_add_tag_conversation:
-                TagTestInputDialog addDialog =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_ADD_CONVERSATION);
-                List<ConversationIdentifier> list = new ArrayList<>();
-                addDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String id = addDialog.getEtTagId().getText().toString();
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        addDialog.getEtType().getText().toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    String targetId =
-                                            addDialog.getEtTargetId().getText().toString();
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier(
-                                                    Conversation.ConversationType.setValue(type),
-                                                    targetId);
-                                    list.add(conversationIdentifier);
-                                    addTagToConversation(id, list);
-                                    addDialog.cancel();
-                                });
+                                String targetId = addDialog.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(targetId)) {
+                                    return;
+                                }
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier(
+                                                Conversation.ConversationType.setValue(type),
+                                                targetId);
+                                list.add(conversationIdentifier);
+                                addDialog.getEtType().getText().clear();
+                                addDialog.getEtTargetId().getText().clear();
+                            });
 
-                addDialog
-                        .getAddView()
-                        .setOnClickListener(
-                                v13 -> {
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        addDialog.getEtType().getText().toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
+            addDialog.getCancelView().setOnClickListener(v12 -> addDialog.cancel());
+            addDialog.show();
+        } else if (id == R.id.btn_remove_conversation_tag) {
+            TagTestInputDialog removeDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_ADD_CONVERSATION);
+            List<ConversationIdentifier> removeList = new ArrayList<>();
+            removeDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String id1 = removeDialog.getEtTagId().getText().toString();
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    removeDialog.getEtType().getText().toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                                String targetId = removeDialog.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(targetId)) {
+                                    return;
+                                }
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier(
+                                                Conversation.ConversationType.setValue(type),
+                                                targetId);
+                                removeList.add(conversationIdentifier);
+                                removeConversationTag(id1, removeList);
+                                removeDialog.cancel();
+                            });
 
-                                    String targetId =
-                                            addDialog.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(targetId)) {
-                                        return;
-                                    }
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier(
-                                                    Conversation.ConversationType.setValue(type),
-                                                    targetId);
-                                    list.add(conversationIdentifier);
-                                    addDialog.getEtType().getText().clear();
-                                    addDialog.getEtTargetId().getText().clear();
-                                });
+            removeDialog
+                    .getAddView()
+                    .setOnClickListener(
+                            v13 -> {
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    removeDialog.getEtType().getText().toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                                String targetId = removeDialog.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(targetId)) {
+                                    return;
+                                }
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier(
+                                                Conversation.ConversationType.setValue(type),
+                                                targetId);
+                                removeList.add(conversationIdentifier);
+                                removeDialog.getEtType().getText().clear();
+                                removeDialog.getEtTargetId().getText().clear();
+                            });
 
-                addDialog.getCancelView().setOnClickListener(v12 -> addDialog.cancel());
-                addDialog.show();
-                break;
-            case R.id.btn_remove_conversation_tag:
-                TagTestInputDialog removeDialog =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_ADD_CONVERSATION);
-                List<ConversationIdentifier> removeList = new ArrayList<>();
-                removeDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String id = removeDialog.getEtTagId().getText().toString();
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        removeDialog
-                                                                .getEtType()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    String targetId =
-                                            removeDialog.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(targetId)) {
-                                        return;
-                                    }
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier(
-                                                    Conversation.ConversationType.setValue(type),
-                                                    targetId);
-                                    removeList.add(conversationIdentifier);
-                                    removeConversationTag(id, removeList);
-                                    removeDialog.cancel();
-                                });
+            removeDialog.getCancelView().setOnClickListener(v12 -> removeDialog.cancel());
+            removeDialog.show();
+        } else if (id == R.id.btn_remove_conversation_tags) {
+            List<String> ids = new ArrayList<>();
+            TagTestInputDialog removeTags =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_REMOVE_TAGS);
+            removeTags
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String id1 = removeTags.getEtTagId().getText().toString();
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    removeTags.getEtType().getText().toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                                String targetId = removeTags.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(id1)) {
+                                    return;
+                                }
+                                ids.add(id1);
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier(
+                                                Conversation.ConversationType.setValue(type),
+                                                targetId);
+                                removeTagsFromConversation(conversationIdentifier, ids);
+                                removeTags.cancel();
+                            });
 
-                removeDialog
-                        .getAddView()
-                        .setOnClickListener(
-                                v13 -> {
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        removeDialog
-                                                                .getEtType()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    String targetId =
-                                            removeDialog.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(targetId)) {
-                                        return;
-                                    }
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier(
-                                                    Conversation.ConversationType.setValue(type),
-                                                    targetId);
-                                    removeList.add(conversationIdentifier);
-                                    removeDialog.getEtType().getText().clear();
-                                    removeDialog.getEtTargetId().getText().clear();
-                                });
+            removeTags
+                    .getAddView()
+                    .setOnClickListener(
+                            v13 -> {
+                                String tagId = removeTags.getEtTagId().getText().toString();
+                                ids.add(tagId);
+                                removeTags.getEtTagId().getText().clear();
+                            });
 
-                removeDialog.getCancelView().setOnClickListener(v12 -> removeDialog.cancel());
-                removeDialog.show();
-                break;
-            case R.id.btn_remove_conversation_tags:
-                List<String> ids = new ArrayList<>();
-                TagTestInputDialog removeTags =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_REMOVE_TAGS);
-                removeTags
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String id = removeTags.getEtTagId().getText().toString();
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        removeTags
-                                                                .getEtType()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    String targetId =
-                                            removeTags.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(id)) {
-                                        return;
-                                    }
-                                    ids.add(id);
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier(
-                                                    Conversation.ConversationType.setValue(type),
-                                                    targetId);
-                                    removeTagsFromConversation(conversationIdentifier, ids);
-                                    removeTags.cancel();
-                                });
+            removeTags.getCancelView().setOnClickListener(v12 -> removeTags.cancel());
+            removeTags.show();
+        } else if (id == R.id.btn_get_conversation_tag) {
+            TagTestInputDialog getConTags =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_GET_CONVERSATION_TAGS);
+            getConTags
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    getConTags.getEtType().getText().toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                                String targetId = getConTags.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(targetId)) {
+                                    return;
+                                }
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier();
+                                conversationIdentifier.setType(
+                                        Conversation.ConversationType.setValue(type));
+                                conversationIdentifier.setTargetId(targetId);
+                                getConversationTags(conversationIdentifier);
+                                getConTags.cancel();
+                            });
 
-                removeTags
-                        .getAddView()
-                        .setOnClickListener(
-                                v13 -> {
-                                    String tagId = removeTags.getEtTagId().getText().toString();
-                                    ids.add(tagId);
-                                    removeTags.getEtTagId().getText().clear();
-                                });
+            getConTags.getCancelView().setOnClickListener(v12 -> getConTags.cancel());
+            getConTags.show();
+        } else if (id == R.id.btn_get_conversation_top) {
+            TagTestInputDialog topInputDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_GET_CONVERSATION_TOP);
+            topInputDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    topInputDialog
+                                                            .getEtType()
+                                                            .getText()
+                                                            .toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                                String targetId =
+                                        topInputDialog.getEtTargetId().getText().toString();
+                                String tagId = topInputDialog.getEtTagId().getText().toString();
+                                if (TextUtils.isEmpty(tagId) || TextUtils.isEmpty(targetId)) {
+                                    return;
+                                }
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier();
+                                conversationIdentifier.setType(
+                                        Conversation.ConversationType.setValue(type));
+                                conversationIdentifier.setTargetId(targetId);
+                                getConversationTags(conversationIdentifier);
+                                getConversationTopStatusInTag(conversationIdentifier, tagId);
+                                topInputDialog.cancel();
+                            });
 
-                removeTags.getCancelView().setOnClickListener(v12 -> removeTags.cancel());
-                removeTags.show();
-                break;
-            case R.id.btn_get_conversation_tag:
-                TagTestInputDialog getConTags =
-                        new TagTestInputDialog(
-                                mContext, TagTestInputDialog.TYPE_GET_CONVERSATION_TAGS);
-                getConTags
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        getConTags
-                                                                .getEtType()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    String targetId =
-                                            getConTags.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(targetId)) {
-                                        return;
-                                    }
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier();
-                                    conversationIdentifier.setType(
-                                            Conversation.ConversationType.setValue(type));
-                                    conversationIdentifier.setTargetId(targetId);
-                                    getConversationTags(conversationIdentifier);
-                                    getConTags.cancel();
-                                });
-
-                getConTags.getCancelView().setOnClickListener(v12 -> getConTags.cancel());
-                getConTags.show();
-                break;
-            case R.id.btn_get_conversation_top:
-                TagTestInputDialog topInputDialog =
-                        new TagTestInputDialog(
-                                mContext, TagTestInputDialog.TYPE_GET_CONVERSATION_TOP);
-                topInputDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        topInputDialog
-                                                                .getEtType()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    String targetId =
-                                            topInputDialog.getEtTargetId().getText().toString();
-                                    String tagId = topInputDialog.getEtTagId().getText().toString();
-                                    if (TextUtils.isEmpty(tagId) || TextUtils.isEmpty(targetId)) {
-                                        return;
-                                    }
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier();
-                                    conversationIdentifier.setType(
-                                            Conversation.ConversationType.setValue(type));
-                                    conversationIdentifier.setTargetId(targetId);
-                                    getConversationTags(conversationIdentifier);
-                                    getConversationTopStatusInTag(conversationIdentifier, tagId);
-                                    topInputDialog.cancel();
-                                });
-
-                topInputDialog.getCancelView().setOnClickListener(v12 -> topInputDialog.cancel());
-                topInputDialog.show();
-                break;
-            case R.id.btn_get_conversation_tag_by_page:
-                TagTestInputDialog getConForTagDialog =
-                        new TagTestInputDialog(
-                                mContext, TagTestInputDialog.TYPE_GET_CONVERSATION_FOR_TAG);
-                getConForTagDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String tagId =
-                                            getConForTagDialog.getEtTagId().getText().toString();
-                                    long ts = 0;
-                                    int count = 0;
-                                    try {
-                                        ts =
-                                                Long.parseLong(
-                                                        getConForTagDialog
-                                                                .getEtType()
-                                                                .getText()
-                                                                .toString());
-                                        count =
-                                                Integer.parseInt(
-                                                        getConForTagDialog
-                                                                .getEtTargetId()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(tagId)) {
-                                        return;
-                                    }
-                                    getConversationsFromTagByPage(tagId, ts, count);
-                                    getConForTagDialog.cancel();
-                                });
-                getConForTagDialog
-                        .getCancelView()
-                        .setOnClickListener(v12 -> getConForTagDialog.cancel());
-                getConForTagDialog.show();
-                break;
-            case R.id.btn_get_unread_count_for_tag:
-                TagTestInputDialog getUnreadDialog =
-                        new TagTestInputDialog(
-                                mContext, TagTestInputDialog.TYPE_GET_UNREAD_FOR_TAG);
-                getUnreadDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String tagId =
-                                            getUnreadDialog.getEtTagId().getText().toString();
-                                    boolean containBlocked =
-                                            Boolean.parseBoolean(
-                                                    getUnreadDialog
+            topInputDialog.getCancelView().setOnClickListener(v12 -> topInputDialog.cancel());
+            topInputDialog.show();
+        } else if (id == R.id.btn_get_conversation_tag_by_page) {
+            TagTestInputDialog getConForTagDialog =
+                    new TagTestInputDialog(
+                            mContext, TagTestInputDialog.TYPE_GET_CONVERSATION_FOR_TAG);
+            getConForTagDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String tagId = getConForTagDialog.getEtTagId().getText().toString();
+                                long ts = 0;
+                                int count = 0;
+                                try {
+                                    ts =
+                                            Long.parseLong(
+                                                    getConForTagDialog
+                                                            .getEtType()
+                                                            .getText()
+                                                            .toString());
+                                    count =
+                                            Integer.parseInt(
+                                                    getConForTagDialog
                                                             .getEtTargetId()
                                                             .getText()
                                                             .toString());
-                                    getUnreadCountByTag(tagId, containBlocked);
-                                    getUnreadDialog.cancel();
-                                });
-                getUnreadDialog.getCancelView().setOnClickListener(v12 -> getUnreadDialog.cancel());
-                getUnreadDialog.show();
-                break;
-            case R.id.btn_set_con_top:
-                TagTestInputDialog setTopDialog =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_SET_TOP);
-                setTopDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String tagId = setTopDialog.getEtTagId().getText().toString();
-                                    int type = 0;
-                                    try {
-                                        type =
-                                                Integer.parseInt(
-                                                        setTopDialog
-                                                                .getEtType()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                    }
-                                    String targetId =
-                                            setTopDialog.getEtTargetId().getText().toString();
-                                    boolean isTop = false;
-                                    try {
-                                        isTop =
-                                                Boolean.parseBoolean(
-                                                        setTopDialog
-                                                                .getEtTagName()
-                                                                .getText()
-                                                                .toString());
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        return;
-                                    }
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(tagId)) {
+                                    return;
+                                }
+                                getConversationsFromTagByPage(tagId, ts, count);
+                                getConForTagDialog.cancel();
+                            });
+            getConForTagDialog
+                    .getCancelView()
+                    .setOnClickListener(v12 -> getConForTagDialog.cancel());
+            getConForTagDialog.show();
+        } else if (id == R.id.btn_get_unread_count_for_tag) {
+            TagTestInputDialog getUnreadDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_GET_UNREAD_FOR_TAG);
+            getUnreadDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String tagId = getUnreadDialog.getEtTagId().getText().toString();
+                                boolean containBlocked =
+                                        Boolean.parseBoolean(
+                                                getUnreadDialog
+                                                        .getEtTargetId()
+                                                        .getText()
+                                                        .toString());
+                                getUnreadCountByTag(tagId, containBlocked);
+                                getUnreadDialog.cancel();
+                            });
+            getUnreadDialog.getCancelView().setOnClickListener(v12 -> getUnreadDialog.cancel());
+            getUnreadDialog.show();
+        } else if (id == R.id.btn_set_con_top) {
+            TagTestInputDialog setTopDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_SET_TOP);
+            setTopDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String tagId = setTopDialog.getEtTagId().getText().toString();
+                                int type = 0;
+                                try {
+                                    type =
+                                            Integer.parseInt(
+                                                    setTopDialog.getEtType().getText().toString());
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                }
+                                String targetId = setTopDialog.getEtTargetId().getText().toString();
+                                boolean isTop = false;
+                                try {
+                                    isTop =
+                                            Boolean.parseBoolean(
+                                                    setTopDialog
+                                                            .getEtTagName()
+                                                            .getText()
+                                                            .toString());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
 
-                                    if (TextUtils.isEmpty(tagId) || TextUtils.isEmpty(targetId)) {
-                                        return;
-                                    }
-                                    ConversationIdentifier conversationIdentifier =
-                                            new ConversationIdentifier();
-                                    conversationIdentifier.setType(
-                                            Conversation.ConversationType.setValue(type));
-                                    conversationIdentifier.setTargetId(targetId);
-                                    setConversationToTopInTag(tagId, conversationIdentifier, isTop);
-                                    setTopDialog.cancel();
-                                });
-                setTopDialog.getCancelView().setOnClickListener(v12 -> setTopDialog.cancel());
-                setTopDialog.show();
-                break;
-            case R.id.btn_clear_messages_unreadstatus_for_tag:
-                TagTestInputDialog clearUnreadDialog =
-                        new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_DELETE);
-                clearUnreadDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String tagId =
-                                            clearUnreadDialog.getEtTagId().getText().toString();
-                                    clearUnreadStatus(tagId);
-                                    clearUnreadDialog.cancel();
-                                });
+                                if (TextUtils.isEmpty(tagId) || TextUtils.isEmpty(targetId)) {
+                                    return;
+                                }
+                                ConversationIdentifier conversationIdentifier =
+                                        new ConversationIdentifier();
+                                conversationIdentifier.setType(
+                                        Conversation.ConversationType.setValue(type));
+                                conversationIdentifier.setTargetId(targetId);
+                                setConversationToTopInTag(tagId, conversationIdentifier, isTop);
+                                setTopDialog.cancel();
+                            });
+            setTopDialog.getCancelView().setOnClickListener(v12 -> setTopDialog.cancel());
+            setTopDialog.show();
+        } else if (id == R.id.btn_clear_messages_unreadstatus_for_tag) {
+            TagTestInputDialog clearUnreadDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_DELETE);
+            clearUnreadDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String tagId = clearUnreadDialog.getEtTagId().getText().toString();
+                                clearUnreadStatus(tagId);
+                                clearUnreadDialog.cancel();
+                            });
 
-                clearUnreadDialog
-                        .getCancelView()
-                        .setOnClickListener(v12 -> clearUnreadDialog.cancel());
-                clearUnreadDialog.show();
-                break;
+            clearUnreadDialog.getCancelView().setOnClickListener(v12 -> clearUnreadDialog.cancel());
+            clearUnreadDialog.show();
+        } else if (id == R.id.btn_clear_conversation_for_tag) {
+            TagTestInputDialog clearConversationDialog =
+                    new TagTestInputDialog(mContext, TagTestInputDialog.TYPE_CLEAR_CONVERSATION);
+            clearConversationDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String tagId =
+                                        clearConversationDialog.getEtTagId().getText().toString();
+                                boolean checked =
+                                        clearConversationDialog.getCbRemoveMessage().isChecked();
+                                clearConversation(tagId, checked);
+                                clearConversationDialog.cancel();
+                            });
 
-            case R.id.btn_clear_conversation_for_tag:
-                TagTestInputDialog clearConversationDialog =
-                        new TagTestInputDialog(
-                                mContext, TagTestInputDialog.TYPE_CLEAR_CONVERSATION);
-                clearConversationDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String tagId =
-                                            clearConversationDialog
-                                                    .getEtTagId()
-                                                    .getText()
-                                                    .toString();
-                                    boolean checked =
-                                            clearConversationDialog
-                                                    .getCbRemoveMessage()
-                                                    .isChecked();
-                                    clearConversation(tagId, checked);
-                                    clearConversationDialog.cancel();
-                                });
-
-                clearConversationDialog
-                        .getCancelView()
-                        .setOnClickListener(v12 -> clearConversationDialog.cancel());
-                clearConversationDialog.show();
-                break;
-            default:
-                break;
+            clearConversationDialog
+                    .getCancelView()
+                    .setOnClickListener(v12 -> clearConversationDialog.cancel());
+            clearConversationDialog.show();
         }
     }
 

@@ -8,7 +8,9 @@ import io.rong.imlib.model.InitOption;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author gusd @Date 2023/03/07 */
+/**
+ * @author gusd @Date 2023/03/07
+ */
 public class DataCenterJsonModel {
 
     @SerializedName("dataCenterList")

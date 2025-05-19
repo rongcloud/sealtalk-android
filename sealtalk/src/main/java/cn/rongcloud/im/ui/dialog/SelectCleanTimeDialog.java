@@ -43,19 +43,15 @@ public class SelectCleanTimeDialog extends DialogFragment implements View.OnClic
     @Override
     public void onClick(View v) {
         if (mListener != null) {
-            switch (v.getId()) {
-                case R.id.btn_clean_thirty_six_hour:
-                    mListener.onThirtySixHourClick();
-                    break;
-                case R.id.btn_clean_three_day:
-                    mListener.onThreeDayClick();
-                    break;
-                case R.id.btn_clean_seven_day:
-                    mListener.onSevenDayClick();
-                    break;
-                case R.id.btn_not_clean:
-                    mListener.onNotCleanClick();
-                    break;
+            int id = v.getId();
+            if (id == R.id.btn_clean_thirty_six_hour) {
+                mListener.onThirtySixHourClick();
+            } else if (id == R.id.btn_clean_three_day) {
+                mListener.onThreeDayClick();
+            } else if (id == R.id.btn_clean_seven_day) {
+                mListener.onSevenDayClick();
+            } else if (id == R.id.btn_not_clean) {
+                mListener.onNotCleanClick();
             }
             SelectCleanTimeDialog.this.dismiss();
         }

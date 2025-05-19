@@ -212,6 +212,7 @@ public class SearchUtils {
         }
         return combinationList;
     }
+
     // TODO 这个地方有问题，输入"i"时，结果显示不对。
     public static Range rangeOfKeyword(String name, String keyword) {
         Range range;

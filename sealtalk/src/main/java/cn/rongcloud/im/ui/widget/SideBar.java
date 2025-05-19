@@ -54,6 +54,7 @@ public class SideBar extends View {
     public SideBar(Context context) {
         super(context);
     }
+
     /** 重写的onDraw的方法 */
     @Override
     protected void onDraw(Canvas canvas) {
@@ -120,6 +121,7 @@ public class SideBar extends View {
 
         return true;
     }
+
     /**
      * 向外松开的方法
      *

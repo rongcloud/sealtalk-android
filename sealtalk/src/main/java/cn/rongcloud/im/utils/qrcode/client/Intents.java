@@ -77,7 +77,9 @@ public final class Intents {
          */
         public static final String CAMERA_ID = "SCAN_CAMERA_ID";
 
-        /** @see com.google.zxing.DecodeHintType#CHARACTER_SET */
+        /**
+         * @see com.google.zxing.DecodeHintType#CHARACTER_SET
+         */
         public static final String CHARACTER_SET = "CHARACTER_SET";
 
         /** Set to false to disable beep. Defaults to true. */

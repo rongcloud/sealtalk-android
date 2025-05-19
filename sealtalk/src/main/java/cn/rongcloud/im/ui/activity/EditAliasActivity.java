@@ -15,7 +15,6 @@ import cn.rongcloud.im.ui.view.SealTitleBar;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.EditAliasViewModel;
-import io.rong.imkit.conversation.extension.component.emoticon.AndroidEmoji;
 
 /** 设置备注名界面 */
 public class EditAliasActivity extends TitleBaseActivity {
@@ -74,7 +73,7 @@ public class EditAliasActivity extends TitleBaseActivity {
                             int start = inputAliasEt.getSelectionStart();
                             int end = inputAliasEt.getSelectionEnd();
                             inputAliasEt.removeTextChangedListener(this);
-                            inputAliasEt.setText(AndroidEmoji.ensure(s.toString()));
+                            inputAliasEt.setText(s);
                             inputAliasEt.addTextChangedListener(this);
                             inputAliasEt.setSelection(start, end);
                         }

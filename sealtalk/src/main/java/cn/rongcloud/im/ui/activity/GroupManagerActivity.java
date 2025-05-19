@@ -159,30 +159,25 @@ public class GroupManagerActivity extends TitleBaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_set_group_manager:
-                Intent intent = new Intent(this, GroupManagementsActivity.class);
-                intent.putExtra(IntentExtra.GROUP_ID, groupId);
-                startActivity(intent);
-                break;
-            case R.id.siv_transfer:
-                Intent intentTransfer = new Intent(this, GroupSetNewGroupOwnerActivity.class);
-                intentTransfer.putExtra(IntentExtra.GROUP_ID, groupId);
-                startActivityForResult(intentTransfer, REQUEST_SET_NEW_OWNER);
-                break;
-            case R.id.siv_copy_group:
-                Intent intentCopy = new Intent(this, GroupCopyActivity.class);
-                intentCopy.putExtra(IntentExtra.GROUP_ID, groupId);
-                startActivity(intentCopy);
-                break;
-            case R.id.siv_group_exited:
-                Intent intentExited = new Intent(this, GroupExitedListActivity.class);
-                intentExited.putExtra(IntentExtra.GROUP_ID, groupId);
-                startActivity(intentExited);
-                break;
-            default:
-                // Do nothing
-                break;
+        int id = v.getId();
+        if (id == R.id.siv_set_group_manager) {
+            Intent intent = new Intent(this, GroupManagementsActivity.class);
+            intent.putExtra(IntentExtra.GROUP_ID, groupId);
+            startActivity(intent);
+        } else if (id == R.id.siv_transfer) {
+            Intent intentTransfer = new Intent(this, GroupSetNewGroupOwnerActivity.class);
+            intentTransfer.putExtra(IntentExtra.GROUP_ID, groupId);
+            startActivityForResult(intentTransfer, REQUEST_SET_NEW_OWNER);
+        } else if (id == R.id.siv_copy_group) {
+            Intent intentCopy = new Intent(this, GroupCopyActivity.class);
+            intentCopy.putExtra(IntentExtra.GROUP_ID, groupId);
+            startActivity(intentCopy);
+        } else if (id == R.id.siv_group_exited) {
+            Intent intentExited = new Intent(this, GroupExitedListActivity.class);
+            intentExited.putExtra(IntentExtra.GROUP_ID, groupId);
+            startActivity(intentExited);
+        } else {
+            // Do nothing
         }
     }
 

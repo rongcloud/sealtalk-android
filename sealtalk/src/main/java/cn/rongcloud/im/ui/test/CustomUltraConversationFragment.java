@@ -84,6 +84,15 @@ public class CustomUltraConversationFragment extends ConversationFragment
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (updateExpansionAction != null) {
+            MessageItemLongClickActionManager.getInstance()
+                    .removeMessageItemLongClickAction(updateExpansionAction);
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getActivity() == null || getActivity().getIntent() == null) {

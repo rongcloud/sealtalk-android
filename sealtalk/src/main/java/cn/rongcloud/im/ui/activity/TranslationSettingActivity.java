@@ -12,7 +12,9 @@ import cn.rongcloud.im.ui.view.SettingItemView;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author gusd */
+/**
+ * @author gusd
+ */
 public class TranslationSettingActivity extends TitleBaseActivity {
     private static final String TAG = "TranslationSettingActivity";
     public static List<Pair<String, String>> LANGUAGE_LIST = new ArrayList<>();

@@ -26,7 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-/** @author Lachezar Dobrev */
+/**
+ * @author Lachezar Dobrev
+ */
 public final class DecodeHintManager {
 
     private static final String TAG = DecodeHintManager.class.getSimpleName();

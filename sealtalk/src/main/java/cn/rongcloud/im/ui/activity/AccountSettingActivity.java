@@ -42,40 +42,31 @@ public class AccountSettingActivity extends TitleBaseActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.siv_reset_password:
-                // 修改密码
-                startActivity(new Intent(this, UpdatePasswordActivity.class));
-                break;
-            case R.id.siv_privacy:
-                // 隐私
-                startActivity(new Intent(this, PrivacyActivity.class));
-                break;
-            case R.id.siv_show_new_msg:
-                // 新消息通知
-                startActivity(new Intent(this, NewMessageRemindActivity.class));
-                break;
-            case R.id.siv_clear_cache:
-                // 清理缓存
-                showClearDialog();
-                break;
-            case R.id.btn_logout:
-                // 退出
-                showExitDialog();
-                break;
-            case R.id.siv_clear_message_cache:
-                startActivity(new Intent(this, ClearChatMessageActivity.class));
-                break;
-            case R.id.siv_chat_bg:
-                startActivity(new Intent(this, SelectChatBgActivity.class));
-                break;
-            case R.id.btn_account_delete:
-                // 销户
-                showAccountDeleteDialog();
-                break;
-            default:
-                // DO nothing
-                break;
+        int id = v.getId();
+        if (id == R.id.siv_reset_password) {
+            // 修改密码
+            startActivity(new Intent(this, UpdatePasswordActivity.class));
+        } else if (id == R.id.siv_privacy) {
+            // 隐私
+            startActivity(new Intent(this, PrivacyActivity.class));
+        } else if (id == R.id.siv_show_new_msg) {
+            // 新消息通知
+            startActivity(new Intent(this, NewMessageRemindActivity.class));
+        } else if (id == R.id.siv_clear_cache) {
+            // 清理缓存
+            showClearDialog();
+        } else if (id == R.id.btn_logout) {
+            // 退出
+            showExitDialog();
+        } else if (id == R.id.siv_clear_message_cache) {
+            startActivity(new Intent(this, ClearChatMessageActivity.class));
+        } else if (id == R.id.siv_chat_bg) {
+            startActivity(new Intent(this, SelectChatBgActivity.class));
+        } else if (id == R.id.btn_account_delete) {
+            // 销户
+            showAccountDeleteDialog();
+        } else {
+            // DO nothing
         }
     }
 

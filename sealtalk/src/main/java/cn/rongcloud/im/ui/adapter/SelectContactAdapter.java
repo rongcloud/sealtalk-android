@@ -35,15 +35,10 @@ public class SelectContactAdapter extends RecyclerView.Adapter<BaseViewHolder<Co
         BaseViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(viewType, parent, false);
-        switch (viewType) {
-            case R.layout.select_fragment_contact_item:
-                viewHolder = new CheckableContactViewHolder(itemView, checkableItemClickListener);
-                break;
-            case R.layout.contact_contact_title:
-                viewHolder = new TitleViewHolder(itemView);
-                break;
-            default:
-                break;
+        if (viewType == R.layout.select_fragment_contact_item) {
+            viewHolder = new CheckableContactViewHolder(itemView, checkableItemClickListener);
+        } else if (viewType == R.layout.contact_contact_title) {
+            viewHolder = new TitleViewHolder(itemView);
         }
         return viewHolder;
     }

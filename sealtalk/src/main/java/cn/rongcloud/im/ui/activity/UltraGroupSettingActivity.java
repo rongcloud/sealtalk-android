@@ -158,727 +158,661 @@ public class UltraGroupSettingActivity extends TitleBaseActivity implements View
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.siv_clean_chat_message:
-                showCleanMessageDialog();
-                break;
-            case R.id.siv_clean_all_channel:
-                ChannelClient.getInstance()
-                        .deleteUltraGroupMessagesForAllChannel(
-                                conversationIdentifier.getTargetId(),
-                                System.currentTimeMillis(),
-                                new IRongCoreCallback.ResultCallback<Boolean>() {
-                                    @Override
-                                    public void onSuccess(Boolean aBoolean) {
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ToastUtils.showToast("删除成功");
-                                                    }
-                                                });
-                                    }
+        if (v.getId() == R.id.siv_clean_chat_message) {
+            showCleanMessageDialog();
+        } else if (v.getId() == R.id.siv_clean_all_channel) {
+            ChannelClient.getInstance()
+                    .deleteUltraGroupMessagesForAllChannel(
+                            conversationIdentifier.getTargetId(),
+                            System.currentTimeMillis(),
+                            new IRongCoreCallback.ResultCallback<Boolean>() {
+                                @Override
+                                public void onSuccess(Boolean aBoolean) {
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtils.showToast("删除成功");
+                                                }
+                                            });
+                                }
 
-                                    @Override
-                                    public void onError(IRongCoreEnum.CoreErrorCode e) {
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ToastUtils.showToast(
-                                                                "删除失败-" + e.getValue());
-                                                    }
-                                                });
-                                    }
-                                });
-                break;
-            case R.id.siv_clean_channel:
-                ChannelClient.getInstance()
-                        .deleteUltraGroupMessages(
-                                conversationIdentifier.getTargetId(),
-                                conversationIdentifier.getChannelId(),
-                                System.currentTimeMillis(),
-                                new IRongCoreCallback.ResultCallback<Boolean>() {
-                                    @Override
-                                    public void onSuccess(Boolean aBoolean) {
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ToastUtils.showToast("删除成功");
-                                                    }
-                                                });
-                                    }
+                                @Override
+                                public void onError(IRongCoreEnum.CoreErrorCode e) {
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtils.showToast("删除失败-" + e.getValue());
+                                                }
+                                            });
+                                }
+                            });
+        } else if (v.getId() == R.id.siv_clean_channel) {
+            ChannelClient.getInstance()
+                    .deleteUltraGroupMessages(
+                            conversationIdentifier.getTargetId(),
+                            conversationIdentifier.getChannelId(),
+                            System.currentTimeMillis(),
+                            new IRongCoreCallback.ResultCallback<Boolean>() {
+                                @Override
+                                public void onSuccess(Boolean aBoolean) {
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtils.showToast("删除成功");
+                                                }
+                                            });
+                                }
 
-                                    @Override
-                                    public void onError(IRongCoreEnum.CoreErrorCode e) {
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ToastUtils.showToast(
-                                                                "删除失败-" + e.getValue());
-                                                    }
-                                                });
-                                    }
-                                });
-                break;
-            case R.id.siv_clean_remote_channel:
-                ChannelClient.getInstance()
-                        .deleteRemoteUltraGroupMessages(
-                                conversationIdentifier.getTargetId(),
-                                conversationIdentifier.getChannelId(),
-                                System.currentTimeMillis(),
-                                new IRongCoreCallback.OperationCallback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ToastUtils.showToast("删除成功");
-                                                    }
-                                                });
-                                    }
+                                @Override
+                                public void onError(IRongCoreEnum.CoreErrorCode e) {
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtils.showToast("删除失败-" + e.getValue());
+                                                }
+                                            });
+                                }
+                            });
+        } else if (v.getId() == R.id.siv_clean_remote_channel) {
+            ChannelClient.getInstance()
+                    .deleteRemoteUltraGroupMessages(
+                            conversationIdentifier.getTargetId(),
+                            conversationIdentifier.getChannelId(),
+                            System.currentTimeMillis(),
+                            new IRongCoreCallback.OperationCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtils.showToast("删除成功");
+                                                }
+                                            });
+                                }
 
-                                    @Override
-                                    public void onError(IRongCoreEnum.CoreErrorCode coreErrorCode) {
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ToastUtils.showToast(
-                                                                "删除失败-" + coreErrorCode.getValue());
-                                                    }
-                                                });
+                                @Override
+                                public void onError(IRongCoreEnum.CoreErrorCode coreErrorCode) {
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtils.showToast(
+                                                            "删除失败-" + coreErrorCode.getValue());
+                                                }
+                                            });
+                                }
+                            });
+        } else if (v.getId() == R.id.siv_get_channel_list) {
+            ChannelClient.getInstance()
+                    .getConversationListForAllChannel(
+                            conversationIdentifier.getType(),
+                            conversationIdentifier.getChannelId(),
+                            new IRongCoreCallback.ResultCallback<List<Conversation>>() {
+                                @Override
+                                public void onSuccess(List<Conversation> conversations) {
+                                    if (conversations == null) {
+                                        return;
                                     }
-                                });
-                break;
-
-            case R.id.siv_get_channel_list:
-                ChannelClient.getInstance()
-                        .getConversationListForAllChannel(
-                                conversationIdentifier.getType(),
-                                conversationIdentifier.getChannelId(),
-                                new IRongCoreCallback.ResultCallback<List<Conversation>>() {
-                                    @Override
-                                    public void onSuccess(List<Conversation> conversations) {
-                                        if (conversations == null) {
-                                            return;
-                                        }
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        StringBuilder stringBuilder =
-                                                                new StringBuilder();
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    StringBuilder stringBuilder =
+                                                            new StringBuilder();
+                                                    stringBuilder
+                                                            .append("列表个数为： ")
+                                                            .append(conversations.size())
+                                                            .append(", 获取列表通道 ：");
+                                                    for (Conversation conversation :
+                                                            conversations) {
                                                         stringBuilder
-                                                                .append("列表个数为： ")
-                                                                .append(conversations.size())
-                                                                .append(", 获取列表通道 ：");
-                                                        for (Conversation conversation :
-                                                                conversations) {
-                                                            stringBuilder
-                                                                    .append(
-                                                                            conversation
-                                                                                    .getChannelId())
-                                                                    .append(",");
-                                                        }
-                                                        ToastUtils.showToast(
-                                                                stringBuilder.toString());
+                                                                .append(conversation.getChannelId())
+                                                                .append(",");
                                                     }
-                                                });
-                                    }
+                                                    ToastUtils.showToast(stringBuilder.toString());
+                                                }
+                                            });
+                                }
 
-                                    @Override
-                                    public void onError(IRongCoreEnum.CoreErrorCode e) {
-                                        runOnUiThread(
-                                                new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ToastUtils.showToast(
-                                                                "获取列表失败-" + e.getValue());
-                                                    }
-                                                });
-                                    }
-                                });
-                break;
-            case R.id.siv_set_notify_level:
-                UltraGroupNotifyTestInputDialog ultraGroupNotifyTestInputDialog =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_NOTIFICATION_QUIET_HOUR_LEVEL);
-                ultraGroupNotifyTestInputDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String time =
-                                            ultraGroupNotifyTestInputDialog
-                                                    .getEtTagId()
-                                                    .getText()
-                                                    .toString();
-                                    String timeSpan =
-                                            ultraGroupNotifyTestInputDialog
-                                                    .getEtTagName()
-                                                    .getText()
-                                                    .toString();
-                                    String level =
-                                            ultraGroupNotifyTestInputDialog
-                                                    .getEtType()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(time)
-                                            || TextUtils.isEmpty(timeSpan)
-                                            || TextUtils.isEmpty(level)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    setNotificationQuietHoursLevel(time, timeSpan, level);
-                                    ultraGroupNotifyTestInputDialog.cancel();
-                                });
+                                @Override
+                                public void onError(IRongCoreEnum.CoreErrorCode e) {
+                                    runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ToastUtils.showToast("获取列表失败-" + e.getValue());
+                                                }
+                                            });
+                                }
+                            });
+        } else if (v.getId() == R.id.siv_set_notify_level) {
+            UltraGroupNotifyTestInputDialog ultraGroupNotifyTestInputDialog =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog.TYPE_NOTIFICATION_QUIET_HOUR_LEVEL);
+            ultraGroupNotifyTestInputDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String time =
+                                        ultraGroupNotifyTestInputDialog
+                                                .getEtTagId()
+                                                .getText()
+                                                .toString();
+                                String timeSpan =
+                                        ultraGroupNotifyTestInputDialog
+                                                .getEtTagName()
+                                                .getText()
+                                                .toString();
+                                String level =
+                                        ultraGroupNotifyTestInputDialog
+                                                .getEtType()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(time)
+                                        || TextUtils.isEmpty(timeSpan)
+                                        || TextUtils.isEmpty(level)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                setNotificationQuietHoursLevel(time, timeSpan, level);
+                                ultraGroupNotifyTestInputDialog.cancel();
+                            });
 
-                ultraGroupNotifyTestInputDialog
-                        .getCancelView()
-                        .setOnClickListener(v12 -> ultraGroupNotifyTestInputDialog.cancel());
-                ultraGroupNotifyTestInputDialog.show();
-                break;
-            case R.id.siv_remove_notify_level:
-                removeNotificationQuietHours();
-                break;
-            case R.id.siv_query_notify_level:
-                getNotificationQuietHours();
-                break;
-            case R.id.siv_conversation_channel_level:
-                UltraGroupNotifyTestInputDialog conversationDialog =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_CONVERSATION_CHANNEL_LEVEL);
-                conversationDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String type =
-                                            conversationDialog.getEtTagId().getText().toString();
-                                    String level =
-                                            conversationDialog.getEtTagName().getText().toString();
-                                    String channel =
-                                            conversationDialog.getEtType().getText().toString();
+            ultraGroupNotifyTestInputDialog
+                    .getCancelView()
+                    .setOnClickListener(v12 -> ultraGroupNotifyTestInputDialog.cancel());
+            ultraGroupNotifyTestInputDialog.show();
+        } else if (v.getId() == R.id.siv_remove_notify_level) {
+            removeNotificationQuietHours();
+        } else if (v.getId() == R.id.siv_query_notify_level) {
+            getNotificationQuietHours();
+        } else if (v.getId() == R.id.siv_conversation_channel_level) {
+            UltraGroupNotifyTestInputDialog conversationDialog =
+                    new UltraGroupNotifyTestInputDialog(
+                            this, UltraGroupNotifyTestInputDialog.TYPE_CONVERSATION_CHANNEL_LEVEL);
+            conversationDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String type = conversationDialog.getEtTagId().getText().toString();
+                                String level =
+                                        conversationDialog.getEtTagName().getText().toString();
+                                String channel =
+                                        conversationDialog.getEtType().getText().toString();
 
-                                    String targetId =
-                                            conversationDialog.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(type)
-                                            || TextUtils.isEmpty(level)
-                                            || TextUtils.isEmpty(targetId)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(channel)) {
-                                        channel = "";
-                                    }
-                                    setConversationChannelNotificationLevel(
-                                            type, targetId, channel, level);
-                                    conversationDialog.cancel();
-                                });
+                                String targetId =
+                                        conversationDialog.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(type)
+                                        || TextUtils.isEmpty(level)
+                                        || TextUtils.isEmpty(targetId)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(channel)) {
+                                    channel = "";
+                                }
+                                setConversationChannelNotificationLevel(
+                                        type, targetId, channel, level);
+                                conversationDialog.cancel();
+                            });
 
-                conversationDialog
-                        .getCancelView()
-                        .setOnClickListener(v12 -> conversationDialog.cancel());
-                conversationDialog.show();
-                break;
-            case R.id.siv_query_conversation_channel_level:
-                UltraGroupNotifyTestInputDialog queryDialog =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog
-                                        .TYPE_QUERY_CONVERSATION_CHANNEL_LEVEL);
-                queryDialog
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String type = queryDialog.getEtTagId().getText().toString();
-                                    String channel = queryDialog.getEtType().getText().toString();
+            conversationDialog
+                    .getCancelView()
+                    .setOnClickListener(v12 -> conversationDialog.cancel());
+            conversationDialog.show();
+        } else if (v.getId() == R.id.siv_query_conversation_channel_level) {
+            UltraGroupNotifyTestInputDialog queryDialog =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog.TYPE_QUERY_CONVERSATION_CHANNEL_LEVEL);
+            queryDialog
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String type = queryDialog.getEtTagId().getText().toString();
+                                String channel = queryDialog.getEtType().getText().toString();
 
-                                    String targetId =
-                                            queryDialog.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(type) || TextUtils.isEmpty(targetId)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(channel)) {
-                                        channel = "";
-                                    }
-                                    getConversationChannelNotificationLevel(
-                                            type, targetId, channel);
-                                    queryDialog.cancel();
-                                });
+                                String targetId = queryDialog.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(type) || TextUtils.isEmpty(targetId)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(channel)) {
+                                    channel = "";
+                                }
+                                getConversationChannelNotificationLevel(type, targetId, channel);
+                                queryDialog.cancel();
+                            });
 
-                queryDialog.getCancelView().setOnClickListener(v12 -> queryDialog.cancel());
-                queryDialog.show();
-                break;
-            case R.id.siv_set_conversation_level:
-                UltraGroupNotifyTestInputDialog setConversation =
-                        new UltraGroupNotifyTestInputDialog(
-                                this, UltraGroupNotifyTestInputDialog.TYPE_CONVERSATION_LEVEL);
-                setConversation
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String type = setConversation.getEtTagId().getText().toString();
-                                    String level =
-                                            setConversation.getEtTagName().getText().toString();
+            queryDialog.getCancelView().setOnClickListener(v12 -> queryDialog.cancel());
+            queryDialog.show();
+        } else if (v.getId() == R.id.siv_set_conversation_level) {
+            UltraGroupNotifyTestInputDialog setConversation =
+                    new UltraGroupNotifyTestInputDialog(
+                            this, UltraGroupNotifyTestInputDialog.TYPE_CONVERSATION_LEVEL);
+            setConversation
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String type = setConversation.getEtTagId().getText().toString();
+                                String level = setConversation.getEtTagName().getText().toString();
 
-                                    String targetId =
-                                            setConversation.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(type)
-                                            || TextUtils.isEmpty(level)
-                                            || TextUtils.isEmpty(targetId)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    setConversationNotificationLevel(type, targetId, level);
-                                    setConversation.cancel();
-                                });
+                                String targetId =
+                                        setConversation.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(type)
+                                        || TextUtils.isEmpty(level)
+                                        || TextUtils.isEmpty(targetId)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                setConversationNotificationLevel(type, targetId, level);
+                                setConversation.cancel();
+                            });
 
-                setConversation.getCancelView().setOnClickListener(v12 -> setConversation.cancel());
-                setConversation.show();
-                break;
-            case R.id.siv_query_conversation_level:
-                UltraGroupNotifyTestInputDialog queryConversation =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_QUERY_CONVERSATION_LEVEL);
-                queryConversation
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String type =
-                                            queryConversation.getEtTagId().getText().toString();
+            setConversation.getCancelView().setOnClickListener(v12 -> setConversation.cancel());
+            setConversation.show();
+        } else if (v.getId() == R.id.siv_query_conversation_level) {
+            UltraGroupNotifyTestInputDialog queryConversation =
+                    new UltraGroupNotifyTestInputDialog(
+                            this, UltraGroupNotifyTestInputDialog.TYPE_QUERY_CONVERSATION_LEVEL);
+            queryConversation
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String type = queryConversation.getEtTagId().getText().toString();
 
-                                    String targetId =
-                                            queryConversation.getEtTargetId().getText().toString();
-                                    if (TextUtils.isEmpty(type) || TextUtils.isEmpty(targetId)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    getConversationNotificationLevel(type, targetId);
-                                    queryConversation.cancel();
-                                });
+                                String targetId =
+                                        queryConversation.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(type) || TextUtils.isEmpty(targetId)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                getConversationNotificationLevel(type, targetId);
+                                queryConversation.cancel();
+                            });
 
-                queryConversation
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryConversation.cancel());
-                queryConversation.show();
-                break;
-            case R.id.siv_set_conversation_type_level:
-                UltraGroupNotifyTestInputDialog conversationType =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_SET_CONVERSATION_TYPE_LEVEL);
-                conversationType
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String type =
-                                            conversationType.getEtTagId().getText().toString();
+            queryConversation.getCancelView().setOnClickListener(v12 -> queryConversation.cancel());
+            queryConversation.show();
+        } else if (v.getId() == R.id.siv_set_conversation_type_level) {
+            UltraGroupNotifyTestInputDialog conversationType =
+                    new UltraGroupNotifyTestInputDialog(
+                            this, UltraGroupNotifyTestInputDialog.TYPE_SET_CONVERSATION_TYPE_LEVEL);
+            conversationType
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String type = conversationType.getEtTagId().getText().toString();
 
-                                    String level =
-                                            conversationType.getEtTagName().getText().toString();
-                                    if (TextUtils.isEmpty(type) || TextUtils.isEmpty(level)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    setConversationTypeNotificationLevel(type, level);
-                                    conversationType.cancel();
-                                });
+                                String level = conversationType.getEtTagName().getText().toString();
+                                if (TextUtils.isEmpty(type) || TextUtils.isEmpty(level)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                setConversationTypeNotificationLevel(type, level);
+                                conversationType.cancel();
+                            });
 
-                conversationType
-                        .getCancelView()
-                        .setOnClickListener(v12 -> conversationType.cancel());
-                conversationType.show();
-                break;
-            case R.id.siv_query_conversation_type_level:
-                UltraGroupNotifyTestInputDialog queryConversationType =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_QUERY_CONVERSATION_TYPE_LEVEL);
-                queryConversationType
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String type =
-                                            queryConversationType.getEtTagId().getText().toString();
-                                    if (TextUtils.isEmpty(type)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    getConversationTypeNotificationLevel(type);
-                                    queryConversationType.cancel();
-                                });
+            conversationType.getCancelView().setOnClickListener(v12 -> conversationType.cancel());
+            conversationType.show();
+        } else if (v.getId() == R.id.siv_query_conversation_type_level) {
+            UltraGroupNotifyTestInputDialog queryConversationType =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog.TYPE_QUERY_CONVERSATION_TYPE_LEVEL);
+            queryConversationType
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String type =
+                                        queryConversationType.getEtTagId().getText().toString();
+                                if (TextUtils.isEmpty(type)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                getConversationTypeNotificationLevel(type);
+                                queryConversationType.cancel();
+                            });
 
-                queryConversationType
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryConversationType.cancel());
-                queryConversationType.show();
-                break;
-            case R.id.siv_set_ultra_group_type_level:
-                UltraGroupNotifyTestInputDialog setUltraConversationType =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_SET_ULTRA_GROUP_TYPE_LEVEL);
-                setUltraConversationType
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String targetId =
-                                            setUltraConversationType
-                                                    .getEtTargetId()
-                                                    .getText()
-                                                    .toString();
-                                    String level =
-                                            setUltraConversationType
-                                                    .getEtTagName()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(level)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    setUltraGroupConversationDefaultNotificationLevel(
-                                            targetId, level);
-                                    setUltraConversationType.cancel();
-                                });
+            queryConversationType
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryConversationType.cancel());
+            queryConversationType.show();
+        } else if (v.getId() == R.id.siv_set_ultra_group_type_level) {
+            UltraGroupNotifyTestInputDialog setUltraConversationType =
+                    new UltraGroupNotifyTestInputDialog(
+                            this, UltraGroupNotifyTestInputDialog.TYPE_SET_ULTRA_GROUP_TYPE_LEVEL);
+            setUltraConversationType
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String targetId =
+                                        setUltraConversationType
+                                                .getEtTargetId()
+                                                .getText()
+                                                .toString();
+                                String level =
+                                        setUltraConversationType
+                                                .getEtTagName()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(level)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                setUltraGroupConversationDefaultNotificationLevel(targetId, level);
+                                setUltraConversationType.cancel();
+                            });
 
-                setUltraConversationType
-                        .getCancelView()
-                        .setOnClickListener(v12 -> setUltraConversationType.cancel());
-                setUltraConversationType.show();
-                break;
-            case R.id.siv_query_ultra_group_type_level:
-                UltraGroupNotifyTestInputDialog queryUltraConversationType =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_QUERY_ULTRA_GROUP_TYPE_LEVEL);
-                queryUltraConversationType
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String targetId =
-                                            queryUltraConversationType
-                                                    .getEtTargetId()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(targetId)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    getUltraGroupConversationDefaultNotificationLevel(targetId);
-                                    queryUltraConversationType.cancel();
-                                });
+            setUltraConversationType
+                    .getCancelView()
+                    .setOnClickListener(v12 -> setUltraConversationType.cancel());
+            setUltraConversationType.show();
+        } else if (v.getId() == R.id.siv_query_ultra_group_type_level) {
+            UltraGroupNotifyTestInputDialog queryUltraConversationType =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog.TYPE_QUERY_ULTRA_GROUP_TYPE_LEVEL);
+            queryUltraConversationType
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String targetId =
+                                        queryUltraConversationType
+                                                .getEtTargetId()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(targetId)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                getUltraGroupConversationDefaultNotificationLevel(targetId);
+                                queryUltraConversationType.cancel();
+                            });
 
-                queryUltraConversationType
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryUltraConversationType.cancel());
-                queryUltraConversationType.show();
-                break;
-            case R.id.siv_set_ultra_group_channel_level:
-                UltraGroupNotifyTestInputDialog setUltraConversationChannel =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog.TYPE_SET_ULTRA_GROUP_CHANNEL_LEVEL);
-                setUltraConversationChannel
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String targetId =
-                                            setUltraConversationChannel
-                                                    .getEtTargetId()
-                                                    .getText()
-                                                    .toString();
-                                    String level =
-                                            setUltraConversationChannel
-                                                    .getEtTagName()
-                                                    .getText()
-                                                    .toString();
-                                    String channel =
-                                            setUltraConversationChannel
-                                                    .getEtType()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(level)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(channel)) {
-                                        channel = "";
-                                    }
-                                    setUltraGroupConversationChannelDefaultNotificationLevel(
-                                            targetId, level, channel);
-                                    setUltraConversationChannel.cancel();
-                                });
+            queryUltraConversationType
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryUltraConversationType.cancel());
+            queryUltraConversationType.show();
+        } else if (v.getId() == R.id.siv_set_ultra_group_channel_level) {
+            UltraGroupNotifyTestInputDialog setUltraConversationChannel =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog.TYPE_SET_ULTRA_GROUP_CHANNEL_LEVEL);
+            setUltraConversationChannel
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String targetId =
+                                        setUltraConversationChannel
+                                                .getEtTargetId()
+                                                .getText()
+                                                .toString();
+                                String level =
+                                        setUltraConversationChannel
+                                                .getEtTagName()
+                                                .getText()
+                                                .toString();
+                                String channel =
+                                        setUltraConversationChannel
+                                                .getEtType()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(targetId) || TextUtils.isEmpty(level)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(channel)) {
+                                    channel = "";
+                                }
+                                setUltraGroupConversationChannelDefaultNotificationLevel(
+                                        targetId, level, channel);
+                                setUltraConversationChannel.cancel();
+                            });
 
-                setUltraConversationChannel
-                        .getCancelView()
-                        .setOnClickListener(v12 -> setUltraConversationChannel.cancel());
-                setUltraConversationChannel.show();
-                break;
-            case R.id.siv_query_ultra_group_channel_level:
-                UltraGroupNotifyTestInputDialog queryUltraConversationChannel =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog
-                                        .TYPE_QUERY_ULTRA_GROUP_CHANNEL_LEVEL);
-                queryUltraConversationChannel
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String targetId =
-                                            queryUltraConversationChannel
-                                                    .getEtTargetId()
-                                                    .getText()
-                                                    .toString();
-                                    String channel =
-                                            queryUltraConversationChannel
-                                                    .getEtType()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(targetId)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(channel)) {
-                                        channel = "";
-                                    }
-                                    getUltraGroupConversationChannelDefaultNotificationLevel(
-                                            targetId, channel);
-                                    queryUltraConversationChannel.cancel();
-                                });
+            setUltraConversationChannel
+                    .getCancelView()
+                    .setOnClickListener(v12 -> setUltraConversationChannel.cancel());
+            setUltraConversationChannel.show();
+        } else if (v.getId() == R.id.siv_query_ultra_group_channel_level) {
+            UltraGroupNotifyTestInputDialog queryUltraConversationChannel =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog.TYPE_QUERY_ULTRA_GROUP_CHANNEL_LEVEL);
+            queryUltraConversationChannel
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String targetId =
+                                        queryUltraConversationChannel
+                                                .getEtTargetId()
+                                                .getText()
+                                                .toString();
+                                String channel =
+                                        queryUltraConversationChannel
+                                                .getEtType()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(targetId)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(channel)) {
+                                    channel = "";
+                                }
+                                getUltraGroupConversationChannelDefaultNotificationLevel(
+                                        targetId, channel);
+                                queryUltraConversationChannel.cancel();
+                            });
 
-                queryUltraConversationChannel
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryUltraConversationChannel.cancel());
-                queryUltraConversationChannel.show();
-                break;
+            queryUltraConversationChannel
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryUltraConversationChannel.cancel());
+            queryUltraConversationChannel.show();
+        } else if (v.getId() == R.id.siv_query_ultra_group_unread_count) {
+            UltraGroupNotifyTestInputDialog queryUltraUnreadCount =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog.TYPE_QUERY_ULTRA_GROUP_UNREAD_COUNT);
+            queryUltraUnreadCount
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String targetId =
+                                        queryUltraUnreadCount.getEtTargetId().getText().toString();
+                                if (TextUtils.isEmpty(targetId)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                queryUltraUnreadCount(targetId);
+                                queryUltraUnreadCount.cancel();
+                            });
 
-            case R.id.siv_query_ultra_group_unread_count:
-                UltraGroupNotifyTestInputDialog queryUltraUnreadCount =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog
-                                        .TYPE_QUERY_ULTRA_GROUP_UNREAD_COUNT);
-                queryUltraUnreadCount
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String targetId =
-                                            queryUltraUnreadCount
-                                                    .getEtTargetId()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(targetId)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    queryUltraUnreadCount(targetId);
-                                    queryUltraUnreadCount.cancel();
-                                });
+            queryUltraUnreadCount
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryUltraUnreadCount.cancel());
+            queryUltraUnreadCount.show();
+        } else if (v.getId() == R.id.siv_query_ultra_group_all_unread_count) {
+            queryUltraGroupAllUnreadCount();
+        } else if (v.getId() == R.id.siv_query_ultra_group_all_mention_unread_count) {
+            queryUltraGroupAllMentionUnreadCount();
+        } else if (v.getId() == R.id.siv_query_ultra_group_unread_count_by_level) {
+            UltraGroupNotifyTestInputDialog queryUltraGroupUnread =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog
+                                    .TYPE_QUERY_ULTRA_GROUP_UNREAD_COUNT_BY_LEVEL);
+            queryUltraGroupUnread
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String types =
+                                        queryUltraGroupUnread.getEtTagId().getText().toString();
+                                String levels =
+                                        queryUltraGroupUnread.getEtTagName().getText().toString();
+                                if (TextUtils.isEmpty(types)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(levels)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                getLevelUnreadCount(types, levels);
+                                queryUltraGroupUnread.cancel();
+                            });
 
-                queryUltraUnreadCount
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryUltraUnreadCount.cancel());
-                queryUltraUnreadCount.show();
-                break;
-            case R.id.siv_query_ultra_group_all_unread_count:
-                queryUltraGroupAllUnreadCount();
-                break;
-            case R.id.siv_query_ultra_group_all_mention_unread_count:
-                queryUltraGroupAllMentionUnreadCount();
-                break;
-            case R.id.siv_query_ultra_group_unread_count_by_level:
-                UltraGroupNotifyTestInputDialog queryUltraGroupUnread =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog
-                                        .TYPE_QUERY_ULTRA_GROUP_UNREAD_COUNT_BY_LEVEL);
-                queryUltraGroupUnread
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String types =
-                                            queryUltraGroupUnread.getEtTagId().getText().toString();
-                                    String levels =
-                                            queryUltraGroupUnread
-                                                    .getEtTagName()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(types)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(levels)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    getLevelUnreadCount(types, levels);
-                                    queryUltraGroupUnread.cancel();
-                                });
+            queryUltraGroupUnread
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryUltraGroupUnread.cancel());
+            queryUltraGroupUnread.show();
+        } else if (v.getId() == R.id.siv_query_ultra_group_mention_count_by_level) {
+            UltraGroupNotifyTestInputDialog queryUltraGroupMentionUnread =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog
+                                    .TYPE_QUERY_ULTRA_GROUP_MENTION_COUNT_BY_LEVEL);
+            queryUltraGroupMentionUnread
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String types =
+                                        queryUltraGroupMentionUnread
+                                                .getEtTagId()
+                                                .getText()
+                                                .toString();
+                                String levels =
+                                        queryUltraGroupMentionUnread
+                                                .getEtTagName()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(types)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(levels)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                getLevelMentionUnreadCount(types, levels);
+                                queryUltraGroupMentionUnread.cancel();
+                            });
 
-                queryUltraGroupUnread
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryUltraGroupUnread.cancel());
-                queryUltraGroupUnread.show();
-                break;
-            case R.id.siv_query_ultra_group_mention_count_by_level:
-                UltraGroupNotifyTestInputDialog queryUltraGroupMentionUnread =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog
-                                        .TYPE_QUERY_ULTRA_GROUP_MENTION_COUNT_BY_LEVEL);
-                queryUltraGroupMentionUnread
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String types =
-                                            queryUltraGroupMentionUnread
-                                                    .getEtTagId()
-                                                    .getText()
-                                                    .toString();
-                                    String levels =
-                                            queryUltraGroupMentionUnread
-                                                    .getEtTagName()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(types)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(levels)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    getLevelMentionUnreadCount(types, levels);
-                                    queryUltraGroupMentionUnread.cancel();
-                                });
+            queryUltraGroupMentionUnread
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryUltraGroupMentionUnread.cancel());
+            queryUltraGroupMentionUnread.show();
+        } else if (v.getId() == R.id.siv_query_target_ultra_group_unread_count_by_level) {
+            UltraGroupNotifyTestInputDialog queryTargetUltraGroupUnread =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog
+                                    .TYPE_QUERY_TARGET_ULTRA_GROUP_UNREAD_COUNT_BY_LEVEL);
+            queryTargetUltraGroupUnread
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String targetID =
+                                        queryTargetUltraGroupUnread
+                                                .getEtTargetId()
+                                                .getText()
+                                                .toString();
+                                String levels =
+                                        queryTargetUltraGroupUnread
+                                                .getEtTagName()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(targetID)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(levels)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                getTargetLevelUnreadCount(
+                                        conversationIdentifier.getTargetId(), levels);
+                                queryTargetUltraGroupUnread.cancel();
+                            });
 
-                queryUltraGroupMentionUnread
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryUltraGroupMentionUnread.cancel());
-                queryUltraGroupMentionUnread.show();
-                break;
-            case R.id.siv_query_target_ultra_group_unread_count_by_level:
-                UltraGroupNotifyTestInputDialog queryTargetUltraGroupUnread =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog
-                                        .TYPE_QUERY_TARGET_ULTRA_GROUP_UNREAD_COUNT_BY_LEVEL);
-                queryTargetUltraGroupUnread
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String targetID =
-                                            queryTargetUltraGroupUnread
-                                                    .getEtTargetId()
-                                                    .getText()
-                                                    .toString();
-                                    String levels =
-                                            queryTargetUltraGroupUnread
-                                                    .getEtTagName()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(targetID)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(levels)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    getTargetLevelUnreadCount(
-                                            conversationIdentifier.getTargetId(), levels);
-                                    queryTargetUltraGroupUnread.cancel();
-                                });
+            queryTargetUltraGroupUnread
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryTargetUltraGroupUnread.cancel());
+            queryTargetUltraGroupUnread.show();
+        } else if (v.getId() == R.id.siv_query_target_ultra_group_mention_count_by_level) {
+            UltraGroupNotifyTestInputDialog queryTargetUltraGroupMentionUnread =
+                    new UltraGroupNotifyTestInputDialog(
+                            this,
+                            UltraGroupNotifyTestInputDialog
+                                    .TYPE_QUERY_TARGET_ULTRA_GROUP_MENTION_COUNT_BY_LEVEL);
+            queryTargetUltraGroupMentionUnread
+                    .getSureView()
+                    .setOnClickListener(
+                            v1 -> {
+                                String targetID =
+                                        queryTargetUltraGroupMentionUnread
+                                                .getEtTargetId()
+                                                .getText()
+                                                .toString();
+                                String levels =
+                                        queryTargetUltraGroupMentionUnread
+                                                .getEtTagName()
+                                                .getText()
+                                                .toString();
+                                if (TextUtils.isEmpty(targetID)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(levels)) {
+                                    ToastUtils.showToast("请输入正确的值");
+                                    return;
+                                }
+                                getTargetLevelMentionUnreadCount(
+                                        conversationIdentifier.getTargetId(), levels);
+                                queryTargetUltraGroupMentionUnread.cancel();
+                            });
 
-                queryTargetUltraGroupUnread
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryTargetUltraGroupUnread.cancel());
-                queryTargetUltraGroupUnread.show();
-                break;
-            case R.id.siv_query_target_ultra_group_mention_count_by_level:
-                UltraGroupNotifyTestInputDialog queryTargetUltraGroupMentionUnread =
-                        new UltraGroupNotifyTestInputDialog(
-                                this,
-                                UltraGroupNotifyTestInputDialog
-                                        .TYPE_QUERY_TARGET_ULTRA_GROUP_MENTION_COUNT_BY_LEVEL);
-                queryTargetUltraGroupMentionUnread
-                        .getSureView()
-                        .setOnClickListener(
-                                v1 -> {
-                                    String targetID =
-                                            queryTargetUltraGroupMentionUnread
-                                                    .getEtTargetId()
-                                                    .getText()
-                                                    .toString();
-                                    String levels =
-                                            queryTargetUltraGroupMentionUnread
-                                                    .getEtTagName()
-                                                    .getText()
-                                                    .toString();
-                                    if (TextUtils.isEmpty(targetID)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(levels)) {
-                                        ToastUtils.showToast("请输入正确的值");
-                                        return;
-                                    }
-                                    getTargetLevelMentionUnreadCount(
-                                            conversationIdentifier.getTargetId(), levels);
-                                    queryTargetUltraGroupMentionUnread.cancel();
-                                });
-
-                queryTargetUltraGroupMentionUnread
-                        .getCancelView()
-                        .setOnClickListener(v12 -> queryTargetUltraGroupMentionUnread.cancel());
-                queryTargetUltraGroupMentionUnread.show();
-                break;
-            case R.id.siv_query_target_ultra_group_all_channel_message:
-                SealSearchUltraGroupActivity.start(
-                        this,
-                        SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGE_FOR_ALL_CHANNEL,
-                        ConversationIdentifier.obtain(
-                                conversationIdentifier.getType(),
-                                conversationIdentifier.getTargetId(),
-                                ""),
-                        null,
-                        null);
-                break;
-            case R.id.siv_query_target_ultra_group_cur_channel_message:
-                SealSearchUltraGroupActivity.start(
-                        this,
-                        SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES,
-                        conversationIdentifier,
-                        null,
-                        null);
-                break;
-            case R.id.siv_query_target_ultra_group_multi_channel_message:
-                SearchMessageSelectActivity.start(
-                        this,
-                        SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES_FOR_CHANNELS,
-                        conversationIdentifier);
-                break;
-            case R.id.siv_query_target_ultra_group_by_user_multi_channel_message:
-                SearchMessageSelectActivity.start(
-                        this,
-                        SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES_BY_USER_FOR_CHANNELS,
-                        conversationIdentifier);
-                break;
-            case R.id.siv_query_target_ultra_group_by_user_all_channel_message:
-                SearchMessageSelectActivity.start(
-                        this,
-                        SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES_BY_USER_FOR_ALL_CHANNELS,
-                        conversationIdentifier);
-                break;
-            default:
-                break;
+            queryTargetUltraGroupMentionUnread
+                    .getCancelView()
+                    .setOnClickListener(v12 -> queryTargetUltraGroupMentionUnread.cancel());
+            queryTargetUltraGroupMentionUnread.show();
+        } else if (v.getId() == R.id.siv_query_target_ultra_group_all_channel_message) {
+            SealSearchUltraGroupActivity.start(
+                    this,
+                    SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGE_FOR_ALL_CHANNEL,
+                    ConversationIdentifier.obtain(
+                            conversationIdentifier.getType(),
+                            conversationIdentifier.getTargetId(),
+                            ""),
+                    null,
+                    null);
+        } else if (v.getId() == R.id.siv_query_target_ultra_group_cur_channel_message) {
+            SealSearchUltraGroupActivity.start(
+                    this,
+                    SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES,
+                    conversationIdentifier,
+                    null,
+                    null);
+        } else if (v.getId() == R.id.siv_query_target_ultra_group_multi_channel_message) {
+            SearchMessageSelectActivity.start(
+                    this,
+                    SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES_FOR_CHANNELS,
+                    conversationIdentifier);
+        } else if (v.getId() == R.id.siv_query_target_ultra_group_by_user_multi_channel_message) {
+            SearchMessageSelectActivity.start(
+                    this,
+                    SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES_BY_USER_FOR_CHANNELS,
+                    conversationIdentifier);
+        } else if (v.getId() == R.id.siv_query_target_ultra_group_by_user_all_channel_message) {
+            SearchMessageSelectActivity.start(
+                    this,
+                    SealSearchUltraGroupActivity.TYPE_SEARCH_MESSAGES_BY_USER_FOR_ALL_CHANNELS,
+                    conversationIdentifier);
         }
     }
 

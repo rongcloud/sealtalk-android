@@ -13,9 +13,11 @@ public class GroupNoticeInfo implements Parcelable {
     @NonNull
     @ColumnInfo(name = "id")
     private String id;
+
     /** 0: 忽略、1: 同意、2: 等待 */
     @ColumnInfo(name = "status")
     private int status;
+
     /** 1: 待被邀请者处理、2: 待管理员处理 */
     @ColumnInfo(name = "type")
     private int type;

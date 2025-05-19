@@ -53,6 +53,7 @@ public class RencentPicturePopWindow extends PopupWindow implements View.OnClick
         ivPicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ivPicture.setImageURI(Uri.parse(uri));
     }
+
     /** 显示popupWindow */
     public void showPopupWindow(int h) {
         boolean isRTL =

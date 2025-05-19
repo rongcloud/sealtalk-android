@@ -8,7 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** @author gusd @Date 2022/03/29 */
+/**
+ * @author gusd @Date 2022/03/29
+ */
 public interface DataCenter {
 
     Map<String, DataCenter> DATA_CENTER_MAP = new LinkedHashMap<>();
