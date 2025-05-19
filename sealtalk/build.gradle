@@ -132,8 +132,8 @@ dependencies {
     api 'cn.rongcloud.sdk:im_lib:5.18.1'
     api 'cn.rongcloud.sdk:rcsticker:5.18.1'
     api 'cn.rongcloud.sdk:sight:5.18.1'
-    api 'cn.rongcloud.sdk:call_lib:5.18.1'
-    api 'cn.rongcloud.sdk:call_kit:5.18.1'
+    api 'cn.rongcloud.sdk:call_lib:5.18.0'
+    api 'cn.rongcloud.sdk:call_kit:5.18.0'
     api 'cn.rongcloud.sdk:locationKit:5.18.1'
 
     api project(path: ':contactcard')
