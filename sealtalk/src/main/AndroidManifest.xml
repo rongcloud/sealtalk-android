@@ -198,9 +198,6 @@
             android:name=".ui.activity.AccountSettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.AIChatAssistantSettingActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activity.ChangeLanguageActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -246,6 +246,13 @@
                     android:textColor="@color/text_black" />
             </LinearLayout>
 
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_test_stream_msg_html_webview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="填入测试html内容以测试流式消息组件展示"
+                app:item_divider="true"
+                app:item_switch="true" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

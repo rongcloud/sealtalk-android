@@ -672,18 +672,4 @@
     <string name="ultra_group_conversation_mentioned_me">[%1$d@You]</string>
     <string name="ultra_group_conversation_mentioned_all">[%1$d人@All]</string>
     <string name="ultra_group_conversation_mentioned_me_and_all">[%1$d@You，%2$d@All]</string>
-
-    <!-- AI聊天助手相关 -->
-    <string name="ai_chat_assistant_setting_title">AI Chat Assistant Settings</string>
-    <string name="ai_chat_assistant_chat_style">Chat Style</string>
-    <string name="ai_chat_assistant_style_deepseek">DeepSeek</string>
-    <string name="ai_chat_assistant_style_volcano_slow">Volcano - Slow</string>
-    <string name="ai_chat_assistant_style_volcano_fast">Volcano - Fast</string>
-    <string name="ai_chat_assistant_access_chat_history">Allow Access to Chat History</string>
-    <string name="ai_chat_assistant_access_chat_history_tip">When enabled, AI can provide smarter replies based on context</string>
-    <string name="ai_chat_assistant_function_switch">Feature Toggle</string>
-    <string name="ai_chat_assistant_function_switch_tip">When enabled, chat suggestions will be provided during conversations</string>
-    <string name="ai_chat_assistant_suggestion">AI Suggestions</string>
-    <string name="rc_agent_enable_function">Enable</string>
-    <string name="rc_agent_function_not_enabled">Feature not enabled, click to enable now</string>
 </resources>

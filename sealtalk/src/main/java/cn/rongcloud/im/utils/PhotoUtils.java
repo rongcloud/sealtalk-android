@@ -348,13 +348,25 @@ public class PhotoUtils {
         cropIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 
         // 创建临时文件用于保存裁剪后的图片
-        File outputFile =
-                new File(
-                        activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                        "crop_temp_" + System.currentTimeMillis() + ".jpg");
-        Uri outputUri;
+        File pictureDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (pictureDir == null) {
+            pictureDir = new File(activity.getFilesDir(), "Pictures");
+            if (!pictureDir.exists()) {
+                pictureDir.mkdirs();
+            }
+        }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        // 确保目录存在
+        if (!pictureDir.exists()) {
+            pictureDir.mkdirs();
+        }
+
+        String fileName = "crop_temp_" + System.currentTimeMillis() + ".jpg";
+        File outputFile = new File(pictureDir, fileName);
+        Log.d(tag, "Crop output file path: " + outputFile.getAbsolutePath());
+
+        Uri outputUri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             outputUri =
                     FileProvider.getUriForFile(
                             activity,
@@ -365,10 +377,31 @@ public class PhotoUtils {
                                                             .rc_authorities_fileprovider),
                             outputFile);
             lastCropUriForR = outputUri;
+
+            // 授予 URI 权限给裁剪应用
+            cropIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            cropIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            // 获取裁剪应用的包名
+            List<ResolveInfo> resInfoList =
+                    activity.getPackageManager()
+                            .queryIntentActivities(cropIntent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (ResolveInfo resolveInfo : resInfoList) {
+                String packageName = resolveInfo.activityInfo.packageName;
+                activity.grantUriPermission(
+                        packageName,
+                        outputUri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                activity.grantUriPermission(
+                        packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Log.d(tag, "Granted URI permission to: " + packageName);
+            }
         } else {
             outputUri = Uri.fromFile(outputFile);
         }
 
+        Log.d(tag, "Crop output URI: " + outputUri);
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
 
         return cropIntent;
@@ -385,13 +418,36 @@ public class PhotoUtils {
             }
             return null;
         } else {
-            File cropFile =
-                    new File(
-                            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            CROP_FILE_NAME);
+            // 对于低版本 Android，尝试查找最新的裁剪文件
+            File pictureDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            if (pictureDir == null) {
+                pictureDir = new File(context.getFilesDir(), "Pictures");
+            }
+
+            if (!pictureDir.exists()) {
+                return null;
+            }
+
+            // 查找最新的裁剪文件
+            File[] files =
+                    pictureDir.listFiles(
+                            (dir, name) -> name.startsWith("crop_temp_") && name.endsWith(".jpg"));
+            if (files != null && files.length > 0) {
+                // 按修改时间排序，获取最新的文件
+                java.util.Arrays.sort(
+                        files, (f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
+                File latestFile = files[0];
+                Log.d(tag, "Found latest crop file: " + latestFile.getAbsolutePath());
+                return Uri.fromFile(latestFile);
+            }
+
+            // 如果找不到临时文件，尝试使用默认的裁剪文件名
+            File cropFile = new File(pictureDir, CROP_FILE_NAME);
             if (cropFile.exists()) {
+                Log.d(tag, "Using default crop file: " + cropFile.getAbsolutePath());
                 return Uri.fromFile(cropFile);
             }
+
             return null;
         }
     }

@@ -20,6 +20,10 @@ public class ImageLoaderUtils {
         descriptionOptions = createDefaultDisplayOptions(android.R.color.transparent);
     }
 
+    public static void cancelDisplayTask(ImageView imageView) {
+        ImageLoader.getInstance().cancelDisplayTask(imageView);
+    }
+
     public static void displayUserPortraitImage(String uri, ImageView imageView) {
         ImageLoader.getInstance().displayImage(uri, imageView, privateOptions);
         //        ImageLoader.getInstance().displayImage(uri, imageView, privateOptions, null);

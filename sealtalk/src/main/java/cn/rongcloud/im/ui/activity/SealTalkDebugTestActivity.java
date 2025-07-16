@@ -76,6 +76,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView quickIntercept; // 是否忽略登录图片验证码
     private SettingItemView createNotificationChannel;
     private SettingItemView bindChatRTCRoom;
+    private SettingItemView testStreamMsgHtmlWebview; // 填入测试html内容以测试流式消息组件展示
     private EditText eTDatabaseOperateThreshold;
     public static final String SP_IS_SHOW = "is_show";
     public static final String SP_COMBINE_V2 = "combine_v2";
@@ -85,6 +86,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     public static final String ULTRA_IS_DEBUG_KEY = "ultra_isdebug";
     public static final String LOGIN_DEBUG_CONFIG = "login_debug_config";
     public static final String LOGIN_IS_HIDE_PIC_CODE = "login_is_hide_pic_code";
+    private static String STREAM_MSG_HTML_TEST_DATA = ""; // 测试html内容，流式消息组件展示
 
     private UserInfoViewModel userInfoViewModel;
 
@@ -372,6 +374,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
 
         bindChatRTCRoom = findViewById(R.id.siv_bind_chat_rtc_room);
         bindChatRTCRoom.setOnClickListener(this);
+        testStreamMsgHtmlWebview = findViewById(R.id.siv_test_stream_msg_html_webview);
+        testStreamMsgHtmlWebview.setOnClickListener(this);
 
         eTDatabaseOperateThreshold = findViewById(R.id.et_database_operate_threshold);
     }
@@ -429,6 +433,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
             bindChatRTCRoom();
         } else if (id == R.id.quick_intercept) {
             bindChatRTCRoom();
+        } else if (id == R.id.siv_test_stream_msg_html_webview) {
+            showSetTestStreamMsgHtmlWebviewDialog();
         }
     }
 
@@ -681,5 +687,27 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private void bindChatRTCRoom() {
         Intent intent = new Intent(this, BindChatRTCRoomActivity.class);
         startActivity(intent);
+    }
+
+    private void showSetTestStreamMsgHtmlWebviewDialog() {
+        final EditText editText = new EditText(this);
+        editText.setFocusable(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请输入测试用的Html内容")
+                .setView(editText)
+                .setPositiveButton(
+                        "确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String channelId = editText.getText().toString();
+                                SealTalkDebugTestActivity.STREAM_MSG_HTML_TEST_DATA = channelId;
+                            }
+                        })
+                .show();
+    }
+
+    public static String getTestStreamMsgHtmlData() {
+        return SealTalkDebugTestActivity.STREAM_MSG_HTML_TEST_DATA;
     }
 }
