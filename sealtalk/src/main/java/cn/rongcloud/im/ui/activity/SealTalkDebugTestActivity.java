@@ -37,6 +37,7 @@ import cn.rongcloud.im.ui.view.SettingItemView;
 import cn.rongcloud.im.utils.DialogWithYesOrNoUtils;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.viewmodel.UserInfoViewModel;
+import io.rong.imkit.IMCenter;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.config.ConversationClickListener;
 import io.rong.imkit.config.RongConfigCenter;
@@ -77,18 +78,26 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView createNotificationChannel;
     private SettingItemView bindChatRTCRoom;
     private SettingItemView testStreamMsgHtmlWebview; // 填入测试html内容以测试流式消息组件展示
+    private SettingItemView sivUseOrdinaryVoiceMessage; // 使用普通语音消息开关
     private EditText eTDatabaseOperateThreshold;
     public static final String SP_IS_SHOW = "is_show";
     public static final String SP_COMBINE_V2 = "combine_v2";
     public static final String SP_HINT_NO_MORE_MESSAGE = "sp_hint_no_more_message";
+    public static final String SP_USE_ORDINARY_VOICE_MESSAGE = "sp_use_ordinary_voice_message";
     public static final String SP_PERMISSION_NAME = "permission_config";
     public static final String ULTRA_DEBUG_CONFIG = "ultra_debug_config";
     public static final String ULTRA_IS_DEBUG_KEY = "ultra_isdebug";
     public static final String LOGIN_DEBUG_CONFIG = "login_debug_config";
     public static final String LOGIN_IS_HIDE_PIC_CODE = "login_is_hide_pic_code";
+    public static final String UNKNOWN_MESSAGE_CONFIG = "unknown_message_config";
+    public static final String SHOW_UNKNOWN_MESSAGE = "show_unknown_message";
+    public static final String SHOW_UNKNOWN_MESSAGE_NOTIFICATION =
+            "show_unknown_message_notification";
     private static String STREAM_MSG_HTML_TEST_DATA = ""; // 测试html内容，流式消息组件展示
 
     private UserInfoViewModel userInfoViewModel;
+    private SettingItemView showUnknownMessage;
+    private SettingItemView showUnknownMessageNotification;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -376,6 +385,67 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         bindChatRTCRoom.setOnClickListener(this);
         testStreamMsgHtmlWebview = findViewById(R.id.siv_test_stream_msg_html_webview);
         testStreamMsgHtmlWebview.setOnClickListener(this);
+
+        sivUseOrdinaryVoiceMessage = findViewById(R.id.siv_use_ordinary_voice_message);
+        boolean useOrdinaryVoiceMessage =
+                permissionConfigSP.getBoolean(SP_USE_ORDINARY_VOICE_MESSAGE, false);
+        sivUseOrdinaryVoiceMessage.setChecked(useOrdinaryVoiceMessage);
+        if (useOrdinaryVoiceMessage) {
+            RongIM.getInstance().setVoiceMessageType(IMCenter.VoiceMessageType.Ordinary);
+        } else {
+            RongIM.getInstance().setVoiceMessageType(IMCenter.VoiceMessageType.HighQuality);
+        }
+        sivUseOrdinaryVoiceMessage.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    permissionConfigSP
+                            .edit()
+                            .putBoolean(SP_USE_ORDINARY_VOICE_MESSAGE, isChecked)
+                            .commit();
+                    // 根据开关状态设置语音消息类型
+                    if (isChecked) {
+                        RongIM.getInstance()
+                                .setVoiceMessageType(IMCenter.VoiceMessageType.Ordinary);
+                    } else {
+                        RongIM.getInstance()
+                                .setVoiceMessageType(IMCenter.VoiceMessageType.HighQuality);
+                    }
+                });
+
+        showUnknownMessage = findViewById(R.id.siv_show_unknown_message);
+        showUnknownMessageNotification = findViewById(R.id.siv_show_unknown_message_notification);
+
+        // 初始化未知消息相关开关
+        SharedPreferences unknownMessageConfigSP =
+                getSharedPreferences(UNKNOWN_MESSAGE_CONFIG, MODE_PRIVATE);
+        showUnknownMessage.setChecked(
+                unknownMessageConfigSP.getBoolean(SHOW_UNKNOWN_MESSAGE, true));
+        RongConfigCenter.featureConfig()
+                .setShowUnknownMessage(
+                        unknownMessageConfigSP.getBoolean(SHOW_UNKNOWN_MESSAGE, true));
+        showUnknownMessageNotification.setChecked(
+                unknownMessageConfigSP.getBoolean(SHOW_UNKNOWN_MESSAGE_NOTIFICATION, false));
+        RongConfigCenter.featureConfig()
+                .setShowUnknownMessageNotification(
+                        unknownMessageConfigSP.getBoolean(
+                                SHOW_UNKNOWN_MESSAGE_NOTIFICATION, false));
+
+        showUnknownMessage.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    unknownMessageConfigSP
+                            .edit()
+                            .putBoolean(SHOW_UNKNOWN_MESSAGE, isChecked)
+                            .commit();
+                    RongConfigCenter.featureConfig().setShowUnknownMessage(isChecked);
+                });
+
+        showUnknownMessageNotification.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    unknownMessageConfigSP
+                            .edit()
+                            .putBoolean(SHOW_UNKNOWN_MESSAGE_NOTIFICATION, isChecked)
+                            .commit();
+                    RongConfigCenter.featureConfig().setShowUnknownMessageNotification(isChecked);
+                });
 
         eTDatabaseOperateThreshold = findViewById(R.id.et_database_operate_threshold);
     }

@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 35
         versionCode 20210127
-        versionName "5.22.0"
+        versionName "5.24.0"
         ndk {
             abiFilters "armeabi-v7a", 'x86'
         }
@@ -118,24 +118,24 @@ dependencies {
     implementation 'com.umeng.umsdk:common:9.3.8'
     implementation 'com.umeng.umsdk:asms:1.2.2'
 
-    implementation 'cn.rongcloud.sdk.push:rong:5.22.0'
-    implementation 'cn.rongcloud.sdk.push:fcm:5.22.0'
-    implementation 'cn.rongcloud.sdk.push:huawei:5.22.0'
-    implementation 'cn.rongcloud.sdk.push:xiaomi:5.22.0'
-    implementation 'cn.rongcloud.sdk.push:oppo:5.22.0'
-    implementation 'cn.rongcloud.sdk.push:vivo:5.22.0'
-    implementation 'cn.rongcloud.sdk.push:meizu:5.22.0'
-    implementation 'cn.rongcloud.sdk.push:honor:5.22.0'
+    implementation 'cn.rongcloud.sdk.push:rong:5.24.0'
+    implementation 'cn.rongcloud.sdk.push:fcm:5.24.0'
+    implementation 'cn.rongcloud.sdk.push:huawei:5.24.0'
+    implementation 'cn.rongcloud.sdk.push:xiaomi:5.24.0'
+    implementation 'cn.rongcloud.sdk.push:oppo:5.24.0'
+    implementation 'cn.rongcloud.sdk.push:vivo:5.24.0'
+    implementation 'cn.rongcloud.sdk.push:meizu:5.24.0'
+    implementation 'cn.rongcloud.sdk.push:honor:5.24.0'
 
     //需要替换的版本
-    api 'cn.rongcloud.sdk:im_kit:5.22.0'
-    api 'cn.rongcloud.sdk:im_lib:5.22.0'
-    api 'cn.rongcloud.sdk:rcsticker:5.22.0'
-    api 'cn.rongcloud.sdk:sight:5.22.0'
-    api 'cn.rongcloud.sdk:call_lib:5.22.0'
-    api 'cn.rongcloud.sdk:call_kit:5.22.0'
-    api 'cn.rongcloud.sdk:locationKit:5.22.0'
-    api 'cn.rongcloud.sdk:imkit_stream:5.22.0'
+    api 'cn.rongcloud.sdk:im_kit:5.24.0'
+    api 'cn.rongcloud.sdk:im_lib:5.24.0'
+    api 'cn.rongcloud.sdk:rcsticker:5.24.0'
+    api 'cn.rongcloud.sdk:sight:5.24.0'
+    api 'cn.rongcloud.sdk:call_lib:5.24.0'
+    api 'cn.rongcloud.sdk:call_kit:5.24.0'
+    api 'cn.rongcloud.sdk:locationKit:5.24.0'
+    api 'cn.rongcloud.sdk:imkit_stream:5.24.0'
 
     api project(path: ':contactcard')
     api project(path: ':recognizer')

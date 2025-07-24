@@ -663,6 +663,8 @@
     <string name="data_center_beijing">Beijing</string>
     <string name="data_center_singapore">Singapore</string>
     <string name="data_center_north_america">North America</string>
+    <string name="data_center_lvbu">Lu Bu</string>
+
 
     <string name="refresh">refresh</string>
     <string name="image_verification_code_is_null">Image verification code is null</string>

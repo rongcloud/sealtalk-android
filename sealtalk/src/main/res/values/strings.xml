@@ -671,6 +671,7 @@
     <string name="data_center_beijing">北京</string>
     <string name="data_center_singapore">新加坡</string>
     <string name="data_center_north_america">北美</string>
+    <string name="data_center_lvbu">吕布</string>
 
     <!--user_group-->
     <string name="rc_user_group_list">用户组列表</string>

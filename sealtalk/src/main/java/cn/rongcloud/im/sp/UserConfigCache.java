@@ -16,6 +16,8 @@ public class UserConfigCache {
     private static final String SP_CHAT_BACKGROUND = "chat_bg";
     private static final String SP_SCREEN_STATUS = "screen_capture_status";
     private static final String SP_RECEIVE_POKE_MESSAGE = "receive_poke_message";
+    private static final String SP_SPECIAL_DATA_CENTER_VISIBILITY =
+            "special_data_center_visibility";
     private final SharedPreferences sp;
 
     public UserConfigCache(Context context) {
@@ -148,5 +150,23 @@ public class UserConfigCache {
      */
     public boolean getReceivePokeMessageStatus(String userId) {
         return sp.getBoolean(SP_RECEIVE_POKE_MESSAGE + userId, true);
+    }
+
+    /**
+     * 设置吕布数据中心显示状态
+     *
+     * @param isVisible
+     */
+    public void setSpecialDataCenterVisibility(boolean isVisible) {
+        sp.edit().putBoolean(SP_SPECIAL_DATA_CENTER_VISIBILITY, isVisible).apply();
+    }
+
+    /**
+     * 获取吕布数据中心显示状态
+     *
+     * @return
+     */
+    public boolean getSpecialDataCenterVisibility() {
+        return sp.getBoolean(SP_SPECIAL_DATA_CENTER_VISIBILITY, false);
     }
 }

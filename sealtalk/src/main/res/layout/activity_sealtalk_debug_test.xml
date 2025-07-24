@@ -186,6 +186,14 @@
                 app:item_switch="true" />
 
             <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_use_ordinary_voice_message"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="使用普通语音消息"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
                 android:id="@+id/siv_create_notification_channel"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/seal_mine_about_height"
@@ -216,6 +224,22 @@
                 app:item_divider="true"
                 app:item_switch="true"
                 />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_show_unknown_message"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="是否显示未知消息"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_show_unknown_message_notification"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="是否显示未知消息通知"
+                app:item_divider="true"
+                app:item_switch="true" />
 
             <LinearLayout
                 android:id="@+id/ll_database_operate_threshold"
@@ -253,6 +277,7 @@
                 app:item_content="填入测试html内容以测试流式消息组件展示"
                 app:item_divider="true"
                 app:item_switch="true" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

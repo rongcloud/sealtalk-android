@@ -5,6 +5,7 @@ import static io.rong.common.SystemUtils.getCurrentProcessName;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.http.SslCertificate;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import cn.rongcloud.im.contact.PhoneContactManager;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.DataCenterJsonModel;
 import cn.rongcloud.im.ui.activity.MainActivity;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.SplashActivity;
 import cn.rongcloud.im.utils.CheckPermissionUtils;
 import cn.rongcloud.im.utils.DataCenter;
@@ -245,7 +247,17 @@ public class SealApp extends MultiDexApplication {
                                         .into(imageView);
                             }
                         });
-        RongIM.getInstance().setVoiceMessageType(IMCenter.VoiceMessageType.HighQuality);
+        // 根据开关设置语音消息类型
+        SharedPreferences permissionConfigSP =
+                getSharedPreferences(SealTalkDebugTestActivity.SP_PERMISSION_NAME, MODE_PRIVATE);
+        boolean useOrdinaryVoiceMessage =
+                permissionConfigSP.getBoolean(
+                        SealTalkDebugTestActivity.SP_USE_ORDINARY_VOICE_MESSAGE, false);
+        if (useOrdinaryVoiceMessage) {
+            RongIM.getInstance().setVoiceMessageType(IMCenter.VoiceMessageType.Ordinary);
+        } else {
+            RongIM.getInstance().setVoiceMessageType(IMCenter.VoiceMessageType.HighQuality);
+        }
 
         CheckPermissionUtils.setPermissionRequestListener(this);
 

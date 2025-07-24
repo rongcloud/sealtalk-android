@@ -1,7 +1,9 @@
 package cn.rongcloud.im.utils;
 
+import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import cn.rongcloud.im.sp.UserConfigCache;
 import io.rong.imlib.model.InitOption;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,6 +35,36 @@ public interface DataCenter {
 
     public static List<DataCenter> getDataCenterList() {
         return new ArrayList<>(DATA_CENTER_MAP.values());
+    }
+
+    /**
+     * 获取过滤后的数据中心列表，根据配置决定是否显示吕布数据中心
+     *
+     * @param context 上下文
+     * @return 过滤后的数据中心列表
+     */
+    public static List<DataCenter> getFilteredDataCenterList(Context context) {
+        List<DataCenter> allCenters = new ArrayList<>(DATA_CENTER_MAP.values());
+
+        if (context == null) {
+            return allCenters;
+        }
+
+        UserConfigCache configCache = new UserConfigCache(context);
+        boolean showSpecialDataCenter = configCache.getSpecialDataCenterVisibility();
+
+        if (!showSpecialDataCenter) {
+            // 过滤掉吕布数据中心 (lvbu)
+            List<DataCenter> filteredList = new ArrayList<>();
+            for (DataCenter center : allCenters) {
+                if (!"lvbu".equals(center.getCode())) {
+                    filteredList.add(center);
+                }
+            }
+            return filteredList;
+        }
+
+        return allCenters;
     }
 
     public String getNaviUrl();

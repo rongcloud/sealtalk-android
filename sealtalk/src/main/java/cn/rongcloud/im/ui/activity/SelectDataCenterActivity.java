@@ -39,7 +39,9 @@ public class SelectDataCenterActivity extends TitleBaseActivity {
                     @Override
                     public void onBindViewHolder(
                             @NonNull DataCenterViewHolder holder, int position) {
-                        DataCenter value = DataCenter.getDataCenterList().get(position);
+                        DataCenter value =
+                                DataCenter.getFilteredDataCenterList(SelectDataCenterActivity.this)
+                                        .get(position);
                         holder.dataCenter.setText(value.getNameId());
                         holder.itemView.setOnClickListener(
                                 new View.OnClickListener() {
@@ -55,7 +57,8 @@ public class SelectDataCenterActivity extends TitleBaseActivity {
 
                     @Override
                     public int getItemCount() {
-                        return DataCenter.getDataCenterList().size();
+                        return DataCenter.getFilteredDataCenterList(SelectDataCenterActivity.this)
+                                .size();
                     }
                 });
     }

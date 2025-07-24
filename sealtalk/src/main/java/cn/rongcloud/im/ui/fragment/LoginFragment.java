@@ -1,14 +1,18 @@
 package cn.rongcloud.im.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -28,6 +32,7 @@ import cn.rongcloud.im.model.ImageCodeResult;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.UserCacheInfo;
+import cn.rongcloud.im.sp.UserConfigCache;
 import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.SelectCountryActivity;
 import cn.rongcloud.im.ui.activity.SelectDataCenterActivity;
@@ -55,6 +60,11 @@ public class LoginFragment extends BaseFragment {
     private ImageCodeResult mImageCodeResult;
     private EditText imageEditText;
 
+    // 长按相关变量
+    private final Handler longPressHandler = new Handler(Looper.getMainLooper());
+    private Runnable longPressRunnable;
+    private UserConfigCache configCache;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.login_fragment_login;
@@ -77,7 +87,14 @@ public class LoginFragment extends BaseFragment {
         sendCodeBtn.setEnabled(false);
         imageCode.setOnClickListener(this);
         mRefreshImageCode.setOnClickListener(this);
-        if (DataCenter.getDataCenterList().size() > 1) {
+
+        // 初始化配置缓存
+        configCache = new UserConfigCache(getContext());
+
+        // 设置数据中心长按监听器
+        setupDataCenterLongPress();
+
+        if (DataCenter.getFilteredDataCenterList(getContext()).size() > 1) {
             findView(R.id.ll_data_center).setVisibility(View.VISIBLE);
         } else {
             findView(R.id.ll_data_center).setVisibility(View.GONE);
@@ -441,6 +458,10 @@ public class LoginFragment extends BaseFragment {
         super.onDestroy();
         verifyCodeEdit = null;
         loginViewModel.stopCodeCountDown();
+        // 清除长按回调
+        if (longPressRunnable != null) {
+            longPressHandler.removeCallbacks(longPressRunnable);
+        }
     }
 
     public void setLoginListener(OnLoginListener loginListener) {
@@ -449,5 +470,47 @@ public class LoginFragment extends BaseFragment {
 
     public interface OnLoginListener {
         boolean beforeLogin();
+    }
+
+    // 长按相关方法
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupDataCenterLongPress() {
+        TextView dataCenterLabel = findView(R.id.tv_data_center_label);
+
+        dataCenterLabel.setOnTouchListener(
+                (v, event) -> {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            // 开始长按计时
+                            longPressRunnable =
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // 长按1.5秒后执行
+                                            toggleSpecialDataCenterVisibility();
+                                        }
+                                    };
+                            longPressHandler.postDelayed(longPressRunnable, 1500); // 1.5秒
+                            return true; // 消费事件
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            // 取消长按计时
+                            if (longPressRunnable != null) {
+                                longPressHandler.removeCallbacks(longPressRunnable);
+                            }
+                            return true; // 消费事件
+                    }
+                    return false;
+                });
+    }
+
+    /** 切换特殊数据中心的显示状态 */
+    private void toggleSpecialDataCenterVisibility() {
+        boolean currentVisibility = configCache.getSpecialDataCenterVisibility();
+        boolean newVisibility = !currentVisibility;
+        configCache.setSpecialDataCenterVisibility(newVisibility);
+
+        String message = newVisibility ? "已开启吕布数据中心显示" : "已关闭吕布数据中心显示";
+        showToast(message);
     }
 }
