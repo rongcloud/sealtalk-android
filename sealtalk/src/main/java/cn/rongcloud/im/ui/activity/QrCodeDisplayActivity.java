@@ -1,5 +1,7 @@
 package cn.rongcloud.im.ui.activity;
 
+import static io.rong.imkit.utils.PermissionCheckUtil.REQUEST_CODE_ASK_PERMISSIONS;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -24,12 +27,14 @@ import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.qrcode.QrCodeDisplayType;
 import cn.rongcloud.im.ui.view.SealTitleBar;
+import cn.rongcloud.im.utils.BuildVariantUtils;
 import cn.rongcloud.im.utils.ImageLoaderUtils;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.ViewCapture;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.DisplayQRCodeViewModel;
-import cn.rongcloud.im.wx.WXManager;
+import io.rong.imkit.picture.config.PictureConfig;
+import io.rong.imkit.utils.PermissionCheckUtil;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.ImageMessage;
@@ -41,6 +46,8 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
     private final String TAG = "QrCodeDisplayActivity";
     public static final int REQUEST_CODE_ASK_PERMISSIONS = 100;
     private final int REQUEST_CODE_FORWARD_TO_SEALTALK = 1000;
+
+    private final int REQUEST_CODE_SAVE_TO_LOCAL = 1001;
 
     /** 分享类型定义：SealTalk */
     private final int SHARE_TYPE_SEALTALK = 0;
@@ -123,8 +130,14 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
         findViewById(R.id.profile_tv_qr_save_phone).setOnClickListener(this);
         // 分享至 SealTalk
         findViewById(R.id.profile_tv_qr_share_to_sealtalk).setOnClickListener(this);
-        // 分享至微信
-        findViewById(R.id.profile_tv_qr_share_to_wechat).setOnClickListener(this);
+        // 分享至微信 - 根据构建变体控制可见性，Develop版本启用，PublishStore版本禁用
+        View wechatShareBtn = findViewById(R.id.profile_tv_qr_share_to_wechat);
+        if (!BuildVariantUtils.isPublishStoreBuild()) {
+            wechatShareBtn.setOnClickListener(this);
+            wechatShareBtn.setVisibility(View.VISIBLE);
+        } else {
+            wechatShareBtn.setVisibility(View.GONE);
+        }
     }
 
     private void initViewModel() {
@@ -258,10 +271,36 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
 
     /** 保存二维码到本地 */
     private void saveQRCodeToLocal() {
-        if (!checkHasStoragePermission()) {
-            return;
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            if (!PermissionCheckUtil.checkPermissions(this, permissions)) {
+                PermissionCheckUtil.requestPermissions(
+                        this, permissions, REQUEST_CODE_ASK_PERMISSIONS);
+                return;
+            }
         }
+
         qrCodeViewModel.saveQRCodeToLocal(ViewCapture.getViewBitmap(qrCodeCardLl));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_SAVE_TO_LOCAL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                qrCodeViewModel.saveQRCodeToLocal(ViewCapture.getViewBitmap(qrCodeCardLl));
+            }
+        } else if (requestCode == PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //                mDialog.selectPicture();
+            }
+        }
     }
 
     /** 分享至 SealTalk */
@@ -320,12 +359,23 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
 
     /** 分享至微信 */
     private void shareToWeChat() {
+        // 根据构建变体控制微信分享功能 - Develop版本启用，PublishStore版本禁用
+        if (BuildVariantUtils.isPublishStoreBuild()) {
+            ToastUtils.showToast(R.string.common_share_failed);
+            return;
+        }
+
         Resource<String> resource = qrCodeViewModel.getSaveCacheBitmapResult().getValue();
         if (resource != null && resource.data != null) {
             shareType = -1;
+            // Develop版本启用微信分享功能
             try {
-                // 分享至微信
-                WXManager.getInstance().sharePicture(resource.data);
+                // 这里需要导入WXManager - Develop版本中可用
+                Class<?> wxManagerClass = Class.forName("cn.rongcloud.im.wx.WXManager");
+                Object wxManager = wxManagerClass.getMethod("getInstance").invoke(null);
+                wxManagerClass
+                        .getMethod("sharePicture", String.class)
+                        .invoke(wxManager, resource.data);
             } catch (Exception e) {
                 ToastUtils.showToast(R.string.common_share_failed);
                 e.printStackTrace();
@@ -345,12 +395,12 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
             // Android 10 及以上使用分区存储，无需 WRITE_EXTERNAL_STORAGE 权限
             return true;
         } else if (Build.VERSION.SDK_INT >= 23) {
-            // 从6.0系统(API 23)到10.0系统，访问外置存储仍需动态申请权限
-            int checkPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (checkPermission != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(
-                        new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        REQUEST_CODE_ASK_PERMISSIONS);
+            // 从6.0系统(API 23)开始，访问外置存储需要动态申请权限
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+            if (!PermissionCheckUtil.checkPermissions(this, permissions)) {
+                PermissionCheckUtil.requestPermissions(
+                        this, permissions, REQUEST_CODE_ASK_PERMISSIONS);
                 return false;
             }
         }

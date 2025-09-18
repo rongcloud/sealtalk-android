@@ -1,7 +1,5 @@
 package cn.rongcloud.im.ui.fragment;
 
-import static cn.rongcloud.im.common.IntentExtra.STR_TARGET_ID;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
+import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.db.model.FriendShipInfo;
 import cn.rongcloud.im.db.model.FriendStatus;
 import cn.rongcloud.im.im.IMManager;
@@ -21,6 +20,7 @@ import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.MultiDeleteFriendsActivity;
 import cn.rongcloud.im.ui.activity.NewFriendListActivity;
 import cn.rongcloud.im.ui.activity.PublicServiceActivity;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.UserDetailActivity;
 import cn.rongcloud.im.ui.adapter.CommonListAdapter;
 import cn.rongcloud.im.ui.adapter.ListWithSideBarBaseAdapter;
@@ -28,6 +28,8 @@ import cn.rongcloud.im.ui.adapter.models.FunctionInfo;
 import cn.rongcloud.im.ui.adapter.models.ListItemModel;
 import cn.rongcloud.im.viewmodel.CommonListBaseViewModel;
 import cn.rongcloud.im.viewmodel.MainContactsListViewModel;
+import io.rong.imkit.usermanage.friend.apply.ApplyFriendListActivity;
+import io.rong.imkit.usermanage.friend.user.profile.UserProfileActivity;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imkit.widget.dialog.OptionsPopupDialog;
 import io.rong.imlib.model.ConversationIdentifier;
@@ -190,9 +192,18 @@ public class MainContactsListFragment extends CommonListBaseFragment {
                     this.getContext(),
                     ConversationIdentifier.obtainPrivate(friendShipInfo.getUser().getId()));
         } else {
-            Intent intent = new Intent(getContext(), UserDetailActivity.class);
-            intent.putExtra(STR_TARGET_ID, friendShipInfo.getUser().getId());
-            startActivity(intent);
+            // 根据用户托管开关决定使用哪种实现
+            if (SealTalkDebugTestActivity.isUserManagementEnabled(getContext())) {
+                // 使用新的用户管理功能
+                startActivity(
+                        UserProfileActivity.newIntent(
+                                getContext(), friendShipInfo.getUser().getId()));
+            } else {
+                // 使用原来的实现
+                Intent intent = new Intent(getContext(), UserDetailActivity.class);
+                intent.putExtra(IntentExtra.STR_TARGET_ID, friendShipInfo.getUser().getId());
+                startActivity(intent);
+            }
         }
     }
 
@@ -230,12 +241,20 @@ public class MainContactsListFragment extends CommonListBaseFragment {
      */
     private void handleFunItemClick(FunctionInfo functionInfo) {
         final String id = functionInfo.getId();
+        Intent intent;
         switch (id) {
             case "1":
                 // 新的朋友
-                viewModel.setFunRedDotShowStatus(id, false);
-                Intent intent = new Intent(getActivity(), NewFriendListActivity.class);
-                startActivity(intent);
+                // 根据用户托管开关决定使用哪种实现
+                if (SealTalkDebugTestActivity.isUserManagementEnabled(getContext())) {
+                    // 使用新的用户管理功能
+                    startActivity(ApplyFriendListActivity.newIntent(getContext()));
+                } else {
+                    // 使用原来的实现
+                    viewModel.setFunRedDotShowStatus(id, false);
+                    intent = new Intent(getActivity(), NewFriendListActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case "2":
                 // 群组

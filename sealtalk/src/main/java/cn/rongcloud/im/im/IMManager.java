@@ -67,6 +67,7 @@ import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.MemberMentionedExActivity;
 import cn.rongcloud.im.ui.activity.NewFriendListActivity;
 import cn.rongcloud.im.ui.activity.PokeInviteChatActivity;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.SplashActivity;
 import cn.rongcloud.im.ui.activity.SubConversationListActivity;
 import cn.rongcloud.im.ui.activity.UserDetailActivity;
@@ -96,6 +97,8 @@ import io.rong.imkit.notification.RongNotificationManager;
 import io.rong.imkit.streammessage.StreamMessageItemProvider;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.userinfo.model.GroupUserInfo;
+import io.rong.imkit.usermanage.friend.my.profile.MyProfileActivity;
+import io.rong.imkit.usermanage.friend.user.profile.UserProfileActivity;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.ChannelClient;
 import io.rong.imlib.IRongCallback;
@@ -142,6 +145,7 @@ import io.rong.sight.SightExtensionModule;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class IMManager {
@@ -930,21 +934,38 @@ public class IMManager {
                                     String targetId) {
                                 if (conversationType
                                         != Conversation.ConversationType.CUSTOMER_SERVICE) {
-                                    Intent intent = new Intent(context, UserDetailActivity.class);
-                                    intent.putExtra(IntentExtra.STR_TARGET_ID, user.getUserId());
-                                    if (conversationType == Conversation.ConversationType.GROUP) {
-                                        Group groupInfo =
-                                                RongUserInfoManager.getInstance()
-                                                        .getGroupInfo(targetId);
-                                        if (groupInfo != null) {
-                                            intent.putExtra(
-                                                    IntentExtra.GROUP_ID, groupInfo.getId());
-                                            intent.putExtra(
-                                                    IntentExtra.STR_GROUP_NAME,
-                                                    groupInfo.getName());
+                                    if (SealTalkDebugTestActivity.isUserManagementEnabled(
+                                            context)) {
+                                        String currentUserId =
+                                                RongCoreClient.getInstance().getCurrentUserId();
+                                        if (Objects.equals(user.getUserId(), currentUserId)) {
+                                            context.startActivity(
+                                                    MyProfileActivity.newIntent(getContext()));
+                                        } else {
+                                            context.startActivity(
+                                                    UserProfileActivity.newIntent(
+                                                            getContext(), user.getUserId()));
                                         }
+                                    } else {
+                                        Intent intent =
+                                                new Intent(context, UserDetailActivity.class);
+                                        intent.putExtra(
+                                                IntentExtra.STR_TARGET_ID, user.getUserId());
+                                        if (conversationType
+                                                == Conversation.ConversationType.GROUP) {
+                                            Group groupInfo =
+                                                    RongUserInfoManager.getInstance()
+                                                            .getGroupInfo(targetId);
+                                            if (groupInfo != null) {
+                                                intent.putExtra(
+                                                        IntentExtra.GROUP_ID, groupInfo.getId());
+                                                intent.putExtra(
+                                                        IntentExtra.STR_GROUP_NAME,
+                                                        groupInfo.getName());
+                                            }
+                                        }
+                                        context.startActivity(intent);
                                     }
-                                    context.startActivity(intent);
                                 }
                                 return true;
                             }
@@ -1360,6 +1381,9 @@ public class IMManager {
         initConversation();
 
         RongConfigCenter.featureConfig().enableDestruct(BuildConfig.DEBUG);
+        // 长按消息是否支持编辑
+        boolean editMsgEnabled = SealTalkDebugTestActivity.isEditMessageEnabled(context);
+        RongConfigCenter.featureConfig().enableEditMessage(editMsgEnabled);
     }
 
     private void initPhrase() {

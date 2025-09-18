@@ -79,6 +79,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView bindChatRTCRoom;
     private SettingItemView testStreamMsgHtmlWebview; // 填入测试html内容以测试流式消息组件展示
     private SettingItemView sivUseOrdinaryVoiceMessage; // 使用普通语音消息开关
+    private SettingItemView userManagementSwitch; // 用户托管功能开关
+    private SettingItemView editMessage; // 消息编辑
     private EditText eTDatabaseOperateThreshold;
     public static final String SP_IS_SHOW = "is_show";
     public static final String SP_COMBINE_V2 = "combine_v2";
@@ -93,6 +95,10 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     public static final String SHOW_UNKNOWN_MESSAGE = "show_unknown_message";
     public static final String SHOW_UNKNOWN_MESSAGE_NOTIFICATION =
             "show_unknown_message_notification";
+    public static final String USER_MANAGEMENT_CONFIG = "user_management_config";
+    public static final String USER_MANAGEMENT_ENABLED = "user_management_enabled";
+    public static final String EDIT_MESSAGE_CONFIG = "edit_message_config";
+    public static final String EDIT_MESSAGE_ENABLED = "edit_message_enabled";
     private static String STREAM_MSG_HTML_TEST_DATA = ""; // 测试html内容，流式消息组件展示
 
     private UserInfoViewModel userInfoViewModel;
@@ -447,6 +453,32 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
                     RongConfigCenter.featureConfig().setShowUnknownMessageNotification(isChecked);
                 });
 
+        // 初始化用户托管功能开关
+        userManagementSwitch = findViewById(R.id.siv_user_management_switch);
+        SharedPreferences userManagementConfigSP =
+                getSharedPreferences(USER_MANAGEMENT_CONFIG, MODE_PRIVATE);
+        userManagementSwitch.setChecked(
+                userManagementConfigSP.getBoolean(USER_MANAGEMENT_ENABLED, false));
+        userManagementSwitch.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    userManagementConfigSP
+                            .edit()
+                            .putBoolean(USER_MANAGEMENT_ENABLED, isChecked)
+                            .commit();
+                    ToastUtils.showToast("用户托管功能已" + (isChecked ? "开启" : "关闭"));
+                    exit(0);
+                });
+
+        editMessage = findViewById(R.id.siv_test_edit_message);
+        SharedPreferences editMsgSP = getSharedPreferences(EDIT_MESSAGE_CONFIG, MODE_PRIVATE);
+        editMessage.setChecked(isEditMessageEnabled(this));
+        editMessage.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    editMsgSP.edit().putBoolean(EDIT_MESSAGE_ENABLED, isChecked).commit();
+                    ToastUtils.showToast("消息编辑功能已" + (isChecked ? "开启" : "关闭"));
+                    exit(0);
+                });
+
         eTDatabaseOperateThreshold = findViewById(R.id.et_database_operate_threshold);
     }
 
@@ -779,5 +811,29 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
 
     public static String getTestStreamMsgHtmlData() {
         return SealTalkDebugTestActivity.STREAM_MSG_HTML_TEST_DATA;
+    }
+
+    /**
+     * 获取用户托管功能是否启用
+     *
+     * @param context 上下文
+     * @return true表示启用，false表示禁用
+     */
+    public static boolean isUserManagementEnabled(Context context) {
+        SharedPreferences sp =
+                context.getSharedPreferences(USER_MANAGEMENT_CONFIG, Context.MODE_PRIVATE);
+        return sp.getBoolean(USER_MANAGEMENT_ENABLED, false);
+    }
+
+    /**
+     * 获取消息编辑功能是否启用
+     *
+     * @param context 上下文
+     * @return true表示启用，false表示禁用
+     */
+    public static boolean isEditMessageEnabled(Context context) {
+        SharedPreferences sp =
+                context.getSharedPreferences(EDIT_MESSAGE_CONFIG, Context.MODE_PRIVATE);
+        return sp.getBoolean(EDIT_MESSAGE_ENABLED, true);
     }
 }

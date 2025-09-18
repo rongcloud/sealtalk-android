@@ -59,16 +59,21 @@ import io.rong.imkit.conversation.extension.RongExtensionViewModel;
 import io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel;
 import io.rong.imkit.feature.quickreply.IQuickReplyProvider;
 import io.rong.imkit.manager.UnReadMessageManager;
+import io.rong.imkit.usermanage.group.profile.GroupProfileActivity;
 import io.rong.imkit.utils.PermissionCheckUtil;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imkit.widget.TitleBar;
+import io.rong.imlib.IRongCoreCallback;
+import io.rong.imlib.IRongCoreEnum;
 import io.rong.imlib.IRongCoreListener;
 import io.rong.imlib.RongCoreClient;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.ConversationIdentifier;
+import io.rong.imlib.model.GroupMemberInfo;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -219,11 +224,24 @@ public class ConversationActivity extends RongBaseActivity
                                     mTitleBar.setRightVisible(false);
                                 } else {
                                     if (mConversationType.equals(
-                                                    Conversation.ConversationType.CUSTOMER_SERVICE)
-                                            || mConversationType.equals(
-                                                    Conversation.ConversationType.CHATROOM)) {
+                                            Conversation.ConversationType.CUSTOMER_SERVICE)) {
                                         mTitleBar.setRightVisible(false);
+                                        //                                        if
+                                        // (mConversationType.equals(
+                                        //
+                                        // Conversation.ConversationType.CUSTOMER_SERVICE)
+                                        //                                                ||
+                                        // mConversationType.equals(
+                                        //
+                                        // Conversation.ConversationType.CHATROOM)) {
+                                        //
+                                        // mTitleBar.setRightVisible(false);
                                     } else {
+                                        if (mConversationType.equals(
+                                                Conversation.ConversationType.CHATROOM)) {
+                                            mTitleBar.setRightText("举报");
+                                            mTitleBar.setRightIconDrawableVisibility(false);
+                                        }
                                         mTitleBar.setRightVisible(true);
                                     }
                                 }
@@ -787,6 +805,15 @@ public class ConversationActivity extends RongBaseActivity
                 });
     }
 
+    private void reportUser() {
+        Intent intent =
+                ReportCategoryActivity.newIntent(
+                        this,
+                        conversationIdentifier.getType(),
+                        conversationIdentifier.getTargetId());
+        startActivity(intent);
+    }
+
     private void initTitleBar(Conversation.ConversationType conversationType, String mTargetId) {
         // title 布局设置
         if (!conversationType.equals(Conversation.ConversationType.CHATROOM)) {
@@ -795,14 +822,21 @@ public class ConversationActivity extends RongBaseActivity
 
         mTitleBar.setBackgroundResource(io.rong.imkit.R.color.rc_background_main_color);
 
-        if (mConversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)
-                || mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
+        //        if (mConversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)
+        //                || mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
+        //            mTitleBar.setRightVisible(false);
+        //        }
+        if (mConversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
             mTitleBar.setRightVisible(false);
         }
         mTitleBar.setOnRightIconClickListener(
                 new TitleBar.OnRightIconClickListener() {
                     @Override
                     public void onRightIconClick(View v) {
+                        if (mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
+                            reportUser();
+                            return;
+                        }
                         toDetailActivity(conversationType, mTargetId);
                         addPhrases++;
                         updatePhrases(addPhrases);
@@ -817,6 +851,37 @@ public class ConversationActivity extends RongBaseActivity
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mTitleBar.postDelayed(() -> conversationViewModel.onStart(), 200);
+        if (mConversationType == Conversation.ConversationType.GROUP
+                && SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+            String currentUserId = RongCoreClient.getInstance().getCurrentUserId();
+            RongCoreClient.getInstance()
+                    .getGroupMembers(
+                            mTargetId,
+                            Arrays.asList(currentUserId),
+                            new IRongCoreCallback.ResultCallback<List<GroupMemberInfo>>() {
+                                @Override
+                                public void onSuccess(List<GroupMemberInfo> groupMemberInfos) {
+                                    if (mTitleBar != null) {
+                                        mTitleBar.setRightVisible(
+                                                groupMemberInfos != null
+                                                        && !groupMemberInfos.isEmpty());
+                                    }
+                                }
+
+                                @Override
+                                public void onError(IRongCoreEnum.CoreErrorCode e) {
+                                    if (mTitleBar != null) {
+                                        mTitleBar.setRightVisible(false);
+                                    }
+                                }
+                            });
+        }
     }
 
     /**
@@ -865,9 +930,13 @@ public class ConversationActivity extends RongBaseActivity
             intent.putExtra(IntentExtra.SERIA_CONVERSATION_IDENTIFIER, conversationIdentifier);
             startActivity(intent);
         } else if (conversationType == Conversation.ConversationType.GROUP) {
-            Intent intent = new Intent(this, GroupDetailActivity.class);
-            intent.putExtra(IntentExtra.SERIA_CONVERSATION_IDENTIFIER, conversationIdentifier);
-            startActivity(intent);
+            if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+                startActivity(GroupProfileActivity.newIntent(this, conversationIdentifier));
+            } else {
+                Intent intent = new Intent(this, GroupDetailActivity.class);
+                intent.putExtra(IntentExtra.SERIA_CONVERSATION_IDENTIFIER, conversationIdentifier);
+                startActivity(intent);
+            }
         } else if (conversationType == Conversation.ConversationType.SYSTEM) {
             Intent intent = new Intent(this, SystemSettingActivity.class);
             intent.putExtra(IntentExtra.SERIA_CONVERSATION_IDENTIFIER, conversationIdentifier);

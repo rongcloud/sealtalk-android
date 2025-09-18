@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.rongcloud.im">
+    xmlns:tools="http://schemas.android.com/tools">
     <queries>
         <intent>
             <action android:name="com.hihonor.push.action.BIND_PUSH_SERVICE" />
         </intent>
     </queries>
     <!--用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
     <!--用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
     <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
@@ -22,7 +22,7 @@
     <!--如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <!--如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明-->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+<!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>-->
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
@@ -39,16 +39,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-    <!-- 数美 权限配置-->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 数美 配置结束-->
+<!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>-->
+    <!-- 数美权限配置已与上面合并 -->
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
@@ -420,13 +412,13 @@
             android:screenOrientation="portrait" />
 
         <!-- 微信 接收微信的请求及返回值 -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:taskAffinity="net.sourceforge.simcpux"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+<!--        <activity-->
+<!--            android:name=".wxapi.WXEntryActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:taskAffinity="net.sourceforge.simcpux"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
 
         <activity
             android:name="io.rong.sight.player.SightPlayerActivity"
@@ -583,6 +575,39 @@
         <activity android:name=".ui.activity.ConversationListByTargetIdsActivity"
             android:screenOrientation="portrait"/>
         <!-- end -->
+
+        <!-- report 页面-->
+        <activity
+            android:name=".ui.activity.ReportCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ReportSubCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ReportDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ReportImagePreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ReportSuccessActivity"
+            android:screenOrientation="portrait" />
+            
+        <!-- 微信 接收微信的请求及返回值 - Develop版本启用 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:taskAffinity="net.sourceforge.simcpux"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            
+        <!-- BlockCanary Activity - Develop版本调试工具 -->
+        <activity
+            android:name="com.github.moduth.blockcanary.ui.DisplayActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:replace="android:theme" />
     </application>
 
 </manifest>

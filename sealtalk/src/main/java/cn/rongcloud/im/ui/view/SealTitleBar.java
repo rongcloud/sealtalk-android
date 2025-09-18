@@ -137,6 +137,7 @@ public class SealTitleBar extends RelativeLayout {
                 llSearch.setVisibility(View.VISIBLE);
                 tvTyping.setVisibility(View.GONE);
                 flContent.setVisibility(View.GONE);
+                tvClear.setVisibility(View.GONE);
                 break;
             case TYPING:
                 btnLeft.setVisibility(View.VISIBLE);

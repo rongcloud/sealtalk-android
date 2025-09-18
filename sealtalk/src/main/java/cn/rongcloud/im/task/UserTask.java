@@ -2,6 +2,7 @@ package cn.rongcloud.im.task;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -10,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import cn.rongcloud.im.BuildConfig;
 import cn.rongcloud.im.SealApp;
+import cn.rongcloud.im.common.BrandMap;
 import cn.rongcloud.im.common.ErrorCode;
 import cn.rongcloud.im.common.ResultCallback;
 import cn.rongcloud.im.db.DBManager;
@@ -261,6 +263,7 @@ public class UserTask {
             @Override
             protected LiveData<Result<String>> createCall() {
                 HashMap<String, Object> paramsMap = new HashMap<>();
+                paramsMap.put("device", BrandMap.getAbbrFromBrand(Build.BRAND));
                 paramsMap.put("region", region);
                 paramsMap.put("phone", phoneNumber);
                 if (!isHidePicCode()) {

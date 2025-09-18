@@ -22,7 +22,6 @@ import android.view.Surface;
 import android.view.Window;
 import android.view.WindowManager;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import cn.rongcloud.im.BuildConfig;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.utils.OSUtils;
@@ -32,6 +31,7 @@ import cn.rongcloud.im.utils.qrcode.client.InactivityTimer;
 import cn.rongcloud.im.utils.qrcode.client.Intents;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
+import io.rong.imkit.picture.permissions.PermissionChecker;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -237,17 +237,58 @@ public class CaptureManager {
 
     @TargetApi(23)
     private void openCameraWithPermission() {
-        if (ContextCompat.checkSelfPermission(this.activity, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED) {
+        //        if (ContextCompat.checkSelfPermission(this.activity, Manifest.permission.CAMERA)
+        //                == PackageManager.PERMISSION_GRANTED) {
+        //            barcodeView.resume();
+        //        } else if (!askedPermission) {
+        //            ActivityCompat.requestPermissions(
+        //                    this.activity,
+        //                    new String[] {Manifest.permission.CAMERA},
+        //                    cameraPermissionReqCode);
+        ////            PermissionChecker.requestPermissions(
+        ////                this.activity,
+        ////                new String[] {
+        ////                        Manifest.permission.CAMERA
+        ////                },
+        ////                cameraPermissionReqCode);
+        //            askedPermission = true;
+        //        } else {
+        //            // Wait for permission result
+        //        }
+
+        if (PermissionChecker.checkSelfPermission(this.activity, Manifest.permission.CAMERA)) {
             barcodeView.resume();
-        } else if (!askedPermission) {
-            ActivityCompat.requestPermissions(
-                    this.activity,
-                    new String[] {Manifest.permission.CAMERA},
-                    cameraPermissionReqCode);
-            askedPermission = true;
         } else {
-            // Wait for permission result
+            if (!askedPermission) {
+                new AlertDialog.Builder(
+                                activity, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                        .setTitle("权限说明")
+                        .setMessage("需要开启(照相机)权限，才能正常使用扫一扫等相关功能")
+                        .setPositiveButton(
+                                "去申请",
+                                (dialog, which) -> {
+                                    ActivityCompat.requestPermissions(
+                                            this.activity,
+                                            new String[] {Manifest.permission.CAMERA},
+                                            cameraPermissionReqCode);
+                                    dialog.dismiss();
+                                })
+                        .setNegativeButton(
+                                "取消",
+                                (dialog, which) -> {
+                                    this.activity.finish();
+                                    dialog.dismiss();
+                                })
+                        .show();
+                //                PermissionChecker.requestPermissions(
+                //                        this.activity,
+                //                        new String[] {
+                //                                Manifest.permission.CAMERA
+                //                        },
+                //                        PictureConfig.APPLY_CAMERA_PERMISSIONS_CODE);
+
+                askedPermission = true;
+            }
         }
     }
 

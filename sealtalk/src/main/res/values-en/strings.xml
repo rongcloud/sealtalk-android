@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">融云 IM</string>
+    <string name="app_name">RC IM</string>
     <string name="title_activity_main">MainActivity</string>
     <!-- login-->
     <string name="seal_login_text_new_user">Sign Up</string>
@@ -33,7 +33,8 @@
     <string name="seal_login_kick_by_other">Your account is logged-in on another device and  you are forced to logout!</string>
     <string name="seal_login_connect_time_out">Login time out, please try again</string>
     <string name="seal_login_user_logout">User is Logout</string>
-
+    <string name="seal_login_user_blocked">User is Blocked</string>
+    <string name="seal_login_user_login_expiration">Not logged in or login credentials invalid</string>
     <string name="common_chat_room">Chatroom</string>
     <string name="discovery_chat_room_one">Chatroom1</string>
     <string name="discovery_chat_room_two">Chatroom2</string>
@@ -57,6 +58,8 @@
     <string name="seal_search">Search</string>
     <string name="beijing">Beijing</string>
 
+    <string name="privacy_agree">Agree</string>
+    <string name="privacy_disagree">Disagree</string>
 
     <string name="common_confirm">Confirm</string>
     <string name="common_cancel">Cancel</string>
@@ -238,6 +241,8 @@
     <string name="seal_mine_about_sdk_version">SDK Version</string>
     <string name="debug_mode_is_open">Debug mode is on</string>
     <string name="seal_mine_about_close_debug_mode">Turn Off Debug Mode</string>
+    <string name="seal_mine_about_debug_setting">Setting</string>
+    <string name="seal_mine_about_device_id">DEVICE ID</string>
     <string name="seal_mine_about_user_online_status">Setting User Online Status</string>
     <string name="common_set_failed">Set failed</string>
     <string name="common_clear_success">Cleared</string>
@@ -254,7 +259,7 @@
     <string name="seal_update_staccout_exit">This RC IM number already exists, please reset</string>
     <string name="seal_update_staccount_tips">1.The RC IM number is the unique certificate for the account and can only be set once.\n2.After setting the RC IM account, you can add your friend by searching for the RC IM number.</string>
     <string name="seal_update_staccount_edit_digist">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-</string>
-    <string name="seal_update_staccount_title">Set up the SealRC IM Talk number</string>
+    <string name="seal_update_staccount_title">Set up the RC IM number</string>
     <string name="seal_update_staccount_save">Save</string>
     <string name="seal_staccount_dialog_title">Confirm this Sealtalk number</string>
     <string name="seal_staccount_dialog_title_format_error">Set up RC IM number failed</string>
@@ -314,8 +319,8 @@
     <string name="msg_contact_notification_someone_agree_your_request">accepted to your friend request.</string>
     <string name="msg_contact_notification_agree_your_request">Receiptant accepted to you friend request.</string>
     <string name="msg_dialog_item_message_delete">Delete Message</string>
-    <string name="seal_search_chatting_records">See More Chat History</string>
     <string name="msg_no_more_to_fetch">No more history messages.</string>
+    <string name="seal_search_chatting_records">See More Chat History</string>
     <string name="seal_search_more_friend">See More Contacts</string>
     <string name="seal_search_more_group">See More Groups</string>
     <string name="seal_search_more_chatting_records">See More Chat History</string>
@@ -331,7 +336,7 @@
 
 
     <string name="seal_search_empty">Not related to content of %s </string>
-    <string name="seal_main_chat_tab_more_read_message">···</string>
+    <string name="seal_main_chat_tab_more_read_message">99+</string>
     <string name="seal_main_toast_unread_clear_success">Cleared</string>
     <string name="seal_public_account_information">Public account Info</string>
     <string name="seal_member_mention_all_member">All</string>
@@ -623,6 +628,7 @@
     <string name="seal_login_private_service_error">Login Fail Status :34005</string>
     <string name="seal_system_conversation_title">System messages assistant</string>
 
+    <string name="seal_friend_message">Friends news</string>
 
 
     <!--debug mode-->
@@ -631,15 +637,8 @@
     <string name="setting_close_ultra_group_debug_promt">Is switch Ultra Group Debug mode (requires re-open to the app)?</string>
     <string name="seal_mine_about_push_config">Set Push Config</string>
     <string name="seal_mine_about_message_audit_info">Set message audit info</string>
-    <string name="seal_mine_about_debug_setting">Setting</string>
-    <string name="seal_mine_about_device_id">DEVICE ID</string>
     <string name="seal_mine_about_debug_setting_push_language">Set push language</string>
-    <string name="seal_mine_about_group_read_receipt_test">Group read receipt v2 test</string>
-    <string name="debug_group_read_receipt_count_display_tx">"The sender received a read receipt ：reader count%d      total count%d      "</string>
-    <string name="debug_group_read_receipt_count_get_display_tx">Get the total number of members in the group when reading users：%d</string>
-
-
-    <string name="seal_friend_message">Friends news</string>
+    <string name="seal_mine_about_group_read_receipt_test">Group read receipt V2 test</string>
 
     <string name="seal_login_text_title">Welcome to RC IM</string>
     <string name="seal_talk_login_verify_code">Verification code</string>
@@ -652,11 +651,23 @@
     <string name="seal_mine_about_debug_setting_umeng_info">Device info by umeng</string>
     <string name="seal_mine_about_debug_setting_reference_msg_test">Reference message property test</string>
 
+    <string name="seal_talk_prompt_text_behand">Please read and understand thoroughly \"%1$s\" and IM \"%2$s\"</string>
+    <string name="seal_talk_prompt_text_front">1.To ensure stable and secure platform operation, we will apply for system permissions to collect device information such as IP address, device ID, network access type, operating system, etc. for platform operation problem investigation
+                                               </string>
+    <string name="seal_talk_prompt_text_front1"> 2.lease read in detail the instructions on collecting and using personal device user information in the Privacy Policy
+                                               </string>
+    <string name="seal_talk_prompt_text_front2"> 3.After logging into the application, you can also view the privacy instructions in "Me Privacy Policy"
+                                               </string>
+
     <string name="seal_talk_fraud_tips_dialog_title">Tips</string>
     <string name="seal_talk_fraud_tips_dialog_content">You are using RongCloud IM, RongCloud reminds you to beware of fraud and Be cautious of messages involving money.</string>
     <string name="seal_talk_fraud_tips_dialog_confirm">Confirm</string>
 
     <string name="seal_talk_fraud_tip_conversation_top">RongCloud reminds you to beware of fraud, do not trust money-related information, and do not conduct any offline transfers.</string>
+
+    <string name="seal_talk_security_kick_out">Hello, your account has been banned due to abnormal operation and cannot log in. If you have any questions, please call the official phone:</string>
+    <string name="seal_talk_security_kick_out_phone">400-919-9066</string>
+    <string name="seal_talk_security_kick_out_des">Working hours: 9:30 ~ 18:30</string>
 
 
     <string name="data_center">Data Center</string>
@@ -666,6 +677,26 @@
     <string name="data_center_lvbu">Lu Bu</string>
 
 
+    <!--user_group-->
+    <string name="rc_user_group_list">UserGroupList</string>
+    <string name="rc_create_user_group">Create User Group</string>
+    <string name="rc_user_group_member_num">%d member</string>
+
+    <!--ultra_group-->
+    <string name="rc_insert_message">insert one message</string>
+    <string name="rc_dialog_item_message_modify">ultra group message modify</string>
+    <string name="rc_dialog_item_message_update">ultra group message update</string>
+    <string name="rc_dialog_item_ultra_message_recall">ultra group message recall</string>
+    <string name="rc_dialog_item_ultra_message_recall_and_del">ultra group message recall and delete</string>
+    <string name="rc_dialog_item_ultra_message_delete">ultra group delete</string>
+    <string name="rc_dialog_item_pull_remote_messages">ultra group pull remote</string>
+    <string name="ultra_group_create_over_limit">The number of super groups created and joined by users exceeds the limit</string>
+    <string name="ultra_group_channel_over_limit">The number of channels created exceeds the upper limit</string>
+
+    <string name="seal_main_title_create_channel">Create channel</string>
+    <string name="profile_channel_name_word_limit_format" formatted="true">The channel name should be %d-%d words</string>
+    <string name="profile_group_name_invalid_word">Invalid words</string>
+
     <string name="refresh">refresh</string>
     <string name="image_verification_code_is_null">Image verification code is null</string>
     <string name="seal_talk_image_verify_code">Image verification code</string>
@@ -674,4 +705,63 @@
     <string name="ultra_group_conversation_mentioned_me">[%1$d@You]</string>
     <string name="ultra_group_conversation_mentioned_all">[%1$d人@All]</string>
     <string name="ultra_group_conversation_mentioned_me_and_all">[%1$d@You，%2$d@All]</string>
+
+    <!--举报功能-->
+    <string name="report_title">Report</string>
+    <string name="report_reason">Report Reason:</string>
+    <string name="select_illegal_content">Please select a type of illegal content:</string>
+    <!-- Primary Categories -->
+    <string name="report_category_pornographic_info">Dissemination of Pornographic/Illegal Information</string>
+    <string name="report_category_fraudulent_activities">Fraudulent Activities</string>
+    <string name="report_category_minor_infringement">Infringement on the Rights of Minors</string>
+    <string name="report_category_spam_advertising">Spam/Advertising</string>
+    <string name="report_category_cyber_violence">Cyber Violence/Infringement</string>
+    <string name="report_category_other_violations">Other Violations</string>
+
+    <!-- Subcategories -->
+    <string name="report_subcategory_pornographic">Pornography</string>
+    <string name="report_subcategory_illegal_crime">Illegal Crime and Prohibited Items</string>
+    <string name="report_subcategory_gambling">Gambling</string>
+    <string name="report_subcategory_political_rumors">Political Rumors</string>
+    <string name="report_subcategory_violence_bloodshed">Violence and Bloodshed</string>
+    <string name="report_subcategory_other">Other Violations</string>
+
+    <string name="report_subcategory_financial_fraud">Financial Fraud</string>
+    <string name="report_subcategory_online_job_scam">Online Job Scam</string>
+    <string name="report_subcategory_online_dating_scam">Online Dating Scam</string>
+    <string name="report_subcategory_fake_investment_scam">Fake Investment Scam</string>
+    <string name="report_subcategory_gambling_scam">Gambling Scam</string>
+    <string name="report_subcategory_other_fraud">Other Fraudulent Activities</string>
+
+    <string name="image_evidence_title">Image Evidence (Required):</string>
+    <string name="report_content_title">Report Content (Optional):</string>
+    <string name="report_content_hint">Please enter the content to report, up to 200 characters</string>
+    <string name="submit_button_text">Submit</string>
+
+    <string name="delete_image_button_text">Delete</string>
+
+    <!-- Upload Status -->
+    <string name="upload_status_pending">Pending Upload</string>
+    <string name="upload_status_uploading">Uploading...</string>
+    <string name="upload_status_success">Upload Successful</string>
+    <string name="upload_status_failed">Upload Failed</string>
+
+    <!-- Retry Button -->
+    <string name="retry_button_text">Retry</string>
+
+    <string name="report_user">Report User</string>
+    <string name="report_group">Report Group</string>
+
+    <string name="report_content_too_long">Content cannot exceed 200 characters</string>
+    <string name="report_success">Report successful</string>
+    <string name="report_failed">Report failed, please try again later</string>
+    <string name="upload_images_first">Please upload all images first</string>
+    <string name="upload_at_least_one_image">Please upload at least one image</string>
+
+    <string name="report_status_submitted">Report Submitted</string>
+    <string name="report_status_description">We will review your report as soon as possible. If there is any violation, appropriate actions will be taken.</string>
+    <string name="close_button_text">Close</string>
+
+    <string name="rc_my_new_friend">New Friends</string>
+
 </resources>

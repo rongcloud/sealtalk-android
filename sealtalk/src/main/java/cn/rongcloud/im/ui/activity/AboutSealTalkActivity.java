@@ -18,6 +18,7 @@ import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.VersionInfo;
 import cn.rongcloud.im.ui.dialog.DownloadAppDialog;
 import cn.rongcloud.im.ui.view.SettingItemView;
+import cn.rongcloud.im.utils.BuildVariantUtils;
 import cn.rongcloud.im.utils.DialogWithYesOrNoUtils;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.viewmodel.AppViewModel;
@@ -68,13 +69,31 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
         sealtalkVersionSiv.setClickable(false);
         sealtalkDebugSettingSiv.setOnClickListener(this);
 
-        sivDeviceId = findViewById(R.id.siv_device_id);
+        // 设备ID相关逻辑 - 统一处理变量作用域
         SharedPreferences sharedPreferences =
                 getSharedPreferences(SealTalkDebugTestActivity.ULTRA_DEBUG_CONFIG, MODE_PRIVATE);
         String lastDeviceId = sharedPreferences.getString(LAST_DEVICE_ID, "");
-
         String deviceId = DeviceUtils.getDeviceId(this);
-        sivDeviceId.setContent("old: " + lastDeviceId + "\nnew:" + deviceId);
+
+        // 根据构建变体控制设备ID显示功能 - Develop版本启用，PublishStore版本禁用
+        if (!BuildVariantUtils.isPublishStoreBuild()) {
+            // Develop版本：查找并设置设备ID显示控件
+            try {
+                sivDeviceId =
+                        findViewById(
+                                getResources()
+                                        .getIdentifier("siv_device_id", "id", getPackageName()));
+                if (sivDeviceId != null) {
+                    sivDeviceId.setContent("old: " + lastDeviceId + "\nnew:" + deviceId);
+                }
+            } catch (Exception e) {
+                // 如果布局中没有siv_device_id控件，设为null
+                sivDeviceId = null;
+            }
+        } else {
+            // PublishStore版本隐藏设备ID显示功能
+            sivDeviceId = null;
+        }
 
         if (!Objects.equals(lastDeviceId, deviceId)) {
             sharedPreferences.edit().putString(LAST_DEVICE_ID, deviceId).commit();
@@ -140,13 +159,21 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
                                     debufModeSiv.setVisibility(View.VISIBLE);
                                     debugEnvSiv.setVisibility(View.VISIBLE);
                                     sealtalkDebugSettingSiv.setVisibility(View.VISIBLE);
-                                    sivDeviceId.setVisibility(View.VISIBLE);
+                                    // 根据构建变体控制设备ID显示 - Develop版本启用，PublishStore版本禁用
+                                    if (!BuildVariantUtils.isPublishStoreBuild()
+                                            && sivDeviceId != null) {
+                                        sivDeviceId.setVisibility(View.VISIBLE);
+                                    }
                                 } else {
                                     sdkVersionSiv.setClickable(true);
                                     debufModeSiv.setVisibility(View.GONE);
                                     debugEnvSiv.setVisibility(View.GONE);
                                     sealtalkDebugSettingSiv.setVisibility(View.GONE);
-                                    sivDeviceId.setVisibility(View.GONE);
+                                    // 根据构建变体控制设备ID隐藏 - Develop版本启用，PublishStore版本禁用
+                                    if (!BuildVariantUtils.isPublishStoreBuild()
+                                            && sivDeviceId != null) {
+                                        sivDeviceId.setVisibility(View.GONE);
+                                    }
                                 }
                             }
                         });
@@ -168,8 +195,10 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
         } else if (id == R.id.siv_sealtalk_version) {
             showDownloadDialog(url);
         } else if (id == R.id.siv_sdk_version) {
-            // TODO 开启 debug 模式规则
-            showStartDebugDialog();
+            // TODO 开启 debug 模式规则: 上线 PublishStore 不能开启
+            if (!BuildVariantUtils.isPublishStoreBuild()) {
+                showStartDebugDialog();
+            }
         } else if (id == R.id.siv_close_debug_mode) {
             // TODO 关闭 debug 模式
             sdkVersionSiv.setClickable(true);

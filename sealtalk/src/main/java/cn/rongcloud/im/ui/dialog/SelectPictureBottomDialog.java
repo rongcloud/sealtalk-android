@@ -1,9 +1,6 @@
 package cn.rongcloud.im.ui.dialog;
 
-import static cn.rongcloud.im.ui.activity.QrCodeDisplayActivity.REQUEST_CODE_ASK_PERMISSIONS;
-
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -38,16 +35,18 @@ public class SelectPictureBottomDialog extends BaseBottomDialog {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (PermissionChecker.checkSelfPermission(
-                                        getContext(), Manifest.permission.CAMERA)) {
-                                    photoUtils.takePicture(SelectPictureBottomDialog.this);
-                                } else {
-                                    Activity activity = (Activity) getContext();
-                                    PermissionChecker.requestPermissions(
-                                            activity,
-                                            new String[] {Manifest.permission.CAMERA},
-                                            PictureConfig.APPLY_CAMERA_PERMISSIONS_CODE);
+                                if (Build.VERSION.SDK_INT >= 23) {
+                                    if (!PermissionChecker.checkSelfPermission(
+                                            getActivity(), Manifest.permission.CAMERA)) {
+                                        PermissionChecker.requestPermissions(
+                                                getActivity(),
+                                                new String[] {Manifest.permission.CAMERA},
+                                                PictureConfig.APPLY_CAMERA_PERMISSIONS_CODE);
+                                        return;
+                                    }
                                 }
+
+                                photoUtils.takePicture(SelectPictureBottomDialog.this);
                             }
                         });
         view.findViewById(R.id.btn_album)
@@ -55,8 +54,15 @@ public class SelectPictureBottomDialog extends BaseBottomDialog {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                // 从6.0系统(API 23)开始，访问外置存储需要动态申请权限
-                                if (!checkPremission()) {
+                                String[] permissions =
+                                        PermissionCheckUtil.getMediaStoragePermissions(
+                                                getActivity());
+                                if (!PermissionChecker.checkSelfPermission(
+                                        getActivity(), permissions)) {
+                                    PermissionChecker.requestPermissions(
+                                            getActivity(),
+                                            permissions,
+                                            PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE);
                                     return;
                                 }
                                 photoUtils.selectPicture(SelectPictureBottomDialog.this);
@@ -92,16 +98,32 @@ public class SelectPictureBottomDialog extends BaseBottomDialog {
         return view;
     }
 
+    public void takePicture() {
+        if (photoUtils != null) {
+            photoUtils.takePicture(SelectPictureBottomDialog.this);
+        }
+    }
+
+    public void selectPicture() {
+        if (photoUtils != null) {
+            photoUtils.selectPicture(SelectPictureBottomDialog.this);
+        }
+    }
+
     private boolean checkPremission() {
         if (Build.VERSION.SDK_INT >= 23) {
             Context context = getContext();
             if (context == null) {
                 return false;
             }
+
             String[] permissions = PermissionCheckUtil.getMediaStoragePermissions(context);
+
             boolean checkPermission = PermissionCheckUtil.checkPermissions(context, permissions);
             if (!checkPermission) {
-                requestPermissions(permissions, REQUEST_CODE_ASK_PERMISSIONS);
+                PermissionChecker.requestPermissions(
+                        getActivity(), permissions, PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE);
+                //                requestPermissions(permissions, REQUEST_CODE_ASK_PERMISSIONS);
                 return false;
             }
         }

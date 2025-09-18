@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <cn.rongcloud.im.ui.view.IconTextItemView
+        android:id="@+id/rc_item_my_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/my_new_friend"
+        app:text="@string/rc_new_friends" />
+
+    <cn.rongcloud.im.ui.view.IconTextItemView
+        android:id="@+id/rc_item_my_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/rc_group_default"
+        app:text="@string/rc_my_groups" />
+
+    <cn.rongcloud.im.ui.view.IconTextItemView
+        android:id="@+id/rc_item_group_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/rc_notification"
+        app:text="@string/rc_group_notification" />
+
+    <LinearLayout
+        android:id="@+id/rc_item_my"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/iv_contact_portrait"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_contact_name"
+            style="@style/TextStyle.Alignment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/rc_margin_size_12"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:maxLength="32"
+            android:textColor="@color/rc_text_main_color"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+</LinearLayout>

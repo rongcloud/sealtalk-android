@@ -245,7 +245,13 @@ public class FileManager {
     }
 
     private String saveFileToCacheDir(Uri fileUri) {
-        String path = fileUri.getPath();
+        String path;
+        if ("content".equals(fileUri.getScheme())) {
+            path = getFilePathFromUri(context, fileUri);
+        } else {
+            path = fileUri.getPath();
+        }
+
         if (TextUtils.isEmpty(path)) {
             return null;
         }
@@ -263,6 +269,130 @@ public class FileManager {
         return result ? cachePath + fileName : null;
     }
 
+    private String getFilePathFromUri(Context context, Uri uri) {
+        // 对于 Android 10 及以上版本，_data 列已被废弃，需要采用新的方式处理
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            return copyUriContentToTempFile(context, uri);
+        }
+
+        // Android 10 以下版本的处理方式
+        String[] projection = {MediaStore.Files.FileColumns.DATA};
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(uri, projection, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
+                if (column_index >= 0) {
+                    String filePath = cursor.getString(column_index);
+                    return filePath;
+                }
+            }
+        } catch (Exception e) {
+            SLog.e(LogTag.API, "Error getting file path from uri: " + e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        // 如果无法获取文件路径，则复制文件到临时目录
+        return copyUriContentToTempFile(context, uri);
+    }
+
+    /** 将 Uri 内容复制到临时文件 适用于 Android 10 及以上版本或无法获取真实路径的情况 */
+    private String copyUriContentToTempFile(Context context, Uri uri) {
+        InputStream inputStream = null;
+        FileOutputStream outputStream = null;
+        try {
+            inputStream = context.getContentResolver().openInputStream(uri);
+            if (inputStream == null) {
+                return null;
+            }
+
+            // 创建临时文件
+            String fileName = "temp_" + System.currentTimeMillis();
+            String fileExtension = getFileExtensionFromUri(context, uri);
+            if (!TextUtils.isEmpty(fileExtension)) {
+                fileName += "." + fileExtension;
+            }
+
+            File tempDir = new File(context.getCacheDir(), "temp_files");
+            if (!tempDir.exists()) {
+                tempDir.mkdirs();
+            }
+
+            File tempFile = new File(tempDir, fileName);
+            outputStream = new FileOutputStream(tempFile);
+
+            byte[] buffer = new byte[8192];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            outputStream.flush();
+            return tempFile.getAbsolutePath();
+
+        } catch (IOException e) {
+            SLog.e(LogTag.API, "Error copying uri content to temp file: " + e.getMessage());
+            return null;
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                SLog.e(LogTag.API, "Error closing streams: " + e.getMessage());
+            }
+        }
+    }
+
+    /** 从 Uri 获取文件扩展名 */
+    private String getFileExtensionFromUri(Context context, Uri uri) {
+        String extension = null;
+
+        // 首先尝试从 URI 的路径中获取扩展名
+        String path = uri.getPath();
+        if (!TextUtils.isEmpty(path)) {
+            int lastDotIndex = path.lastIndexOf('.');
+            if (lastDotIndex > 0 && lastDotIndex < path.length() - 1) {
+                extension = path.substring(lastDotIndex + 1);
+            }
+        }
+
+        // 如果无法从路径获取，尝试通过 ContentResolver 获取
+        if (TextUtils.isEmpty(extension)) {
+            String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
+            Cursor cursor = null;
+            try {
+                cursor = context.getContentResolver().query(uri, projection, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
+                    if (nameIndex >= 0) {
+                        String displayName = cursor.getString(nameIndex);
+                        if (!TextUtils.isEmpty(displayName)) {
+                            int lastDotIndex = displayName.lastIndexOf('.');
+                            if (lastDotIndex > 0 && lastDotIndex < displayName.length() - 1) {
+                                extension = displayName.substring(lastDotIndex + 1);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                SLog.e(LogTag.API, "Error getting file extension: " + e.getMessage());
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+
+        return extension;
+    }
+
     /**
      * 获取本地文件真实 uri
      *
@@ -270,19 +400,8 @@ public class FileManager {
      * @return
      */
     public String getRealPathFromUri(Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            String path = cursor.getString(column_index);
-            return path;
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
+        // 使用统一的方法来获取文件路径，兼容 Android 10 及以上版本
+        return getFilePathFromUri(context, contentUri);
     }
 
     private static int COMPRESSED_SIZE = 1080;
@@ -293,27 +412,77 @@ public class FileManager {
 
     public LiveData<Resource<String>> uploadCompressImage(Uri contentUri) {
         MediatorLiveData<Resource<String>> result = new MediatorLiveData<>();
+
+        // 添加空值检查
+        if (contentUri == null) {
+            result.setValue(Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
+            return result;
+        }
+
         String localPath = "";
         Uri uri = Uri.parse(getSavePath());
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        if (contentUri.getScheme().equals("file")) {
-            localPath = contentUri.toString().substring(5);
-        } else if (contentUri.getScheme().equals("content")) {
-            Cursor cursor =
-                    context.getContentResolver()
-                            .query(
-                                    contentUri,
-                                    new String[] {MediaStore.Images.Media.DATA},
-                                    null,
-                                    null,
-                                    null);
-            cursor.moveToFirst();
-            localPath = cursor.getString(0);
-            cursor.close();
+
+        String scheme = contentUri.getScheme();
+        if (scheme == null) {
+            result.setValue(Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
+            return result;
         }
+
+        if (scheme.equals("file")) {
+            localPath = contentUri.toString().substring(5);
+        } else if (scheme.equals("content")) {
+            localPath = getFilePathFromUri(context, contentUri);
+            if (TextUtils.isEmpty(localPath)) {
+                // 如果无法获取路径，则尝试直接使用 InputStream 处理
+                try {
+                    InputStream inputStream =
+                            context.getContentResolver().openInputStream(contentUri);
+                    if (inputStream != null) {
+                        // 创建临时文件来处理图片压缩
+                        String fileName = "temp_compress_" + System.currentTimeMillis() + ".jpg";
+                        File tempDir = new File(context.getCacheDir(), "temp_compress");
+                        if (!tempDir.exists()) {
+                            tempDir.mkdirs();
+                        }
+                        File tempFile = new File(tempDir, fileName);
+
+                        FileOutputStream outputStream = new FileOutputStream(tempFile);
+                        byte[] buffer = new byte[8192];
+                        int length;
+                        while ((length = inputStream.read(buffer)) > 0) {
+                            outputStream.write(buffer, 0, length);
+                        }
+                        inputStream.close();
+                        outputStream.close();
+
+                        localPath = tempFile.getAbsolutePath();
+                    }
+                } catch (IOException e) {
+                    SLog.e(
+                            LogTag.API,
+                            "Error creating temp file for compression: " + e.getMessage());
+                    return result; // 返回空结果
+                }
+            }
+        }
+
+        // 检查是否成功获取到文件路径
+        if (TextUtils.isEmpty(localPath)) {
+            result.setValue(Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
+            return result;
+        }
+
         BitmapFactory.decodeFile(localPath, options);
         File file = new File(localPath);
+
+        // 检查文件是否存在
+        if (!file.exists()) {
+            result.setValue(Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
+            return result;
+        }
+
         long fileSize = file.length() / 1024;
         Bitmap bitmap = null;
         try {

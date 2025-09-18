@@ -214,6 +214,12 @@ public class CheckPermissionUtils {
 
                         if (containsPermissions(
                                 permissionsNotGranted,
+                                new String[] {Manifest.permission.READ_CONTACTS})) {
+                            messageBuilder.append("从通讯录中添加好友、");
+                        }
+
+                        if (containsPermissions(
+                                permissionsNotGranted,
                                 new String[] {
                                     Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
                                 })) {
@@ -223,9 +229,12 @@ public class CheckPermissionUtils {
                         if (containsPermissions(
                                 permissionsNotGranted,
                                 new String[] {
-                                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.ACCESS_FINE_LOCATION,
-                                    Manifest.permission.ACCESS_NETWORK_STATE,
+                                    //
+                                    // Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    //
+                                    // Manifest.permission.ACCESS_FINE_LOCATION,
+                                    //
+                                    // Manifest.permission.ACCESS_NETWORK_STATE,
                                     Manifest.permission.READ_PHONE_STATE
                                 })) {
                             messageBuilder.append("位置消息、位置共享、");
@@ -247,6 +256,11 @@ public class CheckPermissionUtils {
 
                         if (permissionsNotGranted.contains(Manifest.permission.RECORD_AUDIO)) {
                             messageBuilder.append("语音输入、");
+                        }
+
+                        if (permissionsNotGranted.contains(
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            messageBuilder.append("保存图片和文件、");
                         }
 
                         // 删除最后一个多余的逗号

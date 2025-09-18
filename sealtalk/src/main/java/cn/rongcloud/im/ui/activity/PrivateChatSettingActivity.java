@@ -110,6 +110,7 @@ public class PrivateChatSettingActivity extends TitleBaseActivity implements Vie
         findViewById(R.id.siv_search_messages).setOnClickListener(this);
         // 清除聊天记录
         findViewById(R.id.siv_clean_chat_message).setOnClickListener(this);
+        findViewById(R.id.btn_report_user).setOnClickListener(this);
 
         isNotifySb = findViewById(R.id.siv_user_notification);
         isNotifySb.setSwitchCheckListener(
@@ -292,7 +293,18 @@ public class PrivateChatSettingActivity extends TitleBaseActivity implements Vie
             goSearchChatMessage();
         } else if (id == R.id.profile_iv_add_member) {
             addOtherMemberToGroup();
+        } else if (id == R.id.btn_report_user) {
+            reportUser();
         }
+    }
+
+    private void reportUser() {
+        Intent intent =
+                ReportCategoryActivity.newIntent(
+                        this,
+                        conversationIdentifier.getType(),
+                        conversationIdentifier.getTargetId());
+        startActivity(intent);
     }
 
     /** 显示清除聊天消息对话框 */

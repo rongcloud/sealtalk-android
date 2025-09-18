@@ -21,15 +21,19 @@ import cn.rongcloud.im.ui.activity.ChangeLanguageActivity;
 import cn.rongcloud.im.ui.activity.MyAccountActivity;
 import cn.rongcloud.im.ui.activity.ProxySettingActivity;
 import cn.rongcloud.im.ui.activity.QrCodeDisplayActivity;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.TranslationSettingActivity;
+import cn.rongcloud.im.ui.activity.WebViewActivity;
 import cn.rongcloud.im.ui.view.SettingItemView;
 import cn.rongcloud.im.ui.view.UserInfoItemView;
+import cn.rongcloud.im.utils.BuildVariantUtils;
 import cn.rongcloud.im.viewmodel.AppViewModel;
 import cn.rongcloud.im.viewmodel.UserInfoViewModel;
 import com.bumptech.glide.Glide;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.userinfo.model.GroupUserInfo;
+import io.rong.imkit.usermanage.friend.my.profile.MyProfileActivity;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imkit.utils.language.LangUtils;
 import io.rong.imlib.RongIMClient;
@@ -42,6 +46,7 @@ public class MainMeFragment extends BaseFragment {
     private static final String TAG = "MainMeFragment";
 
     private SettingItemView sivAbout;
+    private SettingItemView sivPrivacy;
     private UserInfoItemView uivUserInfo;
     private AppViewModel appViewModel;
     private SettingItemView sivLanguage;
@@ -61,6 +66,7 @@ public class MainMeFragment extends BaseFragment {
         sivLanguage = findView(R.id.siv_language, true);
         findView(R.id.siv_feedback, true);
         sivAbout = findView(R.id.siv_about, true);
+        sivPrivacy = findView(R.id.siv_privacy, true);
         findView(R.id.siv_translation, true);
         findView(R.id.siv_proxy_setting, true);
     }
@@ -150,8 +156,15 @@ public class MainMeFragment extends BaseFragment {
             qrCodeIntent.putExtra(IntentExtra.SERIA_QRCODE_DISPLAY_TYPE, QrCodeDisplayType.PRIVATE);
             startActivity(qrCodeIntent);
         } else if (id == R.id.uiv_userinfo) {
-            Intent intentUserInfo = new Intent(getActivity(), MyAccountActivity.class);
-            startActivity(intentUserInfo);
+            // 根据用户托管开关决定使用哪种实现
+            if (SealTalkDebugTestActivity.isUserManagementEnabled(getActivity())) {
+                // 使用新的用户管理功能
+                startActivity(MyProfileActivity.newIntent(getActivity()));
+            } else {
+                // 使用原来的实现
+                Intent intentUserInfo = new Intent(getActivity(), MyAccountActivity.class);
+                startActivity(intentUserInfo);
+            }
         } else if (id == R.id.siv_setting_account) {
             startActivity(new Intent(getActivity(), AccountSettingActivity.class));
         } else if (id == R.id.siv_language) {
@@ -183,6 +196,17 @@ public class MainMeFragment extends BaseFragment {
                     && !TextUtils.isEmpty(resource.data.getUrl())) {
                 intent.putExtra(IntentExtra.URL, resource.data.getUrl());
             }
+            startActivity(intent);
+        } else if (id == R.id.siv_privacy) {
+            final String privacyPolicyTitle = getString(R.string.seal_talk_privacy_policy_title);
+            Intent intent = new Intent(getContext(), WebViewActivity.class);
+            intent.putExtra(WebViewActivity.PARAMS_TITLE, privacyPolicyTitle);
+            // 根据构建变体使用不同的URL - Develop版本使用本地文件，PublishStore版本使用在线URL
+            String privacyUrl =
+                    !BuildVariantUtils.isPublishStoreBuild()
+                            ? "file:///android_asset/PrivacyPolicy_zh.html"
+                            : "https://www.rongcloud.cn/chuangqiyi/privacy_policy";
+            intent.putExtra(WebViewActivity.PARAMS_URL, privacyUrl);
             startActivity(intent);
         } else if (id == R.id.siv_translation) {
             Intent intent = new Intent(getActivity(), TranslationSettingActivity.class);

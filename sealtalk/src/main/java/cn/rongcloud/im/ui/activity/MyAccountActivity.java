@@ -1,10 +1,12 @@
 package cn.rongcloud.im.ui.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,6 +21,7 @@ import cn.rongcloud.im.ui.view.UserInfoItemView;
 import cn.rongcloud.im.utils.ImageLoaderUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.UserInfoViewModel;
+import io.rong.imkit.picture.config.PictureConfig;
 import java.lang.ref.WeakReference;
 
 /** 我的账号 */
@@ -30,6 +33,22 @@ public class MyAccountActivity extends TitleBaseActivity implements View.OnClick
     private SettingItemView genderSiv;
     private UserInfoViewModel userInfoViewModel;
     private boolean isCanSetStAccount;
+    private SelectPictureBottomDialog mDialog;
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PictureConfig.APPLY_CAMERA_PERMISSIONS_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mDialog.takePicture();
+            }
+        } else if (requestCode == PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mDialog.selectPicture();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -140,8 +159,8 @@ public class MyAccountActivity extends TitleBaseActivity implements View.OnClick
     private void showSelectPictureDialog() {
         SelectPictureBottomDialog.Builder builder = new SelectPictureBottomDialog.Builder();
         builder.setOnSelectPictureListener(new MySelectPictureBottomDialog(MyAccountActivity.this));
-        SelectPictureBottomDialog dialog = builder.build();
-        dialog.show(getSupportFragmentManager(), "select_picture_dialog");
+        mDialog = builder.build();
+        mDialog.show(getSupportFragmentManager(), "select_picture_dialog");
     }
 
     public class MySelectPictureBottomDialog

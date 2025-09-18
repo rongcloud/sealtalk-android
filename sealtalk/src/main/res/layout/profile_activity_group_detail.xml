@@ -221,6 +221,20 @@
                 android:textColor="#FFF"
                 android:textSize="16sp" />
 
+            <Button
+                android:id="@+id/btn_report_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/report_group"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

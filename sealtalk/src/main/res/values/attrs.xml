@@ -103,4 +103,9 @@
 
     </declare-styleable>
 
+    <declare-styleable name="IconTextItemView">
+        <attr name="icon" format="reference" />
+        <attr name="text" format="string" />
+    </declare-styleable>
+
 </resources>

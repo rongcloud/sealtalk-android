@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 提交状态图标 -->
+    <TextView
+        android:id="@+id/tv_report_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="@string/report_status_submitted"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <!-- 说明文字 -->
+    <TextView
+        android:id="@+id/tv_report_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:text="@string/report_status_description"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <!-- 关闭按钮 -->
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/rc_blue"
+        android:paddingStart="40dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="40dp"
+        android:paddingBottom="8dp"
+        android:text="@string/close_button_text"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 import cn.rongcloud.im.R;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 
 public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissListener {
     private Activity context;
@@ -105,6 +106,10 @@ public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissL
                                 dismiss();
                             }
                         });
+
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(context)) {
+            contentView.findViewById(R.id.btn_scan).setVisibility(View.GONE);
+        }
     }
 
     /**

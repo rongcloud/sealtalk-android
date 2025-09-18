@@ -24,12 +24,14 @@ import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.ui.BaseActivity;
+import cn.rongcloud.im.ui.dialog.AuthorityPrivacyDialog;
 import cn.rongcloud.im.ui.dialog.CommonDialog;
 import cn.rongcloud.im.ui.dialog.PrivacyDialog;
 import cn.rongcloud.im.ui.dialog.SecurityKickOutDialog;
 import cn.rongcloud.im.ui.fragment.LoginFindPasswordFragment;
 import cn.rongcloud.im.ui.fragment.LoginFragment;
 import cn.rongcloud.im.ui.fragment.LoginRegisterFragment;
+import cn.rongcloud.im.utils.BuildVariantUtils;
 import cn.rongcloud.im.utils.StatusBarUtil;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.AppViewModel;
@@ -70,6 +72,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         initView();
         initViewModel();
+        if (BuildVariantUtils.isPublishStoreBuild()) {
+            initRongPrivacy();
+        }
+    }
+
+    private void initRongPrivacy() {
+        /** 显示同意隐私协议对话框 */
+        AuthorityPrivacyDialog.Builder builder = new AuthorityPrivacyDialog.Builder();
+        //                        .setButtonText(R.string.privacy_agree, R.string.privacy_disagree);
+        builder.setDialogButtonClickListener(
+                new CommonDialog.OnDialogButtonClickListener() {
+                    @Override
+                    public void onPositiveClick(View v, Bundle bundle) {}
+
+                    @Override
+                    public void onNegativeClick(View v, Bundle bundle) {
+                        System.exit(0);
+                    }
+                });
+        builder.build().show(getSupportFragmentManager(), null);
     }
 
     private void initStatusBar() {
@@ -179,9 +201,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(LoginActivity.this, WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, registrationTitle);
-                        intent.putExtra(
-                                WebViewActivity.PARAMS_URL,
-                                "file:///android_asset/agreement_zh.html");
+                        // 根据构建变体使用不同的URL - Develop版本使用本地文件，PublishStore版本使用在线URL
+                        String agreementUrl =
+                                !BuildVariantUtils.isPublishStoreBuild()
+                                        ? "file:///android_asset/agreement_zh.html"
+                                        : "https://www.rongcloud.cn/chuangqiyi/terms_of_service";
+                        intent.putExtra(WebViewActivity.PARAMS_URL, agreementUrl);
                         startActivity(intent);
                     }
 
@@ -203,9 +228,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(LoginActivity.this, WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, privacyPolicyTitle);
-                        intent.putExtra(
-                                WebViewActivity.PARAMS_URL,
-                                "file:///android_asset/PrivacyPolicy_zh.html");
+                        // 根据构建变体使用不同的URL - Develop版本使用本地文件，PublishStore版本使用在线URL
+                        String privacyUrl =
+                                !BuildVariantUtils.isPublishStoreBuild()
+                                        ? "file:///android_asset/PrivacyPolicy_zh.html"
+                                        : "https://www.rongcloud.cn/chuangqiyi/privacy_policy";
+                        intent.putExtra(WebViewActivity.PARAMS_URL, privacyUrl);
                         startActivity(intent);
                     }
 

@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_image_evidence_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/image_evidence_title"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <!-- 图片数量显示 -->
+        <TextView
+            android:id="@+id/tv_image_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0/9"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- 图片添加按钮及预览区域 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:columnCount="3"
+        android:rowCount="3" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/rc_reference_title_color" />
+
+    <!-- 举报内容标题 -->
+    <TextView
+        android:id="@+id/tv_report_content_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/report_content_title"
+        android:textSize="16sp" />
+
+    <!-- 举报内容输入框 -->
+    <EditText
+        android:id="@+id/et_report_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="12dp"
+        android:background="@android:color/white"
+        android:gravity="top"
+        android:hint="@string/report_content_hint"
+        android:inputType="textMultiLine"
+        android:maxLength="200"
+        android:padding="10dp" />
+
+    <!-- 提交按钮 -->
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/rc_blue"
+        android:text="@string/submit_button_text"
+        android:textColor="@android:color/white" />
+</LinearLayout>

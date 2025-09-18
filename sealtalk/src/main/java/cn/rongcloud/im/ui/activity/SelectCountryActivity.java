@@ -56,6 +56,17 @@ public class SelectCountryActivity extends TitleBaseActivity {
                         });
 
         getTitleBar()
+                .setOnBtnRightClickListener(
+                        "取消",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideInputKeyboard();
+                                finish();
+                            }
+                        });
+
+        getTitleBar()
                 .addSeachTextChangedListener(
                         new TextWatcher() {
                             @Override

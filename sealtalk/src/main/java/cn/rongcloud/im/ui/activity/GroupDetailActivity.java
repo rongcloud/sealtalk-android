@@ -246,6 +246,8 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         // 定时清理群消息
         cleanTimingSiv = findViewById(R.id.profile_siv_group_clean_timming);
         cleanTimingSiv.setOnClickListener(this);
+
+        findViewById(R.id.btn_report_user).setOnClickListener(this);
     }
 
     private boolean requestReadPermissions() {
@@ -752,7 +754,18 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
             startActivity(intent);
         } else if (id == R.id.profile_siv_group_clean_timming) {
             showRegualrClearDialog();
+        } else if (id == R.id.btn_report_user) {
+            reportUser();
         }
+    }
+
+    private void reportUser() {
+        Intent intent =
+                ReportCategoryActivity.newIntent(
+                        this,
+                        conversationIdentifier.getType(),
+                        conversationIdentifier.getTargetId());
+        startActivity(intent);
     }
 
     /**

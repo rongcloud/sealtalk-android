@@ -37,17 +37,21 @@ import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.VersionInfo;
 import cn.rongcloud.im.security.SMSDKUtils;
 import cn.rongcloud.im.ui.BaseActivity;
+import cn.rongcloud.im.ui.dialog.AuthorityPrivacyDialog;
+import cn.rongcloud.im.ui.dialog.CommonDialog;
 import cn.rongcloud.im.ui.dialog.FraudTipsDialog;
 import cn.rongcloud.im.ui.dialog.MorePopWindow;
 import cn.rongcloud.im.ui.fragment.MainContactsListFragment;
 import cn.rongcloud.im.ui.fragment.MainDiscoveryFragment;
 import cn.rongcloud.im.ui.fragment.MainMeFragment;
+import cn.rongcloud.im.ui.fragment.SealFriendListFragment;
 import cn.rongcloud.im.ui.fragment.UltraConversationListFragment;
 import cn.rongcloud.im.ui.view.MainBottomTabGroupView;
 import cn.rongcloud.im.ui.view.MainBottomTabItem;
 import cn.rongcloud.im.ui.widget.DragPointView;
 import cn.rongcloud.im.ui.widget.TabGroupView;
 import cn.rongcloud.im.ui.widget.TabItem;
+import cn.rongcloud.im.utils.BuildVariantUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.AppViewModel;
 import cn.rongcloud.im.viewmodel.MainViewModel;
@@ -56,9 +60,12 @@ import cn.rongcloud.im.viewmodel.UltraGroupViewModel;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.services.core.ServiceSettings;
-import com.umeng.commonsdk.UMConfigure;
+import com.tencent.bugly.crashreport.CrashReport;
+// import com.umeng.commonsdk.UMConfigure;
 import io.rong.imkit.conversationlist.ConversationListFragment;
 import io.rong.imkit.picture.tools.ScreenUtils;
+import io.rong.imkit.usermanage.friend.friendlist.FriendListActivity;
+import io.rong.imkit.usermanage.friend.select.FriendSelectActivity;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imkit.utils.ToastUtils;
 import io.rong.imlib.model.ConversationIdentifier;
@@ -83,6 +90,7 @@ public class MainActivity extends BaseActivity
     private MainBottomTabGroupView tabGroupView;
     private ImageView ivSearch;
     private ImageView ivMore;
+    private RelativeLayout titleBar;
     public MainViewModel mainViewModel;
     private SecurityViewModel securityViewModel;
     private UltraGroupViewModel mConversationListViewModel;
@@ -102,9 +110,17 @@ public class MainActivity extends BaseActivity
         initViewModel();
         initTabData();
         initView();
+        // 根据构建变体控制Bugly的启用 - Develop版本启用，PublishStore版本禁用
+        if (!BuildVariantUtils.isPublishStoreBuild()) {
+            CrashReport.initCrashReport(getApplicationContext(), "cb8ebab203", true);
+        }
         clearBadgeStatu();
         showFraudTipsDialog();
         initAMapPrivacy();
+        // 根据构建变体控制隐私协议对话框 - PublishStore版本显示隐私协议
+        if (BuildVariantUtils.isPublishStoreBuild()) {
+            initRongPrivacy();
+        }
         if (appViewModel.isUltraGroupDebugMode()) {
             initOtherPrivacy();
         }
@@ -128,8 +144,25 @@ public class MainActivity extends BaseActivity
     }
 
     private void initOtherPrivacy() {
-        UMConfigure.init(
-                this, BuildConfig.SEALTALK_UMENG_APPKEY, null, UMConfigure.DEVICE_TYPE_PHONE, null);
+        // 根据构建变体控制友盟统计的启用 - Develop版本启用，PublishStore版本禁用
+        if (!BuildVariantUtils.isPublishStoreBuild()) {
+            try {
+                // 使用反射调用UMConfigure，避免在PublishStore版本中引入依赖
+                Class<?> umConfigureClass = Class.forName("com.umeng.commonsdk.UMConfigure");
+                umConfigureClass
+                        .getMethod(
+                                "init",
+                                android.content.Context.class,
+                                String.class,
+                                String.class,
+                                int.class,
+                                String.class)
+                        .invoke(null, this, BuildConfig.SEALTALK_UMENG_APPKEY, null, 1, null);
+            } catch (Exception e) {
+                // Develop版本可能没有友盟依赖，忽略错误
+                SLog.d("MainActivity", "UMConfigure not available: " + e.getMessage());
+            }
+        }
     }
 
     private void initAMapPrivacy() {
@@ -191,7 +224,7 @@ public class MainActivity extends BaseActivity
         tvTitle = findViewById(R.id.tv_title);
         btnSearch = findViewById(R.id.btn_search);
         btnMore = findViewById(R.id.btn_more);
-
+        titleBar = findViewById(R.id.rl_title);
         int tabIndex = getIntent().getIntExtra(PARAMS_TAB_INDEX, tabsMap.get(CHAT));
 
         // title
@@ -272,6 +305,9 @@ public class MainActivity extends BaseActivity
                 new TabGroupView.OnTabSelectedListener() {
                     @Override
                     public void onSelected(View view, TabItem item) {
+                        boolean userManagementEnabled =
+                                SealTalkDebugTestActivity.isUserManagementEnabled(
+                                        MainActivity.this);
                         // 当点击 tab 的后， 也要切换到正确的 fragment 页面
                         int currentItem = vpFragmentContainer.getCurrentItem();
                         if (currentItem != item.id) {
@@ -288,8 +324,10 @@ public class MainActivity extends BaseActivity
                                 }
                                 btnMore.setVisibility(View.GONE);
                                 btnSearch.setVisibility(View.GONE);
+                                titleBar.setVisibility(View.VISIBLE);
                             }
                         } else if (item.id == tabsMap.get(CHAT)) {
+                            titleBar.setVisibility(View.VISIBLE);
                             btnMore.setVisibility(View.VISIBLE);
                             btnSearch.setVisibility(View.VISIBLE);
                             btnMore.setImageDrawable(
@@ -297,20 +335,25 @@ public class MainActivity extends BaseActivity
                             tvTitle.setText(tabNameList[0]);
                         } else if (appViewModel.isUltraGroupDebugMode()
                                 && item.id == tabsMap.get(ULTRA)) {
+                            titleBar.setVisibility(View.VISIBLE);
                             btnMore.setVisibility(View.VISIBLE);
                             btnSearch.setVisibility(View.GONE);
                             mConversationListViewModel.getUltraGroupMemberList();
                             btnMore.setVisibility(View.GONE);
                             tvTitle.setText(tabNameList[1]);
                         } else if (item.id == tabsMap.get(CONTACTS)) {
-                            btnMore.setVisibility(View.VISIBLE);
-                            btnSearch.setVisibility(View.VISIBLE);
+                            btnMore.setVisibility(userManagementEnabled ? View.GONE : View.VISIBLE);
+                            btnSearch.setVisibility(
+                                    userManagementEnabled ? View.GONE : View.VISIBLE);
                             btnMore.setImageDrawable(
                                     getResources().getDrawable(R.drawable.seal_ic_main_add_friend));
                             if (appViewModel.isUltraGroupDebugMode()) {
                                 tvTitle.setText(tabNameList[2]);
+                                titleBar.setVisibility(View.VISIBLE);
                             } else {
                                 tvTitle.setText(tabNameList[1]);
+                                titleBar.setVisibility(
+                                        userManagementEnabled ? View.GONE : View.VISIBLE);
                             }
                         } else if (item.id == tabsMap.get(FIND)) {
                             if (appViewModel.isUltraGroupDebugMode()) {
@@ -320,6 +363,7 @@ public class MainActivity extends BaseActivity
                             }
                             btnMore.setVisibility(View.GONE);
                             btnSearch.setVisibility(View.GONE);
+                            titleBar.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -376,7 +420,14 @@ public class MainActivity extends BaseActivity
         if (appViewModel.isUltraGroupDebugMode()) {
             fragments.add(new UltraConversationListFragment());
         }
-        fragments.add(new MainContactsListFragment());
+        // 根据用户托管开关决定使用哪个联系人Fragment
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+            // 使用新的用户管理功能
+            fragments.add(new SealFriendListFragment());
+        } else {
+            // 使用原来的实现
+            fragments.add(new MainContactsListFragment());
+        }
         fragments.add(new MainDiscoveryFragment());
         fragments.add(new MainMeFragment());
 
@@ -493,6 +544,7 @@ public class MainActivity extends BaseActivity
                                 MainBottomTabItem chatTab =
                                         tabGroupView.getView(tabsMap.get(CONTACTS));
                                 if (count > 0) {
+
                                     chatTab.setRedVisibility(View.VISIBLE);
                                 } else {
                                     chatTab.setRedVisibility(View.GONE);
@@ -591,15 +643,23 @@ public class MainActivity extends BaseActivity
     /** 创建群组 */
     @Override
     public void onCreateGroupClick() {
-        Intent intent = new Intent(this, SelectCreateGroupActivity.class);
-        startActivityForResult(intent, REQUEST_START_GROUP);
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+            startActivity(FriendSelectActivity.newIntent(this));
+        } else {
+            Intent intent = new Intent(this, SelectCreateGroupActivity.class);
+            startActivityForResult(intent, REQUEST_START_GROUP);
+        }
     }
 
     /** 添加好友 */
     @Override
     public void onAddFriendClick() {
-        Intent intent = new Intent(this, AddFriendActivity.class);
-        startActivity(intent);
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+            startActivity(FriendListActivity.newIntent(this));
+        } else {
+            Intent intent = new Intent(this, AddFriendActivity.class);
+            startActivity(intent);
+        }
     }
 
     /** 扫一扫 */
@@ -637,4 +697,21 @@ public class MainActivity extends BaseActivity
 
                         }
                     });
+
+    private void initRongPrivacy() {
+        /** 显示同意隐私协议对话框 */
+        AuthorityPrivacyDialog.Builder builder = new AuthorityPrivacyDialog.Builder();
+        //                        .setButtonText(R.string.privacy_agree, R.string.privacy_disagree);
+        builder.setDialogButtonClickListener(
+                new CommonDialog.OnDialogButtonClickListener() {
+                    @Override
+                    public void onPositiveClick(View v, Bundle bundle) {}
+
+                    @Override
+                    public void onNegativeClick(View v, Bundle bundle) {
+                        System.exit(0);
+                    }
+                });
+        builder.build().show(getSupportFragmentManager(), null);
+    }
 }

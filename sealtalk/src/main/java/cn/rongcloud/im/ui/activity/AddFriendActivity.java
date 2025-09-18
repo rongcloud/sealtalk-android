@@ -11,9 +11,8 @@ import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.model.qrcode.QrCodeDisplayType;
 import cn.rongcloud.im.ui.dialog.CommonDialog;
-import cn.rongcloud.im.utils.CheckPermissionUtils;
-import cn.rongcloud.im.wx.WXManager;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.picture.permissions.PermissionChecker;
 
 /** 添加朋友界面 */
 public class AddFriendActivity extends TitleBaseActivity implements View.OnClickListener {
@@ -74,12 +73,12 @@ public class AddFriendActivity extends TitleBaseActivity implements View.OnClick
 
     /** 从通讯录添加好友 */
     private void addFriendFromContact() {
-        boolean hasPermissions =
-                CheckPermissionUtils.requestPermissions(
-                        this,
-                        new String[] {Manifest.permission.READ_CONTACTS},
-                        REQUEST_PERMISSION_ADD_CONTACT_FREIND);
-        if (hasPermissions) {
+        if (!PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)) {
+            PermissionChecker.requestPermissions(
+                    this,
+                    new String[] {Manifest.permission.READ_CONTACTS},
+                    REQUEST_PERMISSION_ADD_CONTACT_FREIND);
+        } else {
             Intent intent = new Intent(this, AddFriendFromContactActivity.class);
             startActivity(intent);
         }
@@ -102,7 +101,8 @@ public class AddFriendActivity extends TitleBaseActivity implements View.OnClick
                                 new CommonDialog.OnDialogButtonClickListener() {
                                     @Override
                                     public void onPositiveClick(View v, Bundle bundle) {
-                                        WXManager.getInstance().inviteToSealTalk();
+                                        //
+                                        // WXManager.getInstance().inviteToSealTalk();
                                     }
 
                                     @Override
@@ -114,15 +114,17 @@ public class AddFriendActivity extends TitleBaseActivity implements View.OnClick
 
     /** 从通讯录邀请好友 */
     private void inviteFromContact(boolean needCheckPermission) {
-        boolean hasPermissions = true;
         if (needCheckPermission) {
-            hasPermissions =
-                    CheckPermissionUtils.requestPermissions(
-                            this,
-                            new String[] {Manifest.permission.READ_CONTACTS},
-                            REQUEST_PERMISSION_INVITE_CONTACT_FRIEND);
-        }
-        if (hasPermissions) {
+            if (!PermissionChecker.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)) {
+                PermissionChecker.requestPermissions(
+                        this,
+                        new String[] {Manifest.permission.READ_CONTACTS},
+                        REQUEST_PERMISSION_INVITE_CONTACT_FRIEND);
+            } else {
+                Intent intent = new Intent(this, InviteFriendFromContactActivity.class);
+                startActivity(intent);
+            }
+        } else {
             Intent intent = new Intent(this, InviteFriendFromContactActivity.class);
             startActivity(intent);
         }

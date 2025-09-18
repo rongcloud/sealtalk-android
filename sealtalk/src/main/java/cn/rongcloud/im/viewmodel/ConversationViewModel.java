@@ -22,7 +22,11 @@ import cn.rongcloud.im.model.TypingInfo;
 import cn.rongcloud.im.task.FriendTask;
 import cn.rongcloud.im.task.GroupTask;
 import cn.rongcloud.im.task.PrivacyTask;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import io.rong.imkit.userinfo.RongUserInfoManager;
+import io.rong.imkit.usermanage.handler.GroupInfoHandler;
+import io.rong.imkit.usermanage.interfaces.OnDataChangeListener;
+import io.rong.imlib.IRongCoreEnum;
 import io.rong.imlib.MessageTag;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.cs.CustomServiceConfig;
@@ -30,6 +34,7 @@ import io.rong.imlib.cs.CustomServiceManager;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.Group;
+import io.rong.imlib.model.GroupInfo;
 import io.rong.imlib.model.UserInfo;
 import io.rong.imlib.publicservice.model.PublicServiceProfile;
 import io.rong.imlib.typingmessage.TypingStatus;
@@ -52,6 +57,7 @@ public class ConversationViewModel extends AndroidViewModel {
     private IMManager imManager;
     private FriendTask friendTask;
     private PrivacyTask privacyTask;
+    private ConversationIdentifier conversationIdentifier;
 
     public ConversationViewModel(Application application) {
         super(application);
@@ -137,6 +143,7 @@ public class ConversationViewModel extends AndroidViewModel {
      */
     public void getTitleByConversation(
             ConversationIdentifier conversationIdentifier, String title) {
+        this.conversationIdentifier = conversationIdentifier;
         Conversation.ConversationType conversationType = conversationIdentifier.getType();
         String targetId = conversationIdentifier.getTargetId();
         String channelId = conversationIdentifier.getChannelId();
@@ -213,6 +220,88 @@ public class ConversationViewModel extends AndroidViewModel {
 
         } else if (conversationType.equals(Conversation.ConversationType.GROUP)
                 || Conversation.ConversationType.ULTRA_GROUP.equals(conversationType)) {
+            setTitleStr(title, targetId, channelId, conversationType);
+        } else if (conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
+            getPublicServiceProfile(
+                    targetId, Conversation.PublicServiceType.APP_PUBLIC_SERVICE, title);
+        } else if (conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)) {
+            getPublicServiceProfile(targetId, Conversation.PublicServiceType.PUBLIC_SERVICE, title);
+        } else if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
+            titleStr.postValue(title);
+        } else if (conversationType.equals(Conversation.ConversationType.SYSTEM)) {
+            titleStr.postValue("");
+        } else if (conversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
+            titleStr.postValue("");
+        } else {
+            titleStr.postValue("");
+        }
+    }
+
+    private void setTitleStr(
+            String title,
+            String targetId,
+            String channelId,
+            Conversation.ConversationType conversationType) {
+        // 根据用户托管开关决定使用哪种群组信息获取方式
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(getApplication())) {
+            // 使用新的用户管理功能
+            GroupInfoHandler groupInfoHandler =
+                    new GroupInfoHandler(
+                            ConversationIdentifier.obtain(conversationType, targetId, channelId));
+            groupInfoHandler.addDataChangeListener(
+                    GroupInfoHandler.KEY_GROUP_INFO,
+                    new OnDataChangeListener<GroupInfo>() {
+                        @Override
+                        public void onDataChange(GroupInfo groupInfo) {
+                            String name = "";
+                            if (groupInfo != null) {
+                                if (groupInfo != null) {
+                                    String groupName =
+                                            TextUtils.isEmpty(groupInfo.getRemark())
+                                                    ? groupInfo.getGroupName()
+                                                    : groupInfo.getRemark();
+                                    name = groupName + "(" + groupInfo.getMembersCount() + ")";
+                                }
+                            }
+
+                            if (Conversation.ConversationType.ULTRA_GROUP.equals(
+                                    conversationType)) {
+                                Group group =
+                                        RongUserInfoManager.getInstance()
+                                                .getGroupInfo(targetId + channelId);
+                                name = group == null ? "" : group.getName();
+                                if (!TextUtils.isEmpty(title)) {
+                                    titleStr.postValue(title);
+                                } else if (!TextUtils.isEmpty(name)) {
+                                    titleStr.postValue(name);
+                                } else {
+                                    titleStr.postValue(targetId);
+                                }
+                            } else {
+                                if (!TextUtils.isEmpty(name)) {
+                                    titleStr.postValue(name);
+                                } else if (!TextUtils.isEmpty(title)) {
+                                    titleStr.postValue(title);
+                                } else {
+                                    titleStr.postValue(targetId);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onDataError(
+                                IRongCoreEnum.CoreErrorCode coreErrorCode, String errorMsg) {
+                            Group group =
+                                    RongUserInfoManager.getInstance()
+                                            .getGroupInfo(targetId + channelId);
+                            if (group != null) {
+                                titleStr.postValue(group.getName());
+                            }
+                        }
+                    });
+            groupInfoHandler.getGroupsInfo();
+        } else {
+            // 使用原来的实现
             LiveData<Resource<GroupEntity>> groupInfo = groupTask.getGroupInfo(targetId);
             titleStr.addSource(
                     groupInfo,
@@ -268,20 +357,17 @@ public class ConversationViewModel extends AndroidViewModel {
                             }
                         }
                     });
+        }
+    }
 
-        } else if (conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
-            getPublicServiceProfile(
-                    targetId, Conversation.PublicServiceType.APP_PUBLIC_SERVICE, title);
-        } else if (conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)) {
-            getPublicServiceProfile(targetId, Conversation.PublicServiceType.PUBLIC_SERVICE, title);
-        } else if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
-            titleStr.postValue(title);
-        } else if (conversationType.equals(Conversation.ConversationType.SYSTEM)) {
-            titleStr.postValue("");
-        } else if (conversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
-            titleStr.postValue("");
-        } else {
-            titleStr.postValue("");
+    public void onStart() {
+        String title = titleStr.getValue();
+        if (conversationIdentifier != null) {
+            setTitleStr(
+                    title,
+                    conversationIdentifier.getTargetId(),
+                    conversationIdentifier.getChannelId(),
+                    conversationIdentifier.getType());
         }
     }
 

@@ -177,8 +177,8 @@ public class ScanActivity extends TitleBaseActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
-        super.onResume();
         capture.onResume();
+        super.onResume();
     }
 
     @Override
@@ -202,6 +202,7 @@ public class ScanActivity extends TitleBaseActivity implements View.OnClickListe
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         capture.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

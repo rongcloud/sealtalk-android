@@ -2,10 +2,12 @@ package cn.rongcloud.im;
 
 import static io.rong.common.SystemUtils.getCurrentProcessName;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.http.SslCertificate;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,26 +23,50 @@ import cn.rongcloud.im.model.DataCenterJsonModel;
 import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.SplashActivity;
+import cn.rongcloud.im.ui.fragment.CustomAddGroupMembersFragment;
+import cn.rongcloud.im.ui.fragment.CustomGroupAddManagerFragment;
+import cn.rongcloud.im.ui.fragment.CustomGroupApplicationsFragment;
+import cn.rongcloud.im.ui.fragment.CustomGroupCreateFragment;
+import cn.rongcloud.im.ui.fragment.CustomGroupManagerListFragment;
+import cn.rongcloud.im.ui.fragment.CustomGroupNoticeFragment;
+import cn.rongcloud.im.ui.fragment.CustomGroupTransferFragment;
+import cn.rongcloud.im.ui.fragment.CustomMyProfileFragment;
+import cn.rongcloud.im.ui.fragment.MyGroupProfileFragment;
+import cn.rongcloud.im.ui.fragment.SealUserProfileFragment;
+import cn.rongcloud.im.utils.BuildVariantUtils;
 import cn.rongcloud.im.utils.CheckPermissionUtils;
 import cn.rongcloud.im.utils.DataCenter;
 import cn.rongcloud.im.utils.SearchUtils;
-import cn.rongcloud.im.wx.WXManager;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.commonsdk.UMConfigure;
+// import com.umeng.commonsdk.UMConfigure;
+import io.rong.common.rlog.RLog;
 import io.rong.common.utils.SSLUtils;
 import io.rong.imkit.GlideKitImageEngine;
 import io.rong.imkit.IMCenter;
+import io.rong.imkit.KitFragmentFactory;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.config.FeatureConfig;
 import io.rong.imkit.config.RongConfigCenter;
+import io.rong.imkit.userinfo.RongUserInfoManager;
+import io.rong.imkit.usermanage.friend.my.profile.MyProfileFragment;
+import io.rong.imkit.usermanage.friend.user.profile.UserProfileFragment;
+import io.rong.imkit.usermanage.group.add.AddGroupMembersFragment;
+import io.rong.imkit.usermanage.group.application.GroupApplicationsFragment;
+import io.rong.imkit.usermanage.group.create.GroupCreateFragment;
+import io.rong.imkit.usermanage.group.managerlist.GroupManagerListFragment;
+import io.rong.imkit.usermanage.group.memberselect.impl.GroupAddManagerFragment;
+import io.rong.imkit.usermanage.group.notice.GroupNoticeFragment;
+import io.rong.imkit.usermanage.group.profile.GroupProfileFragment;
+import io.rong.imkit.usermanage.group.transfer.GroupTransferFragment;
 import io.rong.imkit.utils.language.LangUtils;
+import io.rong.imlib.RongCoreClient;
 import io.rong.imlib.RongCoreClientImpl;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.InitOption;
@@ -165,7 +191,7 @@ public class SealApp extends MultiDexApplication {
             setSSL();
         }
         // 初始化 bugly BUG 统计
-        CrashReport.initCrashReport(getApplicationContext(), "cb8ebab203", true);
+        //        CrashReport.initCrashReport(getApplicationContext(), "cb8ebab203", true);
         // BlockCanary.install(this, new AppBlockCanaryContext()).start();
         ErrorCode.init(this);
         ImageLoaderConfiguration imageLoaderConfiguration =
@@ -189,6 +215,9 @@ public class SealApp extends MultiDexApplication {
          */
         // 初始化融云IM SDK，初始化 SDK 仅需要在主进程中初始化一次
         IMManager.getInstance().init(this);
+        if (BuildVariantUtils.isDevelopBuild()) {
+            RongCoreClient.getInstance().setRLogLevel(RLog.V);
+        }
         RongConfigCenter.featureConfig()
                 .setKitImageEngine(
                         new GlideKitImageEngine() {
@@ -246,6 +275,29 @@ public class SealApp extends MultiDexApplication {
                                         .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                                         .into(imageView);
                             }
+
+                            @SuppressLint("CheckResult")
+                            @Override
+                            public void loadUserPortrait(
+                                    @NonNull Context context,
+                                    @NonNull String url,
+                                    @NonNull ImageView imageView) {
+                                RequestBuilder<Drawable> circularPlaceholder =
+                                        Glide.with(imageView.getContext())
+                                                .load(io.rong.imkit.R.drawable.rc_default_portrait)
+                                                .apply(
+                                                        RequestOptions.bitmapTransform(
+                                                                new CircleCrop()));
+
+                                Glide.with(imageView.getContext())
+                                        .load(url)
+                                        .placeholder(io.rong.imkit.R.drawable.rc_default_portrait)
+                                        .error(circularPlaceholder)
+                                        .apply(
+                                                RequestOptions.bitmapTransform(
+                                                        new CircleCrop())) // 确保主图片也圆形裁剪
+                                        .into(imageView);
+                            }
                         });
         // 根据开关设置语音消息类型
         SharedPreferences permissionConfigSP =
@@ -259,22 +311,25 @@ public class SealApp extends MultiDexApplication {
             RongIM.getInstance().setVoiceMessageType(IMCenter.VoiceMessageType.HighQuality);
         }
 
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(SealApp.this)) {
+            RongUserInfoManager.getInstance()
+                    .setDataSourceType(RongUserInfoManager.DataSourceType.INFO_MANAGEMENT);
+            initKitFragment();
+        }
+
         CheckPermissionUtils.setPermissionRequestListener(this);
 
         SearchUtils.init(this);
 
         //        Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
 
-        // 微信分享初始化
-        WXManager.getInstance().init(this);
-
         PhoneContactManager.getInstance().init(this);
 
         // 监听 App 前后台变化
         observeAppInBackground();
 
-        // UMeng初始化
-        UMConfigure.preInit(this, BuildConfig.SEALTALK_UMENG_APPKEY, null);
+        //        UMeng初始化 - 在MainActivity中通过反射根据构建变体进行初始化
+        //        UMConfigure.preInit(this, BuildConfig.SEALTALK_UMENG_APPKEY, null);
     }
 
     private void initDataCenter() {
@@ -466,4 +521,119 @@ public class SealApp extends MultiDexApplication {
     public boolean isMainActivityCreated() {
         return isMainActivityIsCreated;
     }
+
+    private void initKitFragment() {
+        IMCenter.setKitFragmentFactory(
+                new KitFragmentFactory() {
+
+                    @NonNull
+                    @Override
+                    public GroupCreateFragment newGroupCreateFragment(@NonNull Bundle args) {
+                        CustomGroupCreateFragment customGroupCreateFragment =
+                                new CustomGroupCreateFragment();
+                        customGroupCreateFragment.setArguments(args);
+                        return customGroupCreateFragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public MyProfileFragment newMyProfileFragment(@NonNull Bundle args) {
+                        CustomMyProfileFragment myProfileFragment = new CustomMyProfileFragment();
+                        myProfileFragment.setArguments(args);
+                        return myProfileFragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public UserProfileFragment newUserProfileFragment(@NonNull Bundle args) {
+                        SealUserProfileFragment fragment = new SealUserProfileFragment();
+                        fragment.setArguments(args);
+                        return fragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public GroupProfileFragment newGroupProfileFragment(@NonNull Bundle args) {
+                        MyGroupProfileFragment groupProfileFragment = new MyGroupProfileFragment();
+                        groupProfileFragment.setArguments(args);
+                        return groupProfileFragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public GroupNoticeFragment newGroupNoticeFragment(@NonNull Bundle args) {
+                        CustomGroupNoticeFragment fragment = new CustomGroupNoticeFragment();
+                        fragment.setArguments(args);
+                        return fragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public GroupAddManagerFragment newGroupAddManagerFragment(
+                            @NonNull Bundle args) {
+                        CustomGroupAddManagerFragment fragment =
+                                new CustomGroupAddManagerFragment();
+                        fragment.setArguments(args);
+                        return fragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public GroupManagerListFragment newGroupManagerListFragment(
+                            @NonNull Bundle args) {
+                        CustomGroupManagerListFragment fragment =
+                                new CustomGroupManagerListFragment();
+                        fragment.setArguments(args);
+                        return fragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public GroupTransferFragment newGroupTransferFragment(@NonNull Bundle args) {
+                        CustomGroupTransferFragment fragment = new CustomGroupTransferFragment();
+                        fragment.setArguments(args);
+                        return fragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public AddGroupMembersFragment newAddGroupMembersFragment(
+                            @NonNull Bundle args) {
+                        CustomAddGroupMembersFragment fragment =
+                                new CustomAddGroupMembersFragment();
+                        fragment.setArguments(args);
+                        return fragment;
+                    }
+
+                    @NonNull
+                    @Override
+                    public GroupApplicationsFragment newGroupApplicationsFragment(
+                            @NonNull Bundle args) {
+                        CustomGroupApplicationsFragment fragment =
+                                new CustomGroupApplicationsFragment();
+                        fragment.setArguments(args);
+                        return fragment;
+                    }
+                });
+    }
+
+    //    private void showSelectPictureDialog(MyDetailFragment fragment) {
+    //        SelectPictureBottomDialog.Builder builder = new SelectPictureBottomDialog.Builder();
+    //        builder.setOnSelectPictureListener(new
+    // SelectPictureBottomDialog.OnSelectPictureListener() {
+    //            @Override
+    //            public void onSelectPicture(Uri uri) {
+    //                userTask.setPortrait(uri).observe(fragment, new Observer<Resource<Result>>() {
+    //                    @Override
+    //                    public void onChanged(Resource<Result> resultResource) {
+    //                        if (resultResource.status == Status.SUCCESS) {
+    //                          resultResource.data.getResult()
+    //                        }
+    //                    }
+    //                });
+    //            }
+    //        });
+    //        SelectPictureBottomDialog dialog = builder.build();
+    //        dialog.show(fragment.getParentFragmentManager(), "select_picture_dialog");
+    //    }
 }
