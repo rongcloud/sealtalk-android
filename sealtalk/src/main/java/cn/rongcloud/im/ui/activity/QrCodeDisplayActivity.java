@@ -1,7 +1,5 @@
 package cn.rongcloud.im.ui.activity;
 
-import static io.rong.imkit.utils.PermissionCheckUtil.REQUEST_CODE_ASK_PERMISSIONS;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,6 +32,7 @@ import cn.rongcloud.im.utils.ViewCapture;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.DisplayQRCodeViewModel;
 import io.rong.imkit.picture.config.PictureConfig;
+import io.rong.imkit.utils.AndroidConstant;
 import io.rong.imkit.utils.PermissionCheckUtil;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -271,15 +270,15 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
 
     /** 保存二维码到本地 */
     private void saveQRCodeToLocal() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            if (!PermissionCheckUtil.checkPermissions(this, permissions)) {
-                PermissionCheckUtil.requestPermissions(
-                        this, permissions, REQUEST_CODE_ASK_PERMISSIONS);
-                return;
-            }
+        // 只修复权限判断逻辑，参照 PicturePagerActivity 的正确实现
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (Build.VERSION.SDK_INT < AndroidConstant.ANDROID_TIRAMISU
+                && !PermissionCheckUtil.requestPermissions(
+                        this, permissions, REQUEST_CODE_SAVE_TO_LOCAL)) {
+            return;
         }
 
+        // 使用原有的 ViewModel 保存逻辑
         qrCodeViewModel.saveQRCodeToLocal(ViewCapture.getViewBitmap(qrCodeCardLl));
     }
 
@@ -294,6 +293,7 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_SAVE_TO_LOCAL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 权限授予后，重新执行保存操作
                 qrCodeViewModel.saveQRCodeToLocal(ViewCapture.getViewBitmap(qrCodeCardLl));
             }
         } else if (requestCode == PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE) {

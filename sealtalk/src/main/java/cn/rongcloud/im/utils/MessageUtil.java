@@ -127,37 +127,29 @@ public class MessageUtil {
         return summaryList;
     }
 
+    /** 根据合并转发V2消息返回要展示的title */
     public static String getTitle(Context context, CombineV2Message combineV2Message) {
-        String title = "";
+        // 参数非法，title返回空串
         if (context == null || combineV2Message == null) {
-            return title;
+            return "";
         }
+        // 群聊，title固定返回 rc_combine_group_chat
         if (Conversation.ConversationType.GROUP.equals(combineV2Message.getConversationType())) {
-            title = context.getString(io.rong.imkit.R.string.rc_combine_group_chat);
-        } else {
-            List<String> nameList = combineV2Message.getNameList();
-            if (nameList == null) {
-                return title;
-            }
-
-            if (nameList.size() == 1) {
-                title =
-                        String.format(
-                                context.getString(
-                                        io.rong.imkit.R.string.rc_combine_the_group_chat_of),
-                                nameList.get(0));
-            } else if (nameList.size() == 2) {
-                title =
-                        String.format(
-                                context.getString(
-                                        io.rong.imkit.R.string.rc_combine_the_group_chat_of),
-                                nameList.get(0)
-                                        + " "
-                                        + context.getString(io.rong.imkit.R.string.rc_combine_and)
-                                        + " "
-                                        + nameList.get(1));
-            }
+            return context.getString(io.rong.imkit.R.string.rc_combine_group_chat);
         }
-        return title;
+        List<String> nameList = combineV2Message.getNameList();
+        // 参数非法，title返回空串
+        if (nameList == null || nameList.isEmpty()) {
+            return "";
+        }
+        String combineTitle =
+                context.getString(io.rong.imkit.R.string.rc_combine_the_group_chat_of);
+        // 列表为1，返回这个人的name
+        if (nameList.size() == 1) {
+            return String.format(combineTitle, nameList.get(0));
+        }
+        // 列表大于1个人，返回前2个人的name
+        String and = context.getString(io.rong.imkit.R.string.rc_combine_and);
+        return String.format(combineTitle, nameList.get(0) + " " + and + " " + nameList.get(1));
     }
 }

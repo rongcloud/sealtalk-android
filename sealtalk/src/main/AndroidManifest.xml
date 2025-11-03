@@ -410,6 +410,9 @@
         <activity
             android:name=".ui.activity.GroupReadReceiptDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CustomMessageReadDetailActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 微信 接收微信的请求及返回值 -->
 <!--        <activity-->
@@ -608,6 +611,10 @@
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:replace="android:theme" />
+
+        <activity
+            android:name=".ui.activity.ThemeSettingActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

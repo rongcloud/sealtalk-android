@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff5f6f9">
+
+    <cn.rongcloud.im.ui.view.SettingItemView
+        android:id="@+id/siv_theme_origin_light"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_mine_change_language_item_height"
+        app:item_content="@string/seal_theme_origin_light"
+        app:item_divider="true"
+        app:item_show_selected="true"
+        app:item_selected_image="@drawable/seal_ic_selected">
+
+    </cn.rongcloud.im.ui.view.SettingItemView>
+
+    <cn.rongcloud.im.ui.view.SettingItemView
+        android:id="@+id/siv_theme_lively_light"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_mine_change_language_item_height"
+        app:item_content="@string/seal_theme_lively"
+        app:item_show_selected="true"
+        app:item_selected_image="@drawable/seal_ic_selected">
+
+    </cn.rongcloud.im.ui.view.SettingItemView>
+
+    <!-- 欢快主题子选项：跟随系统 -->
+    <cn.rongcloud.im.ui.view.SettingItemView
+        android:id="@+id/siv_theme_lively_follow_system_sub"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_mine_change_language_item_height"
+        android:layout_marginStart="32dp"
+        android:visibility="gone"
+        app:item_content="@string/seal_theme_lively_follow_system"
+        app:item_show_selected="true"
+        app:item_selected_image="@drawable/seal_ic_selected">
+
+    </cn.rongcloud.im.ui.view.SettingItemView>
+
+    <!-- 欢快主题子选项：浅色模式 -->
+    <cn.rongcloud.im.ui.view.SettingItemView
+        android:id="@+id/siv_theme_lively_light_sub"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_mine_change_language_item_height"
+        android:layout_marginStart="32dp"
+        android:visibility="gone"
+        app:item_content="@string/seal_theme_lively_light"
+        app:item_show_selected="true"
+        app:item_selected_image="@drawable/seal_ic_selected">
+
+    </cn.rongcloud.im.ui.view.SettingItemView>
+
+    <!-- 欢快主题子选项：深色模式 -->
+    <cn.rongcloud.im.ui.view.SettingItemView
+        android:id="@+id/siv_theme_lively_dark_sub"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_mine_change_language_item_height"
+        android:layout_marginStart="32dp"
+        android:visibility="gone"
+        app:item_content="@string/seal_theme_lively_dark"
+        app:item_show_selected="true"
+        app:item_selected_image="@drawable/seal_ic_selected">
+
+    </cn.rongcloud.im.ui.view.SettingItemView>
+
+    <!-- 自定义主题：活力橙 -->
+    <cn.rongcloud.im.ui.view.SettingItemView
+        android:id="@+id/siv_theme_custom_orange"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_mine_change_language_item_height"
+        app:item_content="@string/seal_theme_custom_orange"
+        app:item_show_selected="true"
+        app:item_selected_image="@drawable/seal_ic_selected">
+
+    </cn.rongcloud.im.ui.view.SettingItemView>
+
+</LinearLayout>
+

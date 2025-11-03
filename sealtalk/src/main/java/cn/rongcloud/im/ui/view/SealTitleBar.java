@@ -109,6 +109,10 @@ public class SealTitleBar extends RelativeLayout {
         return tvRight;
     }
 
+    public TextView getClearView() {
+        return tvClear;
+    }
+
     public enum Type {
         /** 正常的模式， 有左右按钮和 title */
         NORMAL,
@@ -137,7 +141,6 @@ public class SealTitleBar extends RelativeLayout {
                 llSearch.setVisibility(View.VISIBLE);
                 tvTyping.setVisibility(View.GONE);
                 flContent.setVisibility(View.GONE);
-                tvClear.setVisibility(View.GONE);
                 break;
             case TYPING:
                 btnLeft.setVisibility(View.VISIBLE);

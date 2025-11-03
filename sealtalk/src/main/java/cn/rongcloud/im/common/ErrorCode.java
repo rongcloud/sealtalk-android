@@ -26,6 +26,8 @@ public enum ErrorCode {
             SealTalkUrlCode.VERIFY_CODE + 2000, R.string.login_error_captcha_overdue),
     API_IMAGE_CODE_EXPIRED(
             SealTalkUrlCode.SEND_CODE + 1000, R.string.image_verification_code_is_expired),
+    API_INVALID_SMS_CODE(
+            SealTalkUrlCode.SEND_CODE + 1005, R.string.image_verification_code_is_expired),
     CHECK_VERIFY_CODE_FAILED(
             SealTalkUrlCode.VERIFY_CODE + 1000, R.string.login_verification_code_error),
     REGISTER_PHONE_ALREADY_EXISTED(
@@ -49,6 +51,10 @@ public enum ErrorCode {
     GROUP_FAIL(SealTalkUrlCode.GROUP_COPY + 20007, R.string.seal_group_manager_copy_fail),
     LOGIN_VERIFY_CODE_FAILED(
             SealTalkUrlCode.REGISTER_AND_LOGIN + 1000, R.string.login_verification_code_error),
+    LOGIN_VERIFY_CODE_DOES_NOT_EXIST(
+            SealTalkUrlCode.REGISTER_AND_LOGIN + 1001, R.string.login_verification_code_error),
+    LOGIN_VERIFY_CODE_IS_EXPIRED(
+            SealTalkUrlCode.REGISTER_AND_LOGIN + 1006, R.string.login_error_captcha_overdue),
     LOGIN_VERIFY_CODE_EXPIRED(
             SealTalkUrlCode.REGISTER_AND_LOGIN + 2000, R.string.login_error_captcha_overdue),
     ULTRA_GROUP_CREATE_OVER_LIMIT(

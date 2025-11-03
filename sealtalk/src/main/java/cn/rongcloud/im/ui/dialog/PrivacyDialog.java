@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import cn.rongcloud.im.R;
+import cn.rongcloud.im.net.SealTalkUrl;
 import cn.rongcloud.im.ui.activity.LoginActivity;
 import cn.rongcloud.im.ui.activity.WebViewActivity;
-import cn.rongcloud.im.utils.BuildVariantUtils;
 
 /** 未同意隐私合规弹窗 */
 public class PrivacyDialog extends CommonDialog {
@@ -56,12 +56,7 @@ public class PrivacyDialog extends CommonDialog {
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(getContext(), WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, registrationTitle);
-                        // 根据构建变体使用不同的URL - Develop版本使用本地文件，PublishStore版本使用在线URL
-                        String agreementUrl =
-                                !BuildVariantUtils.isPublishStoreBuild()
-                                        ? "file:///android_asset/agreement_zh.html"
-                                        : "https://www.rongcloud.cn/chuangqiyi/terms_of_service";
-                        intent.putExtra(WebViewActivity.PARAMS_URL, agreementUrl);
+                        intent.putExtra(WebViewActivity.PARAMS_URL, SealTalkUrl.getTermsService());
                         startActivity(intent);
                     }
 
@@ -83,12 +78,7 @@ public class PrivacyDialog extends CommonDialog {
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(getContext(), WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, privacyPolicyTitle);
-                        // 根据构建变体使用不同的URL - Develop版本使用本地文件，PublishStore版本使用在线URL
-                        String privacyUrl =
-                                !BuildVariantUtils.isPublishStoreBuild()
-                                        ? "file:///android_asset/PrivacyPolicy_zh.html"
-                                        : "https://www.rongcloud.cn/chuangqiyi/privacy_policy";
-                        intent.putExtra(WebViewActivity.PARAMS_URL, privacyUrl);
+                        intent.putExtra(WebViewActivity.PARAMS_URL, SealTalkUrl.getPrivacyPolicy());
                         startActivity(intent);
                     }
 

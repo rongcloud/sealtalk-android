@@ -1,9 +1,12 @@
 package cn.rongcloud.im.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import cn.rongcloud.im.R;
@@ -42,6 +45,7 @@ public class SealSearchActivity extends SealSearchBaseActivity
     private SearchGroupFragment searchGroupFragment;
     private SearchMessageFragment searchMessageFragment;
     private SearchBaseFragment currentFragment; // 当前Fragment
+    private final Handler handler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,11 +68,22 @@ public class SealSearchActivity extends SealSearchBaseActivity
      */
     @Override
     public void onItemContactClick(FriendShipInfo friendShipInfo) {
-        String displayName = friendShipInfo.getDisplayName();
-        if (TextUtils.isEmpty(displayName)) {
-            displayName = friendShipInfo.getUser().getNickname();
-        }
-        RongIM.getInstance().startPrivateChat(this, friendShipInfo.getUser().getId(), displayName);
+        Runnable task =
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        String displayName = friendShipInfo.getDisplayName();
+                        if (TextUtils.isEmpty(displayName)) {
+                            displayName = friendShipInfo.getUser().getNickname();
+                        }
+                        RongIM.getInstance()
+                                .startPrivateChat(
+                                        SealSearchActivity.this,
+                                        friendShipInfo.getUser().getId(),
+                                        displayName);
+                    }
+                };
+        runWithHideInputKeyboard(task);
     }
 
     /**
@@ -80,12 +95,15 @@ public class SealSearchActivity extends SealSearchBaseActivity
     public void OnChatItemClicked(SearchConversationModel searchConversationModel) {
         SearchConversationResult result = searchConversationModel.getBean();
         if (result.getMatchCount() == 1) {
-            RongIM.getInstance()
-                    .startConversation(
-                            this,
-                            ConversationIdentifier.obtain(result.getConversation()),
-                            searchConversationModel.getName(),
-                            result.getConversation().getSentTime());
+            Runnable task =
+                    () ->
+                            RongIM.getInstance()
+                                    .startConversation(
+                                            SealSearchActivity.this,
+                                            ConversationIdentifier.obtain(result.getConversation()),
+                                            searchConversationModel.getName(),
+                                            result.getConversation().getSentTime());
+            runWithHideInputKeyboard(task);
         } else {
 
             searchMessageFragment = new SearchMessageFragment();
@@ -109,7 +127,13 @@ public class SealSearchActivity extends SealSearchBaseActivity
      */
     @Override
     public void onGroupClicked(GroupEntity groupEntity) {
-        RongIM.getInstance().startGroupChat(this, groupEntity.getId(), groupEntity.getName());
+        runWithHideInputKeyboard(
+                () ->
+                        RongIM.getInstance()
+                                .startGroupChat(
+                                        SealSearchActivity.this,
+                                        groupEntity.getId(),
+                                        groupEntity.getName()));
     }
 
     /**
@@ -145,13 +169,23 @@ public class SealSearchActivity extends SealSearchBaseActivity
      */
     @Override
     public void onMessageRecordClick(SearchMessageModel searchMessageModel) {
-        Message message = searchMessageModel.getBean();
-        RongIM.getInstance()
-                .startConversation(
-                        this,
-                        ConversationIdentifier.obtain(message),
-                        searchMessageModel.getName(),
-                        message.getSentTime() + 2);
+        Runnable task =
+                () -> {
+                    Message message = searchMessageModel.getBean();
+                    RongIM.getInstance()
+                            .startConversation(
+                                    SealSearchActivity.this,
+                                    ConversationIdentifier.obtain(message),
+                                    searchMessageModel.getName(),
+                                    message.getSentTime() + 2);
+                };
+        runWithHideInputKeyboard(task);
+    }
+
+    private void runWithHideInputKeyboard(Runnable task) {
+        boolean keyboardOpen = isKeyboardOpenWithInsets();
+        hideInputKeyboard();
+        handler.postDelayed(task, keyboardOpen ? 250 : 0);
     }
 
     private void pushFragment(SearchBaseFragment fragment) {
@@ -174,5 +208,42 @@ public class SealSearchActivity extends SealSearchBaseActivity
             super.onBackPressed();
             getTitleBar().getEtSearch().setText(searchAllFragment.getInitSearch());
         }
+    }
+
+    /**
+     * 通过 WindowInsetsCompat 判断软键盘是否打开 由于项目 minSdkVersion=21，所以不需要API级别判断 优先使用 Type.ime()，备选使用
+     * Type.systemBars() 或 Type.navigationBars()
+     */
+    public boolean isKeyboardOpenWithInsets() {
+        if (getWindow() == null) {
+            return false;
+        }
+
+        try {
+            WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(getWindow().getDecorView());
+            if (insets != null) {
+                // 优先使用 Type.ime() (最准确，API 23+ 兼容库支持)
+                try {
+                    return insets.isVisible(WindowInsetsCompat.Type.ime());
+                } catch (Exception e) {
+                    // 如果 Type.ime() 不支持，尝试其他方法
+                    SLog.d(TAG, "Type.ime() not supported, trying fallback methods");
+
+                    // 备选方案：检查系统栏的底部 insets 是否大于正常值
+                    // 这是一个近似判断，不是100%准确
+                    int systemBarsBottom =
+                            insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+                    int navigationBarsBottom =
+                            insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+
+                    // 如果系统栏底部有额外空间，可能是有键盘
+                    // 这个判断比较粗略，具体阈值可能需要根据设备调整
+                    return Math.max(systemBarsBottom, navigationBarsBottom) > 100;
+                }
+            }
+        } catch (Exception e) {
+            SLog.w(TAG, "isKeyboardOpenWithInsets failed: " + e.getMessage());
+        }
+        return false;
     }
 }

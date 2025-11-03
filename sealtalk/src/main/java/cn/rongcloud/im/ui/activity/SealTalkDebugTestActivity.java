@@ -81,6 +81,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView sivUseOrdinaryVoiceMessage; // 使用普通语音消息开关
     private SettingItemView userManagementSwitch; // 用户托管功能开关
     private SettingItemView editMessage; // 消息编辑
+    private SettingItemView showSdkReadDetailV5Page; // 进入Kit已读V5详情页
+    private SettingItemView replaceFileIcons; // SealApp替换Kit文件Icon，替换后无论哪种主题均展示固定Icon
     private EditText eTDatabaseOperateThreshold;
     public static final String SP_IS_SHOW = "is_show";
     public static final String SP_COMBINE_V2 = "combine_v2";
@@ -99,6 +101,10 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     public static final String USER_MANAGEMENT_ENABLED = "user_management_enabled";
     public static final String EDIT_MESSAGE_CONFIG = "edit_message_config";
     public static final String EDIT_MESSAGE_ENABLED = "edit_message_enabled";
+    public static final String SDK_READ_V5_DETAIL_PAGE_ENABLED = "sdk_read_v5_detail_page_enabled";
+    public static final String SEAL_APP_CONFIG = "seal_app_config";
+    public static final String SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS =
+            "seal_app_config_is_replace_file_icons";
     private static String STREAM_MSG_HTML_TEST_DATA = ""; // 测试html内容，流式消息组件展示
 
     private UserInfoViewModel userInfoViewModel;
@@ -479,6 +485,24 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
                     exit(0);
                 });
 
+        showSdkReadDetailV5Page = findViewById(R.id.siv_test_show_sdk_read_detail_v5_page);
+        showSdkReadDetailV5Page.setChecked(getSealAppConfig(this, SDK_READ_V5_DETAIL_PAGE_ENABLED));
+        showSdkReadDetailV5Page.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    setSealAppConfig(this, SDK_READ_V5_DETAIL_PAGE_ENABLED, isChecked);
+                    ToastUtils.showToast("SDK已读V5详情页功能已" + (isChecked ? "开启" : "关闭"));
+                    exit(0);
+                });
+        replaceFileIcons = findViewById(R.id.siv_test_replace_file_icons);
+        replaceFileIcons.setChecked(
+                getSealAppConfig(this, SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS, true));
+        replaceFileIcons.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    setSealAppConfig(this, SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS, isChecked);
+                    ToastUtils.showToast("SealApp替换Kit文件Icon配置" + (isChecked ? "开启" : "关闭"));
+                    exit(0);
+                });
+
         eTDatabaseOperateThreshold = findViewById(R.id.et_database_operate_threshold);
     }
 
@@ -835,5 +859,34 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         SharedPreferences sp =
                 context.getSharedPreferences(EDIT_MESSAGE_CONFIG, Context.MODE_PRIVATE);
         return sp.getBoolean(EDIT_MESSAGE_ENABLED, true);
+    }
+
+    /**
+     * 获取SealApp配置
+     *
+     * @param context 上下文
+     */
+    public static boolean getSealAppConfig(Context context, String key) {
+        return getSealAppConfig(context, key, false);
+    }
+
+    /**
+     * 获取SealApp配置
+     *
+     * @param context 上下文
+     */
+    public static boolean getSealAppConfig(Context context, String key, boolean defaultVal) {
+        SharedPreferences sp = context.getSharedPreferences(SEAL_APP_CONFIG, Context.MODE_PRIVATE);
+        return sp.getBoolean(key, defaultVal);
+    }
+
+    /**
+     * 设置SealApp配置
+     *
+     * @param context 上下文
+     */
+    public static void setSealAppConfig(Context context, String key, boolean value) {
+        SharedPreferences sp = context.getSharedPreferences(SEAL_APP_CONFIG, Context.MODE_PRIVATE);
+        sp.edit().putBoolean(key, value).commit();
     }
 }

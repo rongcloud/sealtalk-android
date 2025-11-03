@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义主题 - 活力橙（浅色模式） -->
+    <!-- 只覆盖需要修改的属性，其他属性从欢快主题继承 -->
+    <style name="RCCustomOrangeLightTheme">
+        <!-- 主色调 - 活力橙 -->
+        <item name="rc_primary_color">@color/rc_primary_color_custom_light</item>
+
+        <!-- 通用背景色 - 使用颜色资源引用 -->
+        <item name="rc_common_background_color">@color/rc_common_background_color_custom_light</item>
+        
+        <!-- 对话列表背景色 -->
+        <item name="rc_conversation_list_background_color">@color/rc_conversation_list_background_color_custom_light</item>
+
+        <!-- 链接色 - 活力橙 -->
+        <item name="rc_link_color">@color/rc_background_link_custom_light</item>
+
+        <item name="rc_navigation_bar_btn_back_img">@drawable/rc_search</item>
+    </style>
+
+    <!-- 自定义主题 - 活力橙（深色模式） -->
+    <style name="RCCustomOrangeDarkTheme">
+        <!-- 主色调 - 活力橙（深色模式下稍亮） -->
+        <item name="rc_primary_color">@color/rc_primary_color_custom_dark</item>
+
+        <!-- 通用背景色 - 使用颜色资源引用 -->
+        <item name="rc_common_background_color">@color/rc_common_background_color_custom_dark</item>
+        
+        <!-- 对话列表背景色 -->
+        <item name="rc_conversation_list_background_color">@color/rc_conversation_list_background_color_custom_dark</item>
+        
+        <!-- 链接色 - 活力橙（深色模式下稍亮） -->
+        <item name="rc_link_color">@color/rc_background_link_custom_dark</item>
+    </style>
+</resources>

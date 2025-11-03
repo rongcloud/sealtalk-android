@@ -16,6 +16,7 @@ import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.VersionInfo;
+import cn.rongcloud.im.net.SealTalkUrl;
 import cn.rongcloud.im.ui.dialog.DownloadAppDialog;
 import cn.rongcloud.im.ui.view.SettingItemView;
 import cn.rongcloud.im.utils.BuildVariantUtils;
@@ -56,7 +57,6 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
     private void initView() {
         getTitleBar().setTitle(R.string.seal_main_mine_about);
 
-        findViewById(R.id.siv_update_log).setOnClickListener(this);
         findViewById(R.id.siv_func_introduce).setOnClickListener(this);
         findViewById(R.id.siv_rongcloud_web).setOnClickListener(this);
         sealtalkDebugSettingSiv = findViewById(R.id.siv_debug_go);
@@ -182,16 +182,12 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.siv_update_log) {
-            toWeb(
-                    getString(R.string.seal_mine_about_update_log),
-                    "http://www.rongcloud.cn/changelog");
-        } else if (id == R.id.siv_func_introduce) {
+        if (id == R.id.siv_func_introduce) {
             toWeb(
                     getString(R.string.seal_mine_about_function_introduce),
-                    "http://rongcloud.cn/features");
+                    SealTalkUrl.getIntroduction());
         } else if (id == R.id.siv_rongcloud_web) {
-            toWeb(getString(R.string.seal_mine_about_rongcloud_web), "http://rongcloud.cn/");
+            toWeb(getString(R.string.seal_mine_about_rongcloud_web), SealTalkUrl.getDomain());
         } else if (id == R.id.siv_sealtalk_version) {
             showDownloadDialog(url);
         } else if (id == R.id.siv_sdk_version) {

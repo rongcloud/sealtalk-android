@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
+
+    <!-- 头部标题 -->
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/rc_head_component"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rc_title_bar_height"
+        app:head_title_text="@string/rc_message_read_receipt_status" />
+    <!-- ↓↓↓ 自定义内容 ↓↓↓-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/message_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rc_round_corner_background"
+        android:padding="16dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_nick_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="#020814"
+            android:textDirection="locale"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_message_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="张三" />
+
+        <TextView
+            android:id="@+id/tv_message_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#1A1A1A"
+            android:textDirection="locale"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/tv_nick_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nick_name"
+            tools:text="Hello"
+            tools:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_message_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="6dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/tv_nick_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nick_name"
+            tools:src="@drawable/rc_default_portrait"
+            tools:visibility="visible" />
+
+        <io.rong.imkit.widget.EllipsizeTextView
+            android:id="@+id/tv_file_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:maxLines="2"
+            android:textColor="#020814"
+            android:textDirection="locale"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/tv_message_time"
+            app:layout_constraintStart_toEndOf="@id/iv_message_content"
+            app:layout_constraintTop_toTopOf="@+id/iv_message_content"
+            tools:text="文件名"
+            tools:visibility="visible"
+            app:RCEllipsizeIndex="8" />
+
+        <TextView
+            android:id="@+id/tv_file_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#7C838E"
+            android:textDirection="locale"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/tv_file_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_file_name"
+            tools:text="1kb"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#7C838E"
+            android:textDirection="locale"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_nick_name"
+            tools:text="09:12" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- ↑↑↑ 自定义内容 ↑↑↑-->
+    <LinearLayout
+        android:id="@+id/conversation_ll_read_receipt_message_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/conversation_ll_read_receipt_tab"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rc_read_tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/rc_read_receipt"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/rc_unread_tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/rc_unread_receipt"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rc_read_tab_underline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/rc_unread_tab_underline"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <io.rong.imkit.usermanage.component.CommonListComponent
+                android:id="@+id/rc_read_list_component"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:show_divider="false"
+                app:show_item_remove_button="true"
+                app:show_item_right_arrow="false"
+                app:show_item_right_text="false"
+                app:show_item_select_icon="false"
+                app:show_side_bar="false" />
+
+            <io.rong.imkit.usermanage.component.CommonListComponent
+                android:id="@+id/rc_unread_list_component"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:show_divider="false"
+                app:show_item_remove_button="true"
+                app:show_item_right_arrow="false"
+                app:show_item_right_text="false"
+                app:show_item_select_icon="false"
+                app:show_side_bar="false" />
+
+            <TextView
+                android:id="@+id/rc_read_receipt_number_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="?attr/rc_conversation_msg_v5_read_list_empty_img"
+                android:textColor="?attr/rc_text_primary_color"
+                android:visibility="gone"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

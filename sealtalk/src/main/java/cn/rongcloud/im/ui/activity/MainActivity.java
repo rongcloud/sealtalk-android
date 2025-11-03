@@ -62,6 +62,7 @@ import com.amap.api.maps.MapsInitializer;
 import com.amap.api.services.core.ServiceSettings;
 import com.tencent.bugly.crashreport.CrashReport;
 // import com.umeng.commonsdk.UMConfigure;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.conversationlist.ConversationListFragment;
 import io.rong.imkit.picture.tools.ScreenUtils;
 import io.rong.imkit.usermanage.friend.friendlist.FriendListActivity;
@@ -225,6 +226,14 @@ public class MainActivity extends BaseActivity
         btnSearch = findViewById(R.id.btn_search);
         btnMore = findViewById(R.id.btn_more);
         titleBar = findViewById(R.id.rl_title);
+        if (!IMKitThemeManager.isTraditionTheme()) {
+            int bgColor =
+                    IMKitThemeManager.getColorFromAttrId(
+                            this, io.rong.imkit.R.attr.rc_view_background_color);
+            if (bgColor != 0) {
+                //                findViewById(R.id.ll_container).setBackgroundColor(bgColor);
+            }
+        }
         int tabIndex = getIntent().getIntExtra(PARAMS_TAB_INDEX, tabsMap.get(CHAT));
 
         // title

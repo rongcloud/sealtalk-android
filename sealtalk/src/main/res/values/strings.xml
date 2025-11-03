@@ -140,6 +140,7 @@
     <string name="seal_main_title_scan">扫一扫</string>
 
     <string name="seal_main_mine_set_account">账号设置</string>
+    <string name="seal_main_mine_theme_setting">切换主题</string>
     <string name="seal_main_mine_setting_language">多语言</string>
     <string name="seal_main_mine_setting_translation">翻译设置</string>
     <string name="seal_main_mine_proxy_setting">代理设置</string>
@@ -278,6 +279,7 @@
     <string name="seal_search_item_chat_records">%d条相关记录</string>
     <string name="msg_reference_link">[链接]</string>
     <string name="msg_reference_file">[文件]</string>
+    <string name="seal_message_content_others">[其他消息]</string>
 
     <string name="seal_update_password_current_password">原密码</string>
     <string name="seal_update_password_password_hint">6-16个字符,区分大小写</string>
@@ -619,6 +621,7 @@
                                                </string>
     <string name="seal_talk_prompt_text_front2"> 3.登录应用后，也可以“我 - 隐私政策”中查看，隐私说明
                                                </string>
+    <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-cn</string>
     <string name="seal_talk_prompt_disagree">不同意</string>
     <string name="seal_talk_prompt_agree_and_continue">同意并继续</string>
 
@@ -770,4 +773,13 @@
     <string name="seal_talk_login_bottom_registration_text_front">新登录用户即注册开通融云开发者账号</string>
     <string name="seal_talk_fraud_tips_dialog_content">您正在使用融云 IM，融云提醒您谨防诈骗，不要轻信涉钱信息。</string>
     <string name="seal_talk_fraud_tip_conversation_top">融云提醒您谨防诈骗，不要轻信涉钱信息，不要进行任何线下转账行为。</string>
+
+    <!-- 主题设置 -->
+    <string name="seal_theme_setting_title">切换主题</string>
+    <string name="seal_theme_origin_light">传统主题</string>
+    <string name="seal_theme_lively">欢快主题</string>
+    <string name="seal_theme_lively_follow_system">跟随系统</string>
+    <string name="seal_theme_lively_light">浅色模式</string>
+    <string name="seal_theme_lively_dark">深色模式</string>
+    <string name="seal_theme_custom_orange">活力橙(自定义主题)</string>
 </resources>

@@ -1,9 +1,36 @@
 package cn.rongcloud.im.net;
 
 import cn.rongcloud.im.BuildConfig;
+import cn.rongcloud.im.R;
+import cn.rongcloud.im.SealApp;
 
 public class SealTalkUrl {
     public static String DOMAIN = BuildConfig.SEALTALK_SERVER;
+
+    public static String getDomain() {
+        return Doc.DOMAIN;
+    }
+
+    public static String getIntroduction() {
+        return Doc.DOMAIN + Doc.INTRODUCTION;
+    }
+
+    public static String getTermsService() {
+        return Doc.DOMAIN + Doc.TERMS_OF_SERVICE;
+    }
+
+    public static String getPrivacyPolicy() {
+        return SealApp.getApplication().getString(R.string.seal_talk_privacy_policy_link);
+    }
+
+    private static class Doc {
+        // 官网链接DOMAIN
+        private static final String DOMAIN = "https://www.wegenmi.com/";
+
+        private static final String INTRODUCTION = "demo/introduction";
+
+        private static final String TERMS_OF_SERVICE = "terms-of-service";
+    }
 
     public static final String LOGIN = "user/login";
 

@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
+import cn.rongcloud.im.net.SealTalkUrl;
 import cn.rongcloud.im.ui.BaseActivity;
 import cn.rongcloud.im.ui.dialog.AuthorityPrivacyDialog;
 import cn.rongcloud.im.ui.dialog.CommonDialog;
@@ -201,12 +202,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(LoginActivity.this, WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, registrationTitle);
-                        // 根据构建变体使用不同的URL - Develop版本使用本地文件，PublishStore版本使用在线URL
-                        String agreementUrl =
-                                !BuildVariantUtils.isPublishStoreBuild()
-                                        ? "file:///android_asset/agreement_zh.html"
-                                        : "https://www.rongcloud.cn/chuangqiyi/terms_of_service";
-                        intent.putExtra(WebViewActivity.PARAMS_URL, agreementUrl);
+                        intent.putExtra(WebViewActivity.PARAMS_URL, SealTalkUrl.getTermsService());
                         startActivity(intent);
                     }
 
@@ -228,12 +224,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(LoginActivity.this, WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, privacyPolicyTitle);
-                        // 根据构建变体使用不同的URL - Develop版本使用本地文件，PublishStore版本使用在线URL
-                        String privacyUrl =
-                                !BuildVariantUtils.isPublishStoreBuild()
-                                        ? "file:///android_asset/PrivacyPolicy_zh.html"
-                                        : "https://www.rongcloud.cn/chuangqiyi/privacy_policy";
-                        intent.putExtra(WebViewActivity.PARAMS_URL, privacyUrl);
+                        intent.putExtra(WebViewActivity.PARAMS_URL, SealTalkUrl.getPrivacyPolicy());
                         startActivity(intent);
                     }
 

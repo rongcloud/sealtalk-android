@@ -1,6 +1,7 @@
 package cn.rongcloud.im.im;
 
 import static android.content.Context.MODE_PRIVATE;
+import static cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity.SDK_READ_V5_DETAIL_PAGE_ENABLED;
 
 import android.app.Application;
 import android.content.Context;
@@ -60,6 +61,7 @@ import cn.rongcloud.im.sp.UserConfigCache;
 import cn.rongcloud.im.task.AppTask;
 import cn.rongcloud.im.task.UserTask;
 import cn.rongcloud.im.ui.activity.ConversationActivity;
+import cn.rongcloud.im.ui.activity.CustomMessageReadDetailActivity;
 import cn.rongcloud.im.ui.activity.ForwardActivity;
 import cn.rongcloud.im.ui.activity.GroupNoticeListActivity;
 import cn.rongcloud.im.ui.activity.GroupReadReceiptDetailActivity;
@@ -91,6 +93,7 @@ import io.rong.imkit.feature.mention.IExtensionEventWatcher;
 import io.rong.imkit.feature.mention.IMentionedInputListener;
 import io.rong.imkit.feature.mention.RongMentionManager;
 import io.rong.imkit.feature.quickreply.IQuickReplyProvider;
+import io.rong.imkit.handler.AppSettingsHandler;
 import io.rong.imkit.manager.UnReadMessageManager;
 import io.rong.imkit.model.GroupNotificationMessageData;
 import io.rong.imkit.notification.RongNotificationManager;
@@ -1013,12 +1016,30 @@ public class IMManager {
                                     Context context, Message message) {
                                 if (message.getConversationType()
                                         == Conversation.ConversationType.GROUP) { // 目前只适配了群组会话
-                                    // 群组显示未读消息的人的信息
-                                    Intent intent =
-                                            new Intent(
-                                                    context, GroupReadReceiptDetailActivity.class);
-                                    intent.putExtra(IntentExtra.PARCEL_MESSAGE, message);
-                                    context.startActivity(intent);
+                                    // 开启已读V5则不进入GroupReadReceiptDetailActivity，
+                                    // 通过SealApp#initKitFragment，修改已读V5回执页面展示逻辑。
+                                    if (AppSettingsHandler.getInstance()
+                                            .isReadReceiptV5Enabled(
+                                                    message.getConversationType())) {
+                                        boolean enabled =
+                                                SealTalkDebugTestActivity.getSealAppConfig(
+                                                        context, SDK_READ_V5_DETAIL_PAGE_ENABLED);
+                                        if (enabled) {
+                                            return false;
+                                        }
+                                        Intent intent =
+                                                CustomMessageReadDetailActivity.newIntent(
+                                                        context, message, null);
+                                        context.startActivity(intent);
+                                    } else {
+                                        // 群组显示未读消息的人的信息
+                                        Intent intent =
+                                                new Intent(
+                                                        context,
+                                                        GroupReadReceiptDetailActivity.class);
+                                        intent.putExtra(IntentExtra.PARCEL_MESSAGE, message);
+                                        context.startActivity(intent);
+                                    }
                                     return true;
                                 }
                                 return false;

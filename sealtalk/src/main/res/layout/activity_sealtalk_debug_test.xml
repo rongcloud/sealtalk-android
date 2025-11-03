@@ -294,6 +294,22 @@
                 app:item_divider="true"
                 app:item_switch="true" />
 
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_test_show_sdk_read_detail_v5_page"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="是否进入Kit已读V5详情页"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_test_replace_file_icons"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="是否SealTalk替换Kit文件Icon\n(开启则展示固定Icon不跟随主题变更)"
+                app:item_divider="true"
+                app:item_switch="true" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

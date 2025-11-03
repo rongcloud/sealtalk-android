@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义主题 - 活力橙（浅色模式） -->
+    <!-- 只修改几个关键颜色，其他颜色继承自欢快主题 -->
+    
+    <!-- 主色调 - 改为橙色 -->
+    <color name="rc_primary_color_custom_light">#FF6B35</color>
+    
+    <!-- 辅助色 -->
+    <color name="rc_auxiliary_custom_light">#FFA726</color>
+    
+    <!-- 背景链接色 -->
+    <color name="rc_background_link_custom_light">#FF6B35</color>
+    
+    <!-- 通用背景色（用于置顶等场景） -->
+    <color name="rc_common_background_color_custom_light">#FFF3E0</color>
+    
+    <!-- 对话列表背景色 -->
+    <color name="rc_conversation_list_background_color_custom_light">#FFFFFF</color>
+</resources>

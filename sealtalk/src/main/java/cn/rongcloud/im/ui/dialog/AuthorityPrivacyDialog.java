@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import cn.rongcloud.im.R;
+import cn.rongcloud.im.net.SealTalkUrl;
 import cn.rongcloud.im.ui.activity.LoginActivity;
 import cn.rongcloud.im.ui.activity.WebViewActivity;
 
@@ -70,9 +71,7 @@ public class AuthorityPrivacyDialog extends CommonDialog {
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(getContext(), WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, registrationTitle);
-                        intent.putExtra(
-                                WebViewActivity.PARAMS_URL,
-                                "https://www.rongcloud.cn/chuangqiyi/terms_of_service");
+                        intent.putExtra(WebViewActivity.PARAMS_URL, SealTalkUrl.getTermsService());
                         startActivity(intent);
                     }
 
@@ -94,9 +93,7 @@ public class AuthorityPrivacyDialog extends CommonDialog {
                     public void onClick(@NonNull View widget) {
                         Intent intent = new Intent(getContext(), WebViewActivity.class);
                         intent.putExtra(WebViewActivity.PARAMS_TITLE, privacyPolicyTitle);
-                        intent.putExtra(
-                                WebViewActivity.PARAMS_URL,
-                                "https://www.rongcloud.cn/chuangqiyi/privacy_policy");
+                        intent.putExtra(WebViewActivity.PARAMS_URL, SealTalkUrl.getPrivacyPolicy());
                         startActivity(intent);
                     }
 

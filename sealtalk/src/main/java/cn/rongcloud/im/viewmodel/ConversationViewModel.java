@@ -361,10 +361,13 @@ public class ConversationViewModel extends AndroidViewModel {
     }
 
     public void onStart() {
-        String title = titleStr.getValue();
-        if (conversationIdentifier != null) {
+        if (conversationIdentifier == null) {
+            return;
+        }
+        if (Conversation.ConversationType.GROUP == conversationIdentifier.getType()
+                || Conversation.ConversationType.ULTRA_GROUP == conversationIdentifier.getType()) {
             setTitleStr(
-                    title,
+                    titleStr.getValue(),
                     conversationIdentifier.getTargetId(),
                     conversationIdentifier.getChannelId(),
                     conversationIdentifier.getType());

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">RC IM</string>
-    <string name="title_activity_main">MainActivity</string>
     <!-- login-->
     <string name="seal_login_text_new_user">Sign Up</string>
     <string name="seal_login_text_forget_password">Find Password</string>
@@ -299,6 +298,7 @@
     <string name="seal_search_item_chat_records">Found %d related chat histories </string>
     <string name="msg_reference_link">[link]</string>
     <string name="msg_reference_file">[file]</string>
+    <string name="seal_message_content_others">[other message]</string>
 
     <string name="seal_update_password_current_password">Old Password</string>
     <string name="seal_update_password_password_hint">6-16 characters, case sensitive</string>
@@ -343,7 +343,6 @@
 
     <string name="seal_search_phone_number">Enter mobile (i.e.): (86)137XXXXX</string>
     <string name="seal_search_phone_numeber_and_account">Mobile/RC IM account</string>
-    <string name="seal_add_friend">Add To Friend</string>
     <string name="seal_add_text">Friend adding info</string>
     <string name="seal_inivte_firend_descprtion_format" formatted="true">I am %s</string>
     <string name="seal_account_not_exist">User does not exist.</string>
@@ -658,6 +657,7 @@
                                                </string>
     <string name="seal_talk_prompt_text_front2"> 3.After logging into the application, you can also view the privacy instructions in "Me Privacy Policy"
                                                </string>
+    <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-en</string>
 
     <string name="seal_talk_fraud_tips_dialog_title">Tips</string>
     <string name="seal_talk_fraud_tips_dialog_content">You are using RongCloud IM, RongCloud reminds you to beware of fraud and Be cautious of messages involving money.</string>
@@ -763,5 +763,10 @@
     <string name="close_button_text">Close</string>
 
     <string name="rc_my_new_friend">New Friends</string>
+
+    <!-- Theme Settings -->
+    <string name="seal_theme_setting_title">Theme Settings</string>
+    <string name="seal_theme_origin_light">Traditional Theme</string>
+    <string name="seal_theme_lively">Lively Theme (Follow System)</string>
 
 </resources>

@@ -56,8 +56,8 @@ public class SelectCountryActivity extends TitleBaseActivity {
                         });
 
         getTitleBar()
-                .setOnBtnRightClickListener(
-                        "取消",
+                .getClearView()
+                .setOnClickListener(
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

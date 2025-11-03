@@ -1,5 +1,6 @@
 package cn.rongcloud.im;
 
+import static cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity.SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS;
 import static io.rong.common.SystemUtils.getCurrentProcessName;
 
 import android.annotation.SuppressLint;
@@ -37,6 +38,7 @@ import cn.rongcloud.im.utils.BuildVariantUtils;
 import cn.rongcloud.im.utils.CheckPermissionUtils;
 import cn.rongcloud.im.utils.DataCenter;
 import cn.rongcloud.im.utils.SearchUtils;
+import cn.rongcloud.im.utils.ThemePreferenceManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -53,6 +55,7 @@ import io.rong.imkit.IMCenter;
 import io.rong.imkit.KitFragmentFactory;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.config.FeatureConfig;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.usermanage.friend.my.profile.MyProfileFragment;
@@ -177,15 +180,17 @@ public class SealApp extends MultiDexApplication {
         super.onCreate();
 
         appInstance = this;
-        HashMap<String, Integer> map = new HashMap<>();
-        int id = io.rong.imkit.R.drawable.rc_file_icon_pdf;
-        map.put("doc", R.drawable.doc_icon);
-        map.put("mp3", R.drawable.mp3_icon);
-        map.put("pdf", R.drawable.pdf_icon);
-        map.put("rmvb", R.drawable.rmvb_icon);
-        map.put("default", R.drawable.default_icon);
-        map.put("error", 123);
-        RongConfigCenter.conversationConfig().registerFileSuffixTypes(map);
+        if (SealTalkDebugTestActivity.getSealAppConfig(
+                this, SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS, true)) {
+            HashMap<String, Integer> map = new HashMap<>();
+            map.put("doc", R.drawable.doc_icon);
+            map.put("mp3", R.drawable.mp3_icon);
+            map.put("pdf", R.drawable.pdf_icon);
+            map.put("rmvb", R.drawable.rmvb_icon);
+            map.put("default", R.drawable.default_icon);
+            map.put("error", 123);
+            RongConfigCenter.conversationConfig().registerFileSuffixTypes(map);
+        }
 
         if (RongCoreClientImpl.isPrivateSDK()) {
             setSSL();
@@ -211,10 +216,37 @@ public class SealApp extends MultiDexApplication {
 
         initDataCenter();
         /*
-         * 以下部分仅在主进程中进行执行
+         * 以下部分仅在主进程中进
          */
         // 初始化融云IM SDK，初始化 SDK 仅需要在主进程中初始化一次
         IMManager.getInstance().init(this);
+
+        // 注册自定义主题（在加载主题之前注册）
+        IMKitThemeManager.addTheme(
+                "CUSTOM_ORANGE_THEME",
+                R.style.RCCustomOrangeLightTheme,
+                R.style.RCCustomOrangeDarkTheme);
+
+        // 从 SharedPreferences 读取用户配置的主题并应用
+        String savedTheme = ThemePreferenceManager.getThemeType(this);
+        String savedBaseTheme = ThemePreferenceManager.getBaseTheme(this);
+
+        // 判断是否为自定义主题（有基础主题）
+        if (IMKitThemeManager.TRADITION_THEME.equals(savedTheme)
+                || IMKitThemeManager.LIVELY_THEME.equals(savedTheme)) {
+            // 使用 changeInnerTheme 应用内置主题
+            IMKitThemeManager.changeInnerTheme(getApplication(), savedTheme);
+        } else {
+            // 使用 changeCustomTheme 应用自定义主题（基于保存的基础主题）
+            IMKitThemeManager.changeCustomTheme(
+                    getApplication(), savedTheme, IMKitThemeManager.LIVELY_THEME);
+        }
+        // 如果是欢快主题或基于欢快主题的自定义主题，设置夜间模式（默认跟随系统）
+        if (io.rong.imkit.config.IMKitThemeManager.LIVELY_THEME.equals(savedTheme)
+                || io.rong.imkit.config.IMKitThemeManager.LIVELY_THEME.equals(savedBaseTheme)) {
+            int nightMode = ThemePreferenceManager.getNightMode(this);
+            androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(nightMode);
+        }
         if (BuildVariantUtils.isDevelopBuild()) {
             RongCoreClient.getInstance().setRLogLevel(RLog.V);
         }

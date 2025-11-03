@@ -52,20 +52,22 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<R>> {
 
                                     // 当没有信息体时通过 http code 判断业务错误
                                     if (body == null && !response.isSuccessful()) {
+                                        Result result = new Result();
+                                        int apiErrorCode;
                                         if (responseType instanceof Class
                                                 && ((Class) responseType)
                                                         .isAssignableFrom(Result.class)) {
-                                            Result result = new Result();
-                                            int errorCode =
-                                                    ApiErrorCodeMap.getApiErrorCode(
-                                                            path, response.code());
-                                            result.setCode(errorCode);
-                                            try {
-                                                body = (R) result;
-                                            } catch (Exception ex) {
-                                            }
+                                            apiErrorCode = response.code();
                                         } else {
-                                            parseErrorBody(response);
+                                            // 尝试从 ResponseBody#errorBody 解析错误信息，取出错误码
+                                            apiErrorCode = parseErrorBody(response);
+                                        }
+                                        int errorCode =
+                                                ApiErrorCodeMap.getApiErrorCode(path, apiErrorCode);
+                                        result.setCode(errorCode);
+                                        try {
+                                            body = (R) result;
+                                        } catch (Exception ex) {
                                         }
                                     } else if (body instanceof Result) {
                                         Result result = (Result) body;
@@ -114,7 +116,7 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<R>> {
         };
     }
 
-    private void parseErrorBody(Response<R> response) {
+    private int parseErrorBody(Response<R> response) {
         // 登录失效时会返回errorBody {"msg":"Not loged in.","code":"1000"}
         try (ResponseBody errorBody = response.errorBody()) {
             if (errorBody != null) {
@@ -128,9 +130,11 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<R>> {
                     Intent intent = new Intent("com.rong.im.action.login.expiration");
                     SealApp.getApplication().sendBroadcast(intent);
                 }
+                return errorCode;
             }
         } catch (Exception ex) {
             // do nothing
         }
+        return ErrorCode.API_ERR_OTHER.getCode();
     }
 }

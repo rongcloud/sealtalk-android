@@ -122,7 +122,15 @@ public class ApiErrorCodeMap {
                 break;
             }
         }
-
+        if (prefix != null) {
+            return prefix;
+        }
+        for (String pathReg : FULL_PATH_PREFIX_MAP.keySet()) {
+            if (apiPath.endsWith(pathReg)) {
+                prefix = FULL_PATH_PREFIX_MAP.get(pathReg);
+                break;
+            }
+        }
         return prefix;
     }
 }

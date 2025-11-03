@@ -28,6 +28,7 @@ import io.rong.common.RLog;
 import io.rong.imkit.ConversationEventListener;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.config.DataProcessor;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.conversationlist.model.BaseUiConversation;
 import io.rong.imkit.conversationlist.model.GatheredConversation;
@@ -812,7 +813,9 @@ public class UltraGroupViewModel extends AndroidViewModel
         NoticeContent noticeContent = new NoticeContent();
         String content = null;
         boolean isShowContent = true;
-        int resId = 0;
+        int resId =
+                IMKitThemeManager.getAttrResId(
+                        mApplication, io.rong.imkit.R.attr.rc_network_unreachable_img);
 
         Resources resources = mApplication.getResources();
         if (!RongConfigCenter.conversationListConfig().isEnableConnectStateNotice()) {
@@ -824,13 +827,11 @@ public class UltraGroupViewModel extends AndroidViewModel
             content =
                     resources.getString(
                             io.rong.imkit.R.string.rc_conversation_list_notice_network_unavailable);
-            resId = io.rong.imkit.R.drawable.rc_ic_error_notice;
         } else if (status.equals(
                 RongIMClient.ConnectionStatusListener.ConnectionStatus
                         .KICKED_OFFLINE_BY_OTHER_CLIENT)) {
             content =
                     resources.getString(io.rong.imkit.R.string.rc_conversation_list_notice_kicked);
-            resId = io.rong.imkit.R.drawable.rc_ic_error_notice;
         } else if (status.equals(
                 RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED)) {
             isShowContent = false;
@@ -839,7 +840,6 @@ public class UltraGroupViewModel extends AndroidViewModel
             content =
                     resources.getString(
                             io.rong.imkit.R.string.rc_conversation_list_notice_disconnect);
-            resId = io.rong.imkit.R.drawable.rc_ic_error_notice;
         } else if (status.equals(RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING)
                 || status.equals(RongIMClient.ConnectionStatusListener.ConnectionStatus.SUSPEND)) {
             content =

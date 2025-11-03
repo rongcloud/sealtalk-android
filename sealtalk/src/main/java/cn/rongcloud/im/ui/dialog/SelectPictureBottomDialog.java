@@ -54,11 +54,11 @@ public class SelectPictureBottomDialog extends BaseBottomDialog {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String[] permissions =
-                                        PermissionCheckUtil.getMediaStoragePermissions(
-                                                getActivity());
-                                if (!PermissionChecker.checkSelfPermission(
-                                        getActivity(), permissions)) {
+                                if (!PermissionCheckUtil.checkMediaStoragePermissions(
+                                        getActivity())) {
+                                    String[] permissions =
+                                            PermissionCheckUtil.getMediaStoragePermissions(
+                                                    getActivity());
                                     PermissionChecker.requestPermissions(
                                             getActivity(),
                                             permissions,
@@ -110,20 +110,17 @@ public class SelectPictureBottomDialog extends BaseBottomDialog {
         }
     }
 
-    private boolean checkPremission() {
+    private boolean checkPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             Context context = getContext();
             if (context == null) {
                 return false;
             }
 
-            String[] permissions = PermissionCheckUtil.getMediaStoragePermissions(context);
-
-            boolean checkPermission = PermissionCheckUtil.checkPermissions(context, permissions);
-            if (!checkPermission) {
+            if (!PermissionCheckUtil.checkMediaStoragePermissions(context)) {
+                String[] permissions = PermissionCheckUtil.getMediaStoragePermissions(context);
                 PermissionChecker.requestPermissions(
                         getActivity(), permissions, PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE);
-                //                requestPermissions(permissions, REQUEST_CODE_ASK_PERMISSIONS);
                 return false;
             }
         }
