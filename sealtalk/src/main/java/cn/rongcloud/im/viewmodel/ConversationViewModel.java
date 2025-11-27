@@ -23,6 +23,9 @@ import cn.rongcloud.im.task.FriendTask;
 import cn.rongcloud.im.task.GroupTask;
 import cn.rongcloud.im.task.PrivacyTask;
 import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
+import io.rong.common.rlog.RLog;
+import io.rong.imkit.manager.OnLineStatusListener;
+import io.rong.imkit.manager.OnLineStatusManager;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.usermanage.handler.GroupInfoHandler;
 import io.rong.imkit.usermanage.interfaces.OnDataChangeListener;
@@ -35,6 +38,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.GroupInfo;
+import io.rong.imlib.model.SubscribeUserOnlineStatus;
 import io.rong.imlib.model.UserInfo;
 import io.rong.imlib.publicservice.model.PublicServiceProfile;
 import io.rong.imlib.typingmessage.TypingStatus;
@@ -45,14 +49,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.json.JSONObject;
 
 public class ConversationViewModel extends AndroidViewModel {
-
+    private static final String TAG = "ConversationViewModel";
     private GroupTask groupTask;
     private MutableLiveData<List<EvaluateInfo>> evaluateList = new MutableLiveData<>();
     private MutableLiveData<TypingInfo> typingStatusInfo = new MutableLiveData<>();
     private MediatorLiveData<String> titleStr = new MediatorLiveData<>();
+    private MediatorLiveData<SubscribeUserOnlineStatus> onlineStatus = new MediatorLiveData<>();
+    private String mTargetId = "";
+    private final OnLineStatusListener mOnLineStatusListener =
+            statuses -> {
+                // 判断相同会话更新在线状态图标
+                for (Map.Entry<String, SubscribeUserOnlineStatus> entry : statuses.entrySet()) {
+                    if (TextUtils.equals(entry.getKey(), mTargetId)) {
+                        onlineStatus.postValue(entry.getValue());
+                        return;
+                    }
+                }
+            };
 
     private IMManager imManager;
     private FriendTask friendTask;
@@ -134,6 +151,8 @@ public class ConversationViewModel extends AndroidViewModel {
                 });
 
         //        getTitleByConversation(targerId, conversationType, title);
+
+        OnLineStatusManager.getInstance().addOnLineStatusListener(mOnLineStatusListener);
     }
 
     /**
@@ -440,6 +459,7 @@ public class ConversationViewModel extends AndroidViewModel {
         super.onCleared();
         imManager.setCustomServiceHumanEvaluateListener(null);
         imManager.setTypingStatusListener(null);
+        OnLineStatusManager.getInstance().removeOnLineStatusListener(mOnLineStatusListener);
     }
 
     /**
@@ -449,6 +469,16 @@ public class ConversationViewModel extends AndroidViewModel {
      */
     public LiveData<String> getTitleStr() {
         return titleStr;
+    }
+
+    public MediatorLiveData<SubscribeUserOnlineStatus> getOnlineStatus() {
+        return onlineStatus;
+    }
+
+    public void getUserOnlineStatus(String mTargetId) {
+        this.mTargetId = mTargetId;
+        RLog.d(TAG, "fetchUsersOnlineStatus");
+        OnLineStatusManager.getInstance().fetchUsersOnlineStatus(mTargetId, false);
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

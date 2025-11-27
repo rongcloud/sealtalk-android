@@ -59,7 +59,7 @@ public class ScanActivity extends TitleBaseActivity implements View.OnClickListe
                         new PhotoUtils.OnPhotoResultListener() {
                             @Override
                             public void onPhotoResult(Uri uri) {
-                                String result = QRCodeUtils.analyzeImage(uri.getPath());
+                                String result = QRCodeUtils.analyzeImage(ScanActivity.this, uri);
                                 handleQrCode(result);
                             }
 

@@ -323,7 +323,7 @@ public class SealApp extends MultiDexApplication {
 
                                 Glide.with(imageView.getContext())
                                         .load(url)
-                                        .placeholder(io.rong.imkit.R.drawable.rc_default_portrait)
+                                        .thumbnail(circularPlaceholder)
                                         .error(circularPlaceholder)
                                         .apply(
                                                 RequestOptions.bitmapTransform(

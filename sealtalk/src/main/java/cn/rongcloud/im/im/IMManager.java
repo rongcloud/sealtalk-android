@@ -86,6 +86,7 @@ import io.rong.imkit.config.ConversationClickListener;
 import io.rong.imkit.config.ConversationListBehaviorListener;
 import io.rong.imkit.config.DataProcessor;
 import io.rong.imkit.config.RongConfigCenter;
+import io.rong.imkit.conversation.extension.IExtensionModule;
 import io.rong.imkit.conversation.extension.RongExtensionManager;
 import io.rong.imkit.conversation.messgelist.provider.GroupNotificationMessageItemProvider;
 import io.rong.imkit.conversationlist.model.BaseUiConversation;
@@ -135,6 +136,7 @@ import io.rong.imlib.model.UserInfo;
 import io.rong.imlib.publicservice.model.PublicServiceProfile;
 import io.rong.imlib.translation.TranslationClient;
 import io.rong.imlib.translation.TranslationResultListener;
+import io.rong.location.LocationExtensionModule;
 import io.rong.message.CombineV2Message;
 import io.rong.message.ContactNotificationMessage;
 import io.rong.message.GroupNotificationMessage;
@@ -1405,6 +1407,8 @@ public class IMManager {
         // 长按消息是否支持编辑
         boolean editMsgEnabled = SealTalkDebugTestActivity.isEditMessageEnabled(context);
         RongConfigCenter.featureConfig().enableEditMessage(editMsgEnabled);
+        // 是否支持在线状态
+        RongConfigCenter.featureConfig().enableUserOnlineStatus(true);
     }
 
     private void initPhrase() {
@@ -1488,6 +1492,18 @@ public class IMManager {
             RongExtensionManager.getInstance().registerExtensionModule(new InsertMessageModule());
             // 发送一条KV消息
             RongExtensionManager.getInstance().registerExtensionModule(new SendKVMessageModule());
+        }
+
+        // 高德暂不支持16kb，目前移除其相关so，待后续其支持再去掉这里的代码
+        if (TextUtils.equals(BuildConfig.BUILD_VARIANT, "publishgoogle")) {
+            List<IExtensionModule> modules =
+                    RongExtensionManager.getInstance().getExtensionModules();
+            String removeModule = LocationExtensionModule.class.getSimpleName();
+            for (IExtensionModule module : modules) {
+                if (TextUtils.equals(module.getClass().getSimpleName(), removeModule)) {
+                    RongExtensionManager.getInstance().unregisterExtensionModule(module);
+                }
+            }
         }
     }
 

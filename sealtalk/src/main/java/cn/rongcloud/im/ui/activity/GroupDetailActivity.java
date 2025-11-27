@@ -356,9 +356,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
                                 if (conversationNotificationStatus.equals(
                                         Conversation.ConversationNotificationStatus
                                                 .DO_NOT_DISTURB)) {
-                                    notifyNoticeSiv.setChecked(true);
+                                    notifyNoticeSiv.setCheckedImmediatelyWithOutEvent(true);
                                 } else {
-                                    notifyNoticeSiv.setChecked(false);
+                                    notifyNoticeSiv.setCheckedImmediatelyWithOutEvent(false);
                                 }
                             }
                         });
@@ -370,7 +370,7 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
                         new Observer<Boolean>() {
                             @Override
                             public void onChanged(Boolean isTop) {
-                                onTopSiv.setChecked(isTop);
+                                onTopSiv.setCheckedImmediatelyWithOutEvent(isTop);
                             }
                         });
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- GooglePlay版本 - 明确移除敏感权限 -->
+    <!-- 移除位置相关权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" tools:node="remove" />
+    
+    <!-- 移除存储管理权限 -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:node="remove" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:node="remove"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <application>
+        <!-- GooglePlay版本 - 微信相关功能已移除 -->
+        <!-- 
+        微信相关的Activity在GooglePlay版本中被完全移除
+        这符合GooglePlay审核要求，避免涉及第三方分享功能
+        -->
+    </application>
+
+</manifest> 

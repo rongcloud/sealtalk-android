@@ -1,8 +1,11 @@
 package cn.rongcloud.im.utils.qrcode;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.text.TextUtils;
 import cn.rongcloud.im.utils.qrcode.client.DecodeFormatManager;
 import com.google.zxing.BarcodeFormat;
@@ -113,7 +116,7 @@ public class QRCodeUtils {
         if (TextUtils.isEmpty(path)) {
             return null;
         }
-        if (path.startsWith("http://")) {
+        if (path.startsWith("http://") || path.startsWith("https://")) {
             return analyzeBitmap(getImage(path));
         } else {
             /** 首先判断图片的大小,若图片过大,则执行图片的裁剪操作,防止OOM */
@@ -128,6 +131,92 @@ public class QRCodeUtils {
             mBitmap = BitmapFactory.decodeFile(path, options);
             mBitmap = zoomImg(mBitmap, mBitmap.getWidth() * 3, mBitmap.getHeight() * 3);
             return analyzeBitmap(mBitmap);
+        }
+    }
+
+    /**
+     * 识别 Uri 对应的图片资源
+     *
+     * @param context Context
+     * @param uri content:// 或 file:// 资源
+     */
+    public static String analyzeImage(Context context, Uri uri) {
+        if (context == null || uri == null) {
+            return null;
+        }
+        String scheme = uri.getScheme();
+        if (TextUtils.isEmpty(scheme)) {
+            return analyzeImage(uri.getPath());
+        }
+        if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
+            return analyzeBitmap(getImage(uri.toString()));
+        }
+        if (ContentResolver.SCHEME_CONTENT.equalsIgnoreCase(scheme)
+                || ContentResolver.SCHEME_FILE.equalsIgnoreCase(scheme)) {
+            Bitmap bitmap = decodeScaledBitmapFromUri(context, uri);
+            if (bitmap == null) {
+                return null;
+            }
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            if (width > 0 && height > 0) {
+                bitmap = zoomImg(bitmap, width * 3, height * 3);
+            }
+            return analyzeBitmap(bitmap);
+        }
+        return analyzeImage(uri.getPath());
+    }
+
+    private static Bitmap decodeScaledBitmapFromUri(Context context, Uri uri) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        InputStream boundsStream = null;
+        try {
+            boundsStream = context.getContentResolver().openInputStream(uri);
+            if (boundsStream == null) {
+                return null;
+            }
+            BitmapFactory.decodeStream(boundsStream, null, options);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (boundsStream != null) {
+                try {
+                    boundsStream.close();
+                } catch (IOException ignore) {
+                }
+            }
+        }
+
+        int sampleSize =
+                options.outHeight > 0
+                        ? (int) (options.outHeight / 400f)
+                        : (int) (options.outWidth / 400f);
+        if (sampleSize <= 0) {
+            sampleSize = 1;
+        }
+
+        options.inJustDecodeBounds = false;
+        options.inSampleSize = sampleSize;
+
+        InputStream bitmapStream = null;
+        try {
+            bitmapStream = context.getContentResolver().openInputStream(uri);
+            if (bitmapStream == null) {
+                return null;
+            }
+            return BitmapFactory.decodeStream(bitmapStream, null, options);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (bitmapStream != null) {
+                try {
+                    bitmapStream.close();
+                } catch (IOException ignore) {
+                }
+            }
         }
     }
 

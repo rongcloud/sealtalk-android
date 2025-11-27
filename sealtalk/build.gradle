@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 35
         versionCode 20210127
-        versionName "5.30.0"
+        versionName "5.32.0"
         ndk {
             abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
         }
@@ -126,24 +126,24 @@ dependencies {
     implementation 'com.umeng.umsdk:common:9.3.8'
     implementation 'com.umeng.umsdk:asms:1.2.2'
 
-    implementation 'cn.rongcloud.sdk.push:rong:5.30.0'
-    implementation 'cn.rongcloud.sdk.push:fcm:5.30.0'
-    implementation 'cn.rongcloud.sdk.push:huawei:5.30.0'
-    implementation 'cn.rongcloud.sdk.push:xiaomi:5.30.0'
-    implementation 'cn.rongcloud.sdk.push:oppo:5.30.0'
-    implementation 'cn.rongcloud.sdk.push:vivo:5.30.0'
-    implementation 'cn.rongcloud.sdk.push:meizu:5.30.0'
-    implementation 'cn.rongcloud.sdk.push:honor:5.30.0'
+    implementation 'cn.rongcloud.sdk.push:rong:5.32.0'
+    implementation 'cn.rongcloud.sdk.push:fcm:5.32.0'
+    implementation 'cn.rongcloud.sdk.push:huawei:5.32.0'
+    implementation 'cn.rongcloud.sdk.push:xiaomi:5.32.0'
+    implementation 'cn.rongcloud.sdk.push:oppo:5.32.0'
+    implementation 'cn.rongcloud.sdk.push:vivo:5.32.0'
+    implementation 'cn.rongcloud.sdk.push:meizu:5.32.0'
+    implementation 'cn.rongcloud.sdk.push:honor:5.32.0'
 
     //需要替换的版本
-    api 'cn.rongcloud.sdk:im_kit:5.30.0'
-    api 'cn.rongcloud.sdk:im_lib:5.30.0'
-    api 'cn.rongcloud.sdk:rcsticker:5.30.0'
-    api 'cn.rongcloud.sdk:sight:5.30.0'
-    api 'cn.rongcloud.sdk:call_lib:5.30.0'
-    api 'cn.rongcloud.sdk:call_kit:5.30.0'
-    api 'cn.rongcloud.sdk:locationKit:5.30.0'
-    api 'cn.rongcloud.sdk:imkit_stream:5.30.0'
+    api 'cn.rongcloud.sdk:im_kit:5.32.0'
+    api 'cn.rongcloud.sdk:im_lib:5.32.0'
+    api 'cn.rongcloud.sdk:rcsticker:5.32.0'
+    api 'cn.rongcloud.sdk:sight:5.32.0'
+    api 'cn.rongcloud.sdk:call_lib:5.32.0'
+    api 'cn.rongcloud.sdk:call_kit:5.32.0'
+    api 'cn.rongcloud.sdk:locationKit:5.32.0'
+    api 'cn.rongcloud.sdk:imkit_stream:5.32.0'
 
     api project(path: ':contactcard')
     api project(path: ':recognizer')

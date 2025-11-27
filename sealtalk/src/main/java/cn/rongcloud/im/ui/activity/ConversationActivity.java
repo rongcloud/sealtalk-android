@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -58,10 +59,12 @@ import io.rong.imkit.conversation.ConversationFragment;
 import io.rong.imkit.conversation.extension.RongExtensionViewModel;
 import io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel;
 import io.rong.imkit.feature.quickreply.IQuickReplyProvider;
+import io.rong.imkit.handler.AppSettingsHandler;
 import io.rong.imkit.manager.UnReadMessageManager;
 import io.rong.imkit.usermanage.group.profile.GroupProfileActivity;
 import io.rong.imkit.utils.PermissionCheckUtil;
 import io.rong.imkit.utils.RouteUtils;
+import io.rong.imkit.utils.TextViewUtils;
 import io.rong.imkit.widget.TitleBar;
 import io.rong.imlib.IRongCoreCallback;
 import io.rong.imlib.IRongCoreEnum;
@@ -71,6 +74,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.GroupMemberInfo;
+import io.rong.imlib.model.SubscribeUserOnlineStatus;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -599,6 +603,39 @@ public class ConversationActivity extends RongBaseActivity
                                 }
                             });
         }
+
+        // 在线状态
+        if (Conversation.ConversationType.PRIVATE == mConversationType
+                && !TextUtils.isEmpty(mTargetId)
+                && !TextUtils.equals(mTargetId, RongCoreClient.getInstance().getCurrentUserId())) {
+            setTitleOnlineStatus(false);
+            conversationViewModel
+                    .getOnlineStatus()
+                    .observe(
+                            this,
+                            new Observer<SubscribeUserOnlineStatus>() {
+                                @Override
+                                public void onChanged(SubscribeUserOnlineStatus status) {
+                                    setTitleOnlineStatus(status != null && status.isOnline());
+                                }
+                            });
+            conversationViewModel.getUserOnlineStatus(mTargetId);
+        }
+    }
+
+    /** 设置在线状态 */
+    private void setTitleOnlineStatus(boolean isOnline) {
+        if (!AppSettingsHandler.getInstance().isOnlineStatusEnable()) {
+            return;
+        }
+        if (mTitleBar.getMiddleView() == null) {
+            return;
+        }
+        int resId =
+                isOnline
+                        ? io.rong.imkit.R.drawable.rc_lively_conner_online
+                        : io.rong.imkit.R.drawable.rc_lively_conner_offline;
+        TextViewUtils.setCompoundDrawables(mTitleBar.getMiddleView(), Gravity.START, resId);
     }
 
     /**
