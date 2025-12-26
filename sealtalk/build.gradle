@@ -88,6 +88,10 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+            // 添加 SealTalk 主题资源目录
+            res.srcDirs += 'src/main/res-lively-sealtalk'
+            res.srcDirs += 'src/main/res-lively-sealtalk-light'
+            res.srcDirs += 'src/main/res-lively-sealtalk-dark'
         }
     }
     lintOptions {
