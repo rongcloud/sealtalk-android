@@ -29,12 +29,15 @@ import io.rong.imkit.manager.OnLineStatusManager;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.usermanage.handler.GroupInfoHandler;
 import io.rong.imkit.usermanage.interfaces.OnDataChangeListener;
+import io.rong.imlib.IRongCoreCallback;
 import io.rong.imlib.IRongCoreEnum;
 import io.rong.imlib.MessageTag;
+import io.rong.imlib.RongCoreClient;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.cs.CustomServiceConfig;
 import io.rong.imlib.cs.CustomServiceManager;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Conversation.ConversationNotificationStatus;
 import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.GroupInfo;
@@ -54,11 +57,13 @@ import org.json.JSONObject;
 
 public class ConversationViewModel extends AndroidViewModel {
     private static final String TAG = "ConversationViewModel";
+    private volatile boolean mCleared = false;
     private GroupTask groupTask;
     private MutableLiveData<List<EvaluateInfo>> evaluateList = new MutableLiveData<>();
     private MutableLiveData<TypingInfo> typingStatusInfo = new MutableLiveData<>();
     private MediatorLiveData<String> titleStr = new MediatorLiveData<>();
     private MediatorLiveData<SubscribeUserOnlineStatus> onlineStatus = new MediatorLiveData<>();
+    private MediatorLiveData<Boolean> isNotify = new MediatorLiveData<>();
     private String mTargetId = "";
     private final OnLineStatusListener mOnLineStatusListener =
             statuses -> {
@@ -172,6 +177,14 @@ public class ConversationViewModel extends AndroidViewModel {
 
         if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
             if (!TextUtils.isEmpty(targetId)) {
+                if (SealTalkDebugTestActivity.isUserManagementEnabled(getApplication())) {
+                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(targetId);
+                    if (userInfo != null) {
+                        titleStr.postValue(
+                                RongUserInfoManager.getInstance().getUserDisplayName(userInfo));
+                        return;
+                    }
+                }
                 // 从好友 task 中获取
                 LiveData<Resource<FriendShipInfo>> friendInfo = friendTask.getFriendInfo(targetId);
                 titleStr.addSource(
@@ -456,6 +469,7 @@ public class ConversationViewModel extends AndroidViewModel {
 
     @Override
     protected void onCleared() {
+        mCleared = true;
         super.onCleared();
         imManager.setCustomServiceHumanEvaluateListener(null);
         imManager.setTypingStatusListener(null);
@@ -475,10 +489,37 @@ public class ConversationViewModel extends AndroidViewModel {
         return onlineStatus;
     }
 
+    public boolean isOnlineStatus() {
+        return onlineStatus.getValue() != null && onlineStatus.getValue().isOnline();
+    }
+
+    public MediatorLiveData<Boolean> getNotify() {
+        return isNotify;
+    }
+
     public void getUserOnlineStatus(String mTargetId) {
         this.mTargetId = mTargetId;
         RLog.d(TAG, "fetchUsersOnlineStatus");
         OnLineStatusManager.getInstance().fetchUsersOnlineStatus(mTargetId, false);
+    }
+
+    public void getNotificationStatus(Conversation.ConversationType type, String targetId) {
+        RongCoreClient.getInstance()
+                .getConversationNotificationStatus(
+                        type,
+                        targetId,
+                        new IRongCoreCallback.ResultCallback<ConversationNotificationStatus>() {
+                            @Override
+                            public void onSuccess(ConversationNotificationStatus status) {
+                                if (mCleared) {
+                                    return;
+                                }
+                                isNotify.postValue(status == ConversationNotificationStatus.NOTIFY);
+                            }
+
+                            @Override
+                            public void onError(IRongCoreEnum.CoreErrorCode e) {}
+                        });
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

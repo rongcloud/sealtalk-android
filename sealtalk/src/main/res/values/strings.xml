@@ -9,7 +9,11 @@
     <string name="seal_login_nick_name">昵称</string>
     <string name="seal_login_register">注册</string>
     <string name="seal_login_code">短信验证码</string>
-    <string name="seal_login_send_code">发送验证码</string>
+    <string name="seal_login_send_code">获取验证码</string>
+    <string name="seal_login_contact_method">联系方式</string>
+    <string name="seal_talk_image_verify_code_label">图片验证码</string>
+    <string name="seal_talk_verify_code_label">验证码</string>
+    <string name="seal_login_agreement_text">新登录用户即注册开通融云开发者账号且表示同意\n《注册条款》和《隐私政策》</string>
     <string name="seal_login_confirm">确认</string>
     <string name="seal_login_confirm_password">确认密码</string>
     <string name="seal_login_toast_name_is_null">昵称不能为空</string>
@@ -28,25 +32,32 @@
     <string name="login_error_send_message_frequency">短信发送频率超限</string>
     <string name="login_error_captcha_overdue">验证码过期,请重新请求</string>
     <string name="login_verification_code_error">验证码错误</string>
-    <string name="seal_login_kick_by_other">您的账号在别的设备上登录，您被迫下线!</string>
+    <string name="seal_login_kick_by_other">您的账号在别的设备上登录，您被迫下线！</string>
     <string name="seal_login_connect_time_out">连接超时，请重新登录</string>
     <string name="seal_login_user_logout">该账号已销户！</string>
     <string name="seal_login_user_blocked">此账号被封禁！</string>
     <string name="seal_login_user_login_expiration">未登录或登录凭证失效</string>
     <string name="common_chat_room">聊天室</string>
-    <string name="discovery_chat_room_one">聊天室 I</string>
-    <string name="discovery_chat_room_two">聊天室 II</string>
-    <string name="discovery_chat_room_three">聊天室 III</string>
-    <string name="discovery_chat_room_four">聊天室 IV</string>
+    <string name="discovery_chat_room_one">游戏情报局</string>
+    <string name="discovery_chat_room_two">暖阳小窝</string>
+    <string name="discovery_chat_room_three">未来触角</string>
+    <string name="discovery_chat_room_four">音乐天堂</string>
     <string name="discovery_chat_room_join_failure">加入聊天室失败</string>
     <string name="discovery_chat_room_join_failure_by_kicked">你被禁止加入聊天室</string>
     <string name="discovery_join_chat_room_error">聊天室 ID 为空,请稍后重试</string>
 
 
+    <!-- 国家和地区选择 -->
+    <string name="seal_select_country_region">选择国家和地区</string>
+    <string name="seal_search_country_hint">搜索国家</string>
+
+    <!-- 主页面标题 -->
+    <string name="seal_main_chat_title">会话</string>
+
     <string name="new_friends">新的朋友</string>
     <string name="group">群组</string>
     <string name="public_service">公众号</string>
-    <string name="seal_search_nick_name">昵称： </string>
+    <string name="seal_search_nick_name">备注名称： </string>
     <string name="seal_group_list_include">包含：</string>
 
     <string name="china">中国</string>
@@ -81,16 +92,16 @@
     <!--Main-->
     <string-array name="tab_names_nomal">
         <item>消息</item>
-        <item>通讯录</item>
         <item>聊天室</item>
-        <item>我</item>
+        <item>好友</item>
+        <item>我的</item>
     </string-array>
     <string-array name="tab_names_ultra">
         <item>消息</item>
         <item>超级群</item>
-        <item>通讯录</item>
         <item>聊天室</item>
-        <item>我</item>
+        <item>好友</item>
+        <item>我的</item>
     </string-array>
 
     <string name="common_network_error_and_retry_after">网络问题请稍后重试</string>
@@ -107,8 +118,8 @@
     <string name="seal_evaluate_input_must">必须输入建议</string>
 
 
-    <string name="seal_conversation_remote_side_is_typing">对方正在输入&#046;&#046;&#046;</string>
-    <string name="seal_conversation_remote_side_speaking">对方正在讲话&#046;&#046;&#046;</string>
+    <string name="seal_conversation_remote_side_is_typing">对方正在输入...</string>
+    <string name="seal_conversation_remote_side_speaking">对方正在讲话...</string>
     <string name="seal_conversation_title_discussion_group">讨论组</string>
     <string name="seal_conversation_title_system">系统消息助手</string>
     <string name="seal_conversation_title_feedback">意见反馈</string>
@@ -126,8 +137,8 @@
     <string name="seal_conversation_read_receipt_no_person_unread">全部已读</string>
 
     <string name="seal_new_friend_list_no_data">暂无数据</string>
-    <string name="seal_new_friend_agree">接&#160;&#160;&#160;受</string>
-    <string name="seal_new_friend_agree_ignore">忽&#160;&#160;&#160;略</string>
+    <string name="seal_new_friend_agree">接受</string>
+    <string name="seal_new_friend_agree_ignore">忽略</string>
     <string name="seal_new_friend_request">已请求</string>
     <string name="seal_new_friend_ignore">已忽略</string>
     <string name="seal_new_friend_added">已添加</string>
@@ -139,10 +150,14 @@
     <string name="seal_main_title_add_friends">添加好友</string>
     <string name="seal_main_title_scan">扫一扫</string>
 
+    <string name="seal_main_me_app_account_label">应用账号: </string>
     <string name="seal_main_mine_set_account">账号设置</string>
     <string name="seal_main_mine_theme_setting">切换主题</string>
-    <string name="seal_main_mine_setting_language">多语言</string>
+    <string name="seal_main_mine_setting_language">语言设置</string>
     <string name="seal_main_mine_setting_translation">翻译设置</string>
+    <string name="seal_translation_language">选择语言</string>
+    <string name="seal_translation_src_language">源语言</string>
+    <string name="seal_translation_target_language">目标语言</string>
     <string name="seal_main_mine_proxy_setting">代理设置</string>
     <string name="seal_main_mine_proxy_setting_test_host">测试地址</string>
     <string name="seal_main_mine_proxy_setting_proxy_ip">代理 IP</string>
@@ -186,14 +201,14 @@
     <string name="profile_set_top">会话置顶</string>
     <string name="profile_clean_message">清除聊天记录</string>
     <string name="profile_screen_shot_notification">截屏通知</string>
-    <string name="profile_screen_shot_notification_tips">开启后，在对话中截屏，所有成员都是收到通知</string>
+    <string name="profile_screen_shot_notification_tips">开启后，在对话中截屏，所有成员均会收到通知</string>
     <string name="profile_clean_timing">定时清理群消息</string>
     <string name="profile_clean_timing_tips">设置定时清理后，系统会定时清理规定时间前的群消息，清理后的消息无法恢复，请谨慎设置</string>
     <string name="profile_user_details">用户详情</string>
     <string name="profile_chat_details">聊天详情</string>
-    <string name="profile_clean_private_chat_history">确定删除聊天记录吗</string>
-    <string name="profile_clean_group_chat_history">确定删除群聊天记录吗</string>
-    <string name="profile_clean_discussion_chat_history">确定删除讨论组聊天记录吗</string>
+    <string name="profile_clean_private_chat_history">确定删除聊天记录吗？</string>
+    <string name="profile_clean_group_chat_history">确定删除群聊天记录吗？</string>
+    <string name="profile_clean_discussion_chat_history">确定删除讨论组聊天记录吗？</string>
 
     <!-- 群组详细 -->
     <string name="profile_all_group_member">全部群成员</string>
@@ -208,14 +223,16 @@
     <string name="profile_group_total_member">群成员</string>
     <string name="profile_update_portrait_success">头像更新成功</string>
     <string name="profile_upload_portrait_failed">上传头像失败</string>
+    <string name="profile_uploading_portrait">正在上传头像...</string>
+    <string name="profile_updating_user_info">正在更新用户信息...</string>
     <string name="profile_hint_new_group_name">新的群名称</string>
     <string name="profile_group_name_word_limit_format" formatted="true">填写群名称(%d-%d字符)</string>
     <string name="profile_group_name_emoji_too_short">群名称表情过短</string>
     <string name="profile_input_hint_group_notice">请编辑群公告</string>
     <string name="profile_group_notice_post_confirm">该公告会通知全部群成员，是否发布？</string>
     <string name="profile_group_notice_prefix">\@所有人\n</string>
-    <string name="profile_confirm_quit_group">确认退出群组?</string>
-    <string name="profile_confirm_dismiss_group">确认解散群组?</string>
+    <string name="profile_confirm_quit_group">确认退出群组？</string>
+    <string name="profile_confirm_dismiss_group">确认解散群组？</string>
     <string name="profile_set_display_name">设置备注和描述</string>
     <string name="profile_picture_detail">图片详情</string>
     <string name="profile_picture_more">更多</string>
@@ -239,7 +256,7 @@
 
     <string name="profile_group_not_exist">群组不存在</string>
     <string name="profile_group_has_dismissed">该群已解散</string>
-    <string name="profile_group_has_members_format">群内已有&#160;%1$d&#160;人</string>
+    <string name="profile_group_has_members_format">群内已有 %1$d 人</string>
 
     <string name="profile_save_picture_at">图片保存成功</string>
     <string name="profile_join_the_group_chat">加入群聊</string>
@@ -270,12 +287,20 @@
     <string name="seal_dialog_select_picture_album">从本地导入</string>
     <string name="seal_dialog_select_picture_cancel">取消</string>
 
-    <string name="seal_ac_search_friend">联系人</string>
+    <!-- Search -->
+    <string name="seal_ac_search">搜索</string>
+    <string name="seal_search_hint">搜索</string>
+    <string name="seal_ac_search_friend">好友</string>
     <string name="seal_ac_search_group">群组</string>
     <string name="seal_ac_search_chatting_records">聊天记录</string>
-    <string name="seal_ac_search_more_friend">查看更多联系人</string>
+    <string name="seal_ac_search_more_friend">查看更多好友</string>
     <string name="seal_ac_search_more_group">查看更多群组</string>
     <string name="seal_ac_search_more_chatting_records">查看更多聊天记录</string>
+    <string name="seal_search_chat_message">聊天记录</string>
+    <string name="seal_search_more_chat_message">查看更多聊天记录</string>
+    <string name="seal_search_message_title">搜索聊天记录</string>
+    <string name="seal_search_message_hint">搜索聊天记录</string>
+    <string name="seal_search_message_empty">没有找到相关聊天记录</string>
     <string name="seal_search_item_chat_records">%d条相关记录</string>
     <string name="msg_reference_link">[链接]</string>
     <string name="msg_reference_file">[文件]</string>
@@ -290,9 +315,12 @@
     <string name="seal_update_password_toast_password_old_equal_new">新旧密码一致</string>
 
     <string name="seal_set_account_dialog_toast_clear_cache_clear_success">清除成功</string>
-    <string name="seal_set_account_dialog_clear_cache_message">是否清除缓存?</string>
+    <string name="seal_set_account_dialog_clear_cache_message">是否清除缓存？</string>
     <string name="seal_privacy_blacklist_is_empty">黑名单为空</string>
     <string name="seal_privacy_blacklist">黑名单</string>
+    <string name="seal_privacy_blacklist_contacts">黑名单</string>
+    <string name="seal_account_setting_security_privacy_title">安全与隐私</string>
+    <string name="seal_account_setting_new_message_notification_title">新消息通知</string>
     <string name="seal_privacy_search_phone">允许通过手机号搜索到我</string>
     <string name="seal_privacy_group_verify">允许被直接添加至群聊</string>
 
@@ -310,7 +338,7 @@
     <string name="seal_new_message_remind_new_message">接收新消息通知</string>
     <string name="seal_new_message_remind_message_show_details">显示远程推送的内容</string>
     <string name="seal_new_message_donot_disturb_new_message_notice">开启消息免打扰</string>
-    <string name="seal_new_message_donot_disturb_notification_information">开启后，在设定时间段内收到新消息时不会响铃或振动。</string>
+    <string name="seal_new_message_donot_disturb_notification_information">开启后，在设定时间段内收到新消息时不会响铃或振动</string>
     <string name="seal_new_message_donot_disturb_start">开始时间</string>
     <string name="seal_new_message_donot_disturb_end">结束时间</string>
     <string name="seal_new_message_donot_disturb">消息免打扰</string>
@@ -324,7 +352,7 @@
     <string name="seal_account_not_exist">用户不存在</string>
     <string name="seal_inivte_firend_descprtion_format" formatted="true">我是%s</string>
     <string name="seal_quest_failed_error_code">请求失败 错误码:%d</string>
-    <string name="setting_new_message_receive_poke_message">接受戳一下消息</string>
+    <string name="setting_new_message_receive_poke_message">戳一下消息弹窗</string>
 
     <string name="new_friend_title">添加好友</string>
     <string name="new_friend_add_from_phone_contact">手机通讯录</string>
@@ -352,8 +380,8 @@
     <string name="zxing_scan_from_picture">选择图片</string>
     <string name="zxing_msg_camera_permission_grant_needed">您需要在设置中打开相机权限</string>
 
-    <string name="seal_mine_set_account_dialog_logout_message">是否退出登录?</string>
-    <string name="seal_mine_set_account_dialog_delete_message">你确定要删除账户吗?</string>
+    <string name="seal_mine_set_account_dialog_logout_message">是否退出登录？</string>
+    <string name="seal_mine_set_account_dialog_delete_message">你确定要删除账户吗？</string>
     <string name="seal_mine_set_account_dialog_delete_failed_message">删除失败</string>
 
     <string name="seal_download_app_browser_download">浏览器打开</string>
@@ -463,7 +491,7 @@
     <string name="seal_add_certification_tips">开启后，需要群管理同意后才能加入群聊，同时停用扫描二维码进群方式</string>
     <string name="seal_add_certification_close">关闭群认证后，所有的进群申请将过期，是否确认？</string>
     <string name="seal_add_friend_protect">关闭此开关后，允许群组内成员相互加好友，是否确认？</string>
-    <string name="seal_add_certification_need_certifi">该群已开启群认证，请等待管理员审核～</string>
+    <string name="seal_add_certification_need_certifi">该群已开启群认证，请等待管理员审核</string>
     <string name="seal_add_need_member_agree">已邀请，等待确认</string>
     <string name="seal_add_need_manager_agree">已邀请，等待管理员确认</string>
     <string name="seal_add_success">添加成功</string>
@@ -511,6 +539,7 @@
     <string name="seal_clear_chat_message_select_all">全选</string>
     <string name="seal_clear_chat_message_select_delete">删除</string>
     <string name="seal_clear_chat_message_delete_dialog">确认要删除聊天记录吗？</string>
+    <string name="seal_clear_chat_message_delete_confirm_format">确认要删除 %d 个会话的聊天记录吗？</string>
     <string name="seal_clear_chat_message_delete_success">删除成功</string>
 
     <!--user_describe-->
@@ -526,7 +555,7 @@
     <string name="seal_describe_more_btn_complete">完成</string>
     <string name="seal_describe_more_btn_set_success">设置成功</string>
     <string name="seal_describe_more_btn_set_fail">设置失败</string>
-    <string name="seal_describe_more_save_tips">是否保存修改内容?</string>
+    <string name="seal_describe_more_save_tips">是否保存修改内容？</string>
     <string name="seal_dialog_describe_more_save">保存至相册</string>
     <string name="seal_dialog_describe_more_delete">删除图片</string>
     <string name="seal_dialog_describe_more_cancel">取消</string>
@@ -567,6 +596,8 @@
     <!--chat_bg-->
     <string name="seal_select_chat_bg_title">聊天背景</string>
     <string name="seal_select_chat_bg_album">从手机相册选择</string>
+    <string name="seal_select_chat_bg_preset">预置图片</string>
+    <string name="seal_select_chat_bg_current_preview">当前背景预览</string>
     <string name="seal_select_chat_bg_set">设置</string>
     <string name="seal_select_chat_bg_set_success">设置成功</string>
     <string name="seal_select_chat_bg_cancel">取消</string>
@@ -614,13 +645,10 @@
 
 
 
-    <string name="seal_talk_prompt_text_behand">请充分阅读并理解 ⟪%1$s⟫ 和 IM《%2$s》</string>
-    <string name="seal_talk_prompt_text_front">1.为保障平台运营稳定安全，我们会申请系统权限收集 IP地址、设备ID、网络接入类型、操作系统,等设备信息用于平台运营问题排查
-                                               </string>
-    <string name="seal_talk_prompt_text_front1"> 2.请详细阅读《隐私政策》中关于个人设备用户信息的收集和使用说明
-                                               </string>
-    <string name="seal_talk_prompt_text_front2"> 3.登录应用后，也可以“我 - 隐私政策”中查看，隐私说明
-                                               </string>
+    <string name="seal_talk_prompt_text_behand">请充分阅读并理解《%1$s》和《%2$s》</string>
+    <string name="seal_talk_prompt_text_front">1.为保障平台运营稳定安全，我们会申请系统权限收集 IP 地址、设备 ID、网络接入类型、操作系统等设备信息用于平台运营问题排查</string>
+    <string name="seal_talk_prompt_text_front1">2.请详细阅读《隐私政策》中关于个人设备用户信息的收集和使用说明</string>
+    <string name="seal_talk_prompt_text_front2">3.登录应用后，也可以在"我 - 隐私政策"中查看隐私说明</string>
     <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-cn</string>
     <string name="seal_talk_prompt_disagree">不同意</string>
     <string name="seal_talk_prompt_agree_and_continue">同意并继续</string>
@@ -684,14 +712,14 @@
 
     <!-- 二级分类 -->
     <string name="report_subcategory_pornographic">色情</string>
-    <string name="report_subcategory_illegal_crime">建法犯罪及违禁品</string>
+    <string name="report_subcategory_illegal_crime">违法犯罪及违禁品</string>
     <string name="report_subcategory_gambling">赌博</string>
     <string name="report_subcategory_political_rumors">政治谣言</string>
     <string name="report_subcategory_violence_bloodshed">爆恐血腥</string>
     <string name="report_subcategory_other">其他违规内容</string>
 
     <string name="report_subcategory_financial_fraud">金融诈骗</string>
-    <string name="report_subcategory_online_job_scam">网络兼職刷单诈骗</string>
+    <string name="report_subcategory_online_job_scam">网络兼职刷单诈骗</string>
     <string name="report_subcategory_online_dating_scam">网络交友诈骗</string>
     <string name="report_subcategory_fake_investment_scam">虚假投资理财诈骗</string>
     <string name="report_subcategory_gambling_scam">赌博诈骗</string>
@@ -740,39 +768,39 @@
     <string name="seal_mine_my_account_group_nick_name">群昵称：</string>
     <string name="zxing_msg_camera_framework_bug">对不起，Android摄像头遇到问题，您需要重启设备</string>
     <string name="seal_group_manager_toast_remove_manager_success">删除成功</string>
-    <string name="seal_talk_login_bottom_registration_text_behand">且表示同意 ⟪%1$s⟫ 和 IM《%2$s》</string>
+    <string name="seal_talk_login_bottom_registration_text_behand">且表示同意《%1$s》和《%2$s》</string>
     
     <!-- Develop版本 - 保持原有的融云 IM 品牌 -->
     <string name="app_name">融云 IM</string>
     <string name="seal_main_mine_about">关于融云 IM</string>
-    <string name="seal_mine_about_seal_talk_version">融云 IM 版本</string>
+    <string name="seal_mine_about_seal_talk_version">SealChat 版本</string>
     <string name="seal_st_account_content_format">融云 IM 号：%s</string>
     <string name="seal_mine_my_account_sknumber">融云 IM 号</string>
     <string name="seal_update_staccout_red_tips">融云 IM 号仅支持以字母开头，6-20个字母、数字、下划线或减号</string>
     <string name="seal_update_staccout_exit">融云 IM 账号已存在，请重新设置</string>
-    <string name="seal_update_staccount_tips">1.融云 IM 号是账号的唯一凭证，只能设置一次。\n2.设置融云 IM 账号以后，可通过搜索融云 IM 号来添加您的好友</string>
+    <string name="seal_update_staccount_tips">1.融云 IM 号是账号的唯一凭证，只能设置一次。\n2.设置融云 IM 账号后，可通过搜索融云 IM 号来添加您的好友</string>
     <string name="seal_update_staccount_title">设置融云 IM 号</string>
     <string name="seal_staccount_dialog_title">确定融云 IM 号</string>
-    <string name="seal_staccount_dialog_title_format_error">设置 融云 IM 账号失败</string>
-    <string name="seal_staccount_dialog_content">你确定将融云 IM 号设置为 @ 吗？确定后将不可修改</string>
+    <string name="seal_staccount_dialog_title_format_error">设置融云 IM 账号失败</string>
+    <string name="seal_staccount_dialog_content">你确定将融云 IM 号设置为 %s 吗？确定后将不可修改</string>
     <string name="seal_staccount_set_success">融云 IM 号设置成功</string>
     <string name="seal_phone_or_sealtalk_account">手机号/融云 IM 号</string>
     <string name="seal_mine_my_account_st_account">融云 IM 号：</string>
     <string name="seal_privacy_search_st_account">允许通过融云 IM 号搜索到我</string>
     <string name="seal_search_phone_numeber_and_account">手机号/融云 IM 号</string>
     <string name="new_friend_read_contact_dialog_title">"融云 IM" 想访问您的通讯录</string>
-    <string name="new_friend_read_contact_dialog_content">请允许融云 IM获取您的通讯录，完成手机通讯录至服务器匹配朋友，融云 IM不会保存您的通讯录</string>
+    <string name="new_friend_read_contact_dialog_content">请允许融云 IM 获取您的通讯录，完成手机通讯录至服务器匹配朋友，融云 IM 不会保存您的通讯录</string>
     <string name="wx_share_invite_friend_title">融云全球互联网通信云</string>
-    <string name="wx_share_invite_friend_content">加我为好友，一起用融云 IM聊天 ！</string>
+    <string name="wx_share_invite_friend_content">加我为好友，一起用融云 IM 聊天！</string>
     <string name="sms_share_invite_friend_content_format">嗨~ 我正在使用融云 IM，一款专为同好量身打造的聊天应用，快来试试吧！下载地址：%s</string>
     <string name="profile_qrcode_share_to_sealtalk">分享至融云 IM</string>
     <string name="seal_mine_about_notifi_title">融云 IM 新版本下载</string>
     <string name="seal_login_text_title">欢迎使用融云 IM</string>
-    <string name="seal_talk_registration_terms_text">新登录用户即注册开通融云开发者账号\n且表示同意⟪注册条款⟫</string>
+    <string name="seal_talk_registration_terms_text">新登录用户即注册开通融云开发者账号且表示同意《注册条款》</string>
     <string name="seal_talk_version_text">融云 IM V%s</string>
     <string name="seal_talk_login_bottom_registration_text_front">新登录用户即注册开通融云开发者账号</string>
-    <string name="seal_talk_fraud_tips_dialog_content">您正在使用融云 IM，融云提醒您谨防诈骗，不要轻信涉钱信息。</string>
-    <string name="seal_talk_fraud_tip_conversation_top">融云提醒您谨防诈骗，不要轻信涉钱信息，不要进行任何线下转账行为。</string>
+    <string name="seal_talk_fraud_tips_dialog_content">SealChat 提醒您谨防诈骗，不要轻信涉钱信息</string>
+    <string name="seal_talk_fraud_tip_conversation_top">SealChat 提醒您谨防诈骗，不要轻信涉钱信息，不要进行任何线下转账行为</string>
 
     <!-- 主题设置 -->
     <string name="seal_theme_setting_title">切换主题</string>
@@ -782,4 +810,90 @@
     <string name="seal_theme_lively_light">浅色模式</string>
     <string name="seal_theme_lively_dark">深色模式</string>
     <string name="seal_theme_custom_orange">活力橙(自定义主题)</string>
+
+    <!-- Join Group -->
+    <string name="seal_join_group_title">加入群聊</string>
+    <string name="seal_join_group_button">加入该群</string>
+    <string name="seal_join_group_success">已加入群聊</string>
+    <string name="seal_join_group_wait_approve">申请已发送，请等待群主或管理员审批</string>
+    <string name="seal_join_group_failed">加入群聊失败</string>
+    <string name="seal_select_chat_title">选择会话</string>
+    <string name="seal_select_chat_empty">暂无会话</string>
+    <string name="seal_select_chat_choose_friend">选择好友</string>
+    <string name="seal_select_chat_choose_group">选择群</string>
+    
+    <!-- QR Code Scan Errors -->
+    <string name="seal_qrcode_scan_content_empty">二维码内容为空</string>
+    <string name="seal_qrcode_scan_unrecognized">无法识别的二维码</string>
+    <string name="seal_qrcode_scan_user_id_empty">用户 ID 为空</string>
+    <string name="seal_qrcode_scan_group_id_empty">群组 ID 为空</string>
+    <string name="seal_qrcode_scan_group_not_exist">群组不存在或已解散</string>
+    
+    <!-- Profile Update -->
+    <string name="seal_profile_avatar_update_success">头像更新成功</string>
+    
+    <!-- Ultra Group -->
+    <string name="seal_ultra_group_get_channel_list_failed">获取频道列表失败</string>
+    
+    <!-- Download -->
+    <string name="seal_download_failed">下载失败</string>
+    
+    <!-- Read Receipt -->
+    <string name="seal_read_receipt_unread_tab">未读</string>
+    <string name="seal_read_receipt_read_tab">已读</string>
+    <string name="seal_read_receipt_read_user_info">已读用户ID：%1$s  已读时间：%2$s</string>
+    
+    <!-- Permission -->
+    <string name="seal_permission_explanation_title">权限说明</string>
+    <string name="seal_permission_camera_explanation">需要开启(照相机)权限，才能正常使用扫一扫等相关功能</string>
+    <string name="seal_permission_user_explanation">向用户说明申请权限</string>
+    <string name="seal_permission_go_to_apply">去申请</string>
+    
+    <!-- User Group -->
+    <string name="seal_user_group_edit_member_title">编辑用户组成员</string>
+    <string name="seal_user_group_bind_channel_title">绑定/解绑用户组</string>
+
+    <!-- Minor Mode 未成年人模式 -->
+    <string name="seal_minor_mode_title">未成年人模式</string>
+    <string name="seal_minor_mode_closed">未成年人模式已关闭</string>
+    <string name="seal_minor_mode_opened">未成年人模式已开启</string>
+    <string name="seal_minor_mode_enable">开启未成年人模式</string>
+    <string name="seal_minor_mode_disable">关闭未成年人模式</string>
+    <string name="seal_minor_mode_modify_password">修改密码</string>
+    <string name="seal_minor_mode_tip_1">未成年人模式无法发起添加好友请求，只能被非未成年用户添加好友；</string>
+    <string name="seal_minor_mode_tip_2">未成年人模式无法创建群聊，只能被非未成年人模式的用户拉入群聊</string>
+    <string name="seal_minor_mode_tip_3">未成年人模式无法进入聊天室</string>
+    <string name="seal_minor_mode_tip_4">首次进入未成年人模式需设置密码，并使用密码开启和关闭未成年模式</string>
+    <string name="seal_minor_mode_tip_5">密码为 6 位数字，请您牢记密码，如果忘记密码可以通过找回密码重置</string>
+    <string name="seal_minor_mode_set_password_title">设置未成年人模式密码</string>
+    <string name="seal_minor_mode_set_password">设置密码</string>
+    <string name="seal_minor_mode_confirm_password">确认密码</string>
+    <string name="seal_minor_mode_password_hint">6位数字</string>
+    <string name="seal_minor_mode_password_not_match">两次输入的密码不一致</string>
+    <string name="seal_minor_mode_password_format_error">密码必须为6位数字</string>
+    <string name="seal_minor_mode_set_success">设置成功</string>
+    <string name="seal_minor_mode_modify_password_title">修改密码</string>
+    <string name="seal_minor_mode_old_password">原密码</string>
+    <string name="seal_minor_mode_new_password">设置新密码</string>
+    <string name="seal_minor_mode_confirm_new_password">确认新密码</string>
+    <string name="seal_minor_mode_old_password_error">原密码错误</string>
+    <string name="seal_minor_mode_new_password_same_as_old">新密码与原密码相同</string>
+    <string name="seal_minor_mode_new_password_not_match">两次输入的新密码不一致</string>
+    <string name="seal_minor_mode_modify_success">密码修改成功</string>
+    <string name="seal_minor_mode_verify_password_title">验证密码</string>
+    <string name="seal_minor_mode_verify_password_hint">请输入已设置的未成年人模式密码</string>
+    <string name="seal_minor_mode_forget_password">忘记密码</string>
+    <string name="seal_minor_mode_password_error">密码错误</string>
+    <string name="seal_minor_mode_close_success">未成年人模式已关闭</string>
+    <string name="seal_minor_mode_reset_password_title">修改密码</string>
+    <string name="seal_minor_mode_phone_number">手机号</string>
+    <string name="seal_minor_mode_image_code">图片验证码</string>
+    <string name="seal_minor_mode_sms_code">短信验证码</string>
+    <string name="seal_minor_mode_get_sms_code">获取验证码</string>
+    <string name="seal_minor_mode_reset_password">重置密码</string>
+    <string name="seal_minor_mode_reset_success">密码已重置为000000</string>
+    <string name="seal_minor_mode_phone_not_match">手机号与当前账号不匹配</string>
+    <string name="seal_minor_mode_verify_failed">验证失败，请检查手机号和验证码</string>
+    <string name="seal_minor_mode_logout_verify_title">验证密码</string>
+    <string name="seal_minor_mode_logout_verify_hint">退出登录需要验证未成年人模式密码</string>
 </resources>

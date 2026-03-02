@@ -20,7 +20,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/seal_setting_item_margin"
         android:layout_toEndOf="@id/iv_image"
-        android:textColor="@color/seal_setting_item_content"
+        android:textColor="?attr/rc_text_primary_color"
         android:textSize="@dimen/seal_setting_item_text_size" />
 
     <ImageView
@@ -49,8 +49,8 @@
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
-            android:textColor="@color/seal_setting_item_value"
-            android:textSize="@dimen/seal_setting_item_text_size" />
+            android:textColor="?attr/rc_text_secondary_color"
+            android:textSize="16sp" />
 
         <cn.rongcloud.im.ui.widget.switchbutton.SwitchButton
             android:id="@+id/sb_switch"
@@ -74,9 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
     </LinearLayout>
-
 
     <View
         android:id="@+id/v_divider"
@@ -84,5 +82,5 @@
         android:layout_height="@dimen/seal_setting_item_divider"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/seal_setting_item_margin"
-        android:background="@color/seal_setting_item_divider" />
+        android:background="?attr/rc_line_background_color" />
 </RelativeLayout>

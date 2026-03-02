@@ -15,20 +15,26 @@ import cn.rongcloud.im.db.model.FriendStatus;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
+import cn.rongcloud.im.ui.activity.AddFriendActivity;
 import cn.rongcloud.im.ui.activity.GroupListActivity;
 import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.MultiDeleteFriendsActivity;
 import cn.rongcloud.im.ui.activity.NewFriendListActivity;
 import cn.rongcloud.im.ui.activity.PublicServiceActivity;
+import cn.rongcloud.im.ui.activity.SealSearchActivity;
 import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.UserDetailActivity;
 import cn.rongcloud.im.ui.adapter.CommonListAdapter;
 import cn.rongcloud.im.ui.adapter.ListWithSideBarBaseAdapter;
 import cn.rongcloud.im.ui.adapter.models.FunctionInfo;
 import cn.rongcloud.im.ui.adapter.models.ListItemModel;
+import cn.rongcloud.im.viewmodel.AppViewModel;
 import cn.rongcloud.im.viewmodel.CommonListBaseViewModel;
 import cn.rongcloud.im.viewmodel.MainContactsListViewModel;
+import io.rong.imkit.usermanage.component.HeadComponent;
+import io.rong.imkit.usermanage.component.SearchComponent;
 import io.rong.imkit.usermanage.friend.apply.ApplyFriendListActivity;
+import io.rong.imkit.usermanage.friend.friendlist.FriendListActivity;
 import io.rong.imkit.usermanage.friend.user.profile.UserProfileActivity;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imkit.widget.dialog.OptionsPopupDialog;
@@ -41,10 +47,86 @@ public class MainContactsListFragment extends CommonListBaseFragment {
     //    private ContactsAdapter adapter;
     private MainContactsListViewModel viewModel;
     private MainActivity mainActivity;
+    private HeadComponent headComponent;
+    private SearchComponent searchComponent;
+    private AppViewModel appViewModel;
 
     @Override
     protected void onInitView(Bundle savedInstanceState, Intent intent) {
         super.onInitView(savedInstanceState, intent);
+
+        // 初始化标题和搜索组件
+        headComponent = getView().findViewById(R.id.head_component);
+        searchComponent = getView().findViewById(R.id.search_component);
+
+        // 配置标题组件
+        setupHeadComponent();
+
+        // 配置搜索组件
+        setupSearchComponent();
+    }
+
+    /** 配置标题组件 */
+    private void setupHeadComponent() {
+        if (headComponent == null) return;
+
+        // 根据用户托管开关决定标题栏显示
+        boolean userManagementEnabled =
+                SealTalkDebugTestActivity.isUserManagementEnabled(getContext());
+
+        // 默认不显示左侧返回按钮
+        headComponent.getLeftTextView().setVisibility(View.GONE);
+
+        if (userManagementEnabled) {
+            // 使用新的用户管理功能时，隐藏标题栏
+            headComponent.setVisibility(View.GONE);
+        } else {
+            // 设置标题
+            if (appViewModel != null && appViewModel.isUltraGroupDebugMode()) {
+                headComponent.setTitleText(
+                        getResources().getStringArray(R.array.tab_names_ultra)[3]);
+            } else {
+                headComponent.setTitleText(
+                        getResources().getStringArray(R.array.tab_names_nomal)[2]);
+            }
+
+            // 设置右侧添加好友按钮
+            headComponent.setRightTextDrawable(R.drawable.seal_ic_main_add_friend);
+            headComponent.getRightTextView().setVisibility(View.VISIBLE);
+            headComponent.setRightClickListener(v -> onAddFriendClick());
+            headComponent.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /** 配置搜索组件 */
+    private void setupSearchComponent() {
+        if (searchComponent == null) return;
+
+        boolean userManagementEnabled =
+                SealTalkDebugTestActivity.isUserManagementEnabled(getContext());
+
+        if (userManagementEnabled) {
+            // 使用新的用户管理功能时，隐藏搜索组件
+            searchComponent.setVisibility(View.GONE);
+        } else {
+            searchComponent.setSearchHint(R.string.seal_search);
+            searchComponent.setVisibility(View.VISIBLE);
+            searchComponent.setSearchClickListener(
+                    v -> {
+                        Intent intent = new Intent(getActivity(), SealSearchActivity.class);
+                        startActivity(intent);
+                    });
+        }
+    }
+
+    /** 添加好友 */
+    private void onAddFriendClick() {
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(getContext())) {
+            startActivity(FriendListActivity.newIntent(getContext()));
+        } else {
+            Intent intent = new Intent(getContext(), AddFriendActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -57,6 +139,8 @@ public class MainContactsListFragment extends CommonListBaseFragment {
         viewModel =
                 ViewModelProviders.of(MainContactsListFragment.this)
                         .get(MainContactsListViewModel.class);
+        appViewModel = ViewModelProviders.of(getActivity()).get(AppViewModel.class);
+
         viewModel
                 .getRefreshItem()
                 .observe(

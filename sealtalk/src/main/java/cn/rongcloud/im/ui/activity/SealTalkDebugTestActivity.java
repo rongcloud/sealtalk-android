@@ -79,7 +79,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView bindChatRTCRoom;
     private SettingItemView testStreamMsgHtmlWebview; // 填入测试html内容以测试流式消息组件展示
     private SettingItemView sivUseOrdinaryVoiceMessage; // 使用普通语音消息开关
-    private SettingItemView userManagementSwitch; // 用户托管功能开关
+    private SettingItemView userProviderSwitch; // 用户提供者功能开关
     private SettingItemView editMessage; // 消息编辑
     private SettingItemView showSdkReadDetailV5Page; // 进入Kit已读V5详情页
     private SettingItemView replaceFileIcons; // SealApp替换Kit文件Icon，替换后无论哪种主题均展示固定Icon
@@ -459,19 +459,21 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
                     RongConfigCenter.featureConfig().setShowUnknownMessageNotification(isChecked);
                 });
 
-        // 初始化用户托管功能开关
-        userManagementSwitch = findViewById(R.id.siv_user_management_switch);
+        // 初始化用户提供者功能开关
+        userProviderSwitch = findViewById(R.id.siv_user_provider_switch);
         SharedPreferences userManagementConfigSP =
                 getSharedPreferences(USER_MANAGEMENT_CONFIG, MODE_PRIVATE);
-        userManagementSwitch.setChecked(
-                userManagementConfigSP.getBoolean(USER_MANAGEMENT_ENABLED, false));
-        userManagementSwitch.setSwitchCheckListener(
+        // 功能相反：原来false(关闭托管)，现在显示为true(开启提供者)
+        userProviderSwitch.setChecked(
+                !userManagementConfigSP.getBoolean(USER_MANAGEMENT_ENABLED, true));
+        userProviderSwitch.setSwitchCheckListener(
                 (buttonView, isChecked) -> {
+                    // 保存时反转：开关打开(true)时，保存false(关闭托管=开启提供者)
                     userManagementConfigSP
                             .edit()
-                            .putBoolean(USER_MANAGEMENT_ENABLED, isChecked)
+                            .putBoolean(USER_MANAGEMENT_ENABLED, !isChecked)
                             .commit();
-                    ToastUtils.showToast("用户托管功能已" + (isChecked ? "开启" : "关闭"));
+                    ToastUtils.showToast("用户提供者功能已" + (isChecked ? "开启" : "关闭"));
                     exit(0);
                 });
 
@@ -838,15 +840,16 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     }
 
     /**
-     * 获取用户托管功能是否启用
+     * 获取用户托管功能是否启用 注意：现在界面上显示的是"用户提供者功能"，功能与托管相反
      *
      * @param context 上下文
-     * @return true表示启用，false表示禁用
+     * @return true表示启用托管(禁用提供者)，false表示禁用托管(启用提供者)
      */
     public static boolean isUserManagementEnabled(Context context) {
         SharedPreferences sp =
                 context.getSharedPreferences(USER_MANAGEMENT_CONFIG, Context.MODE_PRIVATE);
-        return sp.getBoolean(USER_MANAGEMENT_ENABLED, false);
+        // 功能相反：配置中存储的是托管状态，返回相反值表示提供者状态
+        return sp.getBoolean(USER_MANAGEMENT_ENABLED, true);
     }
 
     /**

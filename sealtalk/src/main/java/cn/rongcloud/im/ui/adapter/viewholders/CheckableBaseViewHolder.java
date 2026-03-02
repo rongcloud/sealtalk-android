@@ -3,8 +3,8 @@ package cn.rongcloud.im.ui.adapter.viewholders;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
-import cn.rongcloud.im.R;
 import cn.rongcloud.im.ui.adapter.models.CheckType;
+import io.rong.imkit.config.IMKitThemeManager;
 
 public class CheckableBaseViewHolder<T> extends BaseViewHolder<T> {
 
@@ -20,13 +20,22 @@ public class CheckableBaseViewHolder<T> extends BaseViewHolder<T> {
     public void updateCheck(ImageView checkBox, CheckType checkType) {
         switch (checkType) {
             case NONE:
-                checkBox.setImageResource(R.drawable.seal_ic_checkbox_none);
+                checkBox.setImageResource(
+                        IMKitThemeManager.getAttrResId(
+                                checkBox.getContext(),
+                                io.rong.imkit.R.attr.rc_group_member_unselect_img));
                 break;
             case CHECKED:
-                checkBox.setImageResource(R.drawable.seal_ic_checkbox_full);
+                checkBox.setImageResource(
+                        IMKitThemeManager.getAttrResId(
+                                checkBox.getContext(),
+                                io.rong.imkit.R.attr.rc_group_member_select_img));
                 break;
             case DISABLE:
-                checkBox.setImageResource(R.drawable.seal_ic_checkbox_full_gray_disable);
+                checkBox.setImageResource(
+                        IMKitThemeManager.getAttrResId(
+                                checkBox.getContext(),
+                                io.rong.imkit.R.attr.rc_group_member_disable_select_img));
                 break;
             default:
                 break;

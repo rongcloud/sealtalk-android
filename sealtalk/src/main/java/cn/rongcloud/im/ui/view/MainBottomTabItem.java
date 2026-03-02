@@ -1,7 +1,6 @@
 package cn.rongcloud.im.ui.view;
 
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -59,12 +58,8 @@ public class MainBottomTabItem extends RelativeLayout {
         super.setSelected(selected);
         if (mAnimationDrawable != null) {
             if (selected) {
-                AnimationDrawable animationDrawable =
-                        (AnimationDrawable)
-                                getResources().getDrawable(mAnimationDrawable.drawableAnimation);
-                tabImage.setImageDrawable(animationDrawable);
-                animationDrawable.setOneShot(true);
-                animationDrawable.start();
+                tabImage.setImageDrawable(
+                        getResources().getDrawable(mAnimationDrawable.drawableAnimation));
             } else {
                 // 防止点击过快动画还未结束
                 //                AnimationDrawable animationDrawable = (AnimationDrawable)

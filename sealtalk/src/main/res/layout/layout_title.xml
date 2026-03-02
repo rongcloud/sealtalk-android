@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_head"
     android:layout_width="match_parent"
     android:layout_height="@dimen/seal_title_bar_height"
-    android:background="@color/white"
+    android:background="?attr/rc_user_manager_background_color"
     android:orientation="horizontal">
 
     <TextView
@@ -11,18 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@null"
-        android:drawableStart="@drawable/seal_ic_back"
         android:gravity="center"
         android:paddingStart="12dp"
-        android:textColor="@color/color_black_111F2C"
-        android:textSize="14sp" />
-
-    <!--    <View-->
-    <!--        android:layout_width="1dp"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_marginTop="@dimen/seal_title_bar_line_margin"-->
-    <!--        android:layout_marginBottom="@dimen/seal_title_bar_line_margin"-->
-    <!--        android:background="@color/seal_title_bar_line" />-->
+        android:paddingEnd="12dp"
+        android:textColor="?attr/rc_text_secondary_color"
+        android:textSize="14sp"
+        app:drawableStartCompat="?attr/rc_navigation_bar_btn_back_img" />
 
     <FrameLayout
         android:id="@+id/fl_content"
@@ -39,7 +34,7 @@
             android:gravity="center_vertical|center"
             android:maxLength="20"
             android:maxLines="1"
-            android:textColor="#111F2C"
+            android:textColor="?attr/rc_text_primary_color"
             android:textSize="@dimen/seal_title_bar_text_size"
             android:textStyle="bold" />
 
@@ -52,7 +47,7 @@
             android:gravity="center_vertical|center"
             android:maxLength="20"
             android:maxLines="1"
-            android:textColor="#111F2C"
+            android:textColor="?attr/rc_text_secondary_color"
             android:textSize="@dimen/seal_title_bar_text_size"
             android:visibility="gone" />
     </FrameLayout>
@@ -101,7 +96,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:text="@string/common_cancel"
-            android:textColor="#0099FF"
+            android:textColor="?attr/rc_primary_color"
             android:textSize="@dimen/seal_group_notice_item_text_14" />
 
     </LinearLayout>
@@ -123,7 +118,7 @@
         android:layout_marginEnd="@dimen/seal_title_bar_btn_right_margin"
         android:clickable="true"
         android:maxLines="1"
-        android:textColor="#111F2C"
+        android:textColor="?attr/rc_text_secondary_color"
         android:textSize="@dimen/seal_title_bar_text_size"
         android:visibility="gone" />
 

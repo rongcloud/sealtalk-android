@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
+
+    <!-- 搜索组件 -->
+    <io.rong.imkit.usermanage.component.SearchComponent
+        android:id="@+id/search_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 列表容器 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 国家列表 -->
+        <ListView
+            android:id="@+id/lv_select_country"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:paddingStart="16dp"
+            android:paddingEnd="20dp" />
+
+        <!-- 右侧字母索引条 -->
+        <cn.rongcloud.im.ui.widget.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="@dimen/seal_login_select_country_sidebar_width"
+            android:layout_height="@dimen/seal_login_select_country_sidebar_height"
+            android:layout_gravity="end|center_vertical" />
+
+    </FrameLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+

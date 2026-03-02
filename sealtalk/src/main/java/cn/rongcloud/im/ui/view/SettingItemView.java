@@ -26,6 +26,7 @@ public class SettingItemView extends LinearLayout {
     private ImageView ivRightImage;
 
     private CompoundButton.OnCheckedChangeListener checkedListener;
+    private View vDivider;
 
     public SettingItemView(Context context) {
         super(context);
@@ -48,7 +49,7 @@ public class SettingItemView extends LinearLayout {
         ivImage = findViewById(R.id.iv_image);
         tvContent = findViewById(R.id.tv_content);
         tvValue = findViewById(R.id.tv_value);
-        View vDivider = findViewById(R.id.v_divider);
+        vDivider = findViewById(R.id.v_divider);
         ivTagImage = findViewById(R.id.iv_tag_image);
         sbSwitch = findViewById(R.id.sb_switch);
         ivSelectImage = findViewById(R.id.iv_select_image);
@@ -70,6 +71,16 @@ public class SettingItemView extends LinearLayout {
                         : getContext().obtainStyledAttributes(attrs, R.styleable.SettingItemView);
         if (ta != null) {
             final int N = ta.getIndexCount();
+            boolean ivRightImageAutoMirrored = false;
+            for (int i = 0; i < N; i++) {
+                int attr = ta.getIndex(i);
+                if (attr
+                        == io.rong.imkit.R.styleable
+                                .SettingItemView_item_right_image_auto_mirrored) {
+                    ivRightImageAutoMirrored = ta.getBoolean(attr, false);
+                    break;
+                }
+            }
             for (int i = 0; i < N; i++) {
                 int attr = ta.getIndex(i);
                 if (attr == R.styleable.SettingItemView_item_image) {
@@ -161,7 +172,9 @@ public class SettingItemView extends LinearLayout {
                     ivSelectImage.setImageDrawable(selectedImage);
                 } else if (attr == R.styleable.SettingItemView_item_right_image) {
                     Drawable rightImage = ta.getDrawable(attr);
-                    rightImage.setAutoMirrored(true);
+                    if (ivRightImageAutoMirrored && rightImage != null) {
+                        rightImage.setAutoMirrored(true);
+                    }
                     ivRightImage.setImageDrawable(rightImage);
                     ivRightImage.setVisibility(VISIBLE);
                 } else if (attr == R.styleable.SettingItemView_item_right_image_height) {
@@ -387,5 +400,11 @@ public class SettingItemView extends LinearLayout {
 
     public ImageView getRightImageView() {
         return ivRightImage;
+    }
+
+    public void setDividerVisibility(boolean visibility) {
+        if (vDivider != null) {
+            vDivider.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        }
     }
 }

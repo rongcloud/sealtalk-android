@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
+
+    <!-- 头部组件：包含返回按钮和标题 -->
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/head_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 搜索组件 -->
+    <io.rong.imkit.usermanage.component.SearchComponent
+        android:id="@+id/search_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 搜索结果列表容器 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- 搜索结果列表 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_results"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingVertical="8dp"
+            android:paddingStart="@dimen/rc_margin_size_16"
+            android:paddingEnd="@dimen/rc_margin_size_16"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <!-- 空状态视图 -->
+        <LinearLayout
+            android:id="@+id/ll_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:alpha="0.5"
+                android:src="@drawable/rc_conversation_list_empty"
+                android:tint="?attr/rc_text_secondary_color"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/tv_empty_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/seal_search_empty"
+                android:textColor="?attr/rc_text_secondary_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
+

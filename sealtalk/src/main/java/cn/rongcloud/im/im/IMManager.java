@@ -56,13 +56,13 @@ import cn.rongcloud.im.net.CallBackWrapper;
 import cn.rongcloud.im.net.SealTalkUrl;
 import cn.rongcloud.im.net.proxy.RetrofitProxyServiceCreator;
 import cn.rongcloud.im.net.service.UserService;
+import cn.rongcloud.im.newdesign.share.ShareChatActivity;
 import cn.rongcloud.im.sp.UserCache;
 import cn.rongcloud.im.sp.UserConfigCache;
 import cn.rongcloud.im.task.AppTask;
 import cn.rongcloud.im.task.UserTask;
 import cn.rongcloud.im.ui.activity.ConversationActivity;
 import cn.rongcloud.im.ui.activity.CustomMessageReadDetailActivity;
-import cn.rongcloud.im.ui.activity.ForwardActivity;
 import cn.rongcloud.im.ui.activity.GroupNoticeListActivity;
 import cn.rongcloud.im.ui.activity.GroupReadReceiptDetailActivity;
 import cn.rongcloud.im.ui.activity.MainActivity;
@@ -100,6 +100,9 @@ import io.rong.imkit.model.GroupNotificationMessageData;
 import io.rong.imkit.notification.RongNotificationManager;
 import io.rong.imkit.streammessage.StreamMessageItemProvider;
 import io.rong.imkit.userinfo.RongUserInfoManager;
+import io.rong.imkit.userinfo.model.ExtendedGroup;
+import io.rong.imkit.userinfo.model.ExtendedGroupUserInfo;
+import io.rong.imkit.userinfo.model.ExtendedUserInfo;
 import io.rong.imkit.userinfo.model.GroupUserInfo;
 import io.rong.imkit.usermanage.friend.my.profile.MyProfileActivity;
 import io.rong.imkit.usermanage.friend.user.profile.UserProfileActivity;
@@ -118,6 +121,7 @@ import io.rong.imlib.cs.CustomServiceManager;
 import io.rong.imlib.model.AndroidConfig;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.ConversationIdentifier;
+import io.rong.imlib.model.FriendInfo;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.HarmonyConfig;
 import io.rong.imlib.model.IOSConfig;
@@ -129,6 +133,7 @@ import io.rong.imlib.model.MessageAuditType;
 import io.rong.imlib.model.MessageConfig;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.MessagePushConfig;
+import io.rong.imlib.model.QueryFriendsDirectionType;
 import io.rong.imlib.model.RCIMProxy;
 import io.rong.imlib.model.RCTranslationResult;
 import io.rong.imlib.model.UltraGroupTypingStatusInfo;
@@ -188,6 +193,10 @@ public class IMManager {
                             public boolean onMentionedInput(
                                     Conversation.ConversationType conversationType,
                                     String targetId) {
+                                if (RongUserInfoManager.getInstance().getDataSourceType()
+                                        == RongUserInfoManager.DataSourceType.INFO_MANAGEMENT) {
+                                    return false;
+                                }
                                 Intent intent =
                                         new Intent(getContext(), MemberMentionedExActivity.class);
                                 intent.putExtra(
@@ -949,7 +958,12 @@ public class IMManager {
                                         } else {
                                             context.startActivity(
                                                     UserProfileActivity.newIntent(
-                                                            getContext(), user.getUserId()));
+                                                            getContext(),
+                                                            user.getUserId(),
+                                                            ConversationIdentifier.obtain(
+                                                                    conversationType,
+                                                                    targetId,
+                                                                    "")));
                                         }
                                     } else {
                                         Intent intent =
@@ -1069,7 +1083,7 @@ public class IMManager {
                 RouteUtils.RongActivityType.ConversationActivity, ConversationActivity.class);
         RouteUtils.registerActivity(
                 RouteUtils.RongActivityType.ForwardSelectConversationActivity,
-                ForwardActivity.class);
+                ShareChatActivity.class);
         RouteUtils.registerActivity(
                 RouteUtils.RongActivityType.SubConversationListActivity,
                 SubConversationListActivity.class);
@@ -1195,7 +1209,10 @@ public class IMManager {
      * @param portraitUri
      */
     public void updateUserInfoCache(String userId, String userName, Uri portraitUri, String alias) {
-
+        if (RongUserInfoManager.getInstance().getDataSourceType()
+                == RongUserInfoManager.DataSourceType.INFO_MANAGEMENT) {
+            return;
+        }
         UserInfo oldUserInfo = RongUserInfoManager.getInstance().getUserInfo(userId);
         if (oldUserInfo == null
                 || (!oldUserInfo.getName().equals(userName)
@@ -1204,7 +1221,8 @@ public class IMManager {
                 || !TextUtils.equals(oldUserInfo.getAlias(), alias)) {
             UserInfo userInfo = new UserInfo(userId, userName, portraitUri);
             userInfo.setAlias(alias);
-            RongUserInfoManager.getInstance().refreshUserInfoCache(userInfo);
+            RongUserInfoManager.getInstance()
+                    .refreshUserInfoCache(ExtendedUserInfo.obtain(userInfo));
         }
     }
 
@@ -1222,7 +1240,7 @@ public class IMManager {
                         || oldGroup.getPortraitUri() == null
                         || !oldGroup.getPortraitUri().equals(portraitUri))) {
             Group group = new Group(groupId, groupName, portraitUri);
-            RongUserInfoManager.getInstance().refreshGroupInfoCache(group);
+            RongUserInfoManager.getInstance().refreshGroupInfoCache(ExtendedGroup.obtain(group));
         }
     }
 
@@ -1238,7 +1256,8 @@ public class IMManager {
                 RongUserInfoManager.getInstance().getGroupUserInfo(groupId, userId);
         if (oldGroupUserInfo == null || (!oldGroupUserInfo.getNickname().equals(nickName))) {
             GroupUserInfo groupMemberInfo = new GroupUserInfo(groupId, userId, nickName);
-            RongUserInfoManager.getInstance().refreshGroupUserInfoCache(groupMemberInfo);
+            RongUserInfoManager.getInstance()
+                    .refreshGroupUserInfoCache(ExtendedGroupUserInfo.obtain(groupMemberInfo));
         }
     }
 
@@ -1580,7 +1599,48 @@ public class IMManager {
                     @Override
                     public void getContactAllInfoProvider(
                             IContactCardInfoCallback contactInfoCallback) {
-                        imInfoProvider.getAllContactUserInfo(contactInfoCallback);
+                        // 判断是否启用用户托管
+                        if (SealTalkDebugTestActivity.isUserManagementEnabled(context)) {
+                            // 使用用户托管方式：直接通过 RongCoreClient 获取好友信息
+                            RongCoreClient.getInstance()
+                                    .getFriends(
+                                            QueryFriendsDirectionType.Both,
+                                            new IRongCoreCallback.ResultCallback<
+                                                    List<FriendInfo>>() {
+                                                @Override
+                                                public void onSuccess(
+                                                        List<FriendInfo> friendInfos) {
+                                                    if (friendInfos != null
+                                                            && !friendInfos.isEmpty()) {
+                                                        // 将 FriendInfo 转换为 ExtendedUserInfo
+                                                        List<ExtendedUserInfo> extendedUserInfos =
+                                                                new ArrayList<>();
+                                                        for (FriendInfo friendInfo : friendInfos) {
+                                                            extendedUserInfos.add(
+                                                                    ExtendedUserInfo.obtain(
+                                                                            friendInfo));
+                                                        }
+                                                        contactInfoCallback
+                                                                .getContactCardInfoCallback(
+                                                                        extendedUserInfos);
+                                                    } else {
+                                                        contactInfoCallback
+                                                                .getContactCardInfoCallback(
+                                                                        new ArrayList<>());
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(IRongCoreEnum.CoreErrorCode e) {
+                                                    // 错误时返回空列表
+                                                    contactInfoCallback.getContactCardInfoCallback(
+                                                            new ArrayList<>());
+                                                }
+                                            });
+                        } else {
+                            // 使用原有方式：通过 imInfoProvider 获取
+                            imInfoProvider.getAllContactUserInfo(contactInfoCallback);
+                        }
                     }
 
                     /**
@@ -1597,15 +1657,61 @@ public class IMManager {
                             String name,
                             String portrait,
                             IContactCardInfoProvider.IContactCardInfoCallback contactInfoCallback) {
-                        imInfoProvider.getContactUserInfo(userId, contactInfoCallback);
+                        // 判断是否启用用户托管
+                        if (SealTalkDebugTestActivity.isUserManagementEnabled(context)) {
+                            // 使用用户托管方式：直接通过 RongCoreClient 获取指定好友信息
+                            List<String> userIds = new ArrayList<>(1);
+                            userIds.add(userId);
+                            RongCoreClient.getInstance()
+                                    .getFriendsInfo(
+                                            userIds,
+                                            new IRongCoreCallback.ResultCallback<
+                                                    List<FriendInfo>>() {
+                                                @Override
+                                                public void onSuccess(
+                                                        List<FriendInfo> friendInfos) {
+                                                    if (friendInfos != null
+                                                            && !friendInfos.isEmpty()) {
+                                                        // 将 FriendInfo 转换为 ExtendedUserInfo
+                                                        FriendInfo friendInfo = friendInfos.get(0);
+                                                        ExtendedUserInfo extendedUserInfo =
+                                                                ExtendedUserInfo.obtain(friendInfo);
+                                                        List<ExtendedUserInfo> result =
+                                                                new ArrayList<>(1);
+                                                        result.add(extendedUserInfo);
+                                                        contactInfoCallback
+                                                                .getContactCardInfoCallback(result);
+                                                    } else {
+                                                        contactInfoCallback
+                                                                .getContactCardInfoCallback(
+                                                                        new ArrayList<>());
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(IRongCoreEnum.CoreErrorCode e) {
+                                                    // 错误时返回空列表
+                                                    contactInfoCallback.getContactCardInfoCallback(
+                                                            new ArrayList<>());
+                                                }
+                                            });
+                        } else {
+                            // 使用原有方式：通过 imInfoProvider 获取
+                            imInfoProvider.getContactUserInfo(userId, contactInfoCallback);
+                        }
                     }
                 },
                 (view, content) -> {
                     Context activityContext = view.getContext();
                     // 点击名片进入到个人详细界面
-                    Intent intent = new Intent(activityContext, UserDetailActivity.class);
-                    intent.putExtra(IntentExtra.STR_TARGET_ID, content.getId());
-                    activityContext.startActivity(intent);
+                    if (SealTalkDebugTestActivity.isUserManagementEnabled(activityContext)) {
+                        activityContext.startActivity(
+                                UserProfileActivity.newIntent(activityContext, content.getId()));
+                    } else {
+                        Intent intent = new Intent(activityContext, UserDetailActivity.class);
+                        intent.putExtra(IntentExtra.STR_TARGET_ID, content.getId());
+                        activityContext.startActivity(intent);
+                    }
                 });
     }
 

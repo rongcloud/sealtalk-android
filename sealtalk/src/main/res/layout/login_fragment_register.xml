@@ -62,7 +62,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/seal_ic_rp_arrow" />
+            android:src="?attr/rc_right_arrow_icon_img" />
     </LinearLayout>
 
     <LinearLayout

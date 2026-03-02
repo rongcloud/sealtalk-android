@@ -656,6 +656,46 @@ public class UserTask {
     }
 
     /**
+     * 上传图片到七牛（优化版本）
+     *
+     * <p>此方法仅负责上传图片到七牛云，返回上传后的 URL
+     *
+     * <p>与旧版 setPortrait 不同，此方法不会调用服务器接口更新用户信息
+     *
+     * @param imageUri 图片 URI
+     * @return LiveData 包含上传后的图片 URL
+     */
+    public LiveData<Resource<String>> uploadPortraitImage(Uri imageUri) {
+        MediatorLiveData<Resource<String>> result = new MediatorLiveData<>();
+        result.setValue(Resource.loading(null));
+
+        // 上传图片到七牛
+        LiveData<Resource<String>> uploadResource = fileManager.uploadImage(imageUri);
+        result.addSource(
+                uploadResource,
+                new Observer<Resource<String>>() {
+                    @Override
+                    public void onChanged(Resource<String> resource) {
+                        if (resource.status != Status.LOADING) {
+                            result.removeSource(uploadResource);
+                        }
+
+                        if (resource.status == Status.ERROR) {
+                            result.setValue(Resource.error(resource.code, null));
+                            return;
+                        }
+
+                        if (resource.status == Status.SUCCESS) {
+                            // 直接返回上传后的 URL，不调用服务器接口
+                            result.setValue(Resource.success(resource.data));
+                        }
+                    }
+                });
+
+        return result;
+    }
+
+    /**
      * 保存并同步用户的头像
      *
      * @param userId
@@ -1160,6 +1200,48 @@ public class UserTask {
                         result.setValue(Resource.error(loginResultResource.code, null));
                     } else {
                         // do nothing
+                    }
+                });
+        return result;
+    }
+
+    /** 验证手机验证码但不登录 */
+    public LiveData<Resource<String>> verifyCode(String region, String phone, String code) {
+        MediatorLiveData<Resource<String>> result = new MediatorLiveData<>();
+        result.setValue(Resource.loading(null));
+        LiveData<Resource<LoginResult>> login =
+                new NetworkOnlyResource<LoginResult, Result<LoginResult>>() {
+                    @NonNull
+                    @Override
+                    protected LiveData<Result<LoginResult>> createCall() {
+                        HashMap<String, Object> paramsMap = new HashMap<>();
+                        paramsMap.put("region", region);
+                        paramsMap.put("phone", phone);
+                        paramsMap.put("code", code);
+                        paramsMap.put("channel", getChannel(SealApp.getApplication()));
+                        paramsMap.put("os", "android");
+                        paramsMap.put("version", BuildConfig.VERSION_NAME);
+                        RequestBody body = RetrofitUtil.createJsonRequest(paramsMap);
+                        return userService.registerAndLogin(body);
+                    }
+                }.asLiveData();
+        result.addSource(
+                login,
+                loginResultResource -> {
+                    if (loginResultResource.status == Status.SUCCESS) {
+                        result.removeSource(login);
+                        LoginResult loginResult = loginResultResource.data;
+                        if (loginResult != null) {
+                            result.setValue(Resource.success(loginResult.id));
+                        } else {
+                            result.setValue(
+                                    Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
+                        }
+                    } else if (loginResultResource.status == Status.ERROR) {
+                        result.setValue(Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
+                    } else {
+                        // do nothing
+                        result.setValue(Resource.loading(null));
                     }
                 });
         return result;

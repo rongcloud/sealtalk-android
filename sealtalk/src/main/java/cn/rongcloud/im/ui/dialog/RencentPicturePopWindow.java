@@ -15,7 +15,7 @@ import android.widget.PopupWindow;
 import androidx.core.text.TextUtilsCompat;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
-import cn.rongcloud.im.ui.activity.ImagePreviewActivity;
+import cn.rongcloud.im.ui.activity.ChatBackgroundPreviewActivity;
 import java.util.Locale;
 
 public class RencentPicturePopWindow extends PopupWindow implements View.OnClickListener {
@@ -70,9 +70,10 @@ public class RencentPicturePopWindow extends PopupWindow implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(activity, ImagePreviewActivity.class);
+        Intent intent = new Intent(activity, ChatBackgroundPreviewActivity.class);
         intent.putExtra(IntentExtra.URL, mUri);
-        intent.putExtra(IntentExtra.IMAGE_PREVIEW_TYPE, ImagePreviewActivity.FROM_RECENT_PICTURE);
+        intent.putExtra(
+                IntentExtra.IMAGE_PREVIEW_TYPE, ChatBackgroundPreviewActivity.FROM_RECENT_PICTURE);
         activity.startActivityForResult(intent, REQUEST_PICTURE);
         dismiss();
     }

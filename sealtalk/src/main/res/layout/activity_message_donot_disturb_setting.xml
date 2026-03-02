@@ -1,59 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:fillViewport="true">
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_donot_distrab"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_message_donot_disturb_item_height"
-        android:layout_marginTop="@dimen/seal_message_donot_disturb_item_margin_top"
-        app:item_switch="true"
-        app:item_background="@android:color/transparent"
-        app:item_content="@string/seal_new_message_donot_disturb_new_message_notice"
-        >
-
-    </cn.rongcloud.im.ui.view.SettingItemView>
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="13dp"
-        android:text="@string/seal_new_message_donot_disturb_notification_information" />
+        android:orientation="vertical">
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        app:item_divider="true"
-        >
+        <!-- 消息免打扰开关卡片 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/rc_common_background_color"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_donot_distrab"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:item_background="@android:color/transparent"
+                app:item_content="@string/seal_new_message_donot_disturb_new_message_notice"
+                app:item_switch="true" />
+        </LinearLayout>
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_start_time"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_message_donot_disturb_item_height"
-        app:item_background="@android:color/transparent"
-        app:item_divider="true"
-        app:item_content="@string/seal_new_message_donot_disturb_start"
-        android:visibility="gone"
-        >
+        <!-- 提示文字 -->
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="28dp"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/seal_new_message_donot_disturb_notification_information"
+            android:textColor="?attr/rc_text_secondary_color"
+            android:textSize="14sp" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+        <!-- 时间设置卡片容器 -->
+        <LinearLayout
+            android:id="@+id/ll_time_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/rc_common_background_color"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:visibility="gone">
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_end_time"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_message_donot_disturb_item_height"
-        app:item_background="@android:color/transparent"
-        app:item_content="@string/seal_new_message_donot_disturb_end"
-        android:visibility="gone"
-        >
+            <!-- 开始时间 -->
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:item_content="@string/seal_new_message_donot_disturb_start"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_divider="true" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
-</LinearLayout>
+            <!-- 结束时间 -->
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_content="@string/seal_new_message_donot_disturb_end" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

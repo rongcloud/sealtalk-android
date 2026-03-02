@@ -4,9 +4,10 @@ import static com.nostra13.universalimageloader.core.assist.ImageScaleType.IN_SA
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;
-import cn.rongcloud.im.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import io.rong.imkit.IMCenter;
+import io.rong.imkit.config.IMKitThemeManager;
 
 public class ImageLoaderUtils {
 
@@ -15,8 +16,16 @@ public class ImageLoaderUtils {
     private static DisplayImageOptions descriptionOptions;
 
     static {
-        privateOptions = createDefaultDisplayOptions(io.rong.imkit.R.drawable.rc_default_portrait);
-        groupOptions = createDefaultDisplayOptions(R.drawable.seal_default_group_portrait);
+        privateOptions =
+                createDefaultDisplayOptions(
+                        IMKitThemeManager.getAttrResId(
+                                IMCenter.getInstance().getContext(),
+                                io.rong.imkit.R.attr.rc_conversation_list_cell_portrait_msg_img));
+        groupOptions =
+                createDefaultDisplayOptions(
+                        IMKitThemeManager.getAttrResId(
+                                IMCenter.getInstance().getContext(),
+                                io.rong.imkit.R.attr.rc_conversation_list_cell_group_portrait_img));
         descriptionOptions = createDefaultDisplayOptions(android.R.color.transparent);
     }
 
@@ -41,9 +50,13 @@ public class ImageLoaderUtils {
         DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
         builder.showImageOnFail(
                         defaultImgId == 0
-                                ? io.rong.imkit.R.drawable.rc_default_portrait
+                                ? IMKitThemeManager.getAttrResId(
+                                        IMCenter.getInstance().getContext(),
+                                        io.rong.imkit.R.attr
+                                                .rc_conversation_list_cell_group_portrait_img)
                                 : defaultImgId) // 设置加载失败的图片
                 .cacheInMemory(true)
+                .showImageForEmptyUri(defaultImgId)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(IN_SAMPLE_POWER_OF_2)

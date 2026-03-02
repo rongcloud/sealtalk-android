@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/rc_auxiliary_background_1_color"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_chat_message"
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/rc_head_component"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="@dimen/rc_title_bar_height"
+        app:head_title_text="@string/seal_clear_chat_message_select_title" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/dark_white" />
+        android:layout_height="3dp" />
+
+    <io.rong.imkit.usermanage.component.CommonListComponent
+        android:id="@+id/common_list_component"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/rc_margin_size_16"
+        android:paddingEnd="@dimen/rc_margin_size_16"
+        android:paddingBottom="@dimen/rc_margin_size_8" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="49dp"
-        android:background="@color/white">
+        android:layout_height="56dp"
+        android:layout_gravity="center_vertical"
+        android:background="?attr/rc_common_background_color">
 
         <LinearLayout
             android:id="@+id/ll_select_all"
@@ -27,44 +39,57 @@
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/seal_search_item_checkbox_margin_left"
+            android:paddingStart="@dimen/rc_margin_size_16"
             android:paddingEnd="12dp">
 
             <CheckBox
                 android:id="@+id/cb_select_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:background="@null"
                 android:button="@drawable/seal_checkbox_selector"
                 android:clickable="false"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
+                android:padding="4dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="3dp"
-                android:layout_toEndOf="@id/cb_select_all"
+                android:layout_marginStart="8dp"
                 android:text="@string/seal_clear_chat_message_select_all"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/seal_update_staccount_dialog_title" />
+                android:textColor="?attr/rc_text_primary_color"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:id="@+id/ll_delete"
+            android:layout_width="76dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/rc_margin_size_16"
+            android:background="@drawable/rc_lively_hint_color_radius_6"
             android:gravity="center"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="@string/seal_clear_chat_message_select_delete"
-            android:textColor="@color/read_ff"
-            android:textSize="@dimen/seal_update_staccount_dialog_title" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/seal_clear_chat_message_select_delete"
+                android:textColor="@color/rc_white_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/rc_white_color"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

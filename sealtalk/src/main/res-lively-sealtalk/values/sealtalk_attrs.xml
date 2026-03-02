@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================== SealTalk 主题属性定义 ==================== -->
+    
+    <!-- ========== 聊天室模块属性 ========== -->
+    <!-- 聊天室卡片1 (游戏情报局) -->
+    <attr name="chatroom_card_1_start_color" format="color" />
+    <attr name="chatroom_card_1_end_color" format="color" />
+    <attr name="chatroom_badge_1_color" format="color" />
+    
+    <!-- 聊天室卡片2 (暖阳小窝) -->
+    <attr name="chatroom_card_2_start_color" format="color" />
+    <attr name="chatroom_card_2_end_color" format="color" />
+    <attr name="chatroom_badge_2_color" format="color" />
+    
+    <!-- 聊天室卡片3 (未来触角) -->
+    <attr name="chatroom_card_3_start_color" format="color" />
+    <attr name="chatroom_card_3_end_color" format="color" />
+    <attr name="chatroom_badge_3_color" format="color" />
+    
+    <!-- 聊天室卡片4 (音乐天堂) -->
+    <attr name="chatroom_card_4_start_color" format="color" />
+    <attr name="chatroom_card_4_end_color" format="color" />
+    <attr name="chatroom_badge_4_color" format="color" />
+
+    <attr name="rc_user_portrait_border_color" format="color" />
+    
+    <!-- ========== 其他模块属性可在此添加 ========== -->
+    <!-- 例如: 联系人模块、群组模块、设置模块等 -->
+
+    <attr name="rc_seal_main_add" format="reference" />
+    <attr name="rc_logo" format="reference" />
+    <attr name="rc_page_background" format="reference" />
+
+
+    <attr name="rc_mine_about" format="reference" />
+    <attr name="rc_mine_feedback" format="reference" />
+    <attr name="rc_mine_language" format="reference" />
+    <attr name="rc_mine_privacy" format="reference" />
+    <attr name="rc_mine_qrcode" format="reference" />
+    <attr name="rc_mine_setting" format="reference" />
+    <attr name="rc_mine_theme" format="reference" />
+    <attr name="rc_mine_translate" format="reference" />
+    <attr name="rc_mine_minor" format="reference" />
+    <attr name="rc_minor_eye_open" format="reference" />
+    <attr name="rc_minor_eye_close" format="reference" />
+
+    <attr name="rc_add_friend" format="reference" />
+    <attr name="rc_create_group" format="reference" />
+    <attr name="rc_scan" format="reference" />
+    <attr name="rc_start_chat_white" format="reference" />
+    <attr name="rc_main_popup_bg" format="reference" />
+
+    <attr name="rc_friend_icon" format="reference" />
+    <attr name="rc_group_icon" format="reference" />
+    <attr name="rc_notification_icon" format="reference" />
+
+    <attr name="rc_message_read_detail_bg" format="reference" />
+
+    <!-- ========== 底部 Tab 图标属性 ========== -->
+    <!-- 聊天 Tab -->
+    <attr name="rc_lively_tab_chat_selected" format="reference" />
+    <attr name="rc_lively_tab_chat_unselected" format="reference" />
+    
+    <!-- 联系人 Tab -->
+    <attr name="rc_lively_tab_contacts_selected" format="reference" />
+    <attr name="rc_lively_tab_contacts_unselected" format="reference" />
+    
+    <!-- 发现/聊天室 Tab -->
+    <attr name="rc_lively_tab_chatroom_selected" format="reference" />
+    <attr name="rc_lively_tab_chatroom_unselected" format="reference" />
+    
+    <!-- 我的 Tab -->
+    <attr name="rc_lively_tab_me_selected" format="reference" />
+    <attr name="rc_lively_tab_me_unselected" format="reference" />
+    
+    <!-- 超级群 Tab -->
+    <attr name="rc_lively_tab_ultra_selected" format="reference" />
+    <attr name="rc_lively_tab_ultra_unselected" format="reference" />
+
+    <attr name="rc_conversation_plugin_item_poke_img" format="reference" />
+    <attr name="rc_conversation_plugin_item_audio_img" format="reference" />
+    <attr name="rc_conversation_plugin_item_video_img" format="reference" />
+</resources>
+

@@ -111,7 +111,8 @@ public class StAccountDialog extends DialogFragment {
             if (params.isOnlyConfirm) {
                 negative.setVisibility(View.GONE);
                 btnSeparate.setVisibility(View.GONE);
-                positive.setBackgroundResource(R.drawable.common_dialog_single_positive_seletor);
+                positive.setBackgroundResource(
+                        io.rong.imkit.R.drawable.common_dialog_single_positive_seletor);
             }
 
             setCancelable(params.isCancelable);

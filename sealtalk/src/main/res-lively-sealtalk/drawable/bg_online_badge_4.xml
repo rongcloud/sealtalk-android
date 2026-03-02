@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 音乐天堂在线徽章 - 支持浅色/暗色模式 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/chatroom_badge_4_color" />
+    <corners android:radius="20dp" />
+</shape>

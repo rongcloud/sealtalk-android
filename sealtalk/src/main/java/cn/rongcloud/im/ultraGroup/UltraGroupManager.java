@@ -7,6 +7,7 @@ import cn.rongcloud.im.model.UltraChannelInfo;
 import cn.rongcloud.im.model.UltraGroupInfo;
 import cn.rongcloud.im.utils.RongGenerate;
 import io.rong.imkit.userinfo.RongUserInfoManager;
+import io.rong.imkit.userinfo.model.ExtendedGroup;
 import io.rong.imlib.IRongCoreEnum;
 import io.rong.imlib.model.Group;
 import java.util.ArrayList;
@@ -85,21 +86,24 @@ public class UltraGroupManager {
                     if (!compareChannelInfo(oldInfo, ultraChannelInfo)) {
                         RongUserInfoManager.getInstance()
                                 .refreshGroupInfoCache(
-                                        createGroupInfoFromChannelInfo(
-                                                context, groupId, ultraChannelInfo));
+                                        ExtendedGroup.obtain(
+                                                createGroupInfoFromChannelInfo(
+                                                        context, groupId, ultraChannelInfo)));
                     }
                 } else {
                     RongUserInfoManager.getInstance()
                             .refreshGroupInfoCache(
-                                    createGroupInfoFromChannelInfo(
-                                            context, groupId, ultraChannelInfo));
+                                    ExtendedGroup.obtain(
+                                            createGroupInfoFromChannelInfo(
+                                                    context, groupId, ultraChannelInfo)));
                 }
             }
         } else {
             for (UltraChannelInfo ultraChannelInfo : channelInfoList) {
                 Group groupInfo =
                         createGroupInfoFromChannelInfo(context, groupId, ultraChannelInfo);
-                RongUserInfoManager.getInstance().refreshGroupInfoCache(groupInfo);
+                RongUserInfoManager.getInstance()
+                        .refreshGroupInfoCache(ExtendedGroup.obtain(groupInfo));
             }
         }
         mUltraChannelInfoMap.put(groupId, channelInfoList);
@@ -114,7 +118,9 @@ public class UltraGroupManager {
             ultraChannelInfo.setChannelId(ultraChannelInfo.channelId);
             RongUserInfoManager.getInstance()
                     .refreshGroupInfoCache(
-                            createGroupInfoFromChannelInfo(context, groupId, ultraChannelInfo));
+                            ExtendedGroup.obtain(
+                                    createGroupInfoFromChannelInfo(
+                                            context, groupId, ultraChannelInfo)));
         }
     }
 
@@ -181,7 +187,8 @@ public class UltraGroupManager {
         if (channelInfo != null) {
             RongUserInfoManager.getInstance()
                     .refreshGroupInfoCache(
-                            createGroupInfoFromChannelInfo(context, groupId, channelInfo));
+                            ExtendedGroup.obtain(
+                                    createGroupInfoFromChannelInfo(context, groupId, channelInfo)));
         }
     }
 

@@ -4,12 +4,12 @@
     <item android:state_pressed="true">
 
         <shape android:shape="rectangle">
-            <solid android:color="#F2F9FF" />
+            <solid android:color="?attr/rc_main_popup_bg"/>
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
+            <solid android:color="?attr/rc_common_background_color" />
         </shape>
     </item>
 

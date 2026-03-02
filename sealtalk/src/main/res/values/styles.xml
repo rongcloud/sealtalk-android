@@ -20,7 +20,7 @@
     </style>
 
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
-        <item name="android:background">@drawable/seal_ic_splash</item>
+        <!-- 背景移到布局文件中设置，以便正确响应语言切换 -->
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -41,7 +41,7 @@
     <style name="ac_search_list_view_divider">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/seal_search_item_devi_height</item>
-        <item name="android:background">@color/seal_search_devi_color</item>
+        <item name="android:background">?attr/rc_line_background_color</item>
         <item name="android:layout_marginLeft">@dimen/seal_search_devi_color_margin_left</item>
         <item name="android:layout_marginRight">@dimen/seal_search_devi_color_margin_right</item>
     </style>
@@ -59,14 +59,13 @@
         <item name="android:paddingLeft">@dimen/seal_search_item_title_padding_left</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/seal_search_item_title_text_size</item>
-        <item name="android:textColor">#A0A5AB</item><!--@color/seal_search_description_text_color-->
-        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">?attr/rc_text_primary_color</item><!--@color/seal_search_description_text_color-->
     </style>
 
     <style name="seal_horizontal_light_thin_divider">
         <item name="android:layout_height">0.5dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/color_list_item_hover</item>
+        <item name="android:background">?attr/rc_line_background_color</item>
     </style>
     <style name="seal_vertical_light_thin_divider">
         <item name="android:layout_height">match_parent</item>

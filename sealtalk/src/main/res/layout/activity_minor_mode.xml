@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
+
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/head_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:head_title_text="@string/seal_minor_mode_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/rc_margin_size_16"
+            android:paddingEnd="@dimen/rc_margin_size_16">
+
+            <!-- 状态标题 -->
+            <TextView
+                android:id="@+id/tv_status_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="60dp"
+                android:text="@string/seal_minor_mode_closed"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 功能说明卡片 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rc_lively_common_background_radius_8"
+                android:orientation="vertical"
+                android:padding="@dimen/rc_margin_size_16">
+
+                <!-- 提示1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rc_minor_radius_3" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/seal_minor_mode_tip_1"
+                        android:textColor="?attr/rc_text_primary_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- 提示2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rc_margin_size_12"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rc_minor_radius_3" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/seal_minor_mode_tip_2"
+                        android:textColor="?attr/rc_text_primary_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- 提示3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rc_margin_size_12"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rc_minor_radius_3" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/seal_minor_mode_tip_3"
+                        android:textColor="?attr/rc_text_primary_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- 提示4 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rc_margin_size_12"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rc_minor_radius_3" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/seal_minor_mode_tip_4"
+                        android:textColor="?attr/rc_text_primary_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- 提示5 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rc_margin_size_12"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/rc_minor_radius_3" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/seal_minor_mode_tip_5"
+                        android:textColor="?attr/rc_text_primary_color"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- 底部按钮区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/rc_margin_size_16"
+        android:paddingEnd="@dimen/rc_margin_size_16"
+        android:paddingBottom="30dp">
+
+        <!-- 主按钮：开启/关闭未成年人模式 -->
+        <Button
+            android:id="@+id/btn_toggle_mode"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/seal_login_button_selector"
+            android:stateListAnimator="@null"
+            android:text="@string/seal_minor_mode_enable"
+            android:textColor="@color/rc_white_color"
+            android:textSize="17sp" />
+
+        <!-- 修改密码按钮（仅在开启状态显示） -->
+        <TextView
+            android:id="@+id/tv_modify_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/rc_margin_size_16"
+            android:padding="8dp"
+            android:text="@string/seal_minor_mode_modify_password"
+            android:textColor="?attr/rc_primary_color"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

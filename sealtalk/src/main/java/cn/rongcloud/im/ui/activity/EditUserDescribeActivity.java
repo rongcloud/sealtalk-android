@@ -288,10 +288,11 @@ public class EditUserDescribeActivity extends TitleBaseActivity implements View.
     }
 
     private void enterImagePreview() {
-        Intent intent = new Intent(this, ImagePreviewActivity.class);
+        Intent intent = new Intent(this, ChatBackgroundPreviewActivity.class);
         intent.putExtra(IntentExtra.URL, mUri);
         intent.putExtra(
-                IntentExtra.IMAGE_PREVIEW_TYPE, ImagePreviewActivity.FROM_EDIT_USER_DESCRIBE);
+                IntentExtra.IMAGE_PREVIEW_TYPE,
+                ChatBackgroundPreviewActivity.FROM_EDIT_USER_DESCRIBE);
         startActivityForResult(intent, REQUEST_OPERATION_PICTURE);
     }
 }

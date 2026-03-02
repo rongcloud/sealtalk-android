@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/seal_ic_rp_arrow" />
+        android:background="?attr/rc_right_arrow_icon_img" />
 
 
 </LinearLayout>

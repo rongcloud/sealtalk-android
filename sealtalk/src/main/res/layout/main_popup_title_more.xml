@@ -1,67 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/seal_sp_pop_bg">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="@dimen/seal_main_title_popup_width"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="@dimen/seal_main_title_popup_width"
+        android:background="@drawable/seal_sp_pop_bg"
         android:orientation="vertical">
-
 
         <TextView
             android:id="@+id/btn_start_chat"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seal_main_title_popup_item_height_v2"
+            android:layout_height="44dp"
             android:background="@drawable/seal_sp_pop_item_top_bg"
-            android:drawableStart="@drawable/seal_ic_pop_chat"
-            android:drawablePadding="@dimen/seal_main_title_popup_item_drawable_padding"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
+            android:gravity="center"
+            android:paddingStart="@dimen/rc_margin_size_16"
+            android:paddingEnd="@dimen/rc_margin_size_16"
             android:text="@string/seal_main_title_start_chat"
-            android:textColor="@color/seal_main_title_more_text_color"
-            android:textSize="@dimen/seal_main_title_item_text_size" />
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="16sp"
+            android:drawablePadding="3dp"
+            app:drawableStartCompat="?attr/rc_start_chat_white" />
 
         <TextView
             android:id="@+id/btn_create_group"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seal_main_title_popup_item_height_v2"
+            android:layout_height="44dp"
             android:background="@drawable/seal_sp_pop_item_normal_bg"
-            android:drawableStart="@drawable/seal_ic_pop_group"
-            android:drawablePadding="@dimen/seal_main_title_popup_item_drawable_padding"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
+            android:gravity="center"
+            android:paddingStart="@dimen/rc_margin_size_16"
+            android:paddingEnd="@dimen/rc_margin_size_16"
             android:text="@string/seal_main_title_create_group"
-            android:textColor="@color/seal_main_title_more_text_color"
-            android:textSize="@dimen/seal_main_title_item_text_size" />
-
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="16sp"
+            android:drawablePadding="3dp"
+            app:drawableStartCompat="?attr/rc_create_group" />
 
         <TextView
             android:id="@+id/btn_add_friends"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seal_main_title_popup_item_height_v2"
+            android:layout_height="44dp"
             android:background="@drawable/seal_sp_pop_item_normal_bg"
-            android:drawableStart="@drawable/seal_ic_pop_add"
-            android:drawablePadding="@dimen/seal_main_title_popup_item_drawable_padding"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
+            android:gravity="center"
+            android:paddingStart="@dimen/rc_margin_size_16"
+            android:paddingEnd="@dimen/rc_margin_size_16"
             android:text="@string/seal_main_title_add_friends"
-            android:textColor="@color/seal_main_title_more_text_color"
-            android:textSize="@dimen/seal_main_title_item_text_size" />
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="16sp"
+            android:drawablePadding="3dp"
+            app:drawableStartCompat="?attr/rc_add_friend" />
 
         <TextView
             android:id="@+id/btn_scan"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seal_main_title_popup_item_height_v2"
+            android:layout_height="44dp"
             android:background="@drawable/seal_sp_pop_item_bottom_bg"
-            android:drawableStart="@drawable/seal_ic_pop_scan"
-            android:drawablePadding="@dimen/seal_main_title_popup_item_drawable_padding"
-            android:gravity="center_vertical"
-            android:paddingStart="24dp"
+            android:gravity="center"
+            android:paddingStart="@dimen/rc_margin_size_16"
+            android:paddingEnd="@dimen/rc_margin_size_16"
             android:text="@string/seal_main_title_scan"
-            android:textColor="@color/seal_main_title_more_text_color"
-            android:textSize="@dimen/seal_main_title_item_text_size" />
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="16sp"
+            android:drawablePadding="3dp"
+            app:drawableStartCompat="?attr/rc_scan" />
 
     </LinearLayout>
 

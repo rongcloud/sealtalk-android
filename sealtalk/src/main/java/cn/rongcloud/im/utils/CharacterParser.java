@@ -172,7 +172,20 @@ public class CharacterParser {
         } else {
             spannableStringBuilder = new SpannableStringBuilder(target);
         }
-
+        int length = spannableStringBuilder.length();
+        // Guard against invalid ranges coming from search results.
+        if (length == 0 || start < 0 || start >= length) {
+            return spannableStringBuilder;
+        }
+        if (end < start) {
+            end = start;
+        }
+        if (end > length) {
+            end = length;
+        }
+        if (start == end) {
+            return spannableStringBuilder;
+        }
         spannableStringBuilder.setSpan(
                 new ForegroundColorSpan(Color.parseColor("#0099ff")),
                 start,

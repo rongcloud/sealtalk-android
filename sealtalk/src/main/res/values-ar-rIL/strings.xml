@@ -1,10 +1,885 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">RC IM</string>
+    
+    <!-- Login -->
+    <string name="seal_login_text_new_user">مستخدم جديد</string>
+    <string name="seal_login_text_forget_password">استعادة كلمة المرور</string>
+    <string name="seal_login_text_login">تسجيل الدخول</string>
+    <string name="seal_login_countries_and_regions">الدول/المناطق</string>
+    <string name="seal_login_password">كلمة المرور</string>
+    <string name="seal_login_phone_number">رقم الهاتف</string>
+    <string name="seal_login_nick_name">الاسم المستعار</string>
+    <string name="seal_login_register">تسجيل</string>
+    <string name="seal_login_code">رمز التحقق من الرسائل القصيرة</string>
+    <string name="seal_login_send_code">الحصول على الرمز</string>
+    <string name="seal_login_contact_method">طريقة الاتصال</string>
+    <string name="seal_talk_image_verify_code_label">رمز التحقق من الصورة</string>
+    <string name="seal_talk_verify_code_label">رمز التحقق</string>
+    <string name="seal_login_agreement_text">سيتم تسجيل المستخدمين الجدد وفتح حساب مطور RongCloud والموافقة على\nشروط الخدمة وسياسة الخصوصية</string>
+    <string name="seal_login_confirm">تأكيد</string>
+    <string name="seal_login_confirm_password">تأكيد كلمة المرور</string>
+    <string name="seal_login_toast_name_is_null">لا يمكن أن يكون الاسم المستعار فارغاً</string>
+    <string name="seal_login_toast_name_contain_spaces">لا يمكن أن يحتوي الاسم المستعار على مسافات</string>
+    <string name="seal_login_toast_phone_number_is_null">لا يمكن أن يكون رقم الهاتف فارغاً</string>
+    <string name="seal_login_toast_code_is_null">رمز التحقق فارغ</string>
+    <string name="seal_login_toast_password_is_null">لا يمكن أن تكون كلمة المرور فارغة</string>
+    <string name="seal_login_toast_password_cannot_contain_spaces">لا يمكن أن تحتوي كلمة المرور على مسافات</string>
+    <string name="seal_login_toast_phone_or_psw_error">رقم الهاتف أو كلمة المرور غير صحيحة</string>
+    <string name="seal_login_toast_success">تم تسجيل الدخول بنجاح</string>
+    <string name="seal_login_toast_not_send_code">لم يتم الحصول على رمز التحقق من الخادم</string>
+    <string name="seal_login_toast_passwords_invalid">يجب أن تكون كلمة المرور 6-16 حرفاً، حساسة لحالة الأحرف</string>
+    <string name="seal_login_toast_new_password_not_null">لا يمكن أن تكون كلمة المرور الجديدة فارغة</string>
+    <string name="seal_login_toast_confirm_password_not_null">لا يمكن أن يكون تأكيد كلمة المرور فارغاً</string>
+    <string name="seal_login_toast_passwords_do_not_match">كلمة المرور المؤكدة لا تتطابق مع كلمة المرور الجديدة</string>
+    <string name="login_error_send_message_frequency">تم تجاوز تردد إرسال الرسائل القصيرة</string>
+    <string name="login_error_captcha_overdue">انتهت صلاحية رمز التحقق، يرجى المحاولة مرة أخرى</string>
+    <string name="login_verification_code_error">رمز التحقق غير صحيح</string>
+    <string name="seal_login_kick_by_other">تم تسجيل الدخول إلى حسابك على جهاز آخر وتم فرض تسجيل الخروج!</string>
+    <string name="seal_login_connect_time_out">انتهت مهلة تسجيل الدخول، يرجى المحاولة مرة أخرى</string>
+    <string name="seal_login_user_logout">تم إلغاء حساب المستخدم</string>
+    <string name="seal_login_user_blocked">تم حظر المستخدم</string>
+    <string name="seal_login_user_login_expiration">لم يتم تسجيل الدخول أو بيانات اعتماد تسجيل الدخول غير صالحة</string>
+    
+    <!-- Common -->
+    <string name="common_chat_room">غرفة الدردشة</string>
+    <string name="china">الصين</string>
+    <string name="lang_en">EN</string>
+    <string name="lang_english">English</string>
     <string name="lang_arab">العربية</string>
+    <string name="lang_chs">简体中文</string>
+    <string name="seal_search">بحث</string>
+    <string name="beijing">بكين</string>
+    
+    <string name="privacy_agree">موافق</string>
+    <string name="privacy_disagree">رفض</string>
+    
+    <string name="common_confirm">تأكيد</string>
+    <string name="common_cancel">إلغاء</string>
+    <string name="common_done">تم</string>
+    <string name="common_save">حفظ</string>
+    <string name="common_publish">نشر</string>
+    <string name="common_request_success">تم الإرسال</string>
+    <string name="common_add_successful">تمت الإضافة</string>
+    <string name="common_remove_successful">تمت الإزالة</string>
+    <string name="common_delete_successful">تم الحذف</string>
+    <string name="common_album">الألبوم</string>
+    <string name="common_share_success">تمت المشاركة بنجاح</string>
+    <string name="common_share_failed">فشلت المشاركة</string>
+    
+    <string name="common_member_count" formatted="true">%d شخص</string>
+    
+    <string name="common_network_unavailable">الشبكة الحالية غير متاحة</string>
+    <string name="common_network_check">يرجى التحقق من إعدادات الشبكة</string>
+    <string name="common_network_error_and_retry_after">مشكلة في الشبكة، يرجى المحاولة لاحقاً</string>
+    
+    <!-- Main -->
+    <string-array name="tab_names_nomal">
+        <item>الرسائل</item>
+        <item>غرفة الدردشة</item>
+        <item>الأصدقاء</item>
+        <item>أنا</item>
+    </string-array>
+    <string-array name="tab_names_ultra">
+        <item>الرسائل</item>
+        <item>مجموعة فائقة</item>
+        <item>غرفة الدردشة</item>
+        <item>الأصدقاء</item>
+        <item>أنا</item>
+    </string-array>
+    
+    <string name="seal_main_chat_title">المحادثة</string>
+    <string name="new_friends">أصدقاء جدد</string>
+    <string name="group">المجموعات</string>
+    <string name="public_service">الحسابات العامة</string>
+    
+    <!-- Conversation -->
+    <string name="seal_conversation_remote_side_is_typing">الطرف الآخر يكتب...</string>
+    <string name="seal_conversation_remote_side_speaking">الطرف الآخر يتحدث...</string>
+    <string name="seal_conversation_title_discussion_group">مجموعة النقاش</string>
+    <string name="seal_conversation_title_system">مساعد رسائل النظام</string>
+    <string name="seal_conversation_title_feedback">التعليقات</string>
+    <string name="seal_conversation_title_defult">الدردشة</string>
+    
+    <string name="seal_conversation_read_receipt_detail">تفاصيل إيصال القراءة</string>
+    <string name="seal_conversation_read_receipt_unread_persons_format">غير مقروء(%1$d)</string>
+    <string name="seal_conversation_read_receipt_read_persons_format">مقروء(%1$d)</string>
+    <string name="seal_conversation_read_receipt_no_person_read">الكل غير مقروء</string>
+    <string name="seal_conversation_read_receipt_no_person_unread">الكل مقروء</string>
+    
+    <!-- Friends -->
+    <string name="seal_new_friend_list_no_data">لا توجد بيانات</string>
+    <string name="seal_new_friend_agree">قبول</string>
+    <string name="seal_new_friend_agree_ignore">تجاهل</string>
+    <string name="seal_new_friend_request">تم الإرسال</string>
+    <string name="seal_new_friend_ignore">تم التجاهل</string>
+    <string name="seal_new_friend_added">تمت الإضافة</string>
+    <string name="seal_new_friend_deleted">تم الحذف</string>
+    <string name="seal_new_friend_add">إضافة</string>
+    
+    <string name="seal_main_title_start_chat">بدء الدردشة</string>
+    <string name="seal_main_title_create_group">إنشاء مجموعات</string>
+    <string name="seal_main_title_add_friends">إضافة جهات الاتصال</string>
+    <string name="seal_main_title_scan">مسح</string>
+    
+    <!-- Profile -->
+    <string name="profile_search_message">البحث في سجل الدردشة</string>
+    <string name="profile_message_notice">كتم الإشعارات</string>
+    <string name="profile_set_top">تثبيت في الأعلى</string>
+    <string name="profile_clean_message">مسح سجل الدردشة</string>
+    <string name="profile_screen_shot_notification">إشعار لقطة الشاشة</string>
+    <string name="profile_screen_shot_notification_tips">سيتم إخطار جميع الأعضاء عند التقاط لقطة شاشة بعد التمكين</string>
+    <string name="profile_clean_timing">مسح الرسائل بانتظام</string>
+    <string name="profile_user_details">معلومات المستخدم</string>
+    <string name="profile_chat_details">تفاصيل الدردشة</string>
+    <string name="profile_clean_private_chat_history">هل تريد بالتأكيد مسح السجل؟</string>
+    <string name="profile_clean_group_chat_history">هل تريد بالتأكيد مسح سجل المجموعة؟</string>
+    
+    <!-- Group -->
+    <string name="profile_all_group_member">جميع أعضاء المجموعة</string>
+    <string name="profile_group_portrait">صورة المجموعة</string>
+    <string name="profile_group_name">اسم المجموعة</string>
+    <string name="profile_group_notice">إعلان المجموعة</string>
+    <string name="profile_group_code">رمز QR</string>
+    <string name="profile_quit_group">حذف والخروج</string>
+    <string name="profile_dismiss_group">حل وحذف</string>
+    <string name="profile_group_info">معلومات المجموعة</string>
+    <string name="profile_group_total_member">أعضاء المجموعة</string>
+    <string name="profile_confirm_quit_group">هل تريد بالتأكيد الخروج من المجموعة؟</string>
+    <string name="profile_confirm_dismiss_group">هل تريد بالتأكيد حل المجموعة؟</string>
+    
+    <string name="profile_detail_start_chat">بدء الدردشة</string>
+    <string name="profile_detail_start_voice">مكالمة صوتية</string>
+    <string name="profile_detail_start_video">مكالمة فيديو</string>
+    <string name="profile_detail_add_friend">إضافة إلى الأصدقاء</string>
+    <string name="profile_detail_join_the_blacklist">إضافة إلى القائمة السوداء</string>
+    <string name="profile_detail_remove_from_blacklist">إزالة من القائمة السوداء</string>
+    
+    <!-- Settings -->
+    <string name="seal_main_mine_set_account">إعدادات الحساب</string>
+    <string name="seal_main_mine_setting_language">إعدادات اللغة</string>
+    <string name="seal_main_mine_feedback">التعليقات</string>
+    <string name="seal_main_mine_about">حول RC IM</string>
+    <string name="seal_mine_set_account_change_password">تغيير كلمة المرور</string>
+    <string name="seal_mine_set_account_privacy">الأمان والخصوصية</string>
+    <string name="seal_mine_set_account_new_message_show">إشعار الرسائل الجديدة</string>
+    <string name="seal_mine_set_account_clear_cache">مسح ذاكرة التخزين المؤقت</string>
+    <string name="seal_mine_set_account_logout">تسجيل الخروج</string>
+    <string name="seal_mine_set_account_delete">حذف الحساب</string>
+    
+    <string name="seal_mine_my_account_portrait">الصورة</string>
+    <string name="seal_mine_my_account_nickname">الاسم المستعار</string>
+    <string name="seal_mine_my_account_phone_number">رقم الهاتف</string>
+    <string name="seal_mine_my_account">معلوماتي الشخصية</string>
+    <string name="seal_mine_my_account_gender">الجنس</string>
+    
+    <string name="seal_gender_man">ذكر</string>
+    <string name="seal_gender_female">أنثى</string>
+    <string name="seal_gender_save">حفظ</string>
+    <string name="seal_gender_set_success">نجح</string>
+    <string name="seal_gender_set_fail">فشل</string>
+    
+    <!-- Search -->
+    <string name="seal_ac_search">بحث</string>
+    <string name="seal_search_hint">بحث</string>
+    <string name="seal_ac_search_friend">الأصدقاء</string>
+    <string name="seal_ac_search_group">المجموعات</string>
+    <string name="seal_ac_search_chatting_records">سجل الدردشة</string>
+    <string name="seal_search_empty">لم يتم العثور على محتوى متعلق بـ %s</string>
+    
+    <!-- Password -->
+    <string name="seal_update_password_current_password">كلمة المرور القديمة</string>
+    <string name="seal_update_password_password_hint">6-16 حرفاً، حساسة لحالة الأحرف</string>
+    <string name="seal_update_password_confirm_password">تأكيد كلمة المرور</string>
+    <string name="seal_update_password_new_password">كلمة المرور الجديدة</string>
+    <string name="seal_update_password_save">حفظ</string>
+    <string name="seal_update_password_toast_password_not_equal">كلمة المرور المؤكدة لا تتطابق مع كلمة المرور الجديدة</string>
+    
+    <!-- Messages -->
+    <string name="seal_send">إرسال</string>
+    <string name="seal_forward_message">إعادة توجيه</string>
+    <string name="seal_member_mention_all_member">الكل</string>
+    <string name="msg_dialog_item_message_delete">حذف الرسالة</string>
+    <string name="msg_no_more_to_fetch">لا مزيد من الرسائل التاريخية</string>
+    
+    <!-- Notifications -->
+    <string name="seal_new_message_remind_new_message">إشعار الرسائل الجديدة</string>
+    <string name="seal_new_message_donot_disturb">كتم الإشعارات</string>
+    <string name="seal_new_message_donot_disturb_start">وقت البدء</string>
+    <string name="seal_new_message_donot_disturb_end">وقت الانتهاء</string>
+    
+    <!-- Privacy -->
+    <string name="seal_privacy_blacklist">القائمة السوداء</string>
+    <string name="seal_privacy_blacklist_is_empty">القائمة السوداء فارغة</string>
+    <string name="seal_privacy_search_phone">السماح بالبحث عني عبر رقم الهاتف</string>
+    <string name="seal_privacy_friend_verify">مطلوب التحقق عند إضافتي كصديق</string>
+    
+    <!-- Dialogs -->
+    <string name="seal_mine_set_account_dialog_logout_message">هل تريد تسجيل الخروج؟</string>
+    <string name="seal_mine_set_account_dialog_delete_message">هل أنت متأكد من حذف الحساب؟</string>
+    <string name="seal_set_account_dialog_clear_cache_message">هل تريد مسح ذاكرة التخزين المؤقت؟</string>
+    
+    <string name="common_clear_success">تم المسح</string>
+    <string name="common_clear_failure">فشل المسح</string>
+    <string name="common_set_failed">فشل الإعداد</string>
+    
+    <!-- Select -->
+    <string name="seal_select_group_member">تحديد الأعضاء</string>
+    <string name="seal_select_friend">تحديد الأصدقاء</string>
+    <string name="seal_select_confirm">تأكيد</string>
+    
+    <!-- Picture -->
+    <string name="seal_dialog_select_picture_take_picture">التقاط صورة</string>
+    <string name="seal_dialog_select_picture_album">الألبوم الخاص بي</string>
+    <string name="seal_dialog_select_picture_cancel">إلغاء</string>
+    
+    <!-- Group Management -->
+    <string name="seal_group_manager_set_manager">تعيين المسؤول</string>
+    <string name="seal_group_management_group_owner">مالك المجموعة</string>
+    <string name="seal_group_management_group_managements">مسؤول المجموعة</string>
+    <string name="seal_group_manager_confirm">تأكيد</string>
+    
+    <!-- Theme -->
+    <string name="seal_theme_setting_title">إعدادات المظهر</string>
+    <string name="seal_theme_origin_light">المظهر التقليدي</string>
+    <string name="seal_theme_lively">المظهر الحيوي</string>
+    <string name="seal_theme_lively_follow_system">اتباع النظام</string>
+    <string name="seal_theme_lively_light">الوضع الفاتح</string>
+    <string name="seal_theme_lively_dark">الوضع الداكن</string>
+    
+    <!-- Report -->
+    <string name="report_title">الإبلاغ</string>
+    <string name="report_reason">سبب الإبلاغ:</string>
+    <string name="report_user">الإبلاغ عن هذا المستخدم</string>
+    <string name="report_group">الإبلاغ عن هذه المجموعة</string>
+    <string name="report_success">تم الإبلاغ بنجاح</string>
+    <string name="report_failed">فشل الإبلاغ، يرجى المحاولة لاحقاً</string>
+    <string name="submit_button_text">إرسال</string>
+    <string name="close_button_text">إغلاق</string>
+    
+    <!-- Fraud Warning -->
+    <string name="seal_talk_fraud_tips_dialog_title">تلميح</string>
+    <string name="seal_talk_fraud_tips_dialog_content">تذكرك SealChat بالحذر من الاحتيال، لا تثق في المعلومات المتعلقة بالمال</string>
+    <string name="seal_talk_fraud_tips_dialog_confirm">حسناً</string>
+    <string name="seal_talk_fraud_tip_conversation_top">تذكرك SealChat بالحذر من الاحتيال، لا تثق في المعلومات المتعلقة بالمال، ولا تقم بأي تحويلات مالية دون اتصال بالإنترنت</string>
+    
+    <!-- Join Group -->
+    <string name="seal_join_group_title">الانضمام إلى المجموعة</string>
+    <string name="seal_join_group_button">الانضمام إلى المجموعة</string>
+    <string name="seal_join_group_success">تم الانضمام إلى المجموعة بنجاح</string>
+    <string name="seal_join_group_wait_approve">تم إرسال الطلب، يرجى انتظار موافقة مالك المجموعة أو المسؤول</string>
+    <string name="seal_join_group_failed">فشل الانضمام إلى المجموعة</string>
+    
+    <!-- Chat Room -->
+    <string name="discovery_chat_room_one">مكتب معلومات الألعاب</string>
+    <string name="discovery_chat_room_two">عش دافئ</string>
+    <string name="discovery_chat_room_three">لمسة المستقبل</string>
+    <string name="discovery_chat_room_four">جنة الموسيقى</string>
+    <string name="discovery_chat_room_join_failure">فشل الانضمام إلى غرفة الدردشة</string>
+    <string name="discovery_chat_room_join_failure_by_kicked">لقد تم منعك من الانضمام إلى غرفة الدردشة</string>
+    <string name="discovery_join_chat_room_error">معرف غرفة الدردشة فارغ، يرجى المحاولة لاحقاً</string>
+    
+    <!-- Country & Region -->
+    <string name="seal_select_country_region">اختيار الدولة والمنطقة</string>
+    <string name="seal_search_country_hint">البحث عن الدولة</string>
+    
+    <string name="seal_search_nick_name">اسم الملاحظة: </string>
+    <string name="seal_group_list_include">يحتوي على: </string>
+    
+    <!-- Evaluation -->
+    <string name="seal_evaluate_evaluation">تقييم</string>
+    <string name="seal_evaluate_submit_evaluation">تقديم التقييم</string>
+    <string name="seal_evaluate_resolved_title">هل حل خدمة العملاء مشكلتك؟</string>
+    <string name="seal_evaluate_resolved">تم الحل</string>
+    <string name="seal_evaluate_unresolved">لم يتم الحل</string>
+    <string name="seal_evaluate_star_title">يرجى تقييم خدمة العملاء</string>
+    <string name="seal_evaluate_problem_title">ما هي المشاكل الموجودة</string>
+    <string name="seal_evaluate_title_select_must">ما هي المشاكل الموجودة (إلزامي)</string>
+    <string name="seal_evaluate_lable_must">يجب اختيار العلامة</string>
+    <string name="seal_evaluate_input_must">يجب إدخال الاقتراح</string>
+    
+    <string name="seal_conversation_sub_group">المجموعة</string>
+    <string name="seal_conversation_sub_private">محادثتي الخاصة</string>
+    <string name="seal_conversation_sub_discussion">مجموعة النقاش الخاصة بي</string>
+    <string name="seal_conversation_sub_system">رسالة النظام</string>
+    <string name="seal_conversation_sub_defult">الدردشة</string>
+    
+    <!-- Profile Details -->
+    <string name="profile_clean_timing_tips">بعد تعيين التنظيف المجدول، سيقوم النظام بتنظيف رسائل المجموعة قبل الوقت المحدد بانتظام، ولا يمكن استرداد الرسائل المحذوفة، يرجى الإعداد بعناية</string>
+    <string name="profile_clean_discussion_chat_history">هل أنت متأكد من حذف سجل مجموعة النقاش؟</string>
+    <string name="profile_group_member_online_status">حالة تواجد أعضاء المجموعة</string>
+    <string name="profile_update_portrait_success">تم تحديث الصورة بنجاح</string>
+    <string name="profile_upload_portrait_failed">فشل تحميل الصورة</string>
+    <string name="profile_uploading_portrait">جارٍ تحميل الصورة...</string>
+    <string name="profile_updating_user_info">جارٍ تحديث معلومات المستخدم...</string>
+    <string name="profile_hint_new_group_name">اسم المجموعة الجديد</string>
+    <string name="profile_group_name_word_limit_format" formatted="true">أدخل اسم المجموعة (%d-%d حرفاً)</string>
+    <string name="profile_group_name_emoji_too_short">اسم المجموعة قصير جداً</string>
+    <string name="profile_input_hint_group_notice">يرجى تحرير إعلان المجموعة</string>
+    <string name="profile_group_notice_post_confirm">سيتم إخطار جميع أعضاء المجموعة بهذا الإعلان، هل تريد النشر؟</string>
+    <string name="profile_group_notice_prefix">\@الكل\n</string>
+    <string name="profile_set_display_name">تعيين الملاحظة والوصف</string>
+    <string name="profile_picture_detail">تفاصيل الصورة</string>
+    <string name="profile_picture_more">المزيد</string>
+    <string name="profile_set_group_info">المعلومات الشخصية</string>
+    <string name="profile_set_display_des">الوصف</string>
+    <string name="profile_set_display_phone">رقم الهاتف</string>
+    <string name="profile_add_friend_hint">رسالة طلب الصداقة...</string>
+    <string name="profile_invite_friend_description_has_group_format" formatted="true">أنا %s من مجموعة %s</string>
+    <string name="profile_invite_friend_description_format" formatted="true">أنا %s</string>
+    <string name="profile_group_save_to_contact">حفظ في جهات الاتصال</string>
+    <string name="group_list_not_group_save_to_contact">لا توجد مجموعات محفوظة في جهات الاتصال حالياً</string>
+    
+    <string name="profile_alias">اسم الملاحظة</string>
+    <string name="profile_alias_info">معلومات الملاحظة</string>
+    
+    <string name="profile_group_not_exist">المجموعة غير موجودة</string>
+    <string name="profile_group_has_dismissed">تم حل المجموعة</string>
+    <string name="profile_group_has_members_format">المجموعة تحتوي على %1$d عضواً</string>
+    
+    <string name="profile_save_picture_at">تم حفظ الصورة بنجاح</string>
+    <string name="profile_join_the_group_chat">الانضمام إلى دردشة المجموعة</string>
+    
+    <!-- Account -->
+    <string name="seal_main_me_app_account_label">حساب التطبيق: </string>
+    <string name="seal_main_mine_theme_setting">تبديل المظهر</string>
+    <string name="seal_main_mine_setting_translation">إعدادات الترجمة</string>
+    <string name="seal_translation_language">اختيار اللغة</string>
+    <string name="seal_translation_src_language">اللغة المصدر</string>
+    <string name="seal_translation_target_language">اللغة الهدف</string>
+    <string name="seal_main_mine_proxy_setting">إعدادات الوكيل</string>
+    <string name="seal_main_mine_proxy_setting_test_host">عنوان الاختبار</string>
+    <string name="seal_main_mine_proxy_setting_proxy_ip">IP الوكيل</string>
+    <string name="seal_main_mine_proxy_setting_proxy_port">منفذ الوكيل</string>
+    <string name="seal_main_mine_proxy_setting_username">اسم المستخدم</string>
+    <string name="seal_main_mine_proxy_setting_password">كلمة المرور</string>
+    <string name="seal_main_mine_proxy_setting_test_proxy">اختبار الوكيل</string>
+    <string name="seal_main_mine_proxy_setting_save_proxy">حفظ الوكيل</string>
+    <string name="seal_main_mine_proxy_setting_clear_proxy">مسح الوكيل</string>
+    <string name="seal_main_mine_online_custom_service">خدمة العملاء عبر الإنترنت</string>
+    <string name="seal_userinfo_item_user_portrait">صورة المستخدم</string>
+    <string name="seal_mine_set_account_chat_bg">خلفية الدردشة</string>
+    <string name="seal_mine_set_account_clear_message_cache">مسح سجل الدردشة</string>
+    <string name="seal_mine_set_account_push_language">تعيين اللغة الصينية للإشعارات</string>
+    <string name="seal_mine_set_account_push_content">عرض محتوى الإشعارات</string>
+    <string name="seal_mine_set_account_push_message">استقبال رسائل الإشعارات</string>
+    <string name="seal_mine_change_language">تعدد اللغات</string>
+    <string name="seal_mine_about_update_log">سجل التحديث</string>
+    <string name="seal_mine_about_function_introduce">مقدمة الميزات</string>
+    <string name="seal_mine_about_rongcloud_web">الموقع الرسمي</string>
+    <string name="debug_mode_is_open">تم فتح وضع التصحيح</string>
+    <string name="seal_mine_about_close_debug_mode">إغلاق وضع التصحيح</string>
+    <string name="seal_mine_about_debug_setting">الإعدادات</string>
+    <string name="seal_mine_about_device_id">معرف الجهاز</string>
+    <string name="seal_mine_about_user_online_status">تعيين حالة تواجد المستخدم</string>
+    
+    <string name="seal_title_private_chat">بدء الدردشة</string>
+    <string name="seal_title_group_chat">إنشاء مجموعة</string>
+    <string name="seal_title_add_contacts">إضافة أصدقاء</string>
+    
+    <string name="seal_update_name_text">يمكن للاسم الجيد أن يساعد أصدقاءك على تذكرك بسهولة</string>
+    <string name="seal_update_name">تغيير الاسم المستعار</string>
+    <string name="seal_update_name_save_update">تأكيد</string>
+    <string name="seal_update_name_toast_nick_name_can_not_empty">لا يمكن أن يكون الاسم المستعار فارغاً</string>
+    <string name="seal_update_name_toast_nick_name_change_success">تم تغيير الاسم المستعار بنجاح</string>
+    
+    <!-- Search Messages -->
+    <string name="seal_ac_search_more_friend">عرض المزيد من الأصدقاء</string>
+    <string name="seal_ac_search_more_group">عرض المزيد من المجموعات</string>
+    <string name="seal_ac_search_more_chatting_records">عرض المزيد من سجل الدردشة</string>
+    <string name="seal_search_chat_message">سجل الدردشة</string>
+    <string name="seal_search_more_chat_message">عرض المزيد من سجل الدردشة</string>
+    <string name="seal_search_message_title">البحث في سجل الدردشة</string>
+    <string name="seal_search_message_hint">البحث في سجل الدردشة</string>
+    <string name="seal_search_message_empty">لم يتم العثور على سجل دردشة ذي صلة</string>
+    <string name="seal_search_item_chat_records">%d سجلات ذات صلة</string>
+    <string name="msg_reference_link">[رابط]</string>
+    <string name="msg_reference_file">[ملف]</string>
+    <string name="seal_message_content_others">[رسالة أخرى]</string>
+    
+    <string name="seal_update_password_toast_password_old_equal_new">كلمة المرور القديمة والجديدة متطابقة</string>
+    
+    <string name="seal_set_account_dialog_toast_clear_cache_clear_success">تم المسح بنجاح</string>
+    <string name="seal_privacy_blacklist_contacts">القائمة السوداء</string>
+    <string name="seal_account_setting_security_privacy_title">الأمان والخصوصية</string>
+    <string name="seal_account_setting_new_message_notification_title">إشعار الرسائل الجديدة</string>
+    <string name="seal_privacy_group_verify">السماح بإضافتي مباشرة إلى دردشة المجموعة</string>
+    
+    <string name="seal_search_chatting_records">سجل الدردشة</string>
+    <string name="seal_search_more_friend">عرض المزيد من جهات الاتصال</string>
+    <string name="seal_search_more_group">عرض المزيد من المجموعات</string>
+    <string name="seal_search_more_chatting_records">عرض المزيد من سجل الدردشة</string>
+    
+    <string name="msg_contact_notification_someone_agree_your_request">قبل طلب الصداقة الخاص بك</string>
+    <string name="msg_contact_notification_agree_your_request">قبل الطرف الآخر طلب الصداقة الخاص بك</string>
+    
+    <string name="seal_new_message_remind_message_show_details">عرض محتوى الإشعارات البعيدة</string>
+    <string name="seal_new_message_donot_disturb_new_message_notice">تفعيل عدم الإزعاج</string>
+    <string name="seal_new_message_donot_disturb_notification_information">بعد التفعيل، لن يتم الرنين أو الاهتزاز عند استقبال رسائل جديدة خلال الفترة المحددة</string>
+    <string name="seal_main_chat_tab_more_read_message">99+</string>
+    <string name="seal_main_toast_unread_clear_success">تم المسح بنجاح</string>
+    <string name="seal_public_account_information">معلومات الحساب العام</string>
+    <string name="seal_search_phone_number">البحث عن رقم الهاتف، مثل: (86)137XXXXX</string>
+    <string name="seal_add_text">رسالة طلب الصداقة...</string>
+    <string name="seal_inivte_firend_descprtion_format" formatted="true">أنا %s</string>
+    <string name="seal_quest_failed_error_code">فشل الطلب، رمز الخطأ: %d</string>
+    <string name="setting_new_message_receive_poke_message">وَخْز النافذة المنبثقة للرسالة</string>
+    
+    <!-- New Friend -->
+    <string name="new_friend_title">إضافة أصدقاء</string>
+    <string name="new_friend_add_from_phone_contact">جهات اتصال الهاتف</string>
+    <string name="new_friend_add_from_phone_contact_description">إضافة أصدقاء من جهات الاتصال</string>
+    <string name="new_friend_scan_description">مسح رمز QR الخاص بالصديق</string>
+    <string name="new_friend_invite_wechat_friend">دعوة أصدقاء WeChat</string>
+    <string name="new_friend_invite_wechat_friend_dialog_content">دعوة الأصدقاء في WeChat</string>
+    <string name="new_friend_invite_wechat_friend_description">دعوة الأصدقاء في WeChat</string>
+    <string name="new_friend_invite_from_phone_contact">دعوة جهات اتصال الهاتف</string>
+    <string name="new_friend_invite_from_phone_contact_description">دعوة الأصدقاء من جهات اتصال الهاتف عبر الرسائل القصيرة</string>
+    <string name="new_friend_invite_from_phone_contact_error">تعذر الانتقال إلى إرسال الرسائل القصيرة، تم نسخ محتوى المشاركة إلى الحافظة</string>
+    <string name="new_friend_phone_contact_friend">أصدقاء جهات الاتصال</string>
+    <string name="new_friend_invite_phone_friend">دعوة جهات اتصال الهاتف</string>
+    
+    <string name="new_friend_request_permission_title">مطابقة جهات اتصال الهاتف</string>
+    <string name="new_friend_to_setting_accept_contact_permission">يرجى الدخول إلى \"الإعدادات\" للسماح لهذا التطبيق بالوصول إلى جهات الاتصال</string>
+    <string name="new_friend_no_permission_can_not_to_setting">تعذر الانتقال إلى شاشة الإعدادات، يرجى إجراء الإعداد يدوياً</string>
+    
+    <!-- QR Code -->
+    <string name="zxing_distinguish_picture">التعرف على رمز QR في الصورة</string>
+    <string name="zxing_qr_can_not_recognized">لا يمكن التعرف على رمز QR هذا</string>
+    <string name="zxing_open_light">فتح</string>
+    <string name="zxing_close_light">إغلاق</string>
+    <string name="zxing_tips_qrcode_scan">ضع رمز QR في الإطار للمسح التلقائي</string>
+    <string name="zxing_scan_from_picture">اختيار صورة</string>
+    <string name="zxing_msg_camera_permission_grant_needed">تحتاج إلى فتح إذن الكاميرا في الإعدادات</string>
+    
+    <string name="seal_mine_set_account_dialog_delete_failed_message">فشل الحذف</string>
+    
+    <string name="seal_download_app_browser_download">فتح في المتصفح</string>
+    <string name="seal_download_app_local_download">التنزيل المحلي</string>
+    <string name="seal_not_support_forward">لا تدعم الرسائل الصوتية والمغلفات الحمراء والرسائل الفاشلة وأنواع الرسائل الخاصة الأخرى إعادة التوجيه</string>
+    <string name="seal_not_support_forward_pic">لا تدعم الرسائل الفاشلة إعادة التوجيه</string>
+    <string name="seal_select_forward_contact_multi">اختيار متعدد</string>
+    <string name="seal_select_forward_contact_single">اختيار مفرد</string>
+    <string name="seal_group_manager_transfer">نقل إدارة المجموعة</string>
+    <string name="seal_group_manager_copy">نسخ مجموعة جديدة بنقرة واحدة</string>
+    <string name="seal_group_manager_exited">قائمة الأعضاء الذين غادروا المجموعة</string>
+    <string name="seal_group_detail_group_manager">إدارة المجموعة</string>
+    <string name="seal_group_management_add_group_managements">إضافة مسؤول المجموعة</string>
+    <string name="seal_group_management_dialog_delete_content">هل تريد إزالة &lt;font color="#0195ff"&gt;%1$s&lt;/font&gt; من قائمة المسؤولين</string>
+    <string name="seal_select_forward_title">اختيار دردشة</string>
+    <string name="seal_select_forward_create_new_chat">إنشاء دردشة جديدة</string>
+    <string name="seal_select_forward_select_group">اختيار مجموعة</string>
+    <string name="seal_select_forward_message_recent_chat">الدردشات الأخيرة</string>
+    <string name="seal_selected_contact_title">إرسال إلى:</string>
+    <string name="seal_selected_contact_content">[إعادة توجيه] %d رسالة إجمالاً</string>
+    <string name="seal_multi_selected_contact_title">إرسال منفصل إلى:</string>
+    <string name="seal_group_tag_all">جميع الأعضاء</string>
+    <string name="seal_group_tag_company">الشركة</string>
+    <string name="seal_group_administrator">مالك المجموعة</string>
+    <string name="seal_group_manager_transfer_select_new_group_owner">اختيار مالك المجموعة الجديد</string>
+    <string name="seal_group_manager_transfer_group_owner_dialog_content">هل أنت متأكد من اختيار &lt;font color="#0195ff"&gt;%1$s&lt;/font&gt; كمالك المجموعة الجديد، ستتخلى عن صفة مالك المجموعة</string>
+    <string name="seal_select_forward_more_contact">المزيد من جهات الاتصال</string>
+    <string name="seal_selected_contacts_count">تم اختيار %d شخص</string>
+    <string name="seal_selected_groups_count">تم اختيار %d شخصاً، %d مجموعات</string>
+    <string name="seal_selected_only_group">تم اختيار %d مجموعات</string>
+    <string name="seal_forward__message_success">تمت إعادة التوجيه بنجاح</string>
+    <string name="seal_select_forward_message_defeat">فشلت إعادة التوجيه</string>
+    
+    <string name="profile_qrcode_group_tips">امسح رمز QR للمجموعة للانضمام إليها على الفور</string>
+    <string name="profile_qrcode_private_tips">امسح رمز QR لإضافتي كصديق</string>
+    <string name="profile_qrcode_group_need_verify">تم تفعيل التحقق من الانضمام للمجموعة، ويمكن فقط للأصدقاء دعوتك للانضمام</string>
+    <string name="profile_qrcode_save_to_phone">حفظ في الهاتف</string>
+    <string name="profile_group_qrcode">رمز QR للمجموعة</string>
+    <string name="seal_main_mine_qrcode">رمز QR الخاص بي</string>
+    <string name="profile_join_group">الانضمام إلى المجموعة</string>
+    <string name="profile_delete_from_contact">حذف جهة الاتصال</string>
+    <string name="profile_group_protection_tips">قام مالك المجموعة بتفعيل وضع حماية أعضاء المجموعة، ولا يمكن إضافة أصدقاء من خلال هذه المجموعة، يرجى إضافة المستخدم بطرق أخرى</string>
+    <string name="profile_add_to_blacklist_tips">بعد إضافته إلى القائمة السوداء، لن تتلقى رسائل من الطرف الآخر، وسيتم حذف سجل الدردشة مع جهة الاتصال هذه</string>
+    <string name="profile_remove_from_contact_tips_html_format" formatted="true">
+        <Data>حذف جهة الاتصال &lt;font color="#368AE8"&gt;%1$s&lt;/font&gt; وحذف سجل الدردشة مع جهة الاتصال هذه في نفس الوقت</Data>
+    </string>
+    <string name="seal_group_action_transfer_group_owner">%1$s أصبح مالك المجموعة الجديد</string>
+    <string name="profile_group_manager">إدارة المجموعة</string>
+    <string name="profile_group_user_info">معلوماتي في هذه المجموعة</string>
+    <string name="profile_group_notice_tips">بعد النشر سيتم إرساله كرسالة نظام إلى دردشة المجموعة، ويمكن لجميع الأعضاء رؤيته</string>
+    <string name="profile_group_notice_update_time_format" formatted="true">وقت النشر: %s</string>
+    <string name="profile_group_notice_clear_confirm">هل أنت متأكد من مسح إعلان المجموعة؟</string>
+    <string name="profile_group_has_no_notice">لا يوجد إعلان للمجموعة حالياً</string>
+    <string name="profile_group_notice_not_changed">لم يتم تعديل إعلان المجموعة</string>
+    <string name="seal_group_manager_select_managements_dialog_content">هل أنت متأكد من تعيين &lt;font color="#0195ff"&gt;%1$s&lt;/font&gt; كمسؤول</string>
+    <string name="seal_group_manager_set_manager_toast_set_management_success">تم تعيين المسؤول بنجاح</string>
+    <string name="seal_group_manager_set_manager_toast_set_management_failed">فشل التعيين</string>
+    <string name="seal_group_action_set_manager">قام مالك المجموعة بتعيين %1$s كمسؤول</string>
+    <string name="seal_group_action_remove_manager">قام مالك المجموعة بإزالة صفة المسؤول من %1$s</string>
+    <string name="seal_group_member_protection_open">تم تفعيل حماية أعضاء المجموعة</string>
+    <string name="seal_group_member_protection_close">تم إلغاء حماية أعضاء المجموعة</string>
+    <string name="seal_qrcode_jump_without_login">لا توجد معلومات مستخدم، يرجى التسجيل أولاً</string>
+    <string name="seal_mine_about_toast_app_downloading">جارٍ التنزيل في الخلفية...</string>
+    <string name="seal_mine_about_notifi_loading">جارٍ تنزيل النسخة الجديدة</string>
+    <string name="seal_group_manager_toast_remove_manager_failed">فشل الحذف</string>
+    <string name="seal_loading_dialog_logining">جارٍ تسجيل الدخول</string>
+    <string name="seal_login_toast_send_code_success">تم الإرسال بنجاح</string>
+    <string name="seal_login_toast_send_code_failed">فشل إرسال رمز التحقق، يرجى المحاولة لاحقاً</string>
+    <string name="login_register_phone_already_existed">رقم الهاتف مسجل بالفعل</string>
+    <string name="seal_login_toast_no_register">رقم الهاتف الحالي لم يتم تسجيله بعد</string>
+    <string name="seal_login_register_registering">جارٍ التسجيل...</string>
+    <string name="seal_login_register_toast_register_success">تم التسجيل بنجاح</string>
+    <string name="seal_login_reset_password_toast_reset_password_success">تمت إعادة تعيين كلمة المرور بنجاح</string>
+    <string name="seal_login_reset_password_loading_password">جارٍ إعادة التعيين...</string>
+    <string name="seal_group_management_toast_set_new_group_onwer_success">تم التعيين بنجاح</string>
+    <string name="seal_group_management_toast_set_new_group_onwer_failed">فشل التعيين</string>
+    <string name="seal_group_management_toast_management_already_reached_max_size">يمكن تعيين %1$d مسؤولين كحد أقصى</string>
+    <string name="seal_group_management_managements">المسؤول</string>
+    <string name="seal_forward_selected_detail_comfirm">تأكيد</string>
+    <string name="seal_forward_selected_detail_title">جهات الاتصال المحددة</string>
+    <string name="profile_group_notice_content_over_max_length">تجاوز عدد الكلمات الحد</string>
+    
+    <!-- Clean Time -->
+    <string name="seal_dialog_select_clean_time_36">مسح الرسائل قبل 36 ساعة</string>
+    <string name="seal_dialog_select_clean_time_3">مسح الرسائل قبل 3 أيام</string>
+    <string name="seal_dialog_select_clean_time_7">مسح الرسائل قبل 7 أيام</string>
+    <string name="seal_dialog_select_clean_not">عدم المسح</string>
+    <string name="seal_set_clean_time_success">تم التعيين بنجاح</string>
+    <string name="seal_set_clean_time_fail">فشل التعيين</string>
+    <string name="seal_set_clean_time_state_not">يرجى تعيين الوقت</string>
+    <string name="seal_set_clean_time_notification_open">قام مالك المجموعة بتفعيل المسح المجدول لرسائل المجموعة</string>
+    <string name="seal_set_clean_time_notification_close">قام مالك المجموعة بإلغاء المسح المجدول لرسائل المجموعة</string>
+    <string name="seal_set_screen_capture_open">تم تفعيل إشعار لقطة الشاشة</string>
+    <string name="seal_set_screen_capture_close">تم إلغاء إشعار لقطة الشاشة</string>
+    <string name="seal_set_screen_capture_use">التقط لقطة شاشة في الدردشة</string>
+    <string name="seal_set_screen_capture_you">أنت</string>
+    <string name="seal_set_clean_time_not_owner_tip">يمكن فقط لمالك المجموعة التعيين</string>
+    <string name="seal_mute_all">كتم جميع الأعضاء</string>
+    <string name="seal_mute_all_tips">بعد التفعيل، يمكن فقط لمالك المجموعة والمسؤولين التحدث</string>
+    <string name="seal_goup_member_protect">وضع حماية أعضاء المجموعة</string>
+    <string name="seal_goup_member_protect_tips">بعد التفعيل، لا يمكن لأعضاء المجموعة إضافة أصدقاء من خلال هذه المجموعة</string>
+    <string name="seal_add_certification">هل تريد تفعيل التحقق من المجموعة</string>
+    <string name="seal_add_certification_tips">بعد التفعيل، يلزم موافقة إدارة المجموعة للانضمام إلى دردشة المجموعة، وسيتم إيقاف طريقة المسح الضوئي لرمز QR للانضمام</string>
+    <string name="seal_add_certification_close">بعد إلغاء التحقق من المجموعة، ستنتهي صلاحية جميع طلبات الانضمام، هل أنت متأكد؟</string>
+    <string name="seal_add_friend_protect">بعد إيقاف هذا المفتاح، سيُسمح لأعضاء المجموعة بإضافة بعضهم البعض كأصدقاء، هل أنت متأكد؟</string>
+    <string name="seal_add_certification_need_certifi">تم تفعيل التحقق من المجموعة، يرجى انتظار مراجعة المسؤول</string>
+    <string name="seal_add_need_member_agree">تمت الدعوة، في انتظار التأكيد</string>
+    <string name="seal_add_need_manager_agree">تمت الدعوة، في انتظار تأكيد المسؤول</string>
+    
+    <!-- Group Notification -->
+    <string name="seal_conversation_notification_group">إشعار المجموعة</string>
+    <string name="seal_conversation_notification_group_tips">دعوتك للانضمام إلى المجموعة</string>
+    <string name="seal_conversation_notification_group_tips_add">طلب الانضمام </string>
+    <string name="seal_group_notice_null_tips">لا توجد رسائل تحقق من المجموعة حالياً</string>
+    <string name="seal_group_notice_agree">موافق</string>
+    <string name="seal_group_notice_ignore">تجاهل</string>
+    <string name="seal_group_notice_agreed">تمت الموافقة</string>
+    <string name="seal_group_notice_ignored">تم التجاهل</string>
+    <string name="seal_group_notice_overdue">منتهي الصلاحية</string>
+    <string name="seal_group_notice_no_group">المجموعة المدعوة لم تعد موجودة</string>
+    <string name="seal_group_notice_success">تم الطلب بنجاح</string>
+    <string name="seal_dialog_clean_group_notice">مسح رسائل التحقق</string>
+    <string name="seal_group_notice_clean_success">تم المسح بنجاح</string>
+    <string name="seal_group_notice_add">دعوة %1$s للانضمام إلى المجموعة</string>
+    
+    <string name="seal_edit_text_no_emoji">لا يدعم إدخال الرموز التعبيرية</string>
+    
+    <string name="seal_group_manager_set_success">تم التعيين بنجاح</string>
+    <string name="seal_group_manager_set_fail">فشل التعيين</string>
+    
+    <!-- Copy Group -->
+    <string name="seal_group_manager_copy_title">نسخ مجموعة جديدة بنقرة واحدة</string>
+    <string name="seal_group_manager_copy_tip_title">تلميح ودي:</string>
+    <string name="seal_group_manager_copy_tip_content">تدعم المجموعة الجديدة المنشأة فقط نسخ معلومات أعضاء المجموعة، ولا يمكن نسخ جميع الإعدادات الحالية</string>
+    <string name="seal_group_manager_copy_btn_content">تأكيد النسخ</string>
+    <string name="seal_group_manager_copy_tips">هل تريد نسخ المجموعة الجديدة</string>
+    <string name="seal_group_manager_copy_in_protect">المجموعة في فترة الحماية، لا يمكن نسخها خلال 7 أيام</string>
+    <string name="seal_group_manager_copy_copied_7">يمكن نسخ المجموعة مرة واحدة فقط كل 7 أيام</string>
+    <string name="seal_group_manager_copy_not_exist">المجموعة غير موجودة أو تم حلها</string>
+    <string name="seal_group_manager_copy_fail">فشل النسخ</string>
+    
+    <!-- Group Exited -->
+    <string name="seal_group_manager_exited_null_tips">لم يغادر أي عضو من المجموعة حالياً</string>
+    <string name="seal_group_manager_exited_title">قائمة الأعضاء الذين غادروا المجموعة</string>
+    <string name="seal_group_manager_exited_content_owner">تمت إزالته من المجموعة بواسطة المالك %1$s</string>
+    <string name="seal_group_manager_exited_content_manager">تمت إزالته من المجموعة بواسطة المسؤول %1$s</string>
+    <string name="seal_group_manager_exited_content_active">غادر المجموعة بشكل نشط</string>
+    
+    <!-- Clear Chat Message -->
+    <string name="seal_clear_chat_message_select_title">مسح سجل الدردشة</string>
+    <string name="seal_clear_chat_message_select_all">تحديد الكل</string>
+    <string name="seal_clear_chat_message_select_delete">حذف</string>
+    <string name="seal_clear_chat_message_delete_dialog">هل أنت متأكد من حذف سجل الدردشة؟</string>
+    <string name="seal_clear_chat_message_delete_confirm_format">هل أنت متأكد من حذف سجل الدردشة لـ %d محادثة؟</string>
+    <string name="seal_clear_chat_message_delete_success">تم الحذف بنجاح</string>
+    
+    <!-- User Describe -->
+    <string name="seal_describe_alias">ملاحظة</string>
+    <string name="seal_describe_alias_hint">يرجى إضافة ملاحظة</string>
+    <string name="seal_describe_phone">رقم الهاتف</string>
+    <string name="seal_describe_phone_hint">يرجى إدخال رقم الهاتف</string>
+    <string name="seal_describe_more">المزيد من الوصف</string>
+    <string name="seal_describe_more_num">%d/400</string>
+    <string name="seal_describe_more_hint">يرجى إضافة وصف</string>
+    <string name="seal_describe_more_photo">التصوير والصور</string>
+    <string name="seal_describe_more_photo_hint">إضافة بطاقة عمل أو صور ذات صلة</string>
+    <string name="seal_describe_more_btn_complete">تم</string>
+    <string name="seal_describe_more_btn_set_success">تم التعيين بنجاح</string>
+    <string name="seal_describe_more_btn_set_fail">فشل التعيين</string>
+    <string name="seal_describe_more_save_tips">هل تريد حفظ التعديلات؟</string>
+    <string name="seal_dialog_describe_more_save">حفظ في الألبوم</string>
+    <string name="seal_dialog_describe_more_delete">حذف الصورة</string>
+    <string name="seal_dialog_describe_more_cancel">إلغاء</string>
+    <string name="seal_dialog_describe_more_save_success">تم الحفظ بنجاح</string>
+    
+    <!-- User Info -->
+    <string name="seal_group_user_info_title">المعلومات الشخصية</string>
+    <string name="seal_group_user_info_name">اسم المجموعة المستعار</string>
+    <string name="seal_group_user_info_name_mine">اسمي المستعار في هذه المجموعة</string>
+    <string name="seal_group_user_info_name_hint">يرجى إدخال اسمك المستعار</string>
+    <string name="seal_group_user_info_phone">رقم الهاتف</string>
+    <string name="seal_group_user_info_phone_hint">يرجى إدخال رقم هاتفك</string>
+    <string name="seal_group_user_info_vchat">حساب WeChat</string>
+    <string name="seal_group_user_info_vchat_hint">يرجى إدخال حساب WeChat الخاص بك</string>
+    <string name="seal_group_user_info_alipay">حساب Alipay</string>
+    <string name="seal_group_user_info_alipay_hint">يرجى إدخال حساب Alipay الخاص بك</string>
+    <string name="seal_group_user_info_description">الوصف</string>
+    <string name="seal_group_user_info_des_hint">يرجى إدخال وصفك</string>
+    <string name="seal_group_user_info_des_add">إضافة وصف</string>
+    <string name="seal_group_user_info_des_del">حذف</string>
+    <string name="seal_group_user_info_des_confirm">تم</string>
+    <string name="seal_group_user_info_des_confirm_success">تم تعديل المعلومات بنجاح</string>
+    <string name="seal_group_user_info_des_no_set">لم يتم التعيين</string>
+    
+    <!-- Poke -->
+    <string name="im_plugin_poke_title">نكزة</string>
+    <string name="imt_plugin_poke_send_to_format" formatted="true">إرسال إشعار إلى %s</string>
+    <string name="im_plugin_poke_multi_send_to">إرسال إلى</string>
+    <string name="im_plugin_poke_multi_all_in_group">جميع أعضاء المجموعة</string>
+    <string name="im_message_content_poke">[نكزة]</string>
+    <string name="im_plugin_poke_message_default">تعال للدردشة</string>
+    <string name="poke_start_chat">الدخول إلى الدردشة</string>
+    <string name="poke_ignore_message">تجاهل</string>
+    <string name="poke_allow_next_send_message_time_msg">يرجى إعادة إرسال النكزة بعد %d ثانية</string>
+    <string name="poke_only_group_owner_and_manager_can_send">يمكن فقط لمالك المجموعة والمسؤولين الإجراء</string>
+    <string name="poke_message_max_allow_length">يُسمح بإدخال 20 حرفاً كحد أقصى</string>
+    
+    <!-- Chat Background -->
+    <string name="seal_select_chat_bg_title">خلفية الدردشة</string>
+    <string name="seal_select_chat_bg_album">اختيار من ألبوم الهاتف</string>
+    <string name="seal_select_chat_bg_preset">الصور المعدة مسبقاً</string>
+    <string name="seal_select_chat_bg_current_preview">معاينة الخلفية الحالية</string>
+    <string name="seal_select_chat_bg_set">تعيين</string>
+    <string name="seal_select_chat_bg_set_success">تم التعيين بنجاح</string>
+    <string name="seal_select_chat_bg_cancel">إلغاء</string>
+    <string name="seal_select_chat_bg_complete">تم</string>
+    <string name="seal_select_chat_bg_origin">الصورة الأصلية</string>
+    <string name="seal_select_chat_bg_send">إرسال</string>
+    
+    <!-- Recently Picture -->
+    <string name="seal_popup_recent_picture_tip">الصور التي قد ترغب في إرسالها:</string>
+    
+    <!-- Operate Phone Dialog -->
+    <string name="seal_dialog_operate_phone_num_call">اتصال</string>
+    <string name="seal_dialog_operate_phone_num_copy">نسخ الرقم</string>
+    <string name="seal_dialog_operate_phone_num_copy_success">تم النسخ بنجاح</string>
+    
+    <string name="seal_choose_members">اختيار جهات الاتصال</string>
+    <string name="contact_multi_delete_friend">حذف الأصدقاء بشكل جماعي</string>
+    <string name="contact_multi_delete_friend_conf" formatted="true"><Data><![CDATA[بعد التأكيد سيتم حذف الأصدقاء المحددين، <br> هل أنت متأكد من الحذف]]></Data></string>
+    
+    <string name="seal_dialog_wait_tips">يرجى الانتظار...</string>
+    
+    <string name="seal_login_private_service_error">فشل تسجيل الدخول Status :34005</string>
+    <string name="seal_system_conversation_title">مساعد رسائل النظام</string>
+    <string name="seal_group_exit_list_left_title">إدارة المجموعة</string>
+    
+    <string name="seal_friend_message">رسالة صديق</string>
+    
+    <!-- Debug Mode -->
+    <string name="setting_open_debug_prompt">هل تريد تفعيل وضع تصحيح التطبيق (يتطلب إعادة فتح التطبيق)؟</string>
+    <string name="setting_close_debug_promt">هل تريد إغلاق وضع تصحيح التطبيق (يتطلب إعادة فتح التطبيق)؟</string>
+    <string name="setting_close_ultra_group_debug_promt">هل تريد التبديل إلى وضع تصحيح المجموعة الفائقة (يتطلب إعادة فتح التطبيق)؟</string>
+    <string name="seal_mine_about_push_config">تعيين تكوين الإشعارات</string>
+    <string name="seal_mine_about_message_audit_info">تعيين تكوين مراجعة الرسائل</string>
+    <string name="seal_mine_about_debug_setting_push_language">تعيين لغة الإشعارات</string>
+    <string name="seal_mine_about_group_read_receipt_test">اختبار إيصال القراءة للمجموعة V2</string>
+    <string name="debug_group_read_receipt_count_display_tx">تلقى المرسل إيصال القراءة: عدد القراء %d      إجمالي عدد أعضاء المجموعة %d      </string>
+    <string name="debug_group_read_receipt_count_get_display_tx">إجمالي عدد أعضاء المجموعة عند الحصول على المستخدمين الذين قرأوا: %d</string>
+    <string name="seal_mine_about_chat_room_kv_test">تخزين غرفة الدردشة</string>
+    <string name="seal_mine_about_chat_room_listener_test">مستمع غرفة الدردشة</string>
+    <string name="seal_talk_login_send_verify_code">إرسال رمز التحقق</string>
+    <string name="seal_talk_registration_title">شروط التسجيل</string>
+    <string name="seal_talk_privacy_policy_title">سياسة الخصوصية</string>
+    <string name="seal_mine_about_debug_setting_umeng_info">عرض معلومات تعريف الجهاز (مطلوب لإضافة جهاز اختبار Umeng)</string>
+    <string name="seal_mine_about_debug_setting_reference_msg_test">اختبار خصائص الرسالة المرجعية</string>
+    
+    <string name="seal_talk_prompt_text_behand">يرجى قراءة وفهم «%1$s» و «%2$s» بشكل كامل</string>
+    <string name="seal_talk_prompt_text_front">1. لضمان استقرار وأمان تشغيل المنصة، سنطلب أذونات النظام لجمع عنوان IP ومعرف الجهاز ونوع الوصول إلى الشبكة ونظام التشغيل ومعلومات الجهاز الأخرى لاستكشاف مشاكل تشغيل المنصة وإصلاحها</string>
+    <string name="seal_talk_prompt_text_front1">2. يرجى قراءة «سياسة الخصوصية» بالتفصيل حول جمع واستخدام معلومات مستخدم الجهاز الشخصي</string>
+    <string name="seal_talk_prompt_text_front2">3. بعد تسجيل الدخول إلى التطبيق، يمكنك أيضاً عرض شرح الخصوصية في \"أنا - سياسة الخصوصية\"</string>
+    <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-cn</string>
+    <string name="seal_talk_prompt_disagree">عدم الموافقة</string>
+    <string name="seal_talk_prompt_agree_and_continue">الموافقة والمتابعة</string>
+    
+    <string name="seal_talk_security_kick_out_phone">400-919-9066</string>
+    <string name="seal_talk_security_kick_out_des">ساعات العمل: 9:30 ~ 18:30 يومياً</string>
+    <string name="seal_talk_security_kick_out">مرحباً، تم حظر حسابك بسبب عمليات غير طبيعية ولا يمكن تسجيل الدخول،\nإذا كان لديك أي أسئلة، يرجى الاتصال بالهاتف الرسمي:</string>
+    
+    <!-- Data Center -->
+    <string name="data_center">مركز البيانات</string>
+    <string name="data_center_beijing">بكين</string>
+    <string name="data_center_singapore">سنغافورة</string>
+    <string name="data_center_north_america">أمريكا الشمالية</string>
+    <string name="data_center_lvbu">لوبو</string>
+    
+    <!-- User Group -->
+    <string name="rc_user_group_list">قائمة مجموعات المستخدمين</string>
+    <string name="rc_create_user_group">إنشاء مجموعة مستخدمين</string>
+    <string name="rc_user_group_member_num">%d أعضاء</string>
+    
+    <!-- Ultra Group -->
+    <string name="rc_insert_message">إدراج رسالة</string>
+    <string name="rc_dialog_item_message_modify">تعديل الرسالة</string>
+    <string name="rc_dialog_item_message_update">تحديث الرسالة الموسعة</string>
+    <string name="rc_dialog_item_ultra_message_recall">سحب رسالة المجموعة الفائقة</string>
+    <string name="rc_dialog_item_ultra_message_recall_and_del">سحب وحذف رسالة المجموعة الفائقة</string>
+    <string name="rc_dialog_item_ultra_message_delete">حذف امتداد المجموعة الفائقة</string>
+    <string name="rc_dialog_item_pull_remote_messages">سحب المجموعة الفائقة البعيدة</string>
+    <string name="ultra_group_create_over_limit">تجاوز عدد المجموعات الفائقة التي أنشأها المستخدم وانضم إليها الحد المسموح</string>
+    <string name="ultra_group_channel_over_limit">تجاوز عدد القنوات المنشأة الحد الأقصى</string>
+    
+    <string name="seal_main_title_create_channel">إنشاء قناة</string>
+    <string name="profile_channel_name_word_limit_format" formatted="true">أدخل اسم القناة (%d-%d حرفاً)</string>
+    <string name="profile_group_name_invalid_word">لا يمكن إدخال أحرف خاصة</string>
+    
+    <string name="refresh">تحديث</string>
+    <string name="image_verification_code_is_null">رمز التحقق من الصورة فارغ</string>
+    <string name="seal_talk_image_verify_code">يرجى إدخال رمز التحقق في الصورة</string>
+    <string name="image_verification_code_is_expired">انتهت صلاحية رمز التحقق من الصورة، يرجى إعادة الإدخال</string>
+    
+    <string name="ultra_group_conversation_mentioned_me">[%1$d شخص ذكرني]</string>
+    <string name="ultra_group_conversation_mentioned_all">[%1$d شخص ذكر الكل]</string>
+    <string name="ultra_group_conversation_mentioned_me_and_all">[%1$d شخص ذكرني، %2$d شخص ذكر الكل]</string>
+    <string name="rc_my_new_friend">أصدقاء جدد</string>
+    
+    <!-- Report Categories -->
+    <string name="select_illegal_content">يرجى اختيار نوع من المحتوى غير القانوني:</string>
+    <string name="report_category_pornographic_info">نشر محتوى إباحي/غير قانوني</string>
+    <string name="report_category_fraudulent_activities">سلوك احتيالي</string>
+    <string name="report_category_minor_infringement">انتهاك حقوق القصر</string>
+    <string name="report_category_spam_advertising">حسابات وهمية/إعلانات تسويقية</string>
+    <string name="report_category_cyber_violence">عنف إلكتروني/انتهاك</string>
+    <string name="report_category_other_violations">محتوى مخالف آخر</string>
+    
+    <string name="report_subcategory_pornographic">محتوى إباحي</string>
+    <string name="report_subcategory_illegal_crime">جرائم غير قانونية وسلع محظورة</string>
+    <string name="report_subcategory_gambling">مقامرة</string>
+    <string name="report_subcategory_political_rumors">شائعات سياسية</string>
+    <string name="report_subcategory_violence_bloodshed">عنف ودماء</string>
+    <string name="report_subcategory_other">محتوى مخالف آخر</string>
+    
+    <string name="report_subcategory_financial_fraud">احتيال مالي</string>
+    <string name="report_subcategory_online_job_scam">احتيال وظائف عبر الإنترنت</string>
+    <string name="report_subcategory_online_dating_scam">احتيال المواعدة عبر الإنترنت</string>
+    <string name="report_subcategory_fake_investment_scam">احتيال استثمار مالي وهمي</string>
+    <string name="report_subcategory_gambling_scam">احتيال المقامرة</string>
+    <string name="report_subcategory_other_fraud">سلوك احتيالي آخر</string>
+    
+    <string name="image_evidence_title">أدلة صورية (إلزامي):</string>
+    <string name="report_content_title">محتوى الإبلاغ (اختياري):</string>
+    <string name="report_content_hint">يرجى إدخال المحتوى المراد الإبلاغ عنه، 200 حرف كحد أقصى</string>
+    <string name="delete_image_button_text">حذف</string>
+    
+    <string name="upload_status_pending">في انتظار التحميل</string>
+    <string name="upload_status_uploading">جارٍ التحميل...</string>
+    <string name="upload_status_success">تم التحميل بنجاح</string>
+    <string name="upload_status_failed">فشل التحميل</string>
+    
+    <string name="retry_button_text">إعادة المحاولة</string>
+    
+    <string name="report_content_too_long">لا يمكن أن يتجاوز المحتوى 200 حرف</string>
+    <string name="upload_images_first">يرجى تحميل جميع الصور أولاً</string>
+    <string name="upload_at_least_one_image">يرجى تحميل صورة واحدة على الأقل</string>
+    
+    <string name="report_status_submitted">تم تقديم محتوى الإبلاغ</string>
+    <string name="report_status_description">سنتحقق من محتوى الإبلاغ الخاص بك في أقرب وقت ممكن، وسيتم اتخاذ الإجراءات المناسبة في حالة وجود مخالفات.</string>
+    
+    <!-- Brand Specific -->
+    <string name="seal_mine_about_seal_talk_version">إصدار SealChat</string>
+    <string name="seal_st_account_content_format">حساب RC IM: %s</string>
+    <string name="seal_mine_my_account_sknumber">حساب RC IM</string>
+    <string name="seal_update_staccout_red_tips">يجب أن يبدأ حساب RC IM بحرف، 6-20 حرفاً أو رقماً أو شرطة سفلية أو شرطة</string>
+    <string name="seal_update_staccout_exit">حساب RC IM موجود بالفعل، يرجى إعادة التعيين</string>
+    <string name="seal_update_staccount_tips">1. حساب RC IM هو الاعتماد الفريد للحساب، ويمكن تعيينه مرة واحدة فقط.\n2. بعد تعيين حساب RC IM، يمكن للأصدقاء إضافتك من خلال البحث عن حساب RC IM</string>
+    <string name="seal_update_staccount_title">تعيين حساب RC IM</string>
+    <string name="seal_staccount_dialog_title">تأكيد حساب RC IM</string>
+    <string name="seal_staccount_dialog_title_format_error">فشل تعيين حساب RC IM</string>
+    <string name="seal_staccount_dialog_content">هل أنت متأكد من تعيين حساب RC IM إلى %s؟ لا يمكن التعديل بعد التأكيد</string>
+    <string name="seal_staccount_set_success">تم تعيين حساب RC IM بنجاح</string>
+    <string name="seal_phone_or_sealtalk_account">رقم الهاتف/حساب RC IM</string>
+    <string name="seal_mine_my_account_st_account">حساب RC IM: </string>
+    <string name="seal_privacy_search_st_account">السماح بالبحث عني عبر حساب RC IM</string>
+    <string name="seal_search_phone_numeber_and_account">رقم الهاتف/حساب RC IM</string>
+    <string name="new_friend_read_contact_dialog_title">\"RC IM\" يريد الوصول إلى جهات الاتصال الخاصة بك</string>
+    <string name="new_friend_read_contact_dialog_content">يرجى السماح لـ RC IM بالحصول على جهات الاتصال الخاصة بك، لإكمال مطابقة الأصدقاء من جهات اتصال الهاتف إلى الخادم، لن يحفظ RC IM جهات الاتصال الخاصة بك</string>
+    <string name="wx_share_invite_friend_title">RongCloud - السحابة العالمية للاتصالات عبر الإنترنت</string>
+    <string name="wx_share_invite_friend_content">أضفني كصديق، دعنا نتحدث معاً على RC IM!</string>
+    <string name="sms_share_invite_friend_content_format">مرحباً~ أنا أستخدم RC IM، تطبيق دردشة مصمم خصيصاً للهواة، تعال وجربه! رابط التنزيل: %s</string>
+    <string name="profile_qrcode_share_to_sealtalk">مشاركة إلى RC IM</string>
+    <string name="seal_mine_about_notifi_title">تنزيل النسخة الجديدة من RC IM</string>
+    <string name="seal_login_text_title">مرحباً بك في استخدام RC IM</string>
+    <string name="seal_talk_registration_terms_text">سيتم تسجيل المستخدمين الجدد وفتح حساب مطور RongCloud والموافقة على شروط التسجيل</string>
+    <string name="seal_talk_version_text">RC IM V%s</string>
+    <string name="seal_talk_login_bottom_registration_text_front">سيتم تسجيل المستخدمين الجدد وفتح حساب مطور RongCloud</string>
+    <string name="seal_talk_login_bottom_registration_text_behand">والموافقة على «%1$s» و «%2$s»</string>
 
-    <string name="seal_talk_fraud_tip_conversation_top">RongCloud reminds you to beware of fraud, do not trust money-related information, and do not conduct any offline transfers.</string>
-    <string name="seal_conversation_remote_side_is_typing">الطرف الآخر يكتب&#046;&#046;&#046;</string>
-    <string name="seal_conversation_remote_side_speaking">الطرف الآخر يتحدث&#046;&#046;&#046;</string>
-
-    <string name="seal_member_mention_all_member">حميلحميل</string>
+    <string name="seal_theme_custom_orange">البرتقالي النابض بالحياة (مظهر مخصص)</string>
+    
+    <string name="seal_select_chat_title">اختيار محادثة</string>
+    <string name="seal_select_chat_empty">لا توجد محادثات</string>
+    <string name="seal_select_chat_choose_friend">اختيار صديق</string>
+    <string name="seal_select_chat_choose_group">اختيار مجموعة</string>
+    
+    <string name="seal_mine_about_sdk_version">إصدار SDK</string>
+    <string name="seal_update_staccount_edit_digist">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-</string>
+    <string name="seal_mine_my_account_notset">لم يتم التعيين</string>
+    <string name="seal_update_staccount_save">حفظ</string>
+    <string name="seal_mine_my_account_group_nick_name">اسم المجموعة المستعار: </string>
+    <string name="zxing_msg_camera_framework_bug">عذراً، واجهت كاميرا Android مشكلة، تحتاج إلى إعادة تشغيل الجهاز</string>
+    <string name="seal_group_manager_toast_remove_manager_success">تم الحذف بنجاح</string>
+    <string name="seal_talk_login_verify_code">يرجى إدخال رمز التحقق</string>
+    <string name="seal_main_mine_customer_xn">خدمة عملاء Xiaoneng</string>
+    <string name="new_friend_no_permission_read_contact">تعذر الحصول على معلومات جهات الاتصال</string>
+    
+    <!-- Other -->
+    <string name="seal_account_not_exist">المستخدم غير موجود</string>
+    
+    <!-- QR Code Scan Errors -->
+    <string name="seal_qrcode_scan_content_empty">محتوى رمز QR فارغ</string>
+    <string name="seal_qrcode_scan_unrecognized">رمز QR غير معروف</string>
+    <string name="seal_qrcode_scan_user_id_empty">معرف المستخدم فارغ</string>
+    <string name="seal_qrcode_scan_group_id_empty">معرف المجموعة فارغ</string>
+    <string name="seal_qrcode_scan_group_not_exist">المجموعة غير موجودة أو تم حلها</string>
+    
+    <!-- Profile Update -->
+    <string name="seal_profile_avatar_update_success">تم تحديث الصورة الرمزية بنجاح</string>
+    
+    <!-- Ultra Group -->
+    <string name="seal_ultra_group_get_channel_list_failed">فشل في الحصول على قائمة القنوات</string>
+    
+    <!-- Download -->
+    <string name="seal_download_failed">فشل التنزيل</string>
+    
+    <!-- Read Receipt -->
+    <string name="seal_read_receipt_unread_tab">غير مقروء</string>
+    <string name="seal_read_receipt_read_tab">مقروء</string>
+    <string name="seal_read_receipt_read_user_info">تمت القراءة من قبل المستخدم: %1$s  وقت القراءة: %2$s</string>
+    
+    <!-- Permission -->
+    <string name="seal_permission_explanation_title">شرح الإذن</string>
+    <string name="seal_permission_camera_explanation">يلزم إذن الكاميرا لاستخدام مسح رمز QR والميزات ذات الصلة</string>
+    <string name="seal_permission_user_explanation">شرح طلب الإذن للمستخدم</string>
+    <string name="seal_permission_go_to_apply">تقديم الطلب</string>
+    
+    <!-- User Group -->
+    <string name="seal_user_group_edit_member_title">تحرير أعضاء مجموعة المستخدمين</string>
+    <string name="seal_user_group_bind_channel_title">ربط/إلغاء ربط مجموعة المستخدمين</string>
+    
 </resources>
+

@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/seal_ic_rp_arrow"
+        android:src="?attr/rc_right_arrow_icon_img"
         android:layout_marginEnd="@dimen/seal_unread_arrow_margin_right"
         android:visibility="visible"
         />

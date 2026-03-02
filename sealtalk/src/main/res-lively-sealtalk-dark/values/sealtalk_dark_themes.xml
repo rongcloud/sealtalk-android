@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================== SealTalk 暗色主题 ==================== -->
+    
+    <style name="SealTalkDarkTheme">
+        <!-- 聊天室卡片颜色 -->
+        <item name="chatroom_card_1_start_color">@color/chatroom_card_1_start_dark</item>
+        <item name="chatroom_card_1_end_color">@color/chatroom_card_1_end_dark</item>
+        <item name="chatroom_badge_1_color">@color/chatroom_badge_1_dark</item>
+        
+        <item name="chatroom_card_2_start_color">@color/chatroom_card_2_start_dark</item>
+        <item name="chatroom_card_2_end_color">@color/chatroom_card_2_end_dark</item>
+        <item name="chatroom_badge_2_color">@color/chatroom_badge_2_dark</item>
+        
+        <item name="chatroom_card_3_start_color">@color/chatroom_card_3_start_dark</item>
+        <item name="chatroom_card_3_end_color">@color/chatroom_card_3_end_dark</item>
+        <item name="chatroom_badge_3_color">@color/chatroom_badge_3_dark</item>
+        
+        <item name="chatroom_card_4_start_color">@color/chatroom_card_4_start_dark</item>
+        <item name="chatroom_card_4_end_color">@color/chatroom_card_4_end_dark</item>
+        <item name="chatroom_badge_4_color">@color/chatroom_badge_4_dark</item>
+
+        <item name="rc_user_portrait_border_color">@color/rc_user_portrait_border_color_dark</item>
+
+        <!-- ========== 其他模块主题可在此添加 ========== -->
+
+        <item name="rc_seal_main_add">@drawable/rc_seal_main_add_dark</item>
+        <item name="rc_logo">@drawable/rc_lively_logo_dark</item>
+        <item name="rc_page_background">@drawable/rc_lively_page_background_dark</item>
+
+        <item name="rc_mine_about">@drawable/rc_lively_mine_about_dark</item>
+        <item name="rc_mine_feedback">@drawable/rc_lively_mine_feedback_dark</item>
+        <item name="rc_mine_language">@drawable/rc_lively_mine_language_dark</item>
+        <item name="rc_mine_privacy">@drawable/rc_lively_mine_privacy_dark</item>
+        <item name="rc_mine_qrcode">@drawable/rc_lively_mine_qrcode_dark</item>
+        <item name="rc_mine_setting">@drawable/rc_lively_mine_setting_dark</item>
+        <item name="rc_mine_theme">@drawable/rc_lively_mine_theme_dark</item>
+        <item name="rc_mine_translate">@drawable/rc_lively_mine_translate_dark</item>
+        <item name="rc_mine_minor">@drawable/rc_lively_mine_minor_mode_dark</item>
+        <item name="rc_minor_eye_open">@drawable/rc_lively_minor_input_eye_open_dark</item>
+        <item name="rc_minor_eye_close">@drawable/rc_lively_minor_input_eye_close_dark</item>
+
+        <item name="rc_add_friend">@drawable/rc_lively_add_friend_dark</item>
+        <item name="rc_create_group">@drawable/rc_lively_create_group_dark</item>
+        <item name="rc_scan">@drawable/rc_lively_scan_dark</item>
+        <item name="rc_start_chat_white">@drawable/rc_lively_start_chat_white_dark</item>
+        <item name="rc_main_popup_bg">@color/rc_selected_background_color_dark</item>
+
+        <item name="rc_friend_icon">@drawable/rc_lively_friend_icon_dark</item>
+        <item name="rc_group_icon">@drawable/rc_lively_group_icon_dark</item>
+        <item name="rc_notification_icon">@drawable/rc_lively_notification_icon_dark</item>
+
+        <item name="rc_message_read_detail_bg">@drawable/rc_lively_message_read_detail_bg_dark</item>
+
+        <!-- 底部 Tab 图标 -->
+        <item name="rc_lively_tab_chat_selected">@drawable/rc_lively_tab_chat_selected_dark</item>
+        <item name="rc_lively_tab_chat_unselected">@drawable/rc_lively_tab_chat_unselected_dark</item>
+        <item name="rc_lively_tab_contacts_selected">@drawable/rc_lively_tab_contacts_selected_dark</item>
+        <item name="rc_lively_tab_contacts_unselected">@drawable/rc_lively_tab_contacts_unselected_dark</item>
+        <item name="rc_lively_tab_chatroom_selected">@drawable/rc_lively_tab_chatroom_selected_dark</item>
+        <item name="rc_lively_tab_chatroom_unselected">@drawable/rc_lively_tab_chatroom_unselected_dark</item>
+        <item name="rc_lively_tab_me_selected">@drawable/rc_lively_tab_me_selected_dark</item>
+        <item name="rc_lively_tab_me_unselected">@drawable/rc_lively_tab_me_unselected_dark</item>
+        <item name="rc_lively_tab_ultra_selected">@drawable/rc_lively_tab_ultra_selected_dark</item>
+        <item name="rc_lively_tab_ultra_unselected">@drawable/rc_lively_tab_ultra_unselected_dark</item>
+
+        <item name="rc_conversation_plugin_item_poke_img">@drawable/rc_lively_plugin_poke_selector_dark</item>
+        <item name="rc_conversation_plugin_item_audio_img">@drawable/rc_lively_plugin_audio_selector_dark</item>
+        <item name="rc_conversation_plugin_item_video_img">@drawable/rc_lively_plugin_video_selector_dark</item>
+
+    </style>
+    
+</resources>

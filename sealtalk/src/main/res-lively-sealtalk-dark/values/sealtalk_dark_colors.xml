@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================== SealTalk 暗色模式颜色 ==================== -->
+    
+    <!-- ========== 聊天室模块颜色 ========== -->
+    <!-- 卡片1 (游戏情报局) -->
+    <color name="chatroom_card_1_start_dark">#58B4FF</color>
+    <color name="chatroom_card_1_end_dark">#D1EAFF</color>
+    <color name="chatroom_badge_1_dark">#279EFF</color>
+    
+    <!-- 卡片2 (暖阳小窝) -->
+    <color name="chatroom_card_2_start_dark">#FFFFFF</color>
+    <color name="chatroom_card_2_end_dark">#B2C9FB</color>
+    <color name="chatroom_badge_2_dark">#FFFFFF</color>
+    
+    <!-- 卡片3 (未来触角) -->
+    <color name="chatroom_card_3_start_dark">#9735FF</color>
+    <color name="chatroom_card_3_end_dark">#E1C5FF</color>
+    <color name="chatroom_badge_3_dark">#9E45FF</color>
+    
+    <!-- 卡片4 (音乐天堂) -->
+    <color name="chatroom_card_4_start_dark">#27BEFF</color>
+    <color name="chatroom_card_4_end_dark">#CFF1FF</color>
+    <color name="chatroom_badge_4_dark">#0099FF</color>
+    
+    <!-- ========== 其他模块颜色可在此添加 ========== -->
+
+    <color name="rc_user_portrait_border_color_dark">#020814</color>
+
+    <!-- 注意：登录页已改用IMKit的通用颜色资源，无需在此重复定义 -->
+    
+</resources>
+

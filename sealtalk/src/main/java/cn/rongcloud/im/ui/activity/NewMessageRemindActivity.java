@@ -2,15 +2,11 @@ package cn.rongcloud.im.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.CompoundButton;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.GetPokeResult;
-import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.ui.view.SettingItemView;
 import cn.rongcloud.im.viewmodel.NewMessageViewModel;
@@ -40,43 +36,24 @@ public class NewMessageRemindActivity extends TitleBaseActivity {
         pokeSiv = findViewById(R.id.siv_poke);
 
         remindSiv.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        noticeSiv.setEnabled(isChecked);
-                        setRemindStatus(isChecked);
-                    }
+                (buttonView, isChecked) -> {
+                    noticeSiv.setEnabled(isChecked);
+                    setRemindStatus(isChecked);
                 });
 
-        detailSiv.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        setNoticeDetail(isChecked);
-                    }
-                });
+        detailSiv.setSwitchCheckListener((buttonView, isChecked) -> setNoticeDetail(isChecked));
 
         noticeSiv.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                v ->
                         startActivity(
                                 new Intent(
                                         NewMessageRemindActivity.this,
-                                        MessageDonotDisturbSettingActivity.class));
-                    }
-                });
+                                        MessageDonotDisturbSettingActivity.class)));
 
-        pokeSiv.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        setReceivePokeMessage(isChecked);
-                    }
-                });
+        pokeSiv.setSwitchCheckListener((buttonView, isChecked) -> setReceivePokeMessage(isChecked));
     }
 
-    /** 初始话ViModel */
+    /** 初始化 ViewModel */
     private void initViewModel() {
         newMessageViewModel = ViewModelProviders.of(this).get(NewMessageViewModel.class);
 
@@ -85,12 +62,9 @@ public class NewMessageRemindActivity extends TitleBaseActivity {
                 .getRemindStatus()
                 .observe(
                         this,
-                        new Observer<Boolean>() {
-                            @Override
-                            public void onChanged(Boolean status) {
-                                remindSiv.setChecked(status);
-                                noticeSiv.setEnabled(status);
-                            }
+                        status -> {
+                            remindSiv.setChecked(status);
+                            noticeSiv.setEnabled(status);
                         });
 
         // 推送消息通知详情状态
@@ -98,19 +72,15 @@ public class NewMessageRemindActivity extends TitleBaseActivity {
                 .getPushMsgDetailStatus()
                 .observe(
                         this,
-                        new Observer<Resource<Boolean>>() {
-                            @Override
-                            public void onChanged(Resource<Boolean> resource) {
-                                if (resource.status == Status.SUCCESS) {
-                                    Boolean isDetailStatus = resource.data;
-                                    if (isDetailStatus != null) {
-                                        detailSiv.setCheckedImmediatelyWithOutEvent(isDetailStatus);
-                                    }
-                                } else if (resource.status == Status.ERROR) {
-                                    detailSiv.setCheckedImmediatelyWithOutEvent(
-                                            !detailSiv.isChecked());
-                                    showToast(resource.message);
+                        resource -> {
+                            if (resource.status == Status.SUCCESS) {
+                                Boolean isDetailStatus = resource.data;
+                                if (isDetailStatus != null) {
+                                    detailSiv.setCheckedImmediatelyWithOutEvent(isDetailStatus);
                                 }
+                            } else if (resource.status == Status.ERROR) {
+                                detailSiv.setCheckedImmediatelyWithOutEvent(!detailSiv.isChecked());
+                                showToast(resource.message);
                             }
                         });
 
@@ -119,19 +89,16 @@ public class NewMessageRemindActivity extends TitleBaseActivity {
                 .getReceivePokeMsgStatusResult()
                 .observe(
                         this,
-                        new Observer<Resource<GetPokeResult>>() {
-                            @Override
-                            public void onChanged(Resource<GetPokeResult> resultResource) {
-                                if (resultResource.status == Status.SUCCESS) {
-                                    GetPokeResult data = resultResource.data;
-                                    if (data != null) {
-                                        pokeSiv.setCheckedImmediatelyWithOutEvent(
-                                                data.isReceivePokeMessage());
-                                    }
-                                } else if (resultResource.status == Status.LOADING) {
+                        resultResource -> {
+                            if (resultResource.status == Status.SUCCESS) {
+                                GetPokeResult data = resultResource.data;
+                                if (data != null) {
                                     pokeSiv.setCheckedImmediatelyWithOutEvent(
-                                            IMManager.getInstance().getReceivePokeMessageStatus());
+                                            data.isReceivePokeMessage());
                                 }
+                            } else if (resultResource.status == Status.LOADING) {
+                                pokeSiv.setCheckedImmediatelyWithOutEvent(
+                                        IMManager.getInstance().getReceivePokeMessageStatus());
                             }
                         });
 
@@ -140,14 +107,10 @@ public class NewMessageRemindActivity extends TitleBaseActivity {
                 .getSetReceivePokeMessageStatusResult()
                 .observe(
                         this,
-                        new Observer<Resource<Void>>() {
-                            @Override
-                            public void onChanged(Resource<Void> resource) {
-                                if (resource.status == Status.SUCCESS) {
-                                } else if (resource.status == Status.ERROR) {
-                                    pokeSiv.setCheckedImmediatelyWithOutEvent(!pokeSiv.isChecked());
-                                    showToast(resource.message);
-                                }
+                        resource -> {
+                            if (resource.status == Status.ERROR) {
+                                pokeSiv.setCheckedImmediatelyWithOutEvent(!pokeSiv.isChecked());
+                                showToast(resource.message);
                             }
                         });
 

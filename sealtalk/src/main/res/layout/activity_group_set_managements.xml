@@ -15,8 +15,7 @@
         android:id="@+id/sb_sidrbar"
         android:layout_width="@dimen/seal_login_select_country_sidebar_width"
         android:layout_height="@dimen/seal_login_select_country_sidebar_height"
-        android:layout_gravity="end|center"
-        />
+        android:layout_gravity="end|center" />
 
     <TextView
         android:id="@+id/tv_side_dialog"
@@ -25,7 +24,7 @@
         android:layout_gravity="center"
         android:background="@drawable/rc_bg_toast"
         android:gravity="center"
-        android:textColor="@color/seal_contact_dialog_text_color"
-        android:textSize="30.0dip"
+        android:textColor="?attr/rc_text_secondary_color"
+        android:textSize="30sp"
         android:visibility="gone" />
 </FrameLayout>

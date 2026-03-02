@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.Toast;
 import androidx.core.content.FileProvider;
+import cn.rongcloud.im.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -117,7 +118,8 @@ public class OTAUtils {
                     break;
                     // 下载失败
                 case DownloadManager.STATUS_FAILED:
-                    Toast.makeText(mContext, "下载失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.seal_download_failed, Toast.LENGTH_SHORT)
+                            .show();
                     cursor.close();
                     mContext.unregisterReceiver(receiver);
                     break;

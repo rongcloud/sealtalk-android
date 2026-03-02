@@ -9,13 +9,10 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.BuildConfig;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
-import cn.rongcloud.im.model.Resource;
-import cn.rongcloud.im.model.VersionInfo;
 import cn.rongcloud.im.net.SealTalkUrl;
 import cn.rongcloud.im.ui.dialog.DownloadAppDialog;
 import cn.rongcloud.im.ui.view.SettingItemView;
@@ -58,6 +55,7 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
         getTitleBar().setTitle(R.string.seal_main_mine_about);
 
         findViewById(R.id.siv_func_introduce).setOnClickListener(this);
+        findViewById(R.id.siv_func_introduce).setVisibility(View.GONE);
         findViewById(R.id.siv_rongcloud_web).setOnClickListener(this);
         sealtalkDebugSettingSiv = findViewById(R.id.siv_debug_go);
         sealtalkVersionSiv = findViewById(R.id.siv_sealtalk_version);
@@ -108,75 +106,60 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
     private void initViewModel() {
         AppViewModel appViewModel = ViewModelProviders.of(this).get(AppViewModel.class);
         userInfoViewModel = ViewModelProviders.of(this).get(UserInfoViewModel.class);
+
         // 是否有新版本
         appViewModel
                 .getHasNewVersion()
                 .observe(
                         this,
-                        new Observer<Resource<VersionInfo.AndroidVersion>>() {
-                            @Override
-                            public void onChanged(Resource<VersionInfo.AndroidVersion> resource) {
-                                if (resource.data != null) {
-                                    sealtalkVersionSiv.setClickable(true);
-                                    sealtalkVersionSiv.setTagImageVisibility(View.VISIBLE);
-                                }
+                        resource -> {
+                            if (resource.data != null) {
+                                sealtalkVersionSiv.setClickable(true);
+                                sealtalkVersionSiv.setTagImageVisibility(View.VISIBLE);
                             }
                         });
 
         // sdk 版本
-        appViewModel
-                .getSDKVersion()
-                .observe(
-                        this,
-                        new Observer<String>() {
-                            @Override
-                            public void onChanged(String version) {
-                                sdkVersionSiv.setValue(version);
-                            }
-                        });
+        appViewModel.getSDKVersion().observe(this, version -> sdkVersionSiv.setValue(version));
 
         // sealtalk 版本
         appViewModel
                 .getSealTalkVersion()
-                .observe(
-                        this,
-                        new Observer<String>() {
-                            @Override
-                            public void onChanged(String version) {
-                                sealtalkVersionSiv.setValue(version);
-                            }
-                        });
+                .observe(this, version -> sealtalkVersionSiv.setValue(version));
 
+        // Debug 模式
         appViewModel
                 .getDebugMode()
                 .observe(
                         this,
-                        new Observer<Boolean>() {
-                            @Override
-                            public void onChanged(Boolean result) {
-                                if (result) {
-                                    sdkVersionSiv.setClickable(false);
-                                    debufModeSiv.setVisibility(View.VISIBLE);
-                                    debugEnvSiv.setVisibility(View.VISIBLE);
-                                    sealtalkDebugSettingSiv.setVisibility(View.VISIBLE);
-                                    // 根据构建变体控制设备ID显示 - Develop版本启用，PublishStore版本禁用
-                                    if (!BuildVariantUtils.isPublishStoreBuild()
-                                            && sivDeviceId != null) {
-                                        sivDeviceId.setVisibility(View.VISIBLE);
-                                    }
-                                } else {
-                                    sdkVersionSiv.setClickable(true);
-                                    debufModeSiv.setVisibility(View.GONE);
-                                    debugEnvSiv.setVisibility(View.GONE);
-                                    sealtalkDebugSettingSiv.setVisibility(View.GONE);
-                                    // 根据构建变体控制设备ID隐藏 - Develop版本启用，PublishStore版本禁用
-                                    if (!BuildVariantUtils.isPublishStoreBuild()
-                                            && sivDeviceId != null) {
-                                        sivDeviceId.setVisibility(View.GONE);
-                                    }
-                                }
-                            }
+                        result -> {
+                            updateDebugModeViews(result);
                         });
+    }
+
+    /** 更新 Debug 模式相关视图 */
+    private void updateDebugModeViews(Boolean isDebugMode) {
+        if (isDebugMode) {
+            sdkVersionSiv.setClickable(false);
+            sdkVersionSiv.setDividerVisibility(true);
+            debufModeSiv.setVisibility(View.VISIBLE);
+            debugEnvSiv.setVisibility(View.VISIBLE);
+            sealtalkDebugSettingSiv.setVisibility(View.VISIBLE);
+            // 根据构建变体控制设备ID显示 - Develop版本启用，PublishStore版本禁用
+            if (!BuildVariantUtils.isPublishStoreBuild() && sivDeviceId != null) {
+                sivDeviceId.setVisibility(View.VISIBLE);
+            }
+        } else {
+            sdkVersionSiv.setClickable(true);
+            sdkVersionSiv.setDividerVisibility(false);
+            debufModeSiv.setVisibility(View.GONE);
+            debugEnvSiv.setVisibility(View.GONE);
+            sealtalkDebugSettingSiv.setVisibility(View.GONE);
+            // 根据构建变体控制设备ID隐藏 - Develop版本启用，PublishStore版本禁用
+            if (!BuildVariantUtils.isPublishStoreBuild() && sivDeviceId != null) {
+                sivDeviceId.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override

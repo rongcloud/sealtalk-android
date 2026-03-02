@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/rc_page_background">
+
+    <!-- 标题组件 -->
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/head_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:head_title_text="@string/seal_main_chat_title" />
+
+    <!-- 搜索组件 -->
+    <io.rong.imkit.usermanage.component.SearchComponent
+        android:id="@+id/search_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:search_component_clickable="true" />
+
+    <!-- ConversationListFragment 容器 -->
+    <FrameLayout
+        android:id="@+id/conversation_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+

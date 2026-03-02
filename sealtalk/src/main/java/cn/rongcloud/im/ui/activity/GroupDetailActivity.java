@@ -832,7 +832,7 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
 
     /** 显示群二维码 */
     private void showGroupQrCode() {
-        Intent intent = new Intent(this, QrCodeDisplayActivity.class);
+        Intent intent = new Intent(this, QrCodeDisplayOldActivity.class);
         intent.putExtra(IntentExtra.STR_TARGET_ID, conversationIdentifier.getTargetId());
         intent.putExtra(IntentExtra.START_FROM_ID, IMManager.getInstance().getCurrentId());
         intent.putExtra(IntentExtra.SERIA_QRCODE_DISPLAY_TYPE, QrCodeDisplayType.GROUP);

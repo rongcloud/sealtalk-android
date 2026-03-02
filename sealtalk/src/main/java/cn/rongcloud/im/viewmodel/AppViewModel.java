@@ -160,29 +160,43 @@ public class AppViewModel extends AndroidViewModel {
     /**
      * 比较版本
      *
-     * @param currentVersion
-     * @param newVersion
-     * @return
+     * @param currentVersion 当前版本号，格式如 "1.2.3"
+     * @param newVersion 新版本号，格式如 "1.2.4"
+     * @return true 表示 newVersion 大于 currentVersion
      */
     private boolean hasNewVersion(String currentVersion, String newVersion) {
+        if (currentVersion == null || newVersion == null) {
+            return false;
+        }
+
         try {
             String[] currentVersionArray = currentVersion.split("\\.");
             String[] newVersionArray = newVersion.split("\\.");
-            if (currentVersionArray.length > 0 && newVersionArray.length > 0) {
-                for (int i = 0; i < newVersionArray.length; i++) {
-                    if (i > currentVersionArray.length - 1) {
-                        break;
-                    }
-                    if (Integer.parseInt(newVersionArray[i])
-                            > Integer.parseInt(currentVersionArray[i])) {
-                        return true;
-                    }
+
+            // 比较公共长度部分
+            int minLength = Math.min(currentVersionArray.length, newVersionArray.length);
+            for (int i = 0; i < minLength; i++) {
+                int currentNum = Integer.parseInt(currentVersionArray[i]);
+                int newNum = Integer.parseInt(newVersionArray[i]);
+
+                if (newNum > currentNum) {
+                    // 新版本在当前位更大，说明有新版本
+                    return true;
+                } else if (newNum < currentNum) {
+                    // 新版本在当前位更小，说明没有新版本
+                    return false;
                 }
+                // 相等则继续比较下一位
             }
+
+            // 公共部分都相等，比较长度
+            // 如果新版本更长（如 1.0.1 vs 1.0），则有新版本
+            return newVersionArray.length > currentVersionArray.length;
+
         } catch (NumberFormatException e) {
-            RLog.e(TAG, "hasNewVersion:" + e.getMessage());
+            RLog.e(TAG, "hasNewVersion: 版本号格式错误 - " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
     /**

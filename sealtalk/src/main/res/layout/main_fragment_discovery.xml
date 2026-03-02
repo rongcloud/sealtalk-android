@@ -1,164 +1,316 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!-- 聊天室发现页面 - 严格按照 Figma 设计实现 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/rc_page_background">
 
-    <LinearLayout
+    <!-- 自定义标题栏 -->
+    <RelativeLayout
+        android:id="@+id/custom_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:visibility="gone"
-        android:background="@color/seal_bg">
+        android:layout_height="56dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
+        <!-- 标题 -->
         <TextView
-            style="@style/TextStyle.Alignment"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="14dp"
-            android:text="@string/common_chat_room"
-            android:textColor="@color/color_black_text"
-            android:textSize="16sp" />
+            android:layout_centerInParent="true"
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <View
+    <!-- 使用 ConstraintLayout 精确控制位置和对齐 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0.25dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:background="@color/color_divider_line" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="16dp">
 
-    <LinearLayout
-        android:id="@+id/discovery_ll_chat_room_1"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/seal_bg_list_item"
-        android:clickable="true">
+        <!-- 第二个卡片 - 暖阳小窝 (左侧高卡片) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/discovery_ll_chat_room_2"
+            android:layout_width="170dp"
+            android:layout_height="206dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="5dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="13dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="14dp"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:src="@drawable/discovery_ic_chat_room_1" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_chatroom_card_2"
+                android:padding="16dp">
 
-        <TextView
-            style="@style/TextStyle.Alignment"
-            android:layout_width="wrap_content"
+                <!-- 图标 -->
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_marginTop="27dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_chatroom_home" />
+
+                <!-- 底部信息 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/discovery_chat_room_two"
+                        android:textColor="?attr/rc_text_primary_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_online_badge_2"
+                        android:paddingStart="6dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="6dp"
+                        android:paddingBottom="2dp">
+
+                        <TextView
+                            android:id="@+id/chat_room_2_online_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="345 人畅聊中"
+                            android:textColor="#020814"
+                            android:textSize="12sp" />
+                    </FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 右侧卡片容器 -->
+        <LinearLayout
+            android:id="@+id/right_cards_container"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:text="@string/discovery_chat_room_one"
-            android:textColor="@color/color_black_text" />
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/discovery_ll_chat_room_2"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <!-- 第三个卡片 - 未来触角 (右上卡片) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/discovery_ll_chat_room_3"
+                android:layout_width="match_parent"
+                android:layout_height="98dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="13dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@android:color/transparent">
 
-    </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_chatroom_card_3"
+                    android:padding="16dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.25dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:background="@color/color_divider_line" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="end|top"
+                        android:layout_marginEnd="8dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_chatroom_tech" />
 
-    <LinearLayout
-        android:id="@+id/discovery_ll_chat_room_2"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/seal_bg_list_item"
-        android:clickable="true">
+                    <!-- 底部信息 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|bottom"
+                        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="14dp"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:src="@drawable/discovery_ic_chat_room_2" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/discovery_chat_room_three"
+                            android:textColor="?attr/rc_text_primary_color"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
-        <TextView
-            style="@style/TextStyle.Alignment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="14dp"
-            android:gravity="center_vertical"
-            android:text="@string/discovery_chat_room_two"
-            android:textColor="@color/color_black_text" />
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_online_badge_3"
+                            android:paddingStart="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="2dp">
 
+                            <TextView
+                                android:id="@+id/chat_room_3_online_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="201 人畅聊中"
+                                android:textColor="?attr/rc_common_background_color"
+                                android:textSize="12sp" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+            <!-- 第四个卡片 - 音乐天堂 (右下卡片) -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/discovery_ll_chat_room_4"
+                android:layout_width="match_parent"
+                android:layout_height="98dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="13dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@android:color/transparent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.25dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:background="@color/color_divider_line" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_chatroom_card_4"
+                    android:padding="16dp">
 
-    <LinearLayout
-        android:id="@+id/discovery_ll_chat_room_3"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/seal_bg_list_item"
-        android:clickable="true">
+                    <!-- 图标 -->
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="end|top"
+                        android:layout_marginEnd="8dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_chatroom_music" />
 
-        <cn.rongcloud.im.utils.AsyncImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="14dp"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:src="@drawable/discovery_ic_chat_room_3" />
+                    <!-- 底部信息 -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|bottom"
+                        android:orientation="vertical">
 
-        <TextView
-            style="@style/TextStyle.Alignment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="14dp"
-            android:gravity="center_vertical"
-            android:text="@string/discovery_chat_room_three"
-            android:textColor="@color/color_black_text" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/discovery_chat_room_four"
+                            android:textColor="?attr/rc_text_primary_color"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/bg_online_badge_4"
+                            android:paddingStart="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingEnd="6dp"
+                            android:paddingBottom="2dp">
 
-    </LinearLayout>
+                            <TextView
+                                android:id="@+id/chat_room_4_online_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="135 人畅聊中"
+                                android:textColor="?attr/rc_common_background_color"
+                                android:textSize="12sp" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.25dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:background="@color/color_divider_line" />
+        <!-- 第一个卡片 - 游戏情报局 (横向卡片，在最下方) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/discovery_ll_chat_room_1"
+            android:layout_width="0dp"
+            android:layout_height="98dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="13dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discovery_ll_chat_room_2">
 
-    <LinearLayout
-        android:id="@+id/discovery_ll_chat_room_4"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@drawable/seal_bg_list_item"
-        android:clickable="true">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_chatroom_card_1"
+                android:padding="16dp">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="14dp"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:src="@drawable/discovery_ic_chat_room_4" />
+                <!-- 图标 -->
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_chatroom_game" />
 
-        <TextView
-            style="@style/TextStyle.Alignment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="14dp"
-            android:gravity="center_vertical"
-            android:text="@string/discovery_chat_room_four"
-            android:textColor="@color/color_black_text" />
+                <!-- 右侧信息 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="74dp"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/discovery_chat_room_one"
+                        android:textColor="?attr/rc_text_primary_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-    </LinearLayout>
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_online_badge_1"
+                        android:paddingStart="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="2dp">
+
+                        <TextView
+                            android:id="@+id/chat_room_1_online_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="135 人畅聊中"
+                            android:textColor="?attr/rc_common_background_color"
+                            android:textSize="12sp" />
+                    </FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

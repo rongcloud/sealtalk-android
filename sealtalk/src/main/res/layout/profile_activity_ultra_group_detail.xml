@@ -88,6 +88,7 @@
                 android:layout_height="wrap_content"
                 app:item_content="频道白名单"
                 app:item_divider="true"
+                app:item_right_image_auto_mirrored="true"
                 app:item_right_image="@drawable/seal_ic_mine_go" />
 
             <io.rong.imkit.widget.SettingItemView
@@ -96,6 +97,7 @@
                 android:layout_height="wrap_content"
                 app:item_content="添加白名单"
                 app:item_divider="true"
+                app:item_right_image_auto_mirrored="true"
                 app:item_right_image="@drawable/seal_ic_mine_go" />
 
             <io.rong.imkit.widget.SettingItemView
@@ -105,6 +107,7 @@
                 app:item_content="超级群频道设置页面"
                 app:item_divider="true"
                 android:visibility="gone"
+                app:item_right_image_auto_mirrored="true"
                 app:item_right_image="@drawable/seal_ic_mine_go" />
 
             <androidx.appcompat.widget.AppCompatCheckBox

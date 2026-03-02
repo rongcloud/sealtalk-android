@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">RC IM</string>
     <!-- login-->
@@ -9,7 +10,11 @@
     <string name="seal_login_phone_number">Mobile Number</string>
     <string name="seal_login_register">Register</string>
     <string name="seal_login_code">Verification Code</string>
-    <string name="seal_login_send_code">Send a Code</string>
+    <string name="seal_login_send_code">Get Code</string>
+    <string name="seal_login_contact_method">Contact Method</string>
+    <string name="seal_talk_image_verify_code_label">Image Verification Code</string>
+    <string name="seal_talk_verify_code_label">Verification Code</string>
+    <string name="seal_login_agreement_text">New login users will register and activate RongCloud developer account and agree to\nTerms of Service and IM Privacy Policy</string>
     <string name="seal_login_nick_name">Nickname</string>
     <string name="seal_login_confirm">Confirm</string>
     <string name="seal_login_confirm_password">Confirm Password</string>
@@ -34,7 +39,7 @@
     <string name="seal_login_user_logout">User is Logout</string>
     <string name="seal_login_user_blocked">User is Blocked</string>
     <string name="seal_login_user_login_expiration">Not logged in or login credentials invalid</string>
-    <string name="common_chat_room">Chatroom</string>
+    <string name="common_chat_room">Chat Room</string>
     <string name="discovery_chat_room_one">Chatroom1</string>
     <string name="discovery_chat_room_two">Chatroom2</string>
     <string name="discovery_chat_room_three">Chatroom3</string>
@@ -43,6 +48,10 @@
     <string name="discovery_chat_room_join_failure_by_kicked">You are not allowed to join the chat room</string>
     <string name="discovery_join_chat_room_error">Chat room ID is empty, please try later</string>
 
+    <!-- 国家和地区选择 -->
+    <string name="seal_select_country_region">Select Country and Region</string>
+    <string name="seal_search_country_hint">Search country</string>
+    <string name="seal_main_chat_title">Chats</string>
     <string name="new_friends">New Friends</string>
     <string name="group">Groups</string>
     <string name="public_service">Public Accounts</string>
@@ -81,15 +90,15 @@
     <!--Main-->
     <string-array name="tab_names_nomal">
         <item>Messages</item>
-        <item>Contacts</item>
         <item>ChatRoom</item>
+        <item>Friends</item>
         <item>Me</item>
     </string-array>
     <string-array name="tab_names_ultra">
         <item>Messages</item>
         <item>Ultra</item>
-        <item>Contacts</item>
         <item>ChatRoom</item>
+        <item>Friends</item>
         <item>Me</item>
     </string-array>
 
@@ -106,8 +115,8 @@
     <string name="seal_evaluate_lable_must">Must select tag</string>
     <string name="seal_evaluate_input_must">Must insert advise</string>
 
-    <string name="seal_conversation_remote_side_is_typing">Typing &#046;&#046;&#046;</string>
-    <string name="seal_conversation_remote_side_speaking">Speaking &#046;&#046;&#046;</string>
+    <string name="seal_conversation_remote_side_is_typing">Typing...</string>
+    <string name="seal_conversation_remote_side_speaking">Speaking...</string>
     <string name="seal_conversation_title_discussion_group">Discussion Group</string>
     <string name="seal_conversation_title_system">System messages assistant</string>
     <string name="seal_conversation_title_feedback">Feedback</string>
@@ -139,7 +148,7 @@
     <!-- chat detail reference -->
     <string name="profile_search_message">Search Chat History</string>
     <string name="profile_message_notice">Mute Notifications</string>
-    <string name="profile_set_top">Stick On Top</string>
+    <string name="profile_set_top">Pin to Top</string>
     <string name="profile_clean_message">Clear Chat History</string>
     <string name="profile_screen_shot_notification">Screenshot Notification</string>
     <string name="profile_screen_shot_notification_tips">All members will be notified when take a screenshot after enabled</string>
@@ -153,16 +162,18 @@
 
     <string name="profile_all_group_member">All Group Members</string>
     <string name="profile_group_member_online_status">Group Member Online Status</string>
-    <string name="profile_group_portrait">Group Portrait</string>
+    <string name="profile_group_portrait">Group Avatar</string>
     <string name="profile_group_name">Group Name</string>
     <string name="profile_group_notice">Group Announcement</string>
     <string name="profile_group_code">QR code</string>
-    <string name="profile_quit_group">Delete And Quit</string>
+    <string name="profile_quit_group">Delete and Exit</string>
     <string name="profile_dismiss_group">Dismiss And Quit</string>
     <string name="profile_group_info">Group Info</string>
     <string name="profile_group_total_member">Group Members</string>
     <string name="profile_update_portrait_success">Portrait updated successfully</string>
     <string name="profile_upload_portrait_failed">Portrait upload failed</string>
+    <string name="profile_uploading_portrait">Uploading portrait...</string>
+    <string name="profile_updating_user_info">Updating user info...</string>
     <string name="profile_hint_new_group_name">New Group Name</string>
     <string name="profile_group_name_word_limit_format" formatted="true">The group name should be %d-%d words</string>
     <string name="profile_group_name_emoji_too_short">Group name is too short</string>
@@ -171,7 +182,7 @@
     <string name="profile_group_notice_prefix">\@all\n</string>
     <string name="profile_confirm_quit_group">Confirm to quit the group?</string>
     <string name="profile_confirm_dismiss_group">Confirm to dismiss the group?</string>
-    <string name="profile_set_display_name">Set up remarks and descriptions</string>
+    <string name="profile_set_display_name">Set Alias</string>
     <string name="profile_picture_detail">Image details</string>
     <string name="profile_picture_more">More</string>
     <string name="profile_set_group_info">Personal information</string>
@@ -180,9 +191,9 @@
     <string name="profile_detail_start_chat">Start Chat</string>
     <string name="profile_detail_start_voice">Voice Call</string>
     <string name="profile_detail_start_video">Video Call</string>
-    <string name="profile_detail_add_friend">Add To Friend</string>
-    <string name="profile_detail_join_the_blacklist">Add to blacklist</string>
-    <string name="profile_detail_remove_from_blacklist">Remove from blacklist</string>
+    <string name="profile_detail_add_friend">Add Friend</string>
+    <string name="profile_detail_join_the_blacklist">Block User</string>
+    <string name="profile_detail_remove_from_blacklist">Unblock</string>
     <string name="profile_add_friend_hint">Friend adding info</string>
     <string name="profile_invite_friend_description_has_group_format" formatted="true">I am %s from the group of %s</string>
     <string name="profile_invite_friend_description_format" formatted="true">I am %s</string>
@@ -194,19 +205,23 @@
 
     <string name="profile_group_not_exist">group not exist</string>
     <string name="profile_group_has_dismissed">Group has been dismissed</string>
-    <string name="profile_group_has_members_format">%1$d&#160;member(s) group</string>
+    <string name="profile_group_has_members_format">%1$d member(s) group</string>
 
     <string name="profile_save_picture_at">Picture saved success</string>
     <string name="profile_join_the_group_chat">Join the group chat</string>
 
     <string name="seal_main_title_start_chat">Start Chat</string>
-    <string name="seal_main_title_create_group">Create Groups</string>
+    <string name="seal_main_title_create_group">Create Group</string>
     <string name="seal_main_title_add_friends">Add Contacts</string>
     <string name="seal_main_title_scan">Scan</string>
 
+    <string name="seal_main_me_app_account_label">App Account: </string>
     <string name="seal_main_mine_set_account">Account Settings</string>
-    <string name="seal_main_mine_setting_language">Language</string>
+    <string name="seal_main_mine_setting_language">Language Settings</string>
     <string name="seal_main_mine_setting_translation">Translation Settings</string>
+    <string name="seal_translation_language">Select Language</string>
+    <string name="seal_translation_src_language">Source Language</string>
+    <string name="seal_translation_target_language">Target Language</string>
     <string name="seal_main_mine_proxy_setting">Proxy Setting</string>
     <string name="seal_main_mine_proxy_setting_test_host">Test Host</string>
     <string name="seal_main_mine_proxy_setting_proxy_ip">Proxy IP</string>
@@ -236,7 +251,7 @@
     <string name="seal_mine_about_update_log">Update Log </string>
     <string name="seal_mine_about_function_introduce">Feature Introduction</string>
     <string name="seal_mine_about_rongcloud_web">Official Website</string>
-    <string name="seal_mine_about_seal_talk_version">RC IM Version</string>
+    <string name="seal_mine_about_seal_talk_version">SealChat Version</string>
     <string name="seal_mine_about_sdk_version">SDK Version</string>
     <string name="debug_mode_is_open">Debug mode is on</string>
     <string name="seal_mine_about_close_debug_mode">Turn Off Debug Mode</string>
@@ -246,7 +261,7 @@
     <string name="common_set_failed">Set failed</string>
     <string name="common_clear_success">Cleared</string>
     <string name="common_clear_failure">Clear failed</string>
-    <string name="seal_mine_my_account_portrait">Portrait</string>
+    <string name="seal_mine_my_account_portrait">Avatar</string>
     <string name="seal_mine_my_account_nickname">Nickname</string>
     <string name="seal_st_account_content_format">RC IM Account：%s</string>
 
@@ -264,12 +279,12 @@
     <string name="seal_staccount_dialog_title_format_error">Set up RC IM number failed</string>
     <string name="seal_staccount_dialog_content">Are you sure set the RC IM number to @ ? it will not be modified after confirmation</string>
     <string name="seal_staccount_set_success">Set up RC IM number success</string>
-    <string name="seal_phone_or_sealtalk_account">Phone number/RC IM number</string>>
+    <string name="seal_phone_or_sealtalk_account">Phone number/RC IM number</string>&gt;
 
-    <!--gender-->
+
     <string name="seal_mine_my_account_gender">Gender</string>
-    <string name="seal_gender_man">male</string>
-    <string name="seal_gender_female">female</string>
+    <string name="seal_gender_man">Male</string>
+    <string name="seal_gender_female">Female</string>
     <string name="seal_gender_save">save</string>
     <string name="seal_gender_set_success">Success</string>
     <string name="seal_gender_set_fail">Failed</string>
@@ -289,10 +304,10 @@
     <string name="seal_dialog_select_picture_take_picture">Take Picture</string>
     <string name="seal_dialog_select_picture_album">My Album</string>
     <string name="seal_dialog_select_picture_cancel">Cancel</string>
-    <string name="seal_ac_search_friend">Contacts</string>
+    <string name="seal_ac_search_friend">Friends</string>
     <string name="seal_ac_search_group">Groups</string>
     <string name="seal_ac_search_chatting_records">Chat History</string>
-    <string name="seal_ac_search_more_friend">See More Contacts</string>
+    <string name="seal_ac_search_more_friend">See More Friends</string>
     <string name="seal_ac_search_more_group">See More Groups</string>
     <string name="seal_ac_search_more_chatting_records">See More Chat History</string>
     <string name="seal_search_item_chat_records">Found %d related chat histories </string>
@@ -310,7 +325,10 @@
     <string name="seal_set_account_dialog_toast_clear_cache_clear_success">Cleared</string>
     <string name="seal_set_account_dialog_clear_cache_message">Do you want to clear cache?</string>
     <string name="seal_privacy_blacklist_is_empty">Blacklist is empty</string>
-    <string name="seal_privacy_blacklist">BlackList</string>
+    <string name="seal_privacy_blacklist">Blocked List</string>
+    <string name="seal_privacy_blacklist_contacts">Blacklist</string>
+    <string name="seal_account_setting_security_privacy_title">Security and Privacy</string>
+    <string name="seal_account_setting_new_message_notification_title">New Message Notification</string>
     <string name="seal_privacy_search_phone">Search By Mobile</string>
     <string name="seal_privacy_search_st_account">Search By Sealtalk No.</string>
     <string name="seal_privacy_friend_verify">Adding Verification</string>
@@ -347,7 +365,7 @@
     <string name="seal_inivte_firend_descprtion_format" formatted="true">I am %s</string>
     <string name="seal_account_not_exist">User does not exist.</string>
     <string name="seal_quest_failed_error_code">Request failed, error code:%d</string>
-    <string name="setting_new_message_receive_poke_message">Accept the poke message</string>
+    <string name="setting_new_message_receive_poke_message">Poke the message pop-up</string>
 
     <string name="new_friend_title">Add friends</string>
     <string name="new_friend_add_from_phone_contact">Phonebook</string>
@@ -375,7 +393,7 @@
     <string name="sms_share_invite_friend_content_format">Hi~ I am using RC IM now, a chat app tailored for the best, come and try it! download it from: %s</string>
 
     <string name="zxing_msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
-    <string name="zxing_distinguish_picture">Identify the Qrcode from the image</string>
+    <string name="zxing_distinguish_picture">Scan QR Code in Image</string>
     <string name="zxing_qr_can_not_recognized">The QR code can’t be recognized</string>
     <string name="zxing_open_light">Open</string>
     <string name="zxing_close_light">Close</string>
@@ -397,11 +415,10 @@
     <string name="seal_group_manager_copy">Copy new group with one click</string>
     <string name="seal_group_manager_exited">Quitted member list</string>
     <string name="seal_group_detail_group_manager">Group management/admin</string>
-    <string name="seal_group_management_group_owner">Group holder</string>
-    <string name="seal_group_management_group_managements">Group admin</string>
+    <string name="seal_group_management_group_owner">Owner</string>
+    <string name="seal_group_management_group_managements">Admin</string>
     <string name="seal_group_management_add_group_managements">Add group admin</string>
-    <string name="seal_group_management_dialog_delete_content"><![CDATA[Do you want to remove <font color="#0195ff">%1$s</font> from the group admin list]]> </string>
-
+    <string name="seal_group_management_dialog_delete_content">Do you want to remove &lt;font color="#0195ff"&gt;%1$s&lt;/font&gt; from the group admin list </string>
     <string name="seal_select_forward_title">Select a chat</string>
     <string name="seal_select_forward_create_new_chat">Create a New Chat</string>
     <string name="seal_select_forward_select_group">Select a Group Chat</string>
@@ -414,7 +431,7 @@
     <string name="seal_group_administrator">Group Owner </string>
     <string name="seal_send">Send</string>
     <string name="seal_group_manager_transfer_select_new_group_owner">Select the new group holder</string>
-    <string name="seal_group_manager_transfer_group_owner_dialog_content"><![CDATA[Are you sure to select <font color="#0195ff">%1$s</font> as the new group holder and you will give up the identity automatically]]></string>
+    <string name="seal_group_manager_transfer_group_owner_dialog_content">Are you sure to select &lt;font color="#0195ff"&gt;%1$s&lt;/font&gt; as the new group holder and you will give up the identity automatically</string>
     <string name="seal_select_forward_more_contact">More Contacts</string>
     <string name="seal_selected_contacts_count">%d people</string>
     <string name="seal_selected_groups_count">%d people、%d group(s)</string>
@@ -428,22 +445,24 @@
     <string name="profile_qrcode_group_need_verify">The group has enable verification, only allow friends invitation to enter the group</string>
     <string name="profile_qrcode_share_to_sealtalk">Share to RC IM</string>
     <string name="profile_qrcode_share_to_wechat">Share to Wechat</string>
-    <string name="profile_group_qrcode">Group QR code</string>
-    <string name="seal_main_mine_qrcode">My QR code</string>
+    <string name="profile_group_qrcode">Group QR Code</string>
+    <string name="seal_main_mine_qrcode">My QR Code</string>
     <string name="profile_join_group">Join the group</string>
     <string name="profile_delete_from_contact">Delete contacts</string>
     <string name="profile_group_protection_tips">The group owner has turned on the group member protection mode, it is unable to add friends in the group.</string>
     <string name="profile_add_to_blacklist_tips">You will not be able to receive the message and delete the chat history with the contact after added the contacts to blacklist.</string>
-    <string name="profile_remove_from_contact_tips_html_format" formatted="true"><Data><![CDATA[Remove <font color="#368AE8">%1$s</font> from the contacts list and clear all the chat history at the same time]]></Data></string>
+    <string name="profile_remove_from_contact_tips_html_format" formatted="true">
+        <Data>Remove &lt;font color="#368AE8"&gt;%1$s&lt;/font&gt; from the contacts list and clear all the chat history at the same time</Data>
+    </string>
     <string name="seal_group_action_transfer_group_owner">%1$s became the group holder</string>
-    <string name="profile_group_manager">Group admin</string>
+    <string name="profile_group_manager">Group Management</string>
     <string name="profile_group_user_info">My information in this group</string>
     <string name="profile_group_notice_tips">After the release, the group announcement will be sent as a system message, visible to all members.</string>
     <string name="profile_group_notice_update_time_format" formatted="true">Release time：%s</string>
     <string name="profile_group_notice_clear_confirm">Confirm to clear the group announcement?</string>
     <string name="profile_group_has_no_notice">No group announcement</string>
     <string name="profile_group_notice_not_changed">Group announcement has not been modified</string>
-    <string name="seal_group_manager_select_managements_dialog_content"><![CDATA[Confirm to set <font color="#0195ff">%1$s</font> as a group admin?]]></string>
+    <string name="seal_group_manager_select_managements_dialog_content">Confirm to set &lt;font color="#0195ff"&gt;%1$s&lt;/font&gt; as a group admin?</string>
     <string name="seal_group_manager_confirm">Confirm</string>
     <string name="seal_group_manager_set_manager_toast_set_management_success">Successful</string>
     <string name="seal_group_manager_set_manager_toast_set_management_failed">Failed</string>
@@ -457,7 +476,7 @@
     <string name="seal_mine_about_notifi_title">New version download</string>
     <string name="seal_group_manager_toast_remove_manager_success">Deleted</string>
     <string name="seal_group_manager_toast_remove_manager_failed">Failed to delete</string>
-    <string name="seal_loading_dialog_logining">logging in</string>
+    <string name="seal_loading_dialog_logining">Logging in...</string>
     <string name="seal_login_toast_send_code_success">Sent</string>
     <string name="seal_login_toast_send_code_failed">Failed to send verification code, please try again later</string>
     <string name="login_register_phone_already_existed">Has been registered</string>
@@ -484,8 +503,8 @@
     <string name="seal_set_clean_time_state_not">Please Set Time</string>
     <string name="seal_set_clean_time_notification_open">Group holder has enabled the timing group message cleanup</string>
     <string name="seal_set_clean_time_notification_close">Group holder has disabled the timing group message cleanup</string>
-    <string name="seal_set_screen_capture_open">&#160;enabled the screenshot notification</string>
-    <string name="seal_set_screen_capture_close">&#160;disabled the screenshot notification</string>
+    <string name="seal_set_screen_capture_open">enabled the screenshot notification</string>
+    <string name="seal_set_screen_capture_close">disabled the screenshot notification</string>
     <string name="seal_set_screen_capture_use">captured the screen during chatting</string>
     <string name="seal_set_screen_capture_you">You</string>
     <string name="seal_set_clean_time_not_owner_tip">Only the group holder is allowed to setup</string>
@@ -619,9 +638,8 @@
     <string name="seal_choose_members">Select Members</string>
     <string name="contact_multi_delete_friend">Delete friends in bulk</string>
     <string name="contact_multi_delete_friend_conf" formatted="true">
-        <Data><![CDATA[Selected friends will be deleted after confirmed,<br> confirm to delete?]]></Data>
-        </string>
-
+        <Data>Selected friends will be deleted after confirmed,&lt;br&gt; confirm to delete?</Data>
+    </string>
     <string name="seal_dialog_wait_tips">Please wait...</string>
 
     <string name="seal_login_private_service_error">Login Fail Status :34005</string>
@@ -660,10 +678,10 @@
     <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-en</string>
 
     <string name="seal_talk_fraud_tips_dialog_title">Tips</string>
-    <string name="seal_talk_fraud_tips_dialog_content">You are using RongCloud IM, RongCloud reminds you to beware of fraud and Be cautious of messages involving money.</string>
+    <string name="seal_talk_fraud_tips_dialog_content">You are using RongCloud IM, SealChat reminds you to beware of fraud and Be cautious of messages involving money.</string>
     <string name="seal_talk_fraud_tips_dialog_confirm">Confirm</string>
 
-    <string name="seal_talk_fraud_tip_conversation_top">RongCloud reminds you to beware of fraud, do not trust money-related information, and do not conduct any offline transfers.</string>
+    <string name="seal_talk_fraud_tip_conversation_top">SealChat reminds you to beware of fraud, do not trust money-related information, and do not conduct any offline transfers.</string>
 
     <string name="seal_talk_security_kick_out">Hello, your account has been banned due to abnormal operation and cannot log in. If you have any questions, please call the official phone:</string>
     <string name="seal_talk_security_kick_out_phone">400-919-9066</string>
@@ -767,6 +785,52 @@
     <!-- Theme Settings -->
     <string name="seal_theme_setting_title">Theme Settings</string>
     <string name="seal_theme_origin_light">Traditional Theme</string>
-    <string name="seal_theme_lively">Lively Theme (Follow System)</string>
+    <string name="seal_theme_lively">Lively Theme</string>
+    <string name="seal_theme_lively_follow_system">Follow System</string>
+    <string name="seal_theme_lively_light">Light Mode</string>
+    <string name="seal_theme_lively_dark">Dark Mode</string>
+    <string name="seal_theme_custom_orange">Vibrant Orange (Custom Theme)</string>
+
+    <!-- Join Group -->
+    <string name="seal_join_group_title">Join Group</string>
+    <string name="seal_join_group_button">Join Group</string>
+    <string name="seal_join_group_success">Joined group successfully</string>
+    <string name="seal_join_group_wait_approve">Request sent, please wait for approval</string>
+    <string name="seal_join_group_failed">Failed to join group</string>
+    <string name="seal_select_chat_title">Select Chat</string>
+    <string name="seal_select_chat_empty">No recent conversations</string>
+    <string name="seal_select_chat_choose_friend">Select Friend</string>
+    <string name="seal_select_chat_choose_group">Select Group</string>
+    
+    <!-- QR Code Scan Errors -->
+    <string name="seal_qrcode_scan_content_empty">QR code content is empty</string>
+    <string name="seal_qrcode_scan_unrecognized">Unrecognized QR code</string>
+    <string name="seal_qrcode_scan_user_id_empty">User ID is empty</string>
+    <string name="seal_qrcode_scan_group_id_empty">Group ID is empty</string>
+    <string name="seal_qrcode_scan_group_not_exist">Group does not exist or has been dismissed</string>
+    
+    <!-- Profile Update -->
+    <string name="seal_profile_avatar_update_success">Avatar updated successfully</string>
+    
+    <!-- Ultra Group -->
+    <string name="seal_ultra_group_get_channel_list_failed">Failed to get channel list</string>
+    
+    <!-- Download -->
+    <string name="seal_download_failed">Download failed</string>
+    
+    <!-- Read Receipt -->
+    <string name="seal_read_receipt_unread_tab">Unread</string>
+    <string name="seal_read_receipt_read_tab">Read</string>
+    <string name="seal_read_receipt_read_user_info">Read by user ID: %1$s  Read time: %2$s</string>
+    
+    <!-- Permission -->
+    <string name="seal_permission_explanation_title">Permission Explanation</string>
+    <string name="seal_permission_camera_explanation">Camera permission is required to use QR code scanning and related features</string>
+    <string name="seal_permission_user_explanation">Explain permission request to user</string>
+    <string name="seal_permission_go_to_apply">Apply</string>
+    
+    <!-- User Group -->
+    <string name="seal_user_group_edit_member_title">Edit User Group Members</string>
+    <string name="seal_user_group_bind_channel_title">Bind/Unbind User Group</string>
 
 </resources>

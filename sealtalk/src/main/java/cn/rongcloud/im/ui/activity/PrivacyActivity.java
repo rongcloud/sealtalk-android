@@ -2,11 +2,7 @@ package cn.rongcloud.im.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.CompoundButton;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.model.PrivacyResult;
@@ -40,145 +36,88 @@ public class PrivacyActivity extends TitleBaseActivity {
         getTitleBar().setTitle(R.string.seal_mine_set_account_privacy);
         findViewById(R.id.siv_blacklist)
                 .setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                        v ->
                                 startActivity(
-                                        new Intent(PrivacyActivity.this, BlackListActivity.class));
-                            }
-                        });
+                                        new Intent(PrivacyActivity.this, BlackListActivity.class)));
         phoneSiv = findViewById(R.id.siv_search_phone);
         phoneSiv.setSwitchTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (!isPhoneSivClicked) {
-                            isPhoneSivClicked = true;
-                        }
-                        return false;
+                (v, event) -> {
+                    if (!isPhoneSivClicked) {
+                        isPhoneSivClicked = true;
                     }
+                    return false;
                 });
         phoneSiv.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        // 初始化不触发逻辑
-                        if (!isPhoneSivClicked) {
-                            return;
-                        }
-                        if (isChecked) {
-                            setPrivace(1, -1, -1, -1);
-                        } else {
-                            setPrivace(0, -1, -1, -1);
-                        }
+                (buttonView, isChecked) -> {
+                    // 初始化不触发逻辑
+                    if (!isPhoneSivClicked) {
+                        return;
                     }
+                    setPrivace(isChecked ? 1 : 0, -1, -1, -1);
                 });
         stAccountSiv = findViewById(R.id.siv_search_st_account);
         stAccountSiv.setSwitchTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (!isStAccountSivClicked) {
-                            isStAccountSivClicked = true;
-                        }
-                        return false;
+                (v, event) -> {
+                    if (!isStAccountSivClicked) {
+                        isStAccountSivClicked = true;
                     }
+                    return false;
                 });
         stAccountSiv.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        // 初始化不触发逻辑
-                        if (!isStAccountSivClicked) {
-                            return;
-                        }
-                        if (isChecked) {
-                            setPrivace(-1, 1, -1, -1);
-                        } else {
-                            setPrivace(-1, 0, -1, -1);
-                        }
+                (buttonView, isChecked) -> {
+                    // 初始化不触发逻辑
+                    if (!isStAccountSivClicked) {
+                        return;
                     }
+                    setPrivace(-1, isChecked ? 1 : 0, -1, -1);
                 });
         friendVerifySiv = findViewById(R.id.siv_friend_verify);
         friendVerifySiv.setSwitchTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (!isFriendVerifySivClicked) {
-                            isFriendVerifySivClicked = true;
-                        }
-                        return false;
+                (v, event) -> {
+                    if (!isFriendVerifySivClicked) {
+                        isFriendVerifySivClicked = true;
                     }
+                    return false;
                 });
         friendVerifySiv.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        // 初始化不触发逻辑
-                        if (!isFriendVerifySivClicked) {
-                            return;
-                        }
-                        if (isChecked) {
-                            setPrivace(-1, -1, 1, -1);
-                        } else {
-                            setPrivace(-1, -1, 0, -1);
-                        }
+                (buttonView, isChecked) -> {
+                    // 初始化不触发逻辑
+                    if (!isFriendVerifySivClicked) {
+                        return;
                     }
+                    setPrivace(-1, -1, isChecked ? 1 : 0, -1);
                 });
         groupVerifySiv = findViewById(R.id.siv_group_verify);
         groupVerifySiv.setSwitchTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (!isGroupVerifySivClicked) {
-                            isGroupVerifySivClicked = true;
-                        }
-                        return false;
+                (v, event) -> {
+                    if (!isGroupVerifySivClicked) {
+                        isGroupVerifySivClicked = true;
                     }
+                    return false;
                 });
         groupVerifySiv.setSwitchCheckListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        // 初始化不触发逻辑
-                        if (!isGroupVerifySivClicked) {
-                            return;
-                        }
-                        if (isChecked) {
-                            setPrivace(-1, -1, -1, 1);
-                        } else {
-                            setPrivace(-1, -1, -1, 0);
-                        }
+                (buttonView, isChecked) -> {
+                    // 初始化不触发逻辑
+                    if (!isGroupVerifySivClicked) {
+                        return;
                     }
+                    setPrivace(-1, -1, -1, isChecked ? 1 : 0);
                 });
     }
 
     private void initViewModel() {
         privacyViewModel = ViewModelProviders.of(this).get(PrivacyViewModel.class);
-        privacyViewModel
-                .getPrivacyState()
-                .observe(
-                        this,
-                        new Observer<Resource<PrivacyResult>>() {
-                            @Override
-                            public void onChanged(Resource<PrivacyResult> privacyResultResource) {
-                                updateView(privacyResultResource);
-                            }
-                        });
+        privacyViewModel.getPrivacyState().observe(this, this::updateView);
         privacyViewModel
                 .getSetPrivacyResult()
                 .observe(
                         this,
-                        new Observer<Resource<Void>>() {
-                            @Override
-                            public void onChanged(Resource<Void> voidResource) {
-                                if (voidResource.status == Status.SUCCESS) {
-                                    ToastUtils.showToast(
-                                            getString(R.string.seal_set_clean_time_success));
-                                } else if (voidResource.status == Status.ERROR) {
-                                    ToastUtils.showToast(
-                                            getString(R.string.seal_set_clean_time_fail));
-                                }
+                        voidResource -> {
+                            if (voidResource.status == Status.SUCCESS) {
+                                ToastUtils.showToast(
+                                        getString(R.string.seal_set_clean_time_success));
+                            } else if (voidResource.status == Status.ERROR) {
+                                ToastUtils.showToast(getString(R.string.seal_set_clean_time_fail));
                             }
                         });
     }

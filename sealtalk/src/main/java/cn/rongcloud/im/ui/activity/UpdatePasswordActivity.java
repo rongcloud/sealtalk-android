@@ -4,15 +4,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
-import cn.rongcloud.im.model.Resource;
-import cn.rongcloud.im.model.Result;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.viewmodel.UserInfoViewModel;
 
@@ -42,27 +38,24 @@ public class UpdatePasswordActivity extends TitleBaseActivity {
         confirmPasswordEt = findViewById(R.id.et_confirm_password);
         updateBtn = findViewById(R.id.btn_update);
         updateBtn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String oldPassword = oldPasswordEt.getText().toString();
-                        String newPassword = newPasswordEt.getText().toString();
-                        String confirmPassword = confirmPasswordEt.getText().toString();
+                v -> {
+                    String oldPassword = oldPasswordEt.getText().toString();
+                    String newPassword = newPasswordEt.getText().toString();
+                    String confirmPassword = confirmPasswordEt.getText().toString();
 
-                        if (oldPassword.equals(newPassword)) {
-                            showToast(R.string.seal_update_password_toast_password_old_equal_new);
-                            return;
-                        }
-
-                        if (!confirmPassword.equals(newPassword)) {
-                            showToast(R.string.seal_update_password_toast_password_not_equal);
-                            return;
-                        }
-                        changePassword(oldPassword, newPassword);
+                    if (oldPassword.equals(newPassword)) {
+                        showToast(R.string.seal_update_password_toast_password_old_equal_new);
+                        return;
                     }
+
+                    if (!confirmPassword.equals(newPassword)) {
+                        showToast(R.string.seal_update_password_toast_password_not_equal);
+                        return;
+                    }
+                    changePassword(oldPassword, newPassword);
                 });
 
-        oldPasswordEt.addTextChangedListener(
+        TextWatcher passwordWatcher =
                 new TextWatcher() {
                     @Override
                     public void beforeTextChanged(
@@ -75,37 +68,11 @@ public class UpdatePasswordActivity extends TitleBaseActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {}
-                });
+                };
 
-        newPasswordEt.addTextChangedListener(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(
-                            CharSequence s, int start, int count, int after) {}
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        setConformButtonState();
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {}
-                });
-
-        confirmPasswordEt.addTextChangedListener(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(
-                            CharSequence s, int start, int count, int after) {}
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        setConformButtonState();
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {}
-                });
+        oldPasswordEt.addTextChangedListener(passwordWatcher);
+        newPasswordEt.addTextChangedListener(passwordWatcher);
+        confirmPasswordEt.addTextChangedListener(passwordWatcher);
     }
 
     /** 检测是否满足要求 */
@@ -134,15 +101,11 @@ public class UpdatePasswordActivity extends TitleBaseActivity {
                 .getChangePasswordResult()
                 .observe(
                         this,
-                        new Observer<Resource<Result>>() {
-                            @Override
-                            public void onChanged(Resource<Result> resultResource) {
-                                // TODO 提示
-                                if (resultResource.status == Status.SUCCESS) {
-                                    finish();
-                                } else if (resultResource.status == Status.ERROR) {
-
-                                }
+                        resultResource -> {
+                            if (resultResource.status == Status.SUCCESS) {
+                                finish();
+                            } else if (resultResource.status == Status.ERROR) {
+                                showToast(resultResource.message);
                             }
                         });
     }

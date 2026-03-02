@@ -65,7 +65,7 @@ public class AddFriendActivity extends TitleBaseActivity implements View.OnClick
 
     /** 显示我的二维码 */
     private void showMyQRCode() {
-        Intent qrCodeIntent = new Intent(this, QrCodeDisplayWindowActivity.class);
+        Intent qrCodeIntent = new Intent(this, QrCodeDisplayWindowOldActivity.class);
         qrCodeIntent.putExtra(IntentExtra.STR_TARGET_ID, RongIM.getInstance().getCurrentUserId());
         qrCodeIntent.putExtra(IntentExtra.SERIA_QRCODE_DISPLAY_TYPE, QrCodeDisplayType.PRIVATE);
         startActivity(qrCodeIntent);

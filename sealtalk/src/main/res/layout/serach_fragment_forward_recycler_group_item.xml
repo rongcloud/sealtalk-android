@@ -33,7 +33,7 @@
             android:layout_marginStart="@dimen/seal_search_item_portrait_margin_left"
             android:layout_marginEnd="@dimen/seal_search_item_portrait_margin_right"
             android:scaleType="centerCrop"
-            android:src="@drawable/rc_default_portrait"
+            android:src="?attr/rc_conversation_list_cell_portrait_msg_img"
             app:sriv_left_bottom_corner_radius="@dimen/seal_search_item_portrait_radius"
             app:sriv_left_top_corner_radius="@dimen/seal_search_item_portrait_radius"
             app:sriv_right_bottom_corner_radius="@dimen/seal_search_item_portrait_radius"

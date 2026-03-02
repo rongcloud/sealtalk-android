@@ -20,7 +20,7 @@
         android:id="@+id/iv_picture"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="@drawable/seal_ic_splash"
+        android:background="@drawable/rc_lively_splash"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package cn.rongcloud.im.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
@@ -10,6 +11,7 @@ import cn.rongcloud.im.common.LogTag;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.ChatRoomAction;
 import cn.rongcloud.im.model.ChatRoomResult;
+import cn.rongcloud.im.sp.MinorModeCache;
 import cn.rongcloud.im.ui.test.ChatRoomListenerTestActivity;
 import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
@@ -25,6 +27,7 @@ import java.util.List;
 public class MainDiscoveryFragment extends BaseFragment {
     private AppViewModel appViewModel;
     private List<ChatRoomResult> latestChatRoomList;
+    private TextView tvTitle;
 
     @Override
     protected int getLayoutResId() {
@@ -37,6 +40,22 @@ public class MainDiscoveryFragment extends BaseFragment {
         findView(R.id.discovery_ll_chat_room_2, true);
         findView(R.id.discovery_ll_chat_room_3, true);
         findView(R.id.discovery_ll_chat_room_4, true);
+
+        // 初始化标题栏
+        tvTitle = findView(R.id.tv_title);
+        setupTitleBar();
+    }
+
+    /** 配置标题栏 */
+    private void setupTitleBar() {
+        if (tvTitle == null) return;
+
+        // 设置标题
+        if (appViewModel != null && appViewModel.isUltraGroupDebugMode()) {
+            tvTitle.setText(getResources().getStringArray(R.array.tab_names_ultra)[2]);
+        } else {
+            tvTitle.setText(getResources().getStringArray(R.array.tab_names_nomal)[1]);
+        }
     }
 
     @Override
@@ -121,6 +140,13 @@ public class MainDiscoveryFragment extends BaseFragment {
      * @param roomTitle
      */
     private void enterChatRoom(int roomIndex, String roomTitle) {
+        // 检查未成年人模式
+        String currentUserId = IMManager.getInstance().getCurrentId();
+        if (MinorModeCache.getInstance().isMinorModeEnabled(currentUserId)) {
+            ToastUtils.showToast(R.string.seal_minor_mode_tip_3);
+            return;
+        }
+
         if (roomIndex >= (latestChatRoomList != null ? latestChatRoomList.size() : 0)) {
             ToastUtils.showToast(R.string.discovery_join_chat_room_error);
             appViewModel.requestChatRoomList();

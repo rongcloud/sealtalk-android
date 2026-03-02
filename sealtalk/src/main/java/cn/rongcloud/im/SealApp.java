@@ -21,6 +21,7 @@ import cn.rongcloud.im.common.ErrorCode;
 import cn.rongcloud.im.contact.PhoneContactManager;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.DataCenterJsonModel;
+import cn.rongcloud.im.newdesign.myprofile.CustomMyProfileFragment;
 import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.SplashActivity;
@@ -31,7 +32,6 @@ import cn.rongcloud.im.ui.fragment.CustomGroupCreateFragment;
 import cn.rongcloud.im.ui.fragment.CustomGroupManagerListFragment;
 import cn.rongcloud.im.ui.fragment.CustomGroupNoticeFragment;
 import cn.rongcloud.im.ui.fragment.CustomGroupTransferFragment;
-import cn.rongcloud.im.ui.fragment.CustomMyProfileFragment;
 import cn.rongcloud.im.ui.fragment.MyGroupProfileFragment;
 import cn.rongcloud.im.ui.fragment.SealUserProfileFragment;
 import cn.rongcloud.im.utils.BuildVariantUtils;
@@ -227,6 +227,21 @@ public class SealApp extends MultiDexApplication {
                 R.style.RCCustomOrangeLightTheme,
                 R.style.RCCustomOrangeDarkTheme);
 
+        // 为内置主题添加聊天室样式扩展（样式叠加）
+        IMKitThemeManager.addTheme(
+                IMKitThemeManager.TRADITION_THEME,
+                R.style.SealTalkLightTheme,
+                R.style.SealTalkLightTheme);
+
+        IMKitThemeManager.addTheme(
+                IMKitThemeManager.LIVELY_THEME,
+                R.style.SealTalkLightTheme,
+                R.style.SealTalkDarkTheme);
+
+        // 为自定义主题也添加聊天室样式扩展
+        IMKitThemeManager.addTheme(
+                "CUSTOM_ORANGE_THEME", R.style.SealTalkLightTheme, R.style.SealTalkDarkTheme);
+
         // 从 SharedPreferences 读取用户配置的主题并应用
         String savedTheme = ThemePreferenceManager.getThemeType(this);
         String savedBaseTheme = ThemePreferenceManager.getBaseTheme(this);
@@ -260,26 +275,45 @@ public class SealApp extends MultiDexApplication {
                                     @NonNull ImageView imageView,
                                     Conversation conversation) {
                                 @DrawableRes
-                                int resourceId = io.rong.imkit.R.drawable.rc_default_portrait;
+                                int resourceId =
+                                        IMKitThemeManager.getAttrResId(
+                                                imageView.getContext(),
+                                                io.rong.imkit.R.attr
+                                                        .rc_conversation_list_cell_portrait_msg_img);
                                 switch (conversation.getConversationType()) {
                                     case GROUP:
                                         resourceId =
-                                                io.rong.imkit.R.drawable.rc_default_group_portrait;
+                                                IMKitThemeManager.getAttrResId(
+                                                        imageView.getContext(),
+                                                        io.rong.imkit.R.attr
+                                                                .rc_conversation_list_cell_group_portrait_img);
                                         break;
                                     case CUSTOMER_SERVICE:
                                         resourceId =
-                                                io.rong.imkit.R.drawable.rc_cs_default_portrait;
+                                                IMKitThemeManager.getAttrResId(
+                                                        imageView.getContext(),
+                                                        io.rong.imkit.R.attr
+                                                                .rc_conversation_list_cell_portrait_kefu_img);
                                         break;
                                     case CHATROOM:
                                         resourceId =
-                                                io.rong.imkit.R.drawable
-                                                        .rc_default_chatroom_portrait;
+                                                IMKitThemeManager.getAttrResId(
+                                                        imageView.getContext(),
+                                                        io.rong.imkit.R.attr
+                                                                .rc_conversation_list_cell_discussion_portrait_img);
                                         break;
                                 }
-                                Glide.with(imageView)
+                                RequestBuilder<Drawable> circularPlaceholder =
+                                        Glide.with(imageView.getContext())
+                                                .load(resourceId)
+                                                .apply(
+                                                        RequestOptions.bitmapTransform(
+                                                                new CircleCrop()));
+
+                                Glide.with(imageView.getContext())
                                         .load(url)
-                                        .placeholder(resourceId)
-                                        .error(resourceId)
+                                        .thumbnail(circularPlaceholder)
+                                        .error(circularPlaceholder)
                                         .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                                         .into(imageView);
                             }
@@ -291,19 +325,32 @@ public class SealApp extends MultiDexApplication {
                                     @NonNull ImageView imageView,
                                     Message message) {
                                 @DrawableRes
-                                int resourceId = io.rong.imkit.R.drawable.rc_default_portrait;
+                                int resourceId =
+                                        IMKitThemeManager.getAttrResId(
+                                                imageView.getContext(),
+                                                io.rong.imkit.R.attr
+                                                        .rc_conversation_list_cell_portrait_msg_img);
                                 switch (message.getConversationType()) {
                                     case CUSTOMER_SERVICE:
                                         if (Message.MessageDirection.RECEIVE
                                                 == message.getMessageDirection())
                                             resourceId =
-                                                    io.rong.imkit.R.drawable.rc_cs_default_portrait;
+                                                    IMKitThemeManager.getAttrResId(
+                                                            imageView.getContext(),
+                                                            io.rong.imkit.R.attr
+                                                                    .rc_conversation_list_cell_portrait_kefu_img);
                                         break;
                                 }
+                                RequestBuilder<Drawable> circularPlaceholder =
+                                        Glide.with(imageView.getContext())
+                                                .load(resourceId)
+                                                .apply(
+                                                        RequestOptions.bitmapTransform(
+                                                                new CircleCrop()));
                                 Glide.with(imageView)
                                         .load(url)
-                                        .placeholder(resourceId)
-                                        .error(resourceId)
+                                        .thumbnail(circularPlaceholder)
+                                        .error(circularPlaceholder)
                                         .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                                         .into(imageView);
                             }
@@ -314,9 +361,14 @@ public class SealApp extends MultiDexApplication {
                                     @NonNull Context context,
                                     @NonNull String url,
                                     @NonNull ImageView imageView) {
+                                int defaultPortrait =
+                                        IMKitThemeManager.getAttrResId(
+                                                imageView.getContext(),
+                                                io.rong.imkit.R.attr
+                                                        .rc_conversation_list_cell_portrait_msg_img);
                                 RequestBuilder<Drawable> circularPlaceholder =
                                         Glide.with(imageView.getContext())
-                                                .load(io.rong.imkit.R.drawable.rc_default_portrait)
+                                                .load(defaultPortrait)
                                                 .apply(
                                                         RequestOptions.bitmapTransform(
                                                                 new CircleCrop()));

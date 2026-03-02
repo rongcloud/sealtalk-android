@@ -1,5 +1,7 @@
 package cn.rongcloud.im.im;
 
+import cn.rongcloud.im.im.plugin.CustomAudioPlugin;
+import cn.rongcloud.im.im.plugin.CustomVideoPlugin;
 import io.rong.callkit.AudioPlugin;
 import io.rong.callkit.VideoPlugin;
 import io.rong.imkit.conversation.extension.DefaultExtensionConfig;
@@ -21,18 +23,42 @@ public class SealExtensionConfig extends DefaultExtensionConfig {
                 audioPlugin = null,
                 videoPlugin = null,
                 destructPlugin = null;
-        for (IPluginModule pluginModule : pluginList) {
+        int audioPluginIndex = -1;
+        int videoPluginIndex = -1;
+
+        for (int i = 0; i < pluginList.size(); i++) {
+            IPluginModule pluginModule = pluginList.get(i);
             if (pluginModule instanceof SightPlugin) {
                 sightPlugin = pluginModule;
             } else if (pluginModule instanceof FilePlugin) {
                 filePlugin = pluginModule;
             } else if (pluginModule instanceof AudioPlugin) {
                 audioPlugin = pluginModule;
+                audioPluginIndex = i;
             } else if (pluginModule instanceof VideoPlugin) {
                 videoPlugin = pluginModule;
+                videoPluginIndex = i;
             } else if (pluginModule instanceof DestructPlugin) {
                 destructPlugin = pluginModule;
             }
+        }
+
+        // 替换默认的 AudioPlugin 为 CustomAudioPlugin
+        if (audioPlugin != null && audioPluginIndex >= 0) {
+            pluginList.remove(audioPluginIndex);
+            pluginList.add(audioPluginIndex, new CustomAudioPlugin());
+            audioPlugin = pluginList.get(audioPluginIndex);
+            // 更新 videoPluginIndex，因为可能受到影响
+            if (videoPluginIndex > audioPluginIndex) {
+                // videoPluginIndex 不变，因为是在同一位置替换
+            }
+        }
+
+        // 替换默认的 VideoPlugin 为 CustomVideoPlugin
+        if (videoPlugin != null && videoPluginIndex >= 0) {
+            pluginList.remove(videoPluginIndex);
+            pluginList.add(videoPluginIndex, new CustomVideoPlugin());
+            videoPlugin = pluginList.get(videoPluginIndex);
         }
         if (sightPlugin != null && pluginList.size() > 1) {
             pluginList.remove(sightPlugin);
@@ -51,14 +77,6 @@ public class SealExtensionConfig extends DefaultExtensionConfig {
             }
             if (destructPlugin != null) {
                 pluginList.remove(destructPlugin);
-            }
-        }
-        if (Conversation.ConversationType.ULTRA_GROUP.equals(conversationType)) {
-            if (audioPlugin != null) {
-                pluginList.remove(audioPlugin);
-            }
-            if (videoPlugin != null) {
-                pluginList.remove(videoPlugin);
             }
         }
         return pluginList;

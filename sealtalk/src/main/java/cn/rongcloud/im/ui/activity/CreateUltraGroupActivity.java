@@ -28,6 +28,7 @@ import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.UltraGroupViewModel;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.userinfo.RongUserInfoManager;
+import io.rong.imkit.userinfo.model.ExtendedGroup;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.ConversationIdentifier;
@@ -253,10 +254,12 @@ public class CreateUltraGroupActivity extends TitleBaseActivity implements View.
                                 sharedPreferences.edit().clear().commit();
                                 RongUserInfoManager.getInstance()
                                         .refreshGroupInfoCache(
-                                                new Group(
-                                                        group.groupId + group.defaultChannelId,
-                                                        group.defaultChannelName,
-                                                        groupPortraitUri));
+                                                ExtendedGroup.obtain(
+                                                        new Group(
+                                                                group.groupId
+                                                                        + group.defaultChannelId,
+                                                                group.defaultChannelName,
+                                                                groupPortraitUri)));
                             }
 
                             @Override

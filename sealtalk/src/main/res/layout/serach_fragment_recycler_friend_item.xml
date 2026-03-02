@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/seal_search_item_height"
-        android:background="@android:color/white"
+        android:background="?attr/rc_common_background_color"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -19,7 +19,7 @@
             android:layout_marginStart="@dimen/seal_search_item_portrait_margin_left"
             android:layout_marginEnd="@dimen/seal_search_item_portrait_margin_right"
             android:scaleType="centerCrop"
-            android:src="@drawable/rc_image_circle_default_bg"
+            android:src="?attr/rc_conversation_list_cell_portrait_msg_img"
             app:sriv_left_bottom_corner_radius="@dimen/seal_search_item_portrait_radius"
             app:sriv_left_top_corner_radius="@dimen/seal_search_item_portrait_radius"
             app:sriv_oval="true"
@@ -37,8 +37,7 @@
                 style="@style/TextStyle.Alignment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textColor="@color/seal_search_name_text_color"
+                android:textColor="?attr/rc_text_primary_color"
                 android:textSize="@dimen/seal_search_item_name_text_size"
                 app:layout_constraintBottom_toTopOf="@+id/ll_description"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/seal_search_nick_name"
-                    android:textColor="@color/seal_search_description_text_color"
+                    android:textColor="?attr/rc_text_secondary_color"
                     android:textSize="@dimen/seal_search_item_detail_text_size" />
 
                 <TextView
@@ -72,15 +71,15 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/seal_search_description_text_color"
+                    android:textColor="?attr/rc_text_secondary_color"
                     android:textSize="@dimen/seal_search_item_detail_text_size" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/seal_search_item_devi_height"
-                android:layout_alignParentBottom="true"
-                android:background="@color/seal_search_devi_color" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="?attr/rc_line_background_color" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

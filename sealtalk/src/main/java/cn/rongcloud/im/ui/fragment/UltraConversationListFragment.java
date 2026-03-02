@@ -347,7 +347,11 @@ public class UltraConversationListFragment extends Fragment
                                 .refreshUltraChannelInfo(
                                         getContext(), currentId, listResource.data);
                     } else if (listResource.status == Status.ERROR) {
-                        Toast.makeText(getActivity(), "获取频道列表失败", Toast.LENGTH_LONG).show();
+                        Toast.makeText(
+                                        getActivity(),
+                                        R.string.seal_ultra_group_get_channel_list_failed,
+                                        Toast.LENGTH_LONG)
+                                .show();
                     }
                 }
             };

@@ -20,6 +20,7 @@ import cn.rongcloud.im.R;
 import io.rong.callkit.util.RongCallPermissionUtil;
 import io.rong.callkit.util.permission.PermissionType;
 import io.rong.common.rlog.RLog;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.utils.PermissionCheckUtil;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -271,19 +272,17 @@ public class CheckPermissionUtils {
                         messageBuilder.append("等相关功能");
                         String message = messageBuilder.toString().trim();
 
-                        new AlertDialog.Builder(
-                                        activity,
-                                        android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
-                                .setTitle("权限说明")
+                        new AlertDialog.Builder(activity, getDialogTheme(activity))
+                                .setTitle(R.string.seal_permission_explanation_title)
                                 .setMessage(message)
                                 .setPositiveButton(
-                                        "去申请",
+                                        R.string.seal_permission_go_to_apply,
                                         (dialog, which) -> {
                                             dialog.dismiss();
                                             callback.confirmed();
                                         })
                                 .setNegativeButton(
-                                        "取消",
+                                        R.string.common_cancel,
                                         (dialog, which) -> {
                                             dialog.dismiss();
                                             callback.cancelled();
@@ -291,6 +290,16 @@ public class CheckPermissionUtils {
                                 .show();
                     }
                 });
+    }
+
+    private static int getDialogTheme(Context context) {
+        String currentTheme = IMKitThemeManager.getCurrentThemeName();
+        boolean useLightTheme =
+                IMKitThemeManager.TRADITION_THEME.equals(currentTheme)
+                        || !IMKitThemeManager.isSystemInDarkMode(context);
+        return useLightTheme
+                ? android.R.style.Theme_DeviceDefault_Light_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Dialog_Alert;
     }
 
     private static boolean containsPermissions(

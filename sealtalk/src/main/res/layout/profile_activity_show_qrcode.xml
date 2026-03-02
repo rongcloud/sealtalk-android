@@ -1,182 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/rc_auxiliary_background_1_color"
     android:orientation="vertical">
 
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/head_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:id="@+id/profile_ll_qr_card_container"
-        android:layout_width="310dp"
-        android:layout_height="wrap_content"
-        android:minHeight="420dp"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="44.5dp"
-        android:background="@drawable/profile_bg_qrcode"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/profile_fl_card_capture_area_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/profile_rl_qr_card_info_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
-
-                <cn.rongcloud.im.ui.widget.SelectableRoundedImageView
-                    android:id="@+id/profile_iv_card_info_portrait"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:sriv_left_bottom_corner_radius="@dimen/seal_new_friend_header_radius"
-                    app:sriv_left_top_corner_radius="@dimen/seal_new_friend_header_radius"
-                    app:sriv_right_bottom_corner_radius="@dimen/seal_new_friend_header_radius"
-                    app:sriv_right_top_corner_radius="@dimen/seal_new_friend_header_radius"
-                    android:scaleType="centerCrop"
-                    app:sriv_oval="true"
-                    tools:src="@drawable/common_default_portrait" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@id/profile_iv_card_info_portrait"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/profile_tv_qr_info_main"
-                        style="@style/TextStyle.Alignment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:textColor="@color/default_main_text"
-                        android:textSize="20dp"
-                        tools:text="主信息" />
-
-                    <TextView
-                        android:id="@+id/profile_tv_qr_info_sub"
-                        style="@style/TextStyle.Alignment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textColor="@color/seal_group_detail_clean_tips"
-                        android:textSize="14dp"
-                        tools:text="子信息" />
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp">
-
-                <ImageView
-                    android:id="@+id/profile_iv_qr_code"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"
-                    tools:src="@drawable/common_default_portrait" />
-
-                <TextView
-                    android:id="@+id/profile_tv_qr_card_info_no_code_describe"
-                    style="@style/TextStyle.Alignment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/profile_qrcode_group_need_verify"
-                    android:textColor="@color/default_main_text"
-                    android:textSize="15sp"
-                    android:visibility="gone" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/profile_tv_qr_card_info_describe"
-                style="@style/TextStyle.Alignment"
-                android:textSize="@dimen/seal_qrcode_text_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="25dp"
-                android:textColor="@color/color_gray_text"
-                tools:text="@string/profile_qrcode_group_tips" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/color_divider_line" />
-
-        <LinearLayout
-            android:id="@+id/profile_ll_qr_card_button_container"
+            android:id="@+id/profile_ll_qr_card_container"
             android:layout_width="310dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/profile_ll_qr_card_container"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_marginTop="35dp"
+            android:elevation="2dp"
+            android:minHeight="420dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/profile_tv_qr_save_phone"
-                style="@style/TextStyle.Alignment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/profile_qrcode_save_to_phone"
-                android:textColor="@color/default_clickable_text"
-                android:textSize="13dp" />
+            <LinearLayout
+                android:id="@+id/profile_fl_card_capture_area_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/color_divider_line" />
+                <RelativeLayout
+                    android:id="@+id/profile_rl_qr_card_info_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
 
-            <TextView
-                android:id="@+id/profile_tv_qr_share_to_sealtalk"
-                style="@style/TextStyle.Alignment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/profile_qrcode_share_to_sealtalk"
-                android:textColor="@color/default_clickable_text"
-                android:textSize="13dp" />
+                    <cn.rongcloud.im.ui.widget.SelectableRoundedImageView
+                        android:id="@+id/profile_iv_card_info_portrait"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="centerCrop"
+                        app:sriv_left_bottom_corner_radius="@dimen/seal_new_friend_header_radius"
+                        app:sriv_left_top_corner_radius="@dimen/seal_new_friend_header_radius"
+                        app:sriv_oval="true"
+                        app:sriv_border_width="1dp"
+                        app:sriv_border_color="?attr/rc_user_portrait_border_color"
+                        app:sriv_right_bottom_corner_radius="@dimen/seal_new_friend_header_radius"
+                        app:sriv_right_top_corner_radius="@dimen/seal_new_friend_header_radius"
+                        tools:src="@drawable/common_default_portrait" />
 
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:background="@color/color_divider_line" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:gravity="center_vertical"
+                        android:layout_toEndOf="@id/profile_iv_card_info_portrait"
+                        android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/profile_tv_qr_share_to_wechat"
-                style="@style/TextStyle.Alignment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:visibility="gone"
-                android:text="@string/profile_qrcode_share_to_wechat"
-                android:textColor="@color/default_clickable_text"
-                android:textSize="13dp" />
+                        <TextView
+                            android:id="@+id/profile_tv_qr_info_main"
+                            style="@style/TextStyle.Alignment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="?attr/rc_text_primary_color"
+                            android:textSize="20sp"
+                            tools:text="主信息" />
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rc_white_color_radius_10"
+                    android:padding="4dp">
+
+                    <ImageView
+                        android:id="@+id/profile_iv_qr_code"
+                        android:layout_width="280dp"
+                        android:layout_height="280dp"
+                        android:layout_gravity="center"
+                        tools:src="@drawable/common_default_portrait" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/profile_tv_qr_card_info_describe"
+                    style="@style/TextStyle.Alignment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="25dp"
+                    android:textColor="?attr/rc_text_secondary_color"
+                    android:textSize="@dimen/seal_qrcode_text_14"
+                    tools:text="@string/profile_qrcode_group_tips" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/profile_ll_qr_card_button_container"
+                android:layout_width="310dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/profile_tv_qr_save_phone"
+                    style="@style/TextStyle.Alignment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/profile_qrcode_save_to_phone"
+                    android:textColor="?attr/rc_primary_color"
+                    android:textSize="13sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp"
+                    android:background="?attr/rc_text_secondary_color" />
+
+                <TextView
+                    android:id="@+id/profile_tv_qr_share_to_sealtalk"
+                    style="@style/TextStyle.Alignment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/profile_qrcode_share_to_sealtalk"
+                    android:textColor="?attr/rc_primary_color"
+                    android:textSize="13sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="10dp"
+                    android:background="?attr/rc_text_secondary_color"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/profile_tv_qr_share_to_wechat"
+                    style="@style/TextStyle.Alignment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/profile_qrcode_share_to_wechat"
+                    android:textColor="?attr/rc_primary_color"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</LinearLayout>

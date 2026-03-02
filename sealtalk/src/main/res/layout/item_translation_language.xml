@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/rc_margin_size_16"
+    android:paddingEnd="@dimen/rc_margin_size_16"
+    android:background="?attr/rc_common_background_color">
+
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentTop="true"
+        android:background="?attr/rc_line_background_color" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_translation_language"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginStart="20dp"
+        android:layout_height="@dimen/rc_title_bar_height"
+        android:layout_below="@id/divider_line"
         android:gravity="center_vertical"
-        android:text="16sp" />
+        android:textColor="?attr/rc_text_primary_color"
+        android:textSize="16sp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_selected_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="0dp"
+        android:src="?attr/rc_group_manage_gender_cell_check_img"
+        android:visibility="gone" />
+
 </RelativeLayout>

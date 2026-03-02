@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/seal_search_item_height"
-        android:background="@android:color/white">
+        android:background="?attr/rc_common_background_color">
 
         <cn.rongcloud.im.ui.widget.SelectableRoundedImageView
             android:id="@+id/iv_portrait"
@@ -17,7 +17,7 @@
             android:layout_marginStart="@dimen/seal_search_item_portrait_margin_left"
             android:layout_marginEnd="@dimen/seal_search_item_portrait_margin_right"
             android:scaleType="centerCrop"
-            android:src="@drawable/rc_image_circle_default_bg"
+            android:src="?attr/rc_conversation_list_cell_group_portrait_img"
             app:sriv_left_bottom_corner_radius="@dimen/seal_search_item_portrait_radius"
             app:sriv_left_top_corner_radius="@dimen/seal_search_item_portrait_radius"
             app:sriv_oval="true"
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/seal_search_name_text_color"
+                android:textColor="?attr/rc_text_primary_color"
                 android:textSize="@dimen/seal_search_item_name_text_size" />
 
             <LinearLayout
@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/seal_group_list_include"
-                    android:textColor="@color/seal_search_description_text_color"
+                    android:textColor="?attr/rc_text_secondary_color"
                     android:textSize="@dimen/seal_search_item_detail_text_size" />
 
                 <TextView
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/seal_search_description_text_color"
+                    android:textColor="?attr/rc_text_secondary_color"
                     android:textSize="@dimen/seal_search_item_detail_text_size" />
             </LinearLayout>
         </LinearLayout>
@@ -71,7 +71,7 @@
             android:layout_height="@dimen/seal_search_item_devi_height"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/iv_portrait"
-            android:background="@color/seal_search_devi_color" />
+            android:background="?attr/rc_line_background_color"  />
     </RelativeLayout>
 
 </FrameLayout>

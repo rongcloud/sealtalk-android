@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 登录页按钮文字颜色selector - 根据按钮状态动态切换 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 禁用状态 - 使用次要文字颜色 -->
+    <item android:color="?attr/rc_text_secondary_color" android:state_enabled="false" />
+    <!-- 启用状态 - 使用白色 -->
+    <item android:color="?attr/rc_primary_color" android:state_enabled="true" />
+    <!-- 默认状态 - 使用白色 -->
+    <item android:color="?attr/rc_primary_color" />
+</selector>
+
+
+
+
+
+
+
+
+
+
+
+
+

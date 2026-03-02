@@ -4,14 +4,14 @@
     <item android:state_pressed="true">
 
         <shape android:shape="rectangle">
-            <solid android:color="#F2F9FF" />
-            <corners android:bottomLeftRadius="6dp" android:bottomRightRadius="6dp" android:topLeftRadius="0dp" android:topRightRadius="0dp" />
+            <solid android:color="?attr/rc_main_popup_bg"/>
+            <corners android:bottomLeftRadius="4dp" android:bottomRightRadius="4dp" android:topLeftRadius="0dp" android:topRightRadius="0dp" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
-            <corners android:bottomLeftRadius="6dp" android:bottomRightRadius="6dp" android:topLeftRadius="0dp" android:topRightRadius="0dp" />
+            <solid android:color="?attr/rc_common_background_color" />
+            <corners android:bottomLeftRadius="4dp" android:bottomRightRadius="4dp" android:topLeftRadius="0dp" android:topRightRadius="0dp" />
         </shape>
     </item>
 

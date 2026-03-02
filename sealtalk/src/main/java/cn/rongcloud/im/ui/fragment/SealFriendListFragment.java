@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.ui.view.IconTextItemView;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.usermanage.friend.apply.ApplyFriendListActivity;
 import io.rong.imkit.usermanage.friend.friendlist.FriendListFragment;
@@ -52,6 +53,11 @@ public class SealFriendListFragment extends FriendListFragment {
         groupNotificationView = headView.findViewById(R.id.rc_item_group_notification);
 
         contactListComponent.addHeaderView(headView);
+        headComponent.setBackground(null);
+        searchComponent.setBackground(null);
+        contactListComponent.setBackground(null);
+        view.setBackgroundResource(
+                IMKitThemeManager.getAttrResId(getContext(), R.attr.rc_page_background));
         return view;
     }
 

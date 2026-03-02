@@ -161,7 +161,7 @@ public class GroupReadReceiptDetailActivity extends TitleBaseActivity {
         // 未读标签
         unReadUnderLineTv = findViewById(R.id.conversation_tv_read_tab_underline_unread);
         unReadTabTextTv = findViewById(R.id.conversation_tv_read_tab_unread);
-        unReadTabTextTv.setText("未读"); //
+        unReadTabTextTv.setText(R.string.seal_read_receipt_unread_tab); //
         unReadTabTextTv.setOnClickListener(v -> memberViewPager.setCurrentItem(0, false));
         setTabSelectedBg(unReadUnderLineTv, unReadTabTextTv, true);
 
@@ -265,9 +265,9 @@ public class GroupReadReceiptDetailActivity extends TitleBaseActivity {
                                 R.string.seal_conversation_read_receipt_unread_persons_format,
                                 unReadMemberList.size()));
             } else {
-                unReadTabTextTv.setText("未读");
+                unReadTabTextTv.setText(R.string.seal_read_receipt_unread_tab);
             }
-            readTabTextTv.setText("已读");
+            readTabTextTv.setText(R.string.seal_read_receipt_read_tab);
         } else if (position == 1) {
             if (readMemberList != null) {
                 readTabTextTv.setText(
@@ -275,9 +275,9 @@ public class GroupReadReceiptDetailActivity extends TitleBaseActivity {
                                 R.string.seal_conversation_read_receipt_read_persons_format,
                                 readMemberList.size()));
             } else {
-                readTabTextTv.setText("已读");
+                readTabTextTv.setText(R.string.seal_read_receipt_read_tab);
             }
-            unReadTabTextTv.setText("未读");
+            unReadTabTextTv.setText(R.string.seal_read_receipt_unread_tab);
         }
     }
 

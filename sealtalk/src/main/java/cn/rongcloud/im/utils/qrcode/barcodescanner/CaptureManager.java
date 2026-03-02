@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -31,6 +32,7 @@ import cn.rongcloud.im.utils.qrcode.client.InactivityTimer;
 import cn.rongcloud.im.utils.qrcode.client.Intents;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.picture.permissions.PermissionChecker;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -260,12 +262,11 @@ public class CaptureManager {
             barcodeView.resume();
         } else {
             if (!askedPermission) {
-                new AlertDialog.Builder(
-                                activity, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
-                        .setTitle("权限说明")
-                        .setMessage("需要开启(照相机)权限，才能正常使用扫一扫等相关功能")
+                new AlertDialog.Builder(activity, getDialogTheme(activity))
+                        .setTitle(R.string.seal_permission_explanation_title)
+                        .setMessage(R.string.seal_permission_camera_explanation)
                         .setPositiveButton(
-                                "去申请",
+                                R.string.seal_permission_go_to_apply,
                                 (dialog, which) -> {
                                     ActivityCompat.requestPermissions(
                                             this.activity,
@@ -290,6 +291,16 @@ public class CaptureManager {
                 askedPermission = true;
             }
         }
+    }
+
+    private int getDialogTheme(Context context) {
+        String currentTheme = IMKitThemeManager.getCurrentThemeName();
+        boolean useLightTheme =
+                IMKitThemeManager.TRADITION_THEME.equals(currentTheme)
+                        || !IMKitThemeManager.isSystemInDarkMode(context);
+        return useLightTheme
+                ? android.R.style.Theme_DeviceDefault_Light_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Dialog_Alert;
     }
 
     /**

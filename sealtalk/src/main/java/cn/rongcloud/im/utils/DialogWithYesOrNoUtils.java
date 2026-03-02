@@ -3,6 +3,7 @@ package cn.rongcloud.im.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,8 +23,35 @@ public class DialogWithYesOrNoUtils {
 
     private DialogWithYesOrNoUtils() {}
 
+    /**
+     * 根据当前主题模式获取对话框主题
+     *
+     * @param context 上下文
+     * @return 对话框主题资源 ID
+     */
+    private int getDialogTheme(Context context) {
+        if (context == null) {
+            return AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
+        }
+
+        // 获取当前系统的深色模式配置
+        int nightModeFlags =
+                context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                // 深色模式
+                return AlertDialog.THEME_DEVICE_DEFAULT_DARK;
+            case Configuration.UI_MODE_NIGHT_NO:
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+            default:
+                // 浅色模式
+                return AlertDialog.THEME_DEVICE_DEFAULT_LIGHT;
+        }
+    }
+
     public void showDialog(Context context, String titleInfo, final DialogCallBack callBack) {
-        AlertDialog.Builder alterDialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder alterDialog = new AlertDialog.Builder(context, getDialogTheme(context));
         alterDialog.setMessage(titleInfo);
         alterDialog.setCancelable(true);
 
@@ -57,7 +85,7 @@ public class DialogWithYesOrNoUtils {
     public void showEditDialog(
             Context context, String hintText, String OKText, final DialogCallBack callBack) {
         final EditText et_search;
-        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context, getDialogTheme(context));
         LayoutInflater inflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_view, null);

@@ -1,64 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="64dp">
+    android:layout_height="wrap_content"
+    android:background="?attr/rc_common_background_color"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:orientation="horizontal"
-        android:background="#ffffff">
+        android:orientation="horizontal">
+
         <cn.rongcloud.im.ui.widget.SelectableRoundedImageView
             android:id="@+id/item_iv_record_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="12dp"
-            android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
-            android:src="@drawable/rc_image_circle_default_bg"
+            android:src="?attr/rc_conversation_list_cell_portrait_msg_img"
             app:sriv_left_bottom_corner_radius="3dip"
             app:sriv_left_top_corner_radius="3dip"
+            app:sriv_oval="true"
             app:sriv_right_bottom_corner_radius="3dip"
-            app:sriv_right_top_corner_radius="3dip"
-            app:sriv_oval="true"/>
+            app:sriv_right_top_corner_radius="3dip" />
 
         <LinearLayout
             android:id="@+id/item_ll_chatting_records_detail"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
             android:layout_marginTop="11dp"
             android:layout_marginBottom="11dp"
-            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="42dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/item_tv_chat_name"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="top"
-                android:textSize="16sp"
-                android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="#353535"/>
+                android:gravity="top"
+                android:maxLines="1"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textSize="17sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="bottom">
+
                 <TextView
                     android:id="@+id/item_tv_chatting_records_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
                     android:ellipsize="end"
                     android:gravity="bottom"
-                    android:textColor="#999999"
-                    android:textSize="14sp"/>
+                    android:maxLines="1"
+                    android:textColor="?attr/rc_text_secondary_color"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
+
         <TextView
             android:id="@+id/item_tv_chatting_records_date"
             android:layout_width="wrap_content"
@@ -66,9 +71,13 @@
             android:layout_gravity="end|top"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="14dp"
-            android:textColor="#999999"
-            android:textSize="14sp"/>
+            android:textColor="?attr/rc_text_secondary_color"
+            android:textSize="14sp" />
     </LinearLayout>
+
     <View
-        style="@style/ac_search_list_view_divider"/>
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seal_search_item_devi_height"
+        android:layout_marginStart="64dp"
+        android:background="?attr/rc_line_background_color"  />
 </LinearLayout>

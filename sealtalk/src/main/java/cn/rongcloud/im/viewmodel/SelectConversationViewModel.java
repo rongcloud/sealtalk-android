@@ -8,11 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.ThreadManager;
-import cn.rongcloud.im.db.model.FriendShipInfo;
-import cn.rongcloud.im.db.model.GroupEntity;
 import cn.rongcloud.im.im.IMManager;
-import cn.rongcloud.im.task.FriendTask;
-import cn.rongcloud.im.task.GroupTask;
 import cn.rongcloud.im.ui.adapter.models.CheckType;
 import cn.rongcloud.im.ui.adapter.models.CheckableContactModel;
 import cn.rongcloud.im.ui.adapter.models.ContactModel;
@@ -33,15 +29,11 @@ public class SelectConversationViewModel extends AndroidViewModel {
     private ArrayList<String> unCheckedList;
     private RongIMClient rongIMClient;
     private Context mContext;
-    private GroupTask groupTask;
-    private FriendTask friendTask;
 
     public SelectConversationViewModel(@NonNull Application application) {
         super(application);
         mContext = application.getApplicationContext();
         rongIMClient = RongIMClient.getInstance();
-        groupTask = new GroupTask(application);
-        friendTask = new FriendTask(application);
         coversationLiveData = new SingleSourceLiveData<>();
         selectedCount.setValue(0);
     }
@@ -76,49 +68,22 @@ public class SelectConversationViewModel extends AndroidViewModel {
                             @Override
                             public void run() {
                                 for (Conversation conversation : input) {
+                                    // 直接使用 Conversation 对象，不再转换为 GroupEntity 或 FriendShipInfo
                                     CheckableContactModel<Conversation> checkableContactModel =
-                                            null;
-                                    if (conversation
-                                            .getConversationType()
-                                            .equals(Conversation.ConversationType.GROUP)) {
-                                        final GroupEntity groupInfoSync =
-                                                groupTask.getGroupInfoSync(
-                                                        conversation.getTargetId());
-                                        if (groupInfoSync != null) {
-                                            checkableContactModel =
-                                                    new CheckableContactModel(
-                                                            groupInfoSync,
-                                                            R.layout.select_conversation_item);
-                                        }
-                                    } else if (conversation.getConversationType()
-                                            == Conversation.ConversationType.PRIVATE) {
-                                        final FriendShipInfo friendShipInfo =
-                                                friendTask.getFriendShipInfoFromDBSync(
-                                                        conversation.getTargetId());
-                                        if (friendShipInfo != null) {
-                                            checkableContactModel =
-                                                    new CheckableContactModel(
-                                                            friendShipInfo,
-                                                            R.layout.select_conversation_item);
-                                        }
+                                            new CheckableContactModel<>(
+                                                    conversation,
+                                                    R.layout.select_conversation_item);
+
+                                    // 设置选中状态
+                                    if (unCheckedList != null
+                                            && unCheckedList.contains(conversation.getTargetId())) {
+                                        checkableContactModel.setCheckType(CheckType.UNCHECKED);
                                     }
-                                    if (checkableContactModel != null) {
-                                        if (unCheckedList != null
-                                                && unCheckedList.contains(
-                                                        checkableContactModel
-                                                                .getBean()
-                                                                .getTargetId())) {
-                                            checkableContactModel.setCheckType(CheckType.UNCHECKED);
-                                        }
-                                        if (checkedList != null
-                                                && checkedList.contains(
-                                                        checkableContactModel
-                                                                .getBean()
-                                                                .getTargetId())) {
-                                            checkableContactModel.setCheckType(CheckType.CHECKED);
-                                        }
-                                        output.add(checkableContactModel);
+                                    if (checkedList != null
+                                            && checkedList.contains(conversation.getTargetId())) {
+                                        checkableContactModel.setCheckType(CheckType.CHECKED);
                                     }
+                                    output.add(checkableContactModel);
                                 }
                                 ThreadManager.getInstance()
                                         .runOnUIThread(
@@ -160,13 +125,10 @@ public class SelectConversationViewModel extends AndroidViewModel {
         if (checkableContactModels == null) return strings;
         for (CheckableContactModel model : checkableContactModels) {
             if (model.getCheckType() == CheckType.CHECKED) {
-                String id = "";
-                if (model.getBean() instanceof GroupEntity) {
-                    id = ((GroupEntity) model.getBean()).getId();
-                } else if (model.getBean() instanceof FriendShipInfo) {
-                    id = ((FriendShipInfo) model.getBean()).getUser().getId();
+                if (model.getBean() instanceof Conversation) {
+                    Conversation conversation = (Conversation) model.getBean();
+                    strings.add(conversation.getTargetId());
                 }
-                strings.add(id);
             }
         }
         return strings;
@@ -214,18 +176,14 @@ public class SelectConversationViewModel extends AndroidViewModel {
             while (iterator.hasNext()) {
                 CheckableContactModel model = iterator.next();
                 if (model.getCheckType() == CheckType.CHECKED) {
-                    String targetId = "";
-                    Conversation.ConversationType conversationType =
-                            Conversation.ConversationType.NONE;
-                    if (model.getBean() instanceof GroupEntity) {
-                        targetId = ((GroupEntity) model.getBean()).getId();
-                        conversationType = Conversation.ConversationType.GROUP;
-                    } else if (model.getBean() instanceof FriendShipInfo) {
-                        targetId = ((FriendShipInfo) model.getBean()).getUser().getId();
-                        conversationType = Conversation.ConversationType.PRIVATE;
+                    if (model.getBean() instanceof Conversation) {
+                        Conversation conversation = (Conversation) model.getBean();
+                        IMManager.getInstance()
+                                .clearConversationAndMessage(
+                                        conversation.getTargetId(),
+                                        conversation.getConversationType());
+                        iterator.remove();
                     }
-                    IMManager.getInstance().clearConversationAndMessage(targetId, conversationType);
-                    iterator.remove();
                 }
             }
             coversationLiveData.setValue(checkableContactModels);

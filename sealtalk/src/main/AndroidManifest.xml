@@ -99,7 +99,7 @@
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:theme="@style/LoginTheme"></activity>
+            android:theme="@style/LoginTheme"/>
         <activity
             android:name=".ui.activity.SelectCountryActivity"
             android:screenOrientation="portrait" />
@@ -283,10 +283,13 @@
             android:name=".ui.activity.GroupUserInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.SelectChatBgActivity"
+            android:name=".ui.activity.ChatBackgroundSelectActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.ImagePreviewActivity"
+            android:name=".ui.activity.ChatBackgroundListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ChatBackgroundPreviewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.NewMessageRemindActivity"
@@ -298,13 +301,44 @@
             android:name=".ui.activity.MemberMentionedExActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.QrCodeDisplayActivity"
+            android:name=".ui.activity.QrCodeDisplayOldActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.QrCodeDisplayWindowActivity"
+            android:name=".ui.activity.QrCodeDisplayWindowOldActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TranslucentNoTitleActivity" />
+
+        <activity
+            android:name=".newdesign.qrcode.QrCodeDisplayActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".newdesign.qrcode.QrCodeScanActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".newdesign.qrcode.JoinGroupActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".newdesign.search.SearchActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".newdesign.searchmsg.SearchMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newdesign.share.select.ShareSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newdesign.share.ShareChatActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".newdesign.startchat.StartChatActivity"
+            android:screenOrientation="portrait" />
+
 
         <!--        <activity-->
         <!--            android:name=".ui.activity.SealPicturePagerActivity"-->
@@ -594,6 +628,23 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ReportSuccessActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 未成年人模式相关页面 -->
+        <activity
+            android:name=".ui.activity.MinorModeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MinorModeSetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MinorModeModifyPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MinorModeVerifyPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MinorModeResetPasswordActivity"
             android:screenOrientation="portrait" />
             
         <!-- 微信 接收微信的请求及返回值 - Develop版本启用 -->

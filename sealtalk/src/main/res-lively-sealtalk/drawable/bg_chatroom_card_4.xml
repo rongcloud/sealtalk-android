@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 音乐天堂卡片背景 - 支持浅色/暗色模式 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="?attr/chatroom_card_4_start_color"
+        android:endColor="?attr/chatroom_card_4_end_color"
+        android:type="linear" />
+    <corners android:radius="13dp" />
+    <stroke
+        android:width="2dp"
+        android:color="?attr/rc_common_background_color" />
+</shape>

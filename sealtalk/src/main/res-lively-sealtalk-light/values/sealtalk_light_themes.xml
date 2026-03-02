@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ==================== SealTalk 浅色主题 ==================== -->
+    
+    <style name="SealTalkLightTheme">
+        <!-- 聊天室卡片颜色 -->
+        <item name="chatroom_card_1_start_color">@color/chatroom_card_1_start_light</item>
+        <item name="chatroom_card_1_end_color">@color/chatroom_card_1_end_light</item>
+        <item name="chatroom_badge_1_color">@color/chatroom_badge_1_light</item>
+        
+        <item name="chatroom_card_2_start_color">@color/chatroom_card_2_start_light</item>
+        <item name="chatroom_card_2_end_color">@color/chatroom_card_2_end_light</item>
+        <item name="chatroom_badge_2_color">@color/chatroom_badge_2_light</item>
+        
+        <item name="chatroom_card_3_start_color">@color/chatroom_card_3_start_light</item>
+        <item name="chatroom_card_3_end_color">@color/chatroom_card_3_end_light</item>
+        <item name="chatroom_badge_3_color">@color/chatroom_badge_3_light</item>
+        
+        <item name="chatroom_card_4_start_color">@color/chatroom_card_4_start_light</item>
+        <item name="chatroom_card_4_end_color">@color/chatroom_card_4_end_light</item>
+        <item name="chatroom_badge_4_color">@color/chatroom_badge_4_light</item>
+
+        <item name="rc_user_portrait_border_color">@color/rc_user_portrait_border_color_light</item>
+        
+        <!-- ========== 其他模块主题可在此添加 ========== -->
+
+        <item name="rc_seal_main_add">@drawable/rc_seal_main_add_light</item>
+        <item name="rc_logo">@drawable/rc_lively_logo_light</item>
+        <item name="rc_page_background">@drawable/rc_lively_page_background_light</item>
+
+        <item name="rc_mine_about">@drawable/rc_lively_mine_about_light</item>
+        <item name="rc_mine_feedback">@drawable/rc_lively_mine_feedback_light</item>
+        <item name="rc_mine_language">@drawable/rc_lively_mine_language_light</item>
+        <item name="rc_mine_privacy">@drawable/rc_lively_mine_privacy_light</item>
+        <item name="rc_mine_qrcode">@drawable/rc_lively_mine_qrcode_light</item>
+        <item name="rc_mine_setting">@drawable/rc_lively_mine_setting_light</item>
+        <item name="rc_mine_theme">@drawable/rc_lively_mine_theme_light</item>
+        <item name="rc_mine_translate">@drawable/rc_lively_mine_translate_light</item>
+        <item name="rc_mine_minor">@drawable/rc_lively_mine_minor_mode_light</item>
+        <item name="rc_minor_eye_open">@drawable/rc_lively_minor_input_eye_open_light</item>
+        <item name="rc_minor_eye_close">@drawable/rc_lively_minor_input_eye_close_light</item>
+
+        <item name="rc_add_friend">@drawable/rc_lively_add_friend_light</item>
+        <item name="rc_create_group">@drawable/rc_lively_create_group_light</item>
+        <item name="rc_scan">@drawable/rc_lively_scan_light</item>
+        <item name="rc_start_chat_white">@drawable/rc_lively_start_chat_white_light</item>
+        <item name="rc_main_popup_bg">@color/rc_auxiliary_background_1_color_light</item>
+
+        <item name="rc_friend_icon">@drawable/rc_lively_friend_icon_light</item>
+        <item name="rc_group_icon">@drawable/rc_lively_group_icon_light</item>
+        <item name="rc_notification_icon">@drawable/rc_lively_notification_icon_light</item>
+
+        <item name="rc_message_read_detail_bg">@drawable/rc_lively_message_read_detail_bg_light</item>
+
+        <!-- 底部 Tab 图标 -->
+        <item name="rc_lively_tab_chat_selected">@drawable/rc_lively_tab_chat_selected_light</item>
+        <item name="rc_lively_tab_chat_unselected">@drawable/rc_lively_tab_chat_unselected_light</item>
+        <item name="rc_lively_tab_contacts_selected">@drawable/rc_lively_tab_contacts_selected_light</item>
+        <item name="rc_lively_tab_contacts_unselected">@drawable/rc_lively_tab_contacts_unselected_light</item>
+        <item name="rc_lively_tab_chatroom_selected">@drawable/rc_lively_tab_chatroom_selected_light</item>
+        <item name="rc_lively_tab_chatroom_unselected">@drawable/rc_lively_tab_chatroom_unselected_light</item>
+        <item name="rc_lively_tab_me_selected">@drawable/rc_lively_tab_me_selected_light</item>
+        <item name="rc_lively_tab_me_unselected">@drawable/rc_lively_tab_me_unselected_light</item>
+        <item name="rc_lively_tab_ultra_selected">@drawable/rc_lively_tab_ultra_selected_light</item>
+        <item name="rc_lively_tab_ultra_unselected">@drawable/rc_lively_tab_ultra_unselected_light</item>
+
+        <item name="rc_conversation_plugin_item_poke_img">@drawable/rc_lively_plugin_poke_selector_light</item>
+        <item name="rc_conversation_plugin_item_audio_img">@drawable/rc_lively_plugin_audio_selector_light</item>
+        <item name="rc_conversation_plugin_item_video_img">@drawable/rc_lively_plugin_video_selector_light</item>
+
+    </style>
+
+</resources>

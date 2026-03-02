@@ -2,11 +2,8 @@ package cn.rongcloud.im.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -16,9 +13,9 @@ import cn.rongcloud.im.model.CountryInfo;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.ui.adapter.CountryAdapter;
-import cn.rongcloud.im.ui.view.SealTitleBar;
 import cn.rongcloud.im.ui.widget.SideBar;
 import cn.rongcloud.im.viewmodel.CountryViewModel;
+import io.rong.imkit.usermanage.component.SearchComponent;
 import java.util.List;
 
 public class SelectCountryActivity extends TitleBaseActivity {
@@ -31,9 +28,7 @@ public class SelectCountryActivity extends TitleBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity_select_country);
-        // 设置成搜索输入框的 title
-        setTitleBarType(SealTitleBar.Type.SEARCH);
+        setContentView(R.layout.login_activity_select_country_new);
         initView();
         initViewModel();
         loadCountryDatas(null);
@@ -41,10 +36,11 @@ public class SelectCountryActivity extends TitleBaseActivity {
 
     /** 初始化布局 */
     public void initView() {
+        // 初始化视图
+        SearchComponent searchComponent = findViewById(R.id.search_component);
         listView = findViewById(R.id.lv_select_country);
         SideBar sideBar = findViewById(R.id.sidrbar);
-        EditText searchEditText = findViewById(R.id.et_search);
-
+        getTitleBar().setTitle(R.string.seal_select_country_region);
         getTitleBar()
                 .setOnBtnLeftClickListener(
                         new View.OnClickListener() {
@@ -55,33 +51,17 @@ public class SelectCountryActivity extends TitleBaseActivity {
                             }
                         });
 
-        getTitleBar()
-                .getClearView()
-                .setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                hideInputKeyboard();
-                                finish();
-                            }
-                        });
+        // 设置搜索提示
+        searchComponent.setSearchHint(R.string.seal_search_country_hint);
 
-        getTitleBar()
-                .addSeachTextChangedListener(
-                        new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(
-                                    CharSequence s, int start, int count, int after) {}
-
-                            @Override
-                            public void onTextChanged(
-                                    CharSequence s, int start, int before, int count) {}
-
-                            @Override
-                            public void afterTextChanged(Editable s) {
-                                loadCountryDatas(s.toString());
-                            }
-                        });
+        // 设置搜索监听
+        searchComponent.setSearchQueryListener(
+                new SearchComponent.OnSearchQueryListener() {
+                    @Override
+                    public void onSearch(String query) {
+                        loadCountryDatas(query);
+                    }
+                });
 
         // 设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(

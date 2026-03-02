@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.contact.TranslationLanguage;
 import cn.rongcloud.im.task.AppTask;
+import cn.rongcloud.im.ui.BaseActivity;
 import cn.rongcloud.im.ui.view.SettingItemView;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * @author gusd
  */
-public class TranslationSettingActivity extends TitleBaseActivity {
+public class TranslationSettingActivity extends BaseActivity {
     private static final String TAG = "TranslationSettingActivity";
     public static List<Pair<String, String>> LANGUAGE_LIST = new ArrayList<>();
     private AppTask appTask;

@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_translation_src_language"
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/head_component"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_setting_item_height"
-        app:item_content="源语言"
-        app:item_divider="true"
-        app:item_right_image="@drawable/seal_ic_mine_go"
-        />
+        android:layout_height="wrap_content"
+        app:head_title_text="@string/seal_main_mine_setting_translation" />
 
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_translation_target_language"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_setting_item_height"
-        app:item_content="目标语言"
-        app:item_right_image="@drawable/seal_ic_mine_go"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/rc_margin_size_16"
+        android:paddingEnd="@dimen/rc_margin_size_16">
+
+        <cn.rongcloud.im.ui.view.SettingItemView
+            android:id="@+id/siv_translation_src_language"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rc_title_bar_height"
+            app:item_content="@string/seal_translation_src_language"
+            app:item_divider="true"
+            app:item_right_image="@drawable/seal_ic_mine_go" />
+
+        <cn.rongcloud.im.ui.view.SettingItemView
+            android:id="@+id/siv_translation_target_language"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rc_title_bar_height"
+            app:item_content="@string/seal_translation_target_language"
+            app:item_right_image="@drawable/seal_ic_mine_go" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,125 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_reset_password"
-        android:visibility="gone"
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        android:layout_marginTop="@dimen/seal_mine_account_setting_item_margin_top"
-        app:item_content="@string/seal_mine_set_account_change_password"
-        app:item_divider="true"
-        >
+        android:layout_height="match_parent"
+        android:paddingBottom="30dp">
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/rc_margin_size_16"
+            android:paddingEnd="@dimen/rc_margin_size_16">
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_privacy"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        app:item_content="@string/seal_mine_set_account_privacy"
-        app:item_divider="true"
-        >
+            <!-- 安全与隐私标题 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingTop="@dimen/rc_margin_size_10"
+                android:paddingEnd="0dp"
+                android:paddingBottom="@dimen/rc_margin_size_12"
+                android:text="@string/seal_account_setting_security_privacy_title"
+                android:textColor="?attr/rc_text_secondary_color"
+                android:textSize="15sp" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_friend_verification"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_privacy_friend_verify"
+                app:item_divider="true"
+                app:item_switch="true"
+                app:item_value_text_size="15sp" />
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_show_new_msg"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        app:item_content="@string/seal_mine_set_account_new_message_show"
-        >
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_search_by_st_account"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_privacy_search_st_account"
+                app:item_divider="true"
+                app:item_switch="true"
+                app:item_value_text_size="15sp" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+            <!-- 隐私设置组 -->
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_search_by_phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_privacy_search_phone"
+                app:item_divider="true"
+                app:item_switch="true"
+                app:item_value_text_size="15sp" />
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_chat_bg"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        android:layout_marginTop="@dimen/seal_mine_account_setting_item_margin_top"
-        app:item_content="@string/seal_mine_set_account_chat_bg"
-        app:item_divider="true"
-        />
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_group_verification"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_privacy_group_verify"
+                app:item_divider="false"
+                app:item_switch="true"
+                app:item_value_text_size="15sp" />
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_clear_cache"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        app:item_content="@string/seal_mine_set_account_clear_cache"
-        app:item_divider="true"
-        >
+            <!-- 新消息通知标题 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingTop="@dimen/rc_margin_size_16"
+                android:paddingEnd="0dp"
+                android:paddingBottom="@dimen/rc_margin_size_12"
+                android:text="@string/seal_account_setting_new_message_notification_title"
+                android:textColor="?attr/rc_text_secondary_color"
+                android:textSize="15sp" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+            <!-- 新消息通知设置组 -->
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_new_message_notification"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_new_message_remind_new_message"
+                app:item_divider="true"
+                app:item_switch="true"
+                app:item_value_text_size="15sp" />
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_clear_message_cache"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        app:item_content="@string/seal_mine_set_account_clear_message_cache"
-        />
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_show_notification_detail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_new_message_remind_message_show_details"
+                app:item_divider="true"
+                app:item_switch="true"
+                app:item_value_text_size="15sp" />
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_push_language"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        android:layout_marginTop="@dimen/seal_mine_account_setting_item_margin_top"
-        app:item_content="@string/seal_mine_set_account_push_language"
-        app:item_divider="true"
-        app:item_switch="true"
-        android:visibility="gone"
-        >
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_do_not_disturb"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_new_message_donot_disturb"
+                app:item_divider="true"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_value_text_size="15sp" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_receive_poke_message"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/setting_new_message_receive_poke_message"
+                app:item_divider="false"
+                app:item_switch="true"
+                app:item_value_text_size="15sp" />
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_push_content"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        app:item_content="@string/seal_mine_set_account_push_content"
-        app:item_divider="true"
-        app:item_switch="true"
-        android:visibility="gone"
-        >
+            <!-- 分隔线 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_margin_size_12" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_blacklist"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_privacy_blacklist_contacts"
+                app:item_divider="false"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_value_text_size="15sp" />
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_receive_push_msg"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        app:item_content="@string/seal_mine_set_account_push_message"
-        app:item_switch="true"
-        android:visibility="gone"
-        >
+            <!-- 分隔线 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_margin_size_12" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+            <!-- 通用设置组 -->
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_chat_background"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_mine_set_account_chat_bg"
+                app:item_divider="false"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_value_text_size="15sp" />
 
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        android:layout_marginTop="@dimen/seal_mine_account_setting_item_margin_top"
-        android:textColor="@color/seal_setting_item_content"
-        android:textSize="@dimen/seal_setting_item_text_size"
-        android:text="@string/seal_mine_set_account_logout"
-        android:background="@drawable/seal_mine_setting_item_selector"
-        style="?android:attr/borderlessButtonStyle"
-        />
+            <!-- 分隔线 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_margin_size_12" />
 
-    <Button
-        android:id="@+id/btn_account_delete"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_account_setting_item_height"
-        android:layout_marginTop="@dimen/seal_mine_account_setting_item_margin_top"
-        android:textColor="@color/seal_setting_item_content"
-        android:textSize="@dimen/seal_setting_item_text_size"
-        android:text="@string/seal_mine_set_account_delete"
-        android:background="@drawable/seal_mine_setting_item_selector"
-        style="?android:attr/borderlessButtonStyle"
-        />
+
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_clear_cache"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_mine_set_account_clear_cache"
+                app:item_divider="false"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_value_text_size="15sp" />
+
+            <!-- 分隔线 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_margin_size_12" />
+
+            <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_clear_chat_history"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/seal_mine_set_account_clear_message_cache"
+                app:item_divider="false"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_value_text_size="15sp" />
+
+
+            <Button
+                android:id="@+id/btn_delete_account"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="51dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rc_lively_hint_color_radius_6"
+                android:text="@string/seal_mine_set_account_delete"
+                android:textColor="@color/rc_white_color"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

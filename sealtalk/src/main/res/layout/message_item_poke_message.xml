@@ -4,8 +4,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="12dp"
     android:gravity="center_vertical|start"
     android:textColor="@color/default_main_text"
-    android:textSize="15dp" />
+    android:textSize="15sp" />

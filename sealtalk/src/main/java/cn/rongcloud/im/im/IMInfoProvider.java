@@ -28,6 +28,7 @@ import cn.rongcloud.im.task.UserTask;
 import com.google.gson.JsonObject;
 import io.rong.contactcard.IContactCardInfoProvider;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.feature.mention.RongMentionManager;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.utils.CharacterParser;
@@ -86,7 +87,11 @@ public class IMInfoProvider {
                                                         R.string
                                                                 .seal_conversation_notification_group),
                                         RongUtils.getUriFromDrawableRes(
-                                                context, R.drawable.seal_group_notice_portrait));
+                                                context,
+                                                IMKitThemeManager.getAttrResId(
+                                                        context,
+                                                        io.rong.imkit.R.attr
+                                                                .rc_conversation_list_cell_group_portrait_img)));
                             } else {
                                 updateUserInfo(id);
                             }

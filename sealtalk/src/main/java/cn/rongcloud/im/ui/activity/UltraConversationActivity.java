@@ -148,9 +148,9 @@ public class UltraConversationActivity extends RongBaseActivity
                                                     activity,
                                                     android.R.style
                                                             .Theme_DeviceDefault_Light_Dialog_Alert)
-                                            .setMessage("向用户说明申请权限")
+                                            .setMessage(R.string.seal_permission_user_explanation)
                                             .setPositiveButton(
-                                                    "去申请",
+                                                    R.string.seal_permission_go_to_apply,
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(
@@ -160,7 +160,7 @@ public class UltraConversationActivity extends RongBaseActivity
                                                         }
                                                     })
                                             .setNegativeButton(
-                                                    "取消",
+                                                    R.string.common_cancel,
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(
@@ -224,18 +224,43 @@ public class UltraConversationActivity extends RongBaseActivity
         // 设置聊天背景
         if (isFirstResume) {
             UserConfigCache configCache = new UserConfigCache(this);
-            if (!TextUtils.isEmpty(configCache.getChatbgUri())) {
+            String bgUriString = configCache.getChatbgUri();
+            if (!TextUtils.isEmpty(bgUriString)) {
                 try {
-                    fragment.getView()
-                            .findViewById(io.rong.imkit.R.id.rc_refresh)
-                            .setBackground(
-                                    Drawable.createFromStream(
-                                            getContentResolver()
-                                                    .openInputStream(
-                                                            Uri.parse(configCache.getChatbgUri())),
-                                            null));
+                    java.io.InputStream inputStream = null;
+                    Uri bgUri = Uri.parse(bgUriString);
+
+                    // 根据不同的 URI scheme 使用不同的打开方式
+                    if (bgUriString.startsWith("file://")) {
+                        // 对于 file:// URI，直接使用文件路径打开
+                        java.io.File file = new java.io.File(bgUri.getPath());
+                        if (file.exists()) {
+                            inputStream = new java.io.FileInputStream(file);
+                        } else {
+                            SLog.e(
+                                    TAG,
+                                    "Chat background file not found: " + file.getAbsolutePath());
+                            configCache.setChatbgUri("");
+                        }
+                    } else {
+                        // 对于其他 URI（如 content://, android.resource://），使用 ContentResolver
+                        inputStream = getContentResolver().openInputStream(bgUri);
+                    }
+
+                    if (inputStream != null) {
+                        fragment.getView()
+                                .findViewById(io.rong.imkit.R.id.rc_refresh)
+                                .setBackground(Drawable.createFromStream(inputStream, null));
+                        inputStream.close();
+                    }
+                } catch (SecurityException e) {
+                    // URI 访问权限失效，清除保存的背景URI
+                    SLog.e(TAG, "Failed to load chat background: permission denied", e);
+                    configCache.setChatbgUri("");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // 其他异常（如文件不存在等）
+                    SLog.e(TAG, "Failed to load chat background", e);
+                    configCache.setChatbgUri("");
                 }
             }
             isFirstResume = false;

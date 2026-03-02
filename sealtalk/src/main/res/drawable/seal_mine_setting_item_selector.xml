@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="#f5f5f5"></solid>
+            <solid android:color="?attr/rc_selected_background_color" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#f5f5f5"></solid>
+            <solid android:color="?attr/rc_selected_background_color" />
         </shape>
     </item>
-    <item >
+    <item>
         <shape>
-            <solid android:color="#ffffff"></solid>
+            <solid android:color="?attr/rc_bottom_dialog_background_color" />
         </shape>
     </item>
-
-
-
 </selector>

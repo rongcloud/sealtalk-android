@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
+
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/head_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+        <!-- 群组头像 -->
+        <cn.rongcloud.im.ui.widget.SelectableRoundedImageView
+            android:id="@+id/iv_group_portrait"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            app:sriv_left_bottom_corner_radius="@dimen/seal_new_friend_header_radius"
+            app:sriv_left_top_corner_radius="@dimen/seal_new_friend_header_radius"
+            app:sriv_oval="true"
+            app:sriv_right_bottom_corner_radius="@dimen/seal_new_friend_header_radius"
+            app:sriv_right_top_corner_radius="@dimen/seal_new_friend_header_radius"
+            tools:src="@drawable/common_default_portrait" />
+
+        <!-- 群聊名称 -->
+        <TextView
+            android:id="@+id/tv_group_name"
+            style="@style/TextStyle.Alignment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxWidth="280dp"
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="群聊名称(98)" />
+
+    </LinearLayout>
+
+    <!-- 加入按钮 -->
+    <TextView
+        android:id="@+id/btn_join_group"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/rc_lively_primary_color_radius_6"
+        android:gravity="center"
+        android:text="@string/seal_join_group_button"
+        android:textColor="?attr/rc_control_title_white_color"
+        android:textSize="17sp" />
+
+</LinearLayout>
+
+
+
+
+

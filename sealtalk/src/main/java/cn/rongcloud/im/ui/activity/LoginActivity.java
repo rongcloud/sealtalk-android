@@ -9,13 +9,10 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.LayoutDirection;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.text.TextUtilsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,7 +34,6 @@ import cn.rongcloud.im.utils.StatusBarUtil;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.AppViewModel;
 import io.rong.imkit.utils.language.LangUtils;
-import java.util.Locale;
 
 /** 登录界面 用户可以在这个界面通过帐号登录到 业务服务器 并从中获取获取到连接 融云IM 服务器 所必须的 token */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -48,7 +44,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private static final String BUNDLE_LAST_SELECTED_FRAGMENT = "last_select_fragment";
     private Fragment[] fragments = new Fragment[1];
 
-    private View loginBg;
     private TextView changLang;
     private TextView registerRight;
     private TextView registerLeft;
@@ -113,9 +108,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     /** 初始化界面 */
     private void initView() {
-        loginBg = findViewById(R.id.iv_login_bg);
         changLang = findViewById(R.id.tv_change_lang);
-
         registerLeft = findViewById(R.id.tv_register_left);
         registerRight = findViewById(R.id.tv_register_right);
         findPassword = findViewById(R.id.tv_find_passsword);
@@ -123,6 +116,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mSealTalkVersion = findViewById(R.id.tv_seal_talk_version);
         initRegistrationTerms();
         mRegistrationTermsCheckBox = findViewById(R.id.cb_registration_terms);
+        // 上架合规：协议不能隐藏，且默认不选中
         mRegistrationTermsCheckBox.setChecked(false);
         mRegistrationTermsCheckBox.setOnCheckedChangeListener(
                 (compoundButton, b) -> isPrivacyChecked = b);
@@ -136,8 +130,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         // 默认是登录界面
         controlBottomView(currentFragmentIndex);
-
-        startBgAnimation();
 
         Intent intent = getIntent();
         // 是否被数美踢出
@@ -389,16 +381,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         });
     }
 
-    /** 背景微动画 */
-    private void startBgAnimation() {
-        int animId =
-                TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
-                                == LayoutDirection.RTL
-                        ? R.anim.seal_login_bg_translate_anim_rtl
-                        : R.anim.seal_login_bg_translate_anim;
-        loginBg.startAnimation(AnimationUtils.loadAnimation(LoginActivity.this, animId));
-    }
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -427,7 +409,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     /** 设置切换语言后， 重启activity */
     private void restartActivity() {
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        // 清除栈顶的Activity并启动新的实例，避免重复的LoginActivity堆积
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        // 清除之前的Intent extras，避免重复处理踢出、登录过期等状态
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        // 添加淡入淡出动画，避免切换时出现黑屏闪烁
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }
 

@@ -37,6 +37,7 @@ import cn.rongcloud.im.utils.ToastUtils;
 import cn.rongcloud.im.utils.log.SLog;
 import cn.rongcloud.im.viewmodel.AppViewModel;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.utils.language.RongConfigurationManager;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.ConversationIdentifier;
@@ -206,12 +207,28 @@ public class BaseActivity extends AppCompatActivity {
 
     private void initStatusBar() {
         StatusBarUtil.setRootViewFitsSystemWindows(this, true);
+
+        // 设置状态栏背景色
         StatusBarUtil.setStatusBarColor(
                 this,
-                getResources()
-                        .getColor(
-                                io.rong.imkit.R.color
-                                        .rc_background_main_color)); // Color.parseColor("#F5F6F9")
+                IMKitThemeManager.getColorFromAttrId(
+                        this, io.rong.imkit.R.attr.rc_auxiliary_background_1_color));
+
+        // 根据当前主题设置状态栏文字和图标颜色
+        // 浅色模式：状态栏背景浅色，文字图标深色（dark = true）
+        // 暗色模式：状态栏背景深色，文字图标浅色（dark = false）
+        boolean isDarkMode = isSystemInDarkMode();
+        StatusBarUtil.setStatusBarDarkTheme(this, !isDarkMode);
+    }
+
+    /**
+     * 判断系统是否处于暗色模式
+     *
+     * @return true 表示暗色模式，false 表示浅色模式
+     */
+    private boolean isSystemInDarkMode() {
+        int nightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return nightMode == Configuration.UI_MODE_NIGHT_YES;
     }
 
     @Override

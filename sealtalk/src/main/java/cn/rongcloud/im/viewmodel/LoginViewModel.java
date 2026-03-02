@@ -144,6 +144,10 @@ public class LoginViewModel extends AndroidViewModel {
         loginResult.setSource(userTask.registerAndLogin(region, phone, code));
     }
 
+    public void verifyCode(String region, String phone, String code) {
+        loginResult.setSource(userTask.verifyCode(region, phone, code));
+    }
+
     public LiveData<Resource<String>> getLoginResult() {
         return loginResult;
     }

@@ -32,11 +32,11 @@ public class SelectCountryItem extends RelativeLayout {
     }
 
     private void initView() {
-        View view = View.inflate(getContext(), R.layout.login_item_country, this);
+        View view = View.inflate(getContext(), R.layout.login_item_country_new, this);
         tvChar = (TextView) findViewById(R.id.tv_char);
         tvCountry = (TextView) findViewById(R.id.tv_country);
         llFirstChar = (LinearLayout) findViewById(R.id.ll_firstchar);
-        rlCountryBg = (RelativeLayout) findViewById(R.id.ll_country_bg);
+        rlCountryBg = (RelativeLayout) findViewById(R.id.rl_country_container);
         tvCode = (TextView) findViewById(R.id.tv_code);
     }
 

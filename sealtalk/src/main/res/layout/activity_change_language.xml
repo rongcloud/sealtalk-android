@@ -1,44 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="?attr/rc_auxiliary_background_1_color"
+    android:orientation="vertical">
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_chinese"
+    <io.rong.imkit.usermanage.component.HeadComponent
+        android:id="@+id/head_component"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_change_language_item_height"
-        app:item_content="@string/lang_chs"
-        app:item_divider="true"
-        app:item_show_selected="true"
-        app:item_selected_image="@drawable/seal_ic_selected"
-        >
+        android:layout_height="wrap_content"
+        app:head_right_text="@string/seal_gender_save"
+        app:head_right_text_color_default="?attr/rc_primary_color"
+        app:head_title_text="@string/seal_main_mine_setting_language" />
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
-
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_english"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_change_language_item_height"
-        app:item_content="@string/lang_english"
-        app:item_show_selected="true"
-        app:item_divider="true"
-        app:item_selected_image="@drawable/seal_ic_selected"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/rc_margin_size_16"
+        android:paddingEnd="@dimen/rc_margin_size_16">
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+        <cn.rongcloud.im.ui.view.SettingItemView
+            android:id="@+id/siv_chinese"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rc_title_bar_height"
+            app:item_content="@string/lang_chs"
+            app:item_divider="true"
+            app:item_selected_image="?attr/rc_group_manage_gender_cell_check_img"
+            app:item_show_selected="true">
 
-    <cn.rongcloud.im.ui.view.SettingItemView
-        android:id="@+id/siv_arab"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/seal_mine_change_language_item_height"
-        app:item_content="@string/lang_arab"
-        app:item_show_selected="true"
-        app:item_selected_image="@drawable/seal_ic_selected"
-        >
+        </cn.rongcloud.im.ui.view.SettingItemView>
 
-    </cn.rongcloud.im.ui.view.SettingItemView>
+        <cn.rongcloud.im.ui.view.SettingItemView
+            android:id="@+id/siv_english"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rc_title_bar_height"
+            app:item_content="@string/lang_english"
+            app:item_divider="true"
+            app:item_selected_image="?attr/rc_group_manage_gender_cell_check_img"
+            app:item_show_selected="true">
+
+        </cn.rongcloud.im.ui.view.SettingItemView>
+
+        <cn.rongcloud.im.ui.view.SettingItemView
+            android:id="@+id/siv_arab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rc_title_bar_height"
+            app:item_content="@string/lang_arab"
+            app:item_selected_image="?attr/rc_group_manage_gender_cell_check_img"
+            app:item_show_selected="true">
+
+        </cn.rongcloud.im.ui.view.SettingItemView>
+
+    </LinearLayout>
 
 </LinearLayout>

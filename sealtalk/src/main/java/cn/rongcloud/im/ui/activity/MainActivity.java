@@ -12,10 +12,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -35,6 +31,8 @@ import cn.rongcloud.im.db.model.FriendShipInfo;
 import cn.rongcloud.im.model.Resource;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.VersionInfo;
+import cn.rongcloud.im.newdesign.qrcode.QrCodeScanActivity;
+import cn.rongcloud.im.newdesign.startchat.StartChatActivity;
 import cn.rongcloud.im.security.SMSDKUtils;
 import cn.rongcloud.im.ui.BaseActivity;
 import cn.rongcloud.im.ui.dialog.AuthorityPrivacyDialog;
@@ -44,6 +42,7 @@ import cn.rongcloud.im.ui.dialog.MorePopWindow;
 import cn.rongcloud.im.ui.fragment.MainContactsListFragment;
 import cn.rongcloud.im.ui.fragment.MainDiscoveryFragment;
 import cn.rongcloud.im.ui.fragment.MainMeFragment;
+import cn.rongcloud.im.ui.fragment.SealConversationListFragment;
 import cn.rongcloud.im.ui.fragment.SealFriendListFragment;
 import cn.rongcloud.im.ui.fragment.UltraConversationListFragment;
 import cn.rongcloud.im.ui.view.MainBottomTabGroupView;
@@ -61,11 +60,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.services.core.ServiceSettings;
 import com.tencent.bugly.crashreport.CrashReport;
-// import com.umeng.commonsdk.UMConfigure;
 import io.rong.imkit.config.IMKitThemeManager;
-import io.rong.imkit.conversationlist.ConversationListFragment;
-import io.rong.imkit.picture.tools.ScreenUtils;
-import io.rong.imkit.usermanage.friend.friendlist.FriendListActivity;
+import io.rong.imkit.usermanage.friend.add.AddFriendListActivity;
 import io.rong.imkit.usermanage.friend.select.FriendSelectActivity;
 import io.rong.imkit.utils.RouteUtils;
 import io.rong.imkit.utils.ToastUtils;
@@ -89,15 +85,9 @@ public class MainActivity extends BaseActivity
 
     private ViewPager vpFragmentContainer;
     private MainBottomTabGroupView tabGroupView;
-    private ImageView ivSearch;
-    private ImageView ivMore;
-    private RelativeLayout titleBar;
     public MainViewModel mainViewModel;
     private SecurityViewModel securityViewModel;
     private UltraGroupViewModel mConversationListViewModel;
-    private TextView tvTitle;
-    private RelativeLayout btnSearch;
-    private ImageButton btnMore;
     private LinkedHashMap<String, Integer> tabsMap = new LinkedHashMap<>();
     private String[] tabNameList; // tab 显示名称数组
 
@@ -222,48 +212,10 @@ public class MainActivity extends BaseActivity
 
     /** 初始化布局 */
     private void initView() {
-        tvTitle = findViewById(R.id.tv_title);
-        btnSearch = findViewById(R.id.btn_search);
-        btnMore = findViewById(R.id.btn_more);
-        titleBar = findViewById(R.id.rl_title);
-        if (!IMKitThemeManager.isTraditionTheme()) {
-            int bgColor =
-                    IMKitThemeManager.getColorFromAttrId(
-                            this, io.rong.imkit.R.attr.rc_view_background_color);
-            if (bgColor != 0) {
-                //                findViewById(R.id.ll_container).setBackgroundColor(bgColor);
-            }
-        }
-        int tabIndex = getIntent().getIntExtra(PARAMS_TAB_INDEX, tabsMap.get(CHAT));
-
-        // title
-        btnSearch.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, SealSearchActivity.class);
-                        startActivity(intent);
-                    }
-                });
-
-        btnMore.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int currentItem = vpFragmentContainer.getCurrentItem();
-                        if (currentItem == tabsMap.get(CHAT)) {
-                            MorePopWindow morePopWindow =
-                                    new MorePopWindow(MainActivity.this, MainActivity.this);
-                            morePopWindow.showPopupWindow(btnMore, 0.8f, -getXOffset(), 0);
-                        } else if (currentItem == tabsMap.get(CONTACTS)) {
-                            onAddFriendClick();
-                        }
-                    }
-                });
-
-        // 底部按钮
         tabGroupView = findViewById(R.id.tg_bottom_tabs);
         vpFragmentContainer = findViewById(R.id.vp_main_container);
+
+        int tabIndex = resolveTabIndex(getIntent());
 
         // 初始化底部 tabs
         initTabs();
@@ -283,24 +235,59 @@ public class MainActivity extends BaseActivity
         } else {
             tabNameList = getResources().getStringArray(R.array.tab_names_nomal);
         }
+
+        // 初始化 tab 的图片 - 使用主题属性动态获取
         List<TabItem.AnimationDrawableBean> animationDrawableList = new ArrayList<>();
+
+        // 聊天 Tab
         animationDrawableList.add(
                 new TabItem.AnimationDrawableBean(
-                        R.drawable.tab_chat_0, R.drawable.tab_chat_animation_list));
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_chat_unselected, R.drawable.tab_chat_0),
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_chat_selected,
+                                R.drawable.tab_chat_animation_list)));
+
+        // 超级群 Tab (仅在 Ultra 模式下)
         if (appViewModel.isUltraGroupDebugMode()) {
             animationDrawableList.add(
                     new TabItem.AnimationDrawableBean(
-                            R.drawable.rc_ultra_0, R.drawable.tab_ultra_animation_list));
+                            getThemeDrawableResId(
+                                    R.attr.rc_lively_tab_ultra_unselected, R.drawable.rc_ultra_0),
+                            getThemeDrawableResId(
+                                    R.attr.rc_lively_tab_ultra_selected,
+                                    R.drawable.tab_ultra_animation_list)));
         }
+
+        // 发现/聊天室 Tab
         animationDrawableList.add(
                 new TabItem.AnimationDrawableBean(
-                        R.drawable.tab_contacts_0, R.drawable.tab_contacts_animation_list));
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_chatroom_unselected,
+                                R.drawable.tab_chatroom_0),
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_chatroom_selected,
+                                R.drawable.tab_chatroom_animation_list)));
+
+        // 好友 Tab (原联系人)
         animationDrawableList.add(
                 new TabItem.AnimationDrawableBean(
-                        R.drawable.tab_chatroom_0, R.drawable.tab_chatroom_animation_list));
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_contacts_unselected,
+                                R.drawable.tab_contacts_0),
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_contacts_selected,
+                                R.drawable.tab_contacts_animation_list)));
+
+        // 我的 Tab
         animationDrawableList.add(
                 new TabItem.AnimationDrawableBean(
-                        R.drawable.tab_me_0, R.drawable.tab_me_animation_list));
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_me_unselected, R.drawable.tab_me_0),
+                        getThemeDrawableResId(
+                                R.attr.rc_lively_tab_me_selected,
+                                R.drawable.tab_me_animation_list)));
+
         for (Map.Entry<String, Integer> entry : tabsMap.entrySet()) {
             TabItem tabItem = new TabItem();
             tabItem.id = entry.getValue();
@@ -314,65 +301,18 @@ public class MainActivity extends BaseActivity
                 new TabGroupView.OnTabSelectedListener() {
                     @Override
                     public void onSelected(View view, TabItem item) {
-                        boolean userManagementEnabled =
-                                SealTalkDebugTestActivity.isUserManagementEnabled(
-                                        MainActivity.this);
                         // 当点击 tab 的后， 也要切换到正确的 fragment 页面
                         int currentItem = vpFragmentContainer.getCurrentItem();
                         if (currentItem != item.id) {
                             // 切换布局
                             vpFragmentContainer.setCurrentItem(item.id);
-                            if (item.id == tabsMap.get(ME)) {
-                                // 如果是我的页面， 则隐藏红点
-                                ((MainBottomTabItem) tabGroupView.getView(tabsMap.get(ME)))
-                                        .setRedVisibility(View.GONE);
-                                if (appViewModel.isUltraGroupDebugMode()) {
-                                    tvTitle.setText(tabNameList[4]);
-                                } else {
-                                    tvTitle.setText(tabNameList[3]);
-                                }
-                                btnMore.setVisibility(View.GONE);
-                                btnSearch.setVisibility(View.GONE);
-                                titleBar.setVisibility(View.VISIBLE);
-                            }
-                        } else if (item.id == tabsMap.get(CHAT)) {
-                            titleBar.setVisibility(View.VISIBLE);
-                            btnMore.setVisibility(View.VISIBLE);
-                            btnSearch.setVisibility(View.VISIBLE);
-                            btnMore.setImageDrawable(
-                                    getResources().getDrawable(R.drawable.seal_ic_main_more));
-                            tvTitle.setText(tabNameList[0]);
                         } else if (appViewModel.isUltraGroupDebugMode()
                                 && item.id == tabsMap.get(ULTRA)) {
-                            titleBar.setVisibility(View.VISIBLE);
-                            btnMore.setVisibility(View.VISIBLE);
-                            btnSearch.setVisibility(View.GONE);
                             mConversationListViewModel.getUltraGroupMemberList();
-                            btnMore.setVisibility(View.GONE);
-                            tvTitle.setText(tabNameList[1]);
-                        } else if (item.id == tabsMap.get(CONTACTS)) {
-                            btnMore.setVisibility(userManagementEnabled ? View.GONE : View.VISIBLE);
-                            btnSearch.setVisibility(
-                                    userManagementEnabled ? View.GONE : View.VISIBLE);
-                            btnMore.setImageDrawable(
-                                    getResources().getDrawable(R.drawable.seal_ic_main_add_friend));
-                            if (appViewModel.isUltraGroupDebugMode()) {
-                                tvTitle.setText(tabNameList[2]);
-                                titleBar.setVisibility(View.VISIBLE);
-                            } else {
-                                tvTitle.setText(tabNameList[1]);
-                                titleBar.setVisibility(
-                                        userManagementEnabled ? View.GONE : View.VISIBLE);
-                            }
-                        } else if (item.id == tabsMap.get(FIND)) {
-                            if (appViewModel.isUltraGroupDebugMode()) {
-                                tvTitle.setText(tabNameList[3]);
-                            } else {
-                                tvTitle.setText(tabNameList[2]);
-                            }
-                            btnMore.setVisibility(View.GONE);
-                            btnSearch.setVisibility(View.GONE);
-                            titleBar.setVisibility(View.VISIBLE);
+                        } else if (item.id == tabsMap.get(ME)) {
+                            // 如果是我的页面， 则隐藏红点
+                            ((MainBottomTabItem) tabGroupView.getView(tabsMap.get(ME)))
+                                    .setRedVisibility(View.GONE);
                         }
                     }
                 });
@@ -412,24 +352,63 @@ public class MainActivity extends BaseActivity
         if (appViewModel.isUltraGroupDebugMode()) {
             tabsMap.put(CHAT, 0);
             tabsMap.put(ULTRA, 1);
-            tabsMap.put(CONTACTS, 2);
-            tabsMap.put(FIND, 3);
+            tabsMap.put(FIND, 2);
+            tabsMap.put(CONTACTS, 3);
             tabsMap.put(ME, 4);
         } else {
             tabsMap.put(CHAT, 0);
-            tabsMap.put(CONTACTS, 1);
-            tabsMap.put(FIND, 2);
+            tabsMap.put(FIND, 1);
+            tabsMap.put(CONTACTS, 2);
             tabsMap.put(ME, 3);
         }
     }
 
+    /** 从 Intent 解析需要展示的 Tab，兼容字符串和整型传值 */
+    private int resolveTabIndex(Intent intent) {
+        if (intent == null) {
+            return tabsMap.get(CHAT);
+        }
+
+        int tabIndex = intent.getIntExtra(PARAMS_TAB_INDEX, -1);
+        if (tabIndex != -1) {
+            return tabIndex;
+        }
+
+        String tabKey = intent.getStringExtra(PARAMS_TAB_INDEX);
+        if (!TextUtils.isEmpty(tabKey)) {
+            Integer targetIndex = tabsMap.get(tabKey);
+            if (targetIndex != null) {
+                return targetIndex;
+            }
+        }
+
+        return tabsMap.get(CHAT);
+    }
+
+    /**
+     * 从主题属性中获取 Drawable 资源 ID
+     *
+     * @param attrId 主题属性 ID
+     * @param defaultResId 默认资源 ID (当主题属性未定义时使用)
+     * @return Drawable 资源 ID
+     */
+    private int getThemeDrawableResId(int attrId, int defaultResId) {
+        // 使用 IMKitThemeManager 的标准方法获取主题属性资源
+        int resId = IMKitThemeManager.getAttrResId(this, attrId);
+        // 如果获取失败（返回 0），则使用默认资源
+        return resId != 0 ? resId : defaultResId;
+    }
+
     /** 初始化 initFragmentViewPager */
     private void initFragmentViewPager() {
-        fragments.add(new ConversationListFragment());
+        // 使用包装的 ConversationListFragment
+        fragments.add(new SealConversationListFragment());
         if (appViewModel.isUltraGroupDebugMode()) {
             fragments.add(new UltraConversationListFragment());
         }
-        // 根据用户托管开关决定使用哪个联系人Fragment
+        // 发现/聊天室 Fragment
+        fragments.add(new MainDiscoveryFragment());
+        // 根据用户托管开关决定使用哪个联系人Fragment (好友)
         if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
             // 使用新的用户管理功能
             fragments.add(new SealFriendListFragment());
@@ -437,7 +416,7 @@ public class MainActivity extends BaseActivity
             // 使用原来的实现
             fragments.add(new MainContactsListFragment());
         }
-        fragments.add(new MainDiscoveryFragment());
+        // 我的 Fragment
         fragments.add(new MainMeFragment());
 
         //        FragmentTransaction fragmentTransaction =
@@ -645,8 +624,12 @@ public class MainActivity extends BaseActivity
     /** 发起单聊 */
     @Override
     public void onStartChartClick() {
-        Intent intent = new Intent(this, SelectSingleFriendActivity.class);
-        startActivityForResult(intent, REQUEST_START_CHAT);
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+            startActivity(StartChatActivity.newIntent(this));
+        } else {
+            Intent intent = new Intent(this, SelectSingleFriendActivity.class);
+            startActivityForResult(intent, REQUEST_START_CHAT);
+        }
     }
 
     /** 创建群组 */
@@ -664,7 +647,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void onAddFriendClick() {
         if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
-            startActivity(FriendListActivity.newIntent(this));
+            startActivity(AddFriendListActivity.newIntent(this));
         } else {
             Intent intent = new Intent(this, AddFriendActivity.class);
             startActivity(intent);
@@ -674,16 +657,12 @@ public class MainActivity extends BaseActivity
     /** 扫一扫 */
     @Override
     public void onScanClick() {
-        Intent intent = new Intent(this, ScanActivity.class);
-        startActivity(intent);
-    }
-
-    private int getXOffset() {
-        int marginEnd = ScreenUtils.dip2px(MainActivity.this, 12);
-        float popSelfXOffset =
-                getResources().getDimension(R.dimen.seal_main_title_popup_width)
-                        - btnMore.getWidth();
-        return (int) (popSelfXOffset);
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+            startActivity(QrCodeScanActivity.newIntent(this));
+        } else {
+            Intent intent = new Intent(this, ScanActivity.class);
+            startActivity(intent);
+        }
     }
 
     @RequiresApi(api = 33)

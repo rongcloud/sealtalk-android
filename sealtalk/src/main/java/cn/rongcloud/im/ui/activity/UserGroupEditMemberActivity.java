@@ -100,7 +100,7 @@ public class UserGroupEditMemberActivity extends TitleBaseActivity
     }
 
     private void initView() {
-        getTitleBar().setTitle("编辑用户组成员");
+        getTitleBar().setTitle(R.string.seal_user_group_edit_member_title);
         getTitleBar().setOnBtnLeftClickListener(v -> setCheckedResult(null));
 
         findViewById(R.id.rc_tv_finish).setOnClickListener(this);

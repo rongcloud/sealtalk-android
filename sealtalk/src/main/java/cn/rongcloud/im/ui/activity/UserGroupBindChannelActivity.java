@@ -90,7 +90,7 @@ public class UserGroupBindChannelActivity extends TitleBaseActivity
     }
 
     private void initView() {
-        getTitleBar().setTitle("绑定/解绑用户组");
+        getTitleBar().setTitle(R.string.seal_user_group_bind_channel_title);
         getTitleBar().setOnBtnLeftClickListener(v -> setCheckedResult(null));
 
         findViewById(R.id.rc_tv_finish).setOnClickListener(this);

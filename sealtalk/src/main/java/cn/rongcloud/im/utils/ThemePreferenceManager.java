@@ -33,17 +33,16 @@ public class ThemePreferenceManager {
      * 获取保存的主题类型
      *
      * @param context 上下文
-     * @return 主题类型字符串，如果没有保存则返回默认的 ORIGIN_LIGHT
+     * @return 主题类型字符串，如果没有保存则返回默认的 LIVELY_THEME
      */
     public static String getThemeType(Context context) {
         if (context == null) {
-            return IMKitThemeManager.TRADITION_THEME;
+            return IMKitThemeManager.LIVELY_THEME;
         }
 
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        String themeTypeName = prefs.getString(KEY_THEME_TYPE, IMKitThemeManager.TRADITION_THEME);
 
-        return themeTypeName;
+        return prefs.getString(KEY_THEME_TYPE, IMKitThemeManager.LIVELY_THEME);
     }
 
     /**

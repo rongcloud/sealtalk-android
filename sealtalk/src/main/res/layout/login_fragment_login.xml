@@ -1,251 +1,301 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/seal_login_fragment_login_margin_top"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:theme="@style/RCLivelyLightTheme"
+    android:fillViewport="true">
 
-    <LinearLayout
-        android:id="@+id/ll_data_center"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/seal_login_fragment_login_country_select_margin_left"
-        android:layout_marginEnd="@dimen/seal_login_fragment_login_country_select_margin_right"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
 
+        <!-- 数据中心标签 -->
         <TextView
             android:id="@+id/tv_data_center_label"
-            style="@style/TextStyle.Alignment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/seal_login_register_padding"
-            android:paddingEnd="@dimen/seal_login_register_padding"
+            android:layout_marginTop="16dp"
             android:text="@string/data_center"
-            android:textSize="16dp"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse"
-            android:textColor="@color/white"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_data_center_name"
-            style="@style/TextStyle.Alignment"
+        <!-- 数据中心选择容器 -->
+        <LinearLayout
+            android:id="@+id/ll_data_center"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:paddingStart="@dimen/seal_login_register_padding"
-            android:paddingEnd="@dimen/seal_login_register_padding"
-            android:text="@string/data_center_beijing"
-            android:textSize="16dp"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse"
-            android:textColor="@color/white" />
+            android:layout_height="42dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/seal_login_input_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_data_center_label">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/seal_ic_rp_arrow" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_data_center_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/data_center_beijing"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textSize="16sp" />
 
-    <LinearLayout
-        android:id="@+id/ll_country_select"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/seal_login_fragment_login_country_select_margin_left"
-        android:layout_marginEnd="@dimen/seal_login_fragment_login_country_select_margin_right"
-        android:layout_marginTop="@dimen/seal_login_fragment_login_phonenumber_margin_top"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="?attr/rc_right_arrow_icon_img" />
+        </LinearLayout>
 
+        <!-- 国家/地区标签 -->
         <TextView
-            style="@style/TextStyle.Alignment"
+            android:id="@+id/tv_country_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/seal_login_fragment_login_text_padding"
-            android:paddingEnd="@dimen/seal_login_fragment_login_text_padding"
+            android:layout_marginTop="16dp"
             android:text="@string/seal_login_countries_and_regions"
-            android:textSize="16dp"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse"
-            android:textColor="@color/white" />
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_data_center" />
 
-        <TextView
-            android:id="@+id/tv_country_name"
-            style="@style/TextStyle.Alignment"
+        <!-- 国家/地区选择容器 -->
+        <LinearLayout
+            android:id="@+id/ll_country_select"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:textSize="16dp"
-            android:paddingStart="@dimen/seal_login_fragment_login_text_padding"
-            android:paddingEnd="@dimen/seal_login_fragment_login_text_padding"
-            android:text="@string/china"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse"
-            android:textColor="@color/white" />
+            android:layout_height="42dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/seal_login_input_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_country_label">
 
-        <ImageView
+            <TextView
+                android:id="@+id/tv_country_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/china"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="?attr/rc_right_arrow_icon_img" />
+        </LinearLayout>
+
+        <!-- 联系方式标签 -->
+        <TextView
+            android:id="@+id/tv_phone_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/seal_ic_rp_arrow" />
-    </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:text="@string/seal_login_contact_method"
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_country_select" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/seal_login_fragment_login_phonenumber_margin_left"
-        android:layout_marginTop="@dimen/seal_login_fragment_login_phonenumber_margin_top"
-        android:layout_marginEnd="@dimen/seal_login_fragment_login_phonenumber_margin_right"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        <!-- 联系方式输入区域 -->
+        <LinearLayout
+            android:id="@+id/ll_phone_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_phone_label">
 
+            <!-- 区号 -->
+            <TextView
+                android:id="@+id/tv_country_code"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/seal_login_input_background"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="+86"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textSize="16sp" />
+
+            <!-- 手机号输入框 -->
+            <cn.rongcloud.im.ui.widget.ClearWriteEditText
+                android:id="@+id/cet_login_phone"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                android:background="@drawable/seal_login_input_background"
+                android:hint="@string/seal_login_phone_number"
+                android:inputType="phone"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textColorHint="?attr/rc_text_secondary_color"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- 图片验证码标签 -->
         <TextView
-            android:id="@+id/tv_country_code"
-            style="@style/TextStyle.Alignment"
+            android:id="@+id/tv_image_code_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/seal_login_fragment_login_text_padding"
-            android:paddingEnd="@dimen/seal_login_fragment_login_text_padding"
-            android:text="+86"
-            android:textSize="16dp"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse"
-            android:textColor="@color/white" />
-
-
-        <cn.rongcloud.im.ui.widget.ClearWriteEditText
-            android:id="@+id/cet_login_phone"
-            style="@style/EditTextStyle.Alignment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rc_ed_public_service_search_selector"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/seal_login_phone_number"
-            android:textSize="16dp"
-            android:inputType="phone"
-            android:maxLength="20"
+            android:layout_marginTop="16dp"
+            android:text="@string/seal_talk_image_verify_code_label"
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:maxLines="1"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_phone_container" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/image_verify_code_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/seal_login_fragment_login_phonenumber_margin_left"
-        android:layout_marginTop="@dimen/seal_login_fragment_login_phonenumber_margin_top"
-        android:layout_marginEnd="@dimen/seal_login_fragment_login_phonenumber_margin_right"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <cn.rongcloud.im.ui.widget.ClearWriteEditText
-            android:id="@+id/cet_image_verify_code"
-            style="@style/EditTextStyle.Alignment"
+        <!-- 图片验证码输入区域 -->
+        <LinearLayout
+            android:id="@+id/image_verify_code_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rc_ed_public_service_search_selector"
-            android:layout_weight="7"
-            android:drawablePadding="@dimen/seal_login_register_drawable_padding"
-            android:hint="@string/seal_talk_image_verify_code"
-            android:paddingStart="@dimen/seal_login_find_password_padding"
-            android:singleLine="true"
-            android:lines="1"
-            android:textSize="16dp"
-            android:paddingEnd="@dimen/seal_login_find_password_padding"
-            android:maxLength="6"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_image_code_label">
 
+            <!-- 图片验证码输入框 -->
+            <cn.rongcloud.im.ui.widget.ClearWriteEditText
+                android:id="@+id/cet_image_verify_code"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/seal_login_input_background"
+                android:hint="@string/seal_talk_image_verify_code"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textColorHint="?attr/rc_text_secondary_color"
+                android:textSize="16sp" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_verify_code"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/seal_login_register_btn_margin_left"
-            android:layout_weight="4"
-            android:clickable="false"
-            android:scaleType="fitXY"
-            />
+            <!-- 图片验证码显示 -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_verify_code"
+                android:layout_width="120dp"
+                android:layout_height="42dp"
+                android:padding="4dp"
+                android:background="@drawable/seal_login_input_background"
+                android:scaleType="fitXY" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/tv_refresh_image_code"
-            android:text="@string/refresh"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:layout_marginStart="@dimen/seal_login_register_btn_margin_left"
-            android:layout_weight="4"
-            android:clickable="false"
-            android:background="@drawable/seal_login_btn_selector"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="@dimen/seal_login_register_btn_code_text_size"
-            />
+            <!-- 刷新图片验证码按钮 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/tv_refresh_image_code"
+                android:layout_width="120dp"
+                android:layout_height="48dp"
+                android:background="@drawable/seal_login_button_selector"
+                android:gravity="center"
+                android:text="@string/refresh"
+                android:textColor="?attr/rc_control_title_white_color"
+                android:textSize="14sp"
+                android:visibility="gone" />
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingStart="@dimen/seal_login_fragment_login_password_margin_left"
-        android:paddingEnd="@dimen/seal_login_fragment_login_password_margin_right"
-        android:layout_marginTop="@dimen/seal_login_fragment_login_password_margin_top"
-        android:orientation="horizontal">
-
-
-        <cn.rongcloud.im.ui.widget.ClearWriteEditText
-            android:id="@+id/cet_login_verify_code"
-            style="@style/EditTextStyle.Alignment"
-            android:layout_width="0dp"
+        <!-- 验证码标签 -->
+        <TextView
+            android:id="@+id/tv_verify_code_label"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rc_ed_public_service_search_selector"
-            android:layout_weight="7"
-            android:drawablePadding="@dimen/seal_login_register_drawable_padding"
-            android:hint="@string/seal_talk_login_verify_code"
-            android:inputType="number"
-            android:paddingStart="@dimen/seal_login_find_password_padding"
-            android:paddingEnd="@dimen/seal_login_find_password_padding"
-            android:maxLines="1"
-            android:textSize="16dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:layout_marginTop="16dp"
+            android:text="@string/seal_talk_verify_code_label"
+            android:textColor="?attr/rc_text_primary_color"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_verify_code_container" />
 
+        <!-- 验证码输入区域（统一背景框） -->
+        <LinearLayout
+            android:id="@+id/ll_verify_code_container"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/seal_login_input_background"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_verify_code_label">
 
+            <!-- 验证码输入框 -->
+            <cn.rongcloud.im.ui.widget.ClearWriteEditText
+                android:id="@+id/cet_login_verify_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="@string/seal_talk_login_verify_code"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingEnd="8dp"
+                android:textColor="?attr/rc_text_primary_color"
+                android:textColorHint="?attr/rc_text_secondary_color"
+                android:textSize="16sp" />
+
+            <!-- 获取验证码按钮 -->
+            <Button
+                android:id="@+id/cet_login_send_verify_code"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:enabled="false"
+                android:minWidth="100dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="@string/seal_login_send_code"
+                android:textColor="@color/seal_login_button_text_selector"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- 登录按钮 -->
         <Button
-            android:id="@+id/cet_login_send_verify_code"
+            android:id="@+id/btn_login"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/seal_login_register_btn_margin_left"
-            android:layout_weight="4"
-            android:background="@drawable/seal_login_btn_selector"
-            android:clickable="false"
-            android:paddingStart="@dimen/seal_login_register_padding"
-            android:paddingEnd="@dimen/seal_login_register_padding"
-            android:text="@string/seal_login_send_code"
-            android:textColor="@color/white"
-            android:textSize="@dimen/seal_login_register_btn_code_text_size" />
+            android:layout_height="42dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/seal_login_button_selector"
+            android:text="@string/seal_login_text_login"
+            android:textColor="?attr/rc_control_title_white_color"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_verify_code_container" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/seal_login_fragment_login_btn_margin_left"
-        android:layout_marginTop="@dimen/seal_login_fragment_login_btn_margin_top"
-        android:layout_marginEnd="@dimen/seal_login_fragment_login_btn_margin_right"
-        android:background="@drawable/seal_login_btn_selector"
-        android:text="@string/seal_login_text_login"
-        android:textColor="@color/white"
-        android:textSize="@dimen/seal_login_fragment_login_btn_text_size" />
-
-</LinearLayout>
+</ScrollView>

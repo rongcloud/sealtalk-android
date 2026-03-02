@@ -2,18 +2,20 @@ package cn.rongcloud.im.ui.activity;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.model.QuietHours;
-import cn.rongcloud.im.ui.view.SettingItemView;
 import cn.rongcloud.im.viewmodel.NewMessageViewModel;
+import io.rong.imkit.widget.SettingItemView;
 
 /** 消息免打扰设置 */
 public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
@@ -21,6 +23,7 @@ public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
     private SettingItemView donotDistrabSiv;
     private SettingItemView startTimeSiv;
     private SettingItemView endTimeSiv;
+    private LinearLayout timeContainer;
     private NewMessageViewModel newMessageViewModel;
 
     @Override
@@ -35,14 +38,18 @@ public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
     /** 初始化布局 */
     private void initView() {
         getTitleBar().setTitle(R.string.seal_new_message_donot_disturb);
+
+        timeContainer = findViewById(R.id.ll_time_container);
         donotDistrabSiv = findViewById(R.id.siv_donot_distrab);
+        startTimeSiv = findViewById(R.id.siv_start_time);
+        endTimeSiv = findViewById(R.id.siv_end_time);
+
         donotDistrabSiv.setSwitchCheckListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
-                            startTimeSiv.setVisibility(View.VISIBLE);
-                            endTimeSiv.setVisibility(View.VISIBLE);
+                            timeContainer.setVisibility(View.VISIBLE);
                             int spanMinutes = 0;
                             String startTime = "";
                             String endTime = "";
@@ -74,16 +81,13 @@ public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
                             setNotificationQuietHours(startTimeSiv.getValue(), spanMinutes);
 
                         } else {
-                            startTimeSiv.setVisibility(View.GONE);
-                            endTimeSiv.setVisibility(View.GONE);
+                            timeContainer.setVisibility(View.GONE);
                             removeNotificationQuietHours();
                         }
                     }
                 });
 
-        startTimeSiv = findViewById(R.id.siv_start_time);
         startTimeSiv.setOnClickListener(this);
-        endTimeSiv = findViewById(R.id.siv_end_time);
         endTimeSiv.setOnClickListener(this);
     }
 
@@ -126,7 +130,7 @@ public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
         TimePickerDialog timePickerDialog =
                 new TimePickerDialog(
                         this,
-                        AlertDialog.THEME_HOLO_LIGHT,
+                        getTimePickerDialogTheme(),
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -164,7 +168,7 @@ public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
         TimePickerDialog timePickerDialog =
                 new TimePickerDialog(
                         this,
-                        AlertDialog.THEME_HOLO_LIGHT,
+                        getTimePickerDialogTheme(),
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -214,5 +218,19 @@ public class MessageDonotDisturbSettingActivity extends TitleBaseActivity
             return null;
         }
         return newMessageViewModel.getDonotDistrabStatus().getValue();
+    }
+
+    /**
+     * 根据当前深浅色模式获取合适的 TimePickerDialog 主题
+     *
+     * @return 主题资源 ID
+     */
+    private int getTimePickerDialogTheme() {
+        int nightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightMode == Configuration.UI_MODE_NIGHT_YES) {
+            return AlertDialog.THEME_HOLO_DARK;
+        } else {
+            return AlertDialog.THEME_HOLO_LIGHT;
+        }
     }
 }

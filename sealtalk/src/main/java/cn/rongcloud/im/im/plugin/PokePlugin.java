@@ -3,6 +3,7 @@ package cn.rongcloud.im.im.plugin;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import cn.rongcloud.im.R;
@@ -12,6 +13,7 @@ import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.ui.activity.ConversationActivity;
 import cn.rongcloud.im.ui.dialog.SendPokeDialog;
 import cn.rongcloud.im.utils.ToastUtils;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.conversation.extension.RongExtension;
 import io.rong.imkit.conversation.extension.component.plugin.IPluginModule;
 import io.rong.imkit.userinfo.RongUserInfoManager;
@@ -29,7 +31,12 @@ public class PokePlugin implements IPluginModule {
 
     @Override
     public Drawable obtainDrawable(Context context) {
-        return context.getResources().getDrawable(R.drawable.rc_ext_plugin_poke_selector);
+        return ContextCompat.getDrawable(
+                context,
+                IMKitThemeManager.dynamicResource(
+                        context,
+                        R.attr.rc_conversation_plugin_item_poke_img,
+                        R.drawable.rc_ext_plugin_poke_selector));
     }
 
     @Override

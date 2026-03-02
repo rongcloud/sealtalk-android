@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -54,6 +53,7 @@ import cn.rongcloud.im.viewmodel.GroupManagementViewModel;
 import cn.rongcloud.im.viewmodel.PrivateChatSettingViewModel;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.activity.RongBaseActivity;
+import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.conversation.ConversationFragment;
 import io.rong.imkit.conversation.extension.RongExtensionViewModel;
@@ -61,10 +61,10 @@ import io.rong.imkit.conversation.messgelist.viewmodel.MessageViewModel;
 import io.rong.imkit.feature.quickreply.IQuickReplyProvider;
 import io.rong.imkit.handler.AppSettingsHandler;
 import io.rong.imkit.manager.UnReadMessageManager;
+import io.rong.imkit.usermanage.friend.user.profile.UserProfileActivity;
 import io.rong.imkit.usermanage.group.profile.GroupProfileActivity;
 import io.rong.imkit.utils.PermissionCheckUtil;
 import io.rong.imkit.utils.RouteUtils;
-import io.rong.imkit.utils.TextViewUtils;
 import io.rong.imkit.widget.TitleBar;
 import io.rong.imlib.IRongCoreCallback;
 import io.rong.imlib.IRongCoreEnum;
@@ -181,9 +181,9 @@ public class ConversationActivity extends RongBaseActivity
                                                     activity,
                                                     android.R.style
                                                             .Theme_DeviceDefault_Light_Dialog_Alert)
-                                            .setMessage("向用户说明申请权限")
+                                            .setMessage(R.string.seal_permission_user_explanation)
                                             .setPositiveButton(
-                                                    "去申请",
+                                                    R.string.seal_permission_go_to_apply,
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(
@@ -193,7 +193,7 @@ public class ConversationActivity extends RongBaseActivity
                                                         }
                                                     })
                                             .setNegativeButton(
-                                                    "取消",
+                                                    R.string.common_cancel,
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(
@@ -273,18 +273,43 @@ public class ConversationActivity extends RongBaseActivity
         // 设置聊天背景
         if (isFirstResume) {
             UserConfigCache configCache = new UserConfigCache(this);
-            if (!TextUtils.isEmpty(configCache.getChatbgUri())) {
+            String bgUriString = configCache.getChatbgUri();
+            if (!TextUtils.isEmpty(bgUriString)) {
                 try {
-                    fragment.getView()
-                            .findViewById(io.rong.imkit.R.id.rc_refresh)
-                            .setBackground(
-                                    Drawable.createFromStream(
-                                            getContentResolver()
-                                                    .openInputStream(
-                                                            Uri.parse(configCache.getChatbgUri())),
-                                            null));
+                    java.io.InputStream inputStream = null;
+                    Uri bgUri = Uri.parse(bgUriString);
+
+                    // 根据不同的 URI scheme 使用不同的打开方式
+                    if (bgUriString.startsWith("file://")) {
+                        // 对于 file:// URI，直接使用文件路径打开
+                        java.io.File file = new java.io.File(bgUri.getPath());
+                        if (file.exists()) {
+                            inputStream = new java.io.FileInputStream(file);
+                        } else {
+                            SLog.e(
+                                    TAG,
+                                    "Chat background file not found: " + file.getAbsolutePath());
+                            configCache.setChatbgUri("");
+                        }
+                    } else {
+                        // 对于其他 URI（如 content://, android.resource://），使用 ContentResolver
+                        inputStream = getContentResolver().openInputStream(bgUri);
+                    }
+
+                    if (inputStream != null) {
+                        fragment.getView()
+                                .findViewById(io.rong.imkit.R.id.rc_refresh)
+                                .setBackground(Drawable.createFromStream(inputStream, null));
+                        inputStream.close();
+                    }
+                } catch (SecurityException e) {
+                    // URI 访问权限失效，清除保存的背景URI
+                    SLog.e(TAG, "Failed to load chat background: permission denied", e);
+                    configCache.setChatbgUri("");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // 其他异常（如文件不存在等）
+                    SLog.e(TAG, "Failed to load chat background", e);
+                    configCache.setChatbgUri("");
                 }
             }
             isFirstResume = false;
@@ -485,6 +510,8 @@ public class ConversationActivity extends RongBaseActivity
                                     if (typingInfo.typingList == null) {
                                         mTitleBar.getMiddleView().setVisibility(View.VISIBLE);
                                         mTitleBar.getTypingView().setVisibility(View.GONE);
+                                        setTitleOnlineStatus(
+                                                conversationViewModel.isOnlineStatus());
                                     } else {
                                         mTitleBar.getMiddleView().setVisibility(View.GONE);
                                         mTitleBar.getTypingView().setVisibility(View.VISIBLE);
@@ -492,10 +519,14 @@ public class ConversationActivity extends RongBaseActivity
                                                 typingInfo.typingList.get(
                                                         typingInfo.typingList.size() - 1);
                                         if (typing.type == TypingInfo.Typing.Type.text) {
+                                            mTitleBar.getMiddleLeftIcon().setVisibility(View.GONE);
+                                            mTitleBar.getMiddleRightIcon().setVisibility(View.GONE);
                                             mTitleBar.setTyping(
                                                     io.rong.imkit.R.string
                                                             .rc_conversation_remote_side_is_typing);
                                         } else if (typing.type == TypingInfo.Typing.Type.voice) {
+                                            mTitleBar.getMiddleLeftIcon().setVisibility(View.GONE);
+                                            mTitleBar.getMiddleRightIcon().setVisibility(View.GONE);
                                             mTitleBar.setTyping(
                                                     io.rong.imkit.R.string
                                                             .rc_conversation_remote_side_speaking);
@@ -621,6 +652,8 @@ public class ConversationActivity extends RongBaseActivity
                             });
             conversationViewModel.getUserOnlineStatus(mTargetId);
         }
+        conversationViewModel.getNotify().observe(this, this::setTitleNotifyStatus);
+        conversationViewModel.getNotificationStatus(mConversationType, mTargetId);
     }
 
     /** 设置在线状态 */
@@ -628,14 +661,33 @@ public class ConversationActivity extends RongBaseActivity
         if (!AppSettingsHandler.getInstance().isOnlineStatusEnable()) {
             return;
         }
-        if (mTitleBar.getMiddleView() == null) {
+        if (mTitleBar.getMiddleLeftIcon() == null) {
             return;
         }
         int resId =
-                isOnline
-                        ? io.rong.imkit.R.drawable.rc_lively_conner_online
-                        : io.rong.imkit.R.drawable.rc_lively_conner_offline;
-        TextViewUtils.setCompoundDrawables(mTitleBar.getMiddleView(), Gravity.START, resId);
+                IMKitThemeManager.getAttrResId(
+                        this,
+                        isOnline
+                                ? io.rong.imkit.R.attr.rc_user_online_status_img
+                                : io.rong.imkit.R.attr.rc_user_offline_status_img);
+        mTitleBar.getMiddleLeftIcon().setImageResource(resId);
+        mTitleBar.getMiddleLeftIcon().setVisibility(View.VISIBLE);
+    }
+
+    /** 设置通知状态 */
+    private void setTitleNotifyStatus(boolean notify) {
+        // 5.34.0 临时关闭
+        //        if (mTitleBar.getMiddleRightIcon() == null) {
+        //            return;
+        //        }
+        //        if (!notify) {
+        //            int resId =
+        //                    IMKitThemeManager.getAttrResId(
+        //                            this,
+        // io.rong.imkit.R.attr.rc_conversation_block_notification_img);
+        //            mTitleBar.getMiddleRightIcon().setImageResource(resId);
+        //        }
+        //        mTitleBar.getMiddleRightIcon().setVisibility(notify ? View.GONE : View.VISIBLE);
     }
 
     /**
@@ -963,9 +1015,14 @@ public class ConversationActivity extends RongBaseActivity
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         } else if (conversationType == Conversation.ConversationType.PRIVATE) {
-            Intent intent = new Intent(this, PrivateChatSettingActivity.class);
-            intent.putExtra(IntentExtra.SERIA_CONVERSATION_IDENTIFIER, conversationIdentifier);
-            startActivity(intent);
+            if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+                startActivity(
+                        UserProfileActivity.newIntent(this, mTargetId, conversationIdentifier));
+            } else {
+                Intent intent = new Intent(this, PrivateChatSettingActivity.class);
+                intent.putExtra(IntentExtra.SERIA_CONVERSATION_IDENTIFIER, conversationIdentifier);
+                startActivity(intent);
+            }
         } else if (conversationType == Conversation.ConversationType.GROUP) {
             if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
                 startActivity(GroupProfileActivity.newIntent(this, conversationIdentifier));

@@ -12,7 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 import cn.rongcloud.im.R;
-import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
+import cn.rongcloud.im.im.IMManager;
+import cn.rongcloud.im.sp.MinorModeCache;
 
 public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissListener {
     private Activity context;
@@ -107,8 +108,31 @@ public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissL
                             }
                         });
 
-        if (SealTalkDebugTestActivity.isUserManagementEnabled(context)) {
-            contentView.findViewById(R.id.btn_scan).setVisibility(View.GONE);
+        // 未成年人模式下隐藏添加好友和创建群组入口
+        updateMinorModeRestrictions();
+    }
+
+    /** 根据未成年人模式状态更新UI */
+    private void updateMinorModeRestrictions() {
+        String currentUserId = IMManager.getInstance().getCurrentId();
+        boolean isMinorModeEnabled = MinorModeCache.getInstance().isMinorModeEnabled(currentUserId);
+
+        // 隐藏添加好友入口
+        View btnAddFriends = contentView.findViewById(R.id.btn_add_friends);
+        if (btnAddFriends != null) {
+            btnAddFriends.setVisibility(!isMinorModeEnabled ? View.VISIBLE : View.GONE);
+        }
+
+        // 隐藏创建群组入口
+        View btnCreateGroup = contentView.findViewById(R.id.btn_create_group);
+        if (btnCreateGroup != null) {
+            btnCreateGroup.setVisibility(!isMinorModeEnabled ? View.VISIBLE : View.GONE);
+        }
+
+        // 隐藏扫一扫入口
+        View btnScan = contentView.findViewById(R.id.btn_scan);
+        if (btnScan != null) {
+            btnScan.setVisibility(!isMinorModeEnabled ? View.VISIBLE : View.GONE);
         }
     }
 
