@@ -57,6 +57,9 @@ import cn.rongcloud.im.net.SealTalkUrl;
 import cn.rongcloud.im.net.proxy.RetrofitProxyServiceCreator;
 import cn.rongcloud.im.net.service.UserService;
 import cn.rongcloud.im.newdesign.share.ShareChatActivity;
+import cn.rongcloud.im.openclaw.detail.OpenClawDetailActivity;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotInfo;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotRegistry;
 import cn.rongcloud.im.sp.UserCache;
 import cn.rongcloud.im.sp.UserConfigCache;
 import cn.rongcloud.im.task.AppTask;
@@ -950,6 +953,10 @@ public class IMManager {
                                         != Conversation.ConversationType.CUSTOMER_SERVICE) {
                                     if (SealTalkDebugTestActivity.isUserManagementEnabled(
                                             context)) {
+                                        if (openOpenClawRobotDetail(
+                                                context, conversationType, user, targetId)) {
+                                            return true;
+                                        }
                                         String currentUserId =
                                                 RongCoreClient.getInstance().getCurrentUserId();
                                         if (Objects.equals(user.getUserId(), currentUserId)) {
@@ -1061,6 +1068,32 @@ public class IMManager {
                                 return false;
                             }
                         });
+    }
+
+    private boolean openOpenClawRobotDetail(
+            Context context,
+            Conversation.ConversationType conversationType,
+            UserInfo user,
+            String targetId) {
+        if (context == null
+                || conversationType != Conversation.ConversationType.PRIVATE
+                || TextUtils.isEmpty(targetId)
+                || !OpenClawRobotRegistry.isOpenClawRobotId(targetId)) {
+            return false;
+        }
+        String userId = user == null ? null : user.getUserId();
+        if (!TextUtils.isEmpty(userId)
+                && !TextUtils.equals(userId, targetId)
+                && !OpenClawRobotRegistry.isOpenClawRobotId(userId)) {
+            return false;
+        }
+        OpenClawRobotInfo robot =
+                OpenClawRobotRegistry.getOrCreate(targetId, user == null ? null : user.getName());
+        if (robot == null) {
+            return false;
+        }
+        context.startActivity(OpenClawDetailActivity.newIntent(context, robot, null));
+        return true;
     }
 
     /** 初始化 IM 相关缓存 */
@@ -1426,6 +1459,12 @@ public class IMManager {
         // 长按消息是否支持编辑
         boolean editMsgEnabled = SealTalkDebugTestActivity.isEditMessageEnabled(context);
         RongConfigCenter.featureConfig().enableEditMessage(editMsgEnabled);
+        // 引用消息V2配置（从 Debug SP 读取）
+        RongConfigCenter.featureConfig()
+                .setQuoteV2Enable(SealTalkDebugTestActivity.isQuoteV2Enabled(context));
+        RongConfigCenter.featureConfig()
+                .setQuoteMessageTypeWhiteList(
+                        SealTalkDebugTestActivity.getQuoteV2WhiteList(context));
         // 是否支持在线状态
         RongConfigCenter.featureConfig().enableUserOnlineStatus(true);
     }

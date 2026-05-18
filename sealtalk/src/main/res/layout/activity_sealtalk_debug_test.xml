@@ -310,6 +310,21 @@
                 app:item_divider="true"
                 app:item_switch="true" />
 
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_quote_v2_enable"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="引用消息V2开关"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_quote_v2_whitelist"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="V2引用消息类型白名单配置"
+                app:item_divider="true" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

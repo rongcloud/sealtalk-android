@@ -176,6 +176,20 @@ public class SealTalkUrl {
 
     public static final String TRANSLATION_JWT_TOKEN = "user/getJwtToken";
 
+    public static final String OPENCLAW_BOT_CREATE = "bot/create";
+
+    public static final String OPENCLAW_BOT_REFRESH_TOKEN = "bot/refreshToken";
+
+    public static final String OPENCLAW_USER_BOT = "user/bots";
+
+    public static final String OPENCLAW_USER_BOT_DETAIL = "user/bot";
+
+    public static final String OPENCLAW_GROUP_BOT = "group/bot";
+
+    public static final String OPENCLAW_GROUP_BOT_ADD = "group/bot/add";
+
+    public static final String OPENCLAW_GROUP_BOT_REMOVE = "group/bot/remove";
+
     // ULTRA超级群
     public static final String ULTRA_GROUP_CREATE = "ultragroup/create";
 

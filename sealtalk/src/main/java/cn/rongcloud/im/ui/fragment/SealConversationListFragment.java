@@ -143,4 +143,11 @@ public class SealConversationListFragment extends Fragment
             ((MainActivity) getActivity()).onScanClick();
         }
     }
+
+    @Override
+    public void onAiAssistantClick() {
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).onAiAssistantClick();
+        }
+    }
 }

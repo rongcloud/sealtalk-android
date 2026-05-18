@@ -83,6 +83,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView editMessage; // 消息编辑
     private SettingItemView showSdkReadDetailV5Page; // 进入Kit已读V5详情页
     private SettingItemView replaceFileIcons; // SealApp替换Kit文件Icon，替换后无论哪种主题均展示固定Icon
+    private SettingItemView quoteV2Enable; // 引用消息V2开关
+    private SettingItemView quoteV2Whitelist; // V2引用消息类型白名单配置
     private EditText eTDatabaseOperateThreshold;
     public static final String SP_IS_SHOW = "is_show";
     public static final String SP_COMBINE_V2 = "combine_v2";
@@ -105,6 +107,41 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     public static final String SEAL_APP_CONFIG = "seal_app_config";
     public static final String SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS =
             "seal_app_config_is_replace_file_icons";
+    public static final String QUOTE_V2_CONFIG = "quote_v2_config";
+    public static final String QUOTE_V2_ENABLED = "quote_v2_enabled";
+    public static final String QUOTE_V2_WHITELIST = "quote_v2_whitelist";
+    private static final String[] QUOTE_V2_OBJECT_NAMES = {
+        "RC:TxtMsg",
+        "RC:ImgMsg",
+        "RC:GIFMsg",
+        "RC:SightMsg",
+        "RC:VcMsg",
+        "RC:HQVCMsg",
+        "RC:FileMsg",
+        "RC:LBSMsg"
+    };
+    private static final String[][] QUOTE_V2_LEGACY_DEFAULT_OBJECT_NAMES = {
+        {
+            "RC:TxtMsg",
+            "RC:ImgMsg",
+            "RC:SightMsg",
+            "RC:VcMsg",
+            "RC:HQVCMsg",
+            "RC:FileMsg",
+            "RC:LBSMsg"
+        },
+        {
+            "RC:TxtMsg",
+            "RC:ImgMsg",
+            "RC:SightMsg",
+            "RC:VcMsg",
+            "RC:FileMsg",
+            "RC:LBSMsg"
+        }
+    };
+    private static final String[] QUOTE_V2_DISPLAY_NAMES = {
+        "文本", "图片", "GIF", "小视频", "语音", "高清语音", "文件", "位置"
+    };
     private static String STREAM_MSG_HTML_TEST_DATA = ""; // 测试html内容，流式消息组件展示
 
     private UserInfoViewModel userInfoViewModel;
@@ -505,6 +542,21 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
                     exit(0);
                 });
 
+        // 引用消息V2开关
+        SharedPreferences quoteV2SP = getSharedPreferences(QUOTE_V2_CONFIG, MODE_PRIVATE);
+        quoteV2Enable = findViewById(R.id.siv_quote_v2_enable);
+        quoteV2Enable.setChecked(quoteV2SP.getBoolean(QUOTE_V2_ENABLED, false));
+        quoteV2Enable.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    quoteV2SP.edit().putBoolean(QUOTE_V2_ENABLED, isChecked).commit();
+                    RongConfigCenter.featureConfig().setQuoteV2Enable(isChecked);
+                    ToastUtils.showToast("引用消息V2已" + (isChecked ? "开启" : "关闭"));
+                });
+
+        // V2引用消息类型白名单配置
+        quoteV2Whitelist = findViewById(R.id.siv_quote_v2_whitelist);
+        quoteV2Whitelist.setOnClickListener(this);
+
         eTDatabaseOperateThreshold = findViewById(R.id.et_database_operate_threshold);
     }
 
@@ -563,6 +615,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
             bindChatRTCRoom();
         } else if (id == R.id.siv_test_stream_msg_html_webview) {
             showSetTestStreamMsgHtmlWebviewDialog();
+        } else if (id == R.id.siv_quote_v2_whitelist) {
+            showQuoteV2WhitelistDialog();
         }
     }
 
@@ -837,6 +891,109 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
 
     public static String getTestStreamMsgHtmlData() {
         return SealTalkDebugTestActivity.STREAM_MSG_HTML_TEST_DATA;
+    }
+
+    /** 显示 V2 引用消息类型白名单多选对话框，与 iOS RCDDebugQuoteWhiteListViewController 对齐 */
+    private void showQuoteV2WhitelistDialog() {
+        // 从 SP 读取当前白名单
+        SharedPreferences sp = getSharedPreferences(QUOTE_V2_CONFIG, MODE_PRIVATE);
+        boolean hasSavedWhiteList = sp.contains(QUOTE_V2_WHITELIST);
+        String saved = sp.getString(QUOTE_V2_WHITELIST, "");
+        java.util.Set<String> currentSet = new java.util.HashSet<>();
+        if (hasSavedWhiteList) {
+            String[] parts = saved.split(",");
+            for (String part : parts) {
+                if (!TextUtils.isEmpty(part.trim())) {
+                    currentSet.add(part.trim());
+                }
+            }
+            currentSet =
+                    new java.util.HashSet<>(
+                            normalizeQuoteV2WhiteList(new java.util.ArrayList<>(currentSet)));
+        } else {
+            currentSet.addAll(getDefaultQuoteV2WhiteList());
+        }
+
+        boolean[] checkedItems = new boolean[QUOTE_V2_OBJECT_NAMES.length];
+        for (int i = 0; i < QUOTE_V2_OBJECT_NAMES.length; i++) {
+            checkedItems[i] = currentSet.contains(QUOTE_V2_OBJECT_NAMES[i]);
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("V2引用消息类型白名单")
+                .setMultiChoiceItems(
+                        QUOTE_V2_DISPLAY_NAMES,
+                        checkedItems,
+                        (dialog, which, isChecked) -> checkedItems[which] = isChecked)
+                .setPositiveButton(
+                        "确定",
+                        (dialog, which) -> {
+                            java.util.List<String> selected = new java.util.ArrayList<>();
+                            for (int i = 0; i < QUOTE_V2_OBJECT_NAMES.length; i++) {
+                                if (checkedItems[i]) {
+                                    selected.add(QUOTE_V2_OBJECT_NAMES[i]);
+                                }
+                            }
+                            // 持久化到 SP
+                            sp.edit()
+                                    .putString(QUOTE_V2_WHITELIST, TextUtils.join(",", selected))
+                                    .commit();
+                            // 实时生效
+                            RongConfigCenter.featureConfig().setQuoteMessageTypeWhiteList(selected);
+                            ToastUtils.showToast("V2白名单已更新: " + TextUtils.join(", ", selected));
+                        })
+                .setNegativeButton("取消", null)
+                .show();
+    }
+
+    /** 获取引用消息V2是否启用 */
+    public static boolean isQuoteV2Enabled(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(QUOTE_V2_CONFIG, Context.MODE_PRIVATE);
+        return sp.getBoolean(QUOTE_V2_ENABLED, false);
+    }
+
+    /** 获取 V2 引用消息类型白名单 */
+    public static java.util.List<String> getQuoteV2WhiteList(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(QUOTE_V2_CONFIG, Context.MODE_PRIVATE);
+        if (!sp.contains(QUOTE_V2_WHITELIST)) {
+            return getDefaultQuoteV2WhiteList();
+        }
+        String saved = sp.getString(QUOTE_V2_WHITELIST, "");
+        java.util.List<String> list = new java.util.ArrayList<>();
+        if (!TextUtils.isEmpty(saved)) {
+            String[] parts = saved.split(",");
+            for (String part : parts) {
+                if (!TextUtils.isEmpty(part.trim())) {
+                    list.add(part.trim());
+                }
+            }
+        }
+        return normalizeQuoteV2WhiteList(list);
+    }
+
+    private static java.util.List<String> getDefaultQuoteV2WhiteList() {
+        return new java.util.ArrayList<>(java.util.Arrays.asList(QUOTE_V2_OBJECT_NAMES));
+    }
+
+    private static java.util.List<String> normalizeQuoteV2WhiteList(java.util.List<String> whiteList) {
+        if (isLegacyDefaultQuoteV2WhiteList(whiteList)) {
+            return getDefaultQuoteV2WhiteList();
+        }
+        return whiteList;
+    }
+
+    private static boolean isLegacyDefaultQuoteV2WhiteList(java.util.List<String> whiteList) {
+        if (whiteList == null) {
+            return false;
+        }
+        java.util.Set<String> current = new java.util.HashSet<>(whiteList);
+        for (String[] legacyDefaultObjectNames : QUOTE_V2_LEGACY_DEFAULT_OBJECT_NAMES) {
+            if (current.size() == legacyDefaultObjectNames.length
+                    && current.containsAll(java.util.Arrays.asList(legacyDefaultObjectNames))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

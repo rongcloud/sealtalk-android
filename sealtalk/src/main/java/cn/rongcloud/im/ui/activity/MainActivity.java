@@ -33,6 +33,7 @@ import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.VersionInfo;
 import cn.rongcloud.im.newdesign.qrcode.QrCodeScanActivity;
 import cn.rongcloud.im.newdesign.startchat.StartChatActivity;
+import cn.rongcloud.im.openclaw.guide.OpenClawGuideActivity;
 import cn.rongcloud.im.security.SMSDKUtils;
 import cn.rongcloud.im.ui.BaseActivity;
 import cn.rongcloud.im.ui.dialog.AuthorityPrivacyDialog;
@@ -662,6 +663,13 @@ public class MainActivity extends BaseActivity
         } else {
             Intent intent = new Intent(this, ScanActivity.class);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onAiAssistantClick() {
+        if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+            startActivity(OpenClawGuideActivity.newIntent(this));
         }
     }
 

@@ -339,6 +339,30 @@
             android:name=".newdesign.startchat.StartChatActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".openclaw.guide.OpenClawGuideActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".openclaw.create.OpenClawCreateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".openclaw.detail.OpenClawDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".openclaw.my.MyOpenClawRobotsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".openclaw.group.list.GroupOpenClawRobotsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".openclaw.group.select.SelectOpenClawRobotActivity"
+            android:screenOrientation="portrait" />
+
 
         <!--        <activity-->
         <!--            android:name=".ui.activity.SealPicturePagerActivity"-->

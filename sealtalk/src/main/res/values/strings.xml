@@ -83,6 +83,45 @@
     <string name="common_album">相册</string>
     <string name="common_share_success">分享成功</string>
     <string name="common_share_failed">分享失败</string>
+    <string name="openclaw_ai_assistant">AI 机器人</string>
+    <string name="openclaw_my_ai_robots">我的 AI 机器人</string>
+    <string name="openclaw_group_robots">群机器人</string>
+    <string name="openclaw_add_ai_robot">添加 AI 机器人</string>
+    <string name="openclaw_add_robot">添加机器人</string>
+    <string name="openclaw_detail_title">详细信息</string>
+    <string name="openclaw_empty_my_robots">暂无 AI 机器人</string>
+    <string name="openclaw_empty_available_robots">暂无可添加机器人</string>
+    <string name="openclaw_empty_group_robots">暂未添加机器人</string>
+    <string name="openclaw_robot_name">机器人名称</string>
+    <string name="openclaw_upload_avatar_hint">点击更换头像</string>
+    <string name="openclaw_robot_name_hint">请输入机器人名称（2-10个字符）</string>
+    <string name="openclaw_create_robot">创建机器人</string>
+    <string name="openclaw_robot_name_invalid">机器人名称需为 2～10 个字</string>
+    <string name="openclaw_robot_limit">一个用户最多可创建 5 个机器人</string>
+    <string name="openclaw_add">添加</string>
+    <string name="openclaw_remove">移除</string>
+    <string name="openclaw_add_success">添加成功</string>
+    <string name="openclaw_remove_success">移除成功</string>
+    <string name="openclaw_remove_robot_hint">确定移除 %1$s？</string>
+    <string name="openclaw_default_robot_name">OpenClaw机器人</string>
+    <string name="openclaw_guide_description">通过 AI 小龙虾机器人，可将 OpenClaw 的自动化能力
+与融云 IM 的通信能力结合，用户可以在熟悉的聊天界
+面中，直接发送指令给 OpenClaw 完成复杂任务。</string>
+    <string name="openclaw_steps_title">步骤如下：</string>
+    <string name="openclaw_guide_step_create">•  创建我的 AI 机器人</string>
+    <string name="openclaw_guide_step_token">•  获取机器人令牌</string>
+    <string name="openclaw_guide_step_install">•  安装 OpenClaw 及融云 SealChat 插件</string>
+    <string name="openclaw_guide_step_chat">•  发起聊天</string>
+    <string name="openclaw_start">开始</string>
+    <string name="openclaw_token_hint">提示：令牌有效期为 30 分钟，过期后需要重新获取</string>
+    <string name="openclaw_reset_token">重置令牌</string>
+    <string name="openclaw_start_chat">发起会话</string>
+    <string name="openclaw_token_prefix">令牌：</string>
+    <string name="openclaw_reset_token_first">请先重置令牌</string>
+    <string name="openclaw_copy_success">复制成功</string>
+    <string name="openclaw_token_success_title">令牌重置成功</string>
+    <string name="openclaw_token_message_prefix">令牌信息：</string>
+    <string name="openclaw_copy_token">复制令牌</string>
 
     <string name="common_member_count" formatted="true">%d 人</string>
 

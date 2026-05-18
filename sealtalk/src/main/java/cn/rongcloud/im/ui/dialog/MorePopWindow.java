@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.sp.MinorModeCache;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 
 public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissListener {
     private Activity context;
@@ -29,6 +30,8 @@ public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissL
         void onAddFriendClick();
 
         void onScanClick();
+
+        void onAiAssistantClick();
     }
 
     @SuppressLint("InflateParams")
@@ -96,6 +99,18 @@ public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissL
                             }
                         });
         contentView
+                .findViewById(R.id.btn_ai_assistant)
+                .setOnClickListener(
+                        new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (listener != null) {
+                                    listener.onAiAssistantClick();
+                                }
+                                dismiss();
+                            }
+                        });
+        contentView
                 .findViewById(R.id.btn_scan)
                 .setOnClickListener(
                         new OnClickListener() {
@@ -133,6 +148,52 @@ public class MorePopWindow extends PopupWindow implements PopupWindow.OnDismissL
         View btnScan = contentView.findViewById(R.id.btn_scan);
         if (btnScan != null) {
             btnScan.setVisibility(!isMinorModeEnabled ? View.VISIBLE : View.GONE);
+        }
+
+        View btnAiAssistant = contentView.findViewById(R.id.btn_ai_assistant);
+        if (btnAiAssistant != null) {
+            btnAiAssistant.setVisibility(
+                    SealTalkDebugTestActivity.isUserManagementEnabled(context)
+                            ? View.VISIBLE
+                            : View.GONE);
+        }
+        updatePopupItemBackgrounds();
+    }
+
+    private void updatePopupItemBackgrounds() {
+        View[] items =
+                new View[] {
+                    contentView.findViewById(R.id.btn_start_chat),
+                    contentView.findViewById(R.id.btn_create_group),
+                    contentView.findViewById(R.id.btn_add_friends),
+                    contentView.findViewById(R.id.btn_scan),
+                    contentView.findViewById(R.id.btn_ai_assistant)
+                };
+        int firstVisible = -1;
+        int lastVisible = -1;
+        for (int i = 0; i < items.length; i++) {
+            View item = items[i];
+            if (item != null && item.getVisibility() == View.VISIBLE) {
+                if (firstVisible < 0) {
+                    firstVisible = i;
+                }
+                lastVisible = i;
+            }
+        }
+        for (int i = 0; i < items.length; i++) {
+            View item = items[i];
+            if (item == null || item.getVisibility() != View.VISIBLE) {
+                continue;
+            }
+            if (i == firstVisible && i == lastVisible) {
+                item.setBackgroundResource(R.drawable.seal_sp_pop_item_single_bg);
+            } else if (i == firstVisible) {
+                item.setBackgroundResource(R.drawable.seal_sp_pop_item_top_bg);
+            } else if (i == lastVisible) {
+                item.setBackgroundResource(R.drawable.seal_sp_pop_item_bottom_bg);
+            } else {
+                item.setBackgroundResource(R.drawable.seal_sp_pop_item_normal_bg);
+            }
         }
     }
 

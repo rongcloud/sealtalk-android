@@ -26,6 +26,13 @@
         app:icon="?attr/rc_notification_icon"
         app:text="@string/rc_group_notification" />
 
+    <cn.rongcloud.im.ui.view.IconTextItemView
+        android:id="@+id/rc_item_my_ai_robot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/openclaw_ic_ai_robot_avatar"
+        app:text="@string/openclaw_my_ai_robots" />
+
     <LinearLayout
         android:id="@+id/rc_item_my"
         android:layout_width="match_parent"

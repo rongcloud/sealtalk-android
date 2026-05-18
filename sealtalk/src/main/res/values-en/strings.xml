@@ -81,6 +81,43 @@
     <string name="common_album">Album</string>
     <string name="common_share_success">Share success</string>
     <string name="common_share_failed">Share failed</string>
+    <string name="openclaw_ai_assistant">AI Robot</string>
+    <string name="openclaw_my_ai_robots">My AI Robot</string>
+    <string name="openclaw_group_robots">Group Robot</string>
+    <string name="openclaw_add_ai_robot">Add AI Robot</string>
+    <string name="openclaw_add_robot">Add Robot</string>
+    <string name="openclaw_detail_title">Details</string>
+    <string name="openclaw_empty_my_robots">No AI robots yet</string>
+    <string name="openclaw_empty_available_robots">No robots available to add</string>
+    <string name="openclaw_empty_group_robots">No robots added yet</string>
+    <string name="openclaw_robot_name">Robot Name</string>
+    <string name="openclaw_upload_avatar_hint">Tap to change avatar</string>
+    <string name="openclaw_robot_name_hint">Enter a robot name (2-10 characters)</string>
+    <string name="openclaw_create_robot">Create Robot</string>
+    <string name="openclaw_robot_name_invalid">Robot name must be 2-10 characters</string>
+    <string name="openclaw_robot_limit">Each user can create up to 5 robots</string>
+    <string name="openclaw_add">Add</string>
+    <string name="openclaw_remove">Remove</string>
+    <string name="openclaw_add_success">Added successfully</string>
+    <string name="openclaw_remove_success">Removed successfully</string>
+    <string name="openclaw_remove_robot_hint">Remove %1$s?</string>
+    <string name="openclaw_default_robot_name">OpenClaw Robot</string>
+    <string name="openclaw_guide_description">Through the AI Robot, you can combine the automation capabilities of OpenClaw with the communication capabilities of RongCloud IM, allowing users to directly send instructions to OpenClaw to complete complex tasks within a familiar chat interface.</string>
+    <string name="openclaw_steps_title">Steps:</string>
+    <string name="openclaw_guide_step_create">•  Create my AI robot.</string>
+    <string name="openclaw_guide_step_token">•  Get the robot token.</string>
+    <string name="openclaw_guide_step_install">•  Install OpenClaw and the RongCloud SealChat plugin.</string>
+    <string name="openclaw_guide_step_chat">•  Start a chat.</string>
+    <string name="openclaw_start">Start</string>
+    <string name="openclaw_token_hint">Note: The token is valid for 30 minutes. After expiration, you need to obtain a new one.</string>
+    <string name="openclaw_reset_token">Reset Token</string>
+    <string name="openclaw_start_chat">Start Chat</string>
+    <string name="openclaw_token_prefix">Token: </string>
+    <string name="openclaw_reset_token_first">Please reset the token first</string>
+    <string name="openclaw_copy_success">Copied successfully</string>
+    <string name="openclaw_token_success_title">Token reset successfully</string>
+    <string name="openclaw_token_message_prefix">Token: </string>
+    <string name="openclaw_copy_token">Copy Token</string>
 
     <string name="common_member_count" formatted="true">%d Person(s)</string>
 

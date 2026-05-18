@@ -66,6 +66,45 @@
     <string name="common_album">الألبوم</string>
     <string name="common_share_success">تمت المشاركة بنجاح</string>
     <string name="common_share_failed">فشلت المشاركة</string>
+    <string name="openclaw_ai_assistant">روبوت الذكاء الاصطناعي</string>
+    <string name="openclaw_my_ai_robots">روبوت الذكاء الاصطناعي الخاص بي</string>
+    <string name="openclaw_group_robots">روبوت المجموعة</string>
+    <string name="openclaw_add_ai_robot">إضافة روبوت ذكاء اصطناعي</string>
+    <string name="openclaw_add_robot">إضافة روبوت</string>
+    <string name="openclaw_detail_title">معلومات تفصيلية</string>
+    <string name="openclaw_empty_my_robots">لا توجد روبوتات ذكاء اصطناعي حالياً</string>
+    <string name="openclaw_empty_available_robots">لا توجد روبوتات متاحة للإضافة</string>
+    <string name="openclaw_empty_group_robots">لم تتم إضافة روبوتات بعد</string>
+    <string name="openclaw_robot_name">اسم الروبوت</string>
+    <string name="openclaw_upload_avatar_hint">اضغط لتغيير الصورة</string>
+    <string name="openclaw_robot_name_hint">أدخل اسم الروبوت (2-10 أحرف)</string>
+    <string name="openclaw_create_robot">إنشاء روبوت</string>
+    <string name="openclaw_robot_name_invalid">يجب أن يكون اسم الروبوت من 2 إلى 10 أحرف</string>
+    <string name="openclaw_robot_limit">يمكن لكل مستخدم إنشاء 5 روبوتات كحد أقصى</string>
+    <string name="openclaw_add">إضافة</string>
+    <string name="openclaw_remove">إزالة</string>
+    <string name="openclaw_add_success">تمت الإضافة بنجاح</string>
+    <string name="openclaw_remove_success">تمت الإزالة بنجاح</string>
+    <string name="openclaw_remove_robot_hint">هل تريد إزالة %1$s؟</string>
+    <string name="openclaw_default_robot_name">روبوت OpenClaw</string>
+    <string name="openclaw_guide_description">يجمع روبوت OpenClaw للذكاء الاصطناعي بين إمكانات أتمتة OpenClaw
+وإمكانات مراسلة RongCloud IM، مما يتيح للمستخدمين إرسال الأوامر
+مباشرة من واجهة الدردشة المألوفة لإكمال المهام المعقدة.</string>
+    <string name="openclaw_steps_title">الخطوات:</string>
+    <string name="openclaw_guide_step_create">•  إنشاء روبوت الذكاء الاصطناعي الخاص بي.</string>
+    <string name="openclaw_guide_step_token">•  الحصول على رمز الروبوت.</string>
+    <string name="openclaw_guide_step_install">•  تثبيت OpenClaw ومكوّن RongCloud SealChat الإضافي.</string>
+    <string name="openclaw_guide_step_chat">•  بدء دردشة.</string>
+    <string name="openclaw_start">بدء</string>
+    <string name="openclaw_token_hint">ملاحظة: الرمز صالح لمدة 30 دقيقة. بعد انتهاء الصلاحية، تحتاج إلى الحصول على رمز جديد.</string>
+    <string name="openclaw_reset_token">إعادة ضبط الرمز</string>
+    <string name="openclaw_start_chat">بدء محادثة</string>
+    <string name="openclaw_token_prefix">الرمز: </string>
+    <string name="openclaw_reset_token_first">يرجى إعادة ضبط الرمز أولاً</string>
+    <string name="openclaw_copy_success">تم النسخ بنجاح</string>
+    <string name="openclaw_token_success_title">تمت إعادة ضبط الرمز بنجاح</string>
+    <string name="openclaw_token_message_prefix">الرمز: </string>
+    <string name="openclaw_copy_token">نسخ الرمز</string>
     
     <string name="common_member_count" formatted="true">%d شخص</string>
     
@@ -882,4 +921,3 @@
     <string name="seal_user_group_bind_channel_title">ربط/إلغاء ربط مجموعة المستخدمين</string>
     
 </resources>
-

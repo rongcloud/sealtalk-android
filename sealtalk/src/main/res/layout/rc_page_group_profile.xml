@@ -182,6 +182,20 @@
                 android:layout_height="@dimen/rc_margin_size_12" />
 
             <io.rong.imkit.widget.SettingItemView
+                android:id="@+id/siv_group_robots"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_title_bar_height"
+                app:item_content="@string/openclaw_group_robots"
+                app:item_divider="false"
+                app:item_right_image="?attr/rc_right_arrow_icon_img"
+                app:item_right_image_auto_mirrored="true"
+                app:item_value_text_size="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rc_margin_size_12" />
+
+            <io.rong.imkit.widget.SettingItemView
                 android:id="@+id/siv_message_disturb"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/rc_title_bar_height"

@@ -22,6 +22,7 @@ import cn.rongcloud.im.contact.PhoneContactManager;
 import cn.rongcloud.im.im.IMManager;
 import cn.rongcloud.im.model.DataCenterJsonModel;
 import cn.rongcloud.im.newdesign.myprofile.CustomMyProfileFragment;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotRegistry;
 import cn.rongcloud.im.ui.activity.MainActivity;
 import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.ui.activity.SplashActivity;
@@ -274,6 +275,10 @@ public class SealApp extends MultiDexApplication {
                                     @NonNull String url,
                                     @NonNull ImageView imageView,
                                     Conversation conversation) {
+                                if (shouldUseOpenClawPortrait(conversation)) {
+                                    loadOpenClawRobotPortrait(imageView);
+                                    return;
+                                }
                                 @DrawableRes
                                 int resourceId =
                                         IMKitThemeManager.getAttrResId(
@@ -324,6 +329,10 @@ public class SealApp extends MultiDexApplication {
                                     @NonNull String url,
                                     @NonNull ImageView imageView,
                                     Message message) {
+                                if (shouldUseOpenClawPortrait(message)) {
+                                    loadOpenClawRobotPortrait(imageView);
+                                    return;
+                                }
                                 @DrawableRes
                                 int resourceId =
                                         IMKitThemeManager.getAttrResId(
@@ -361,6 +370,11 @@ public class SealApp extends MultiDexApplication {
                                     @NonNull Context context,
                                     @NonNull String url,
                                     @NonNull ImageView imageView) {
+                                if (!TextUtils.isEmpty(url)
+                                        && OpenClawRobotRegistry.shouldUseDefaultPortrait(url)) {
+                                    loadOpenClawRobotPortrait(imageView);
+                                    return;
+                                }
                                 int defaultPortrait =
                                         IMKitThemeManager.getAttrResId(
                                                 imageView.getContext(),
@@ -414,6 +428,33 @@ public class SealApp extends MultiDexApplication {
 
         //        UMeng初始化 - 在MainActivity中通过反射根据构建变体进行初始化
         //        UMConfigure.preInit(this, BuildConfig.SEALTALK_UMENG_APPKEY, null);
+    }
+
+    private static boolean shouldUseOpenClawPortrait(Conversation conversation) {
+        return conversation != null
+                && conversation.getConversationType() == Conversation.ConversationType.PRIVATE
+                && OpenClawRobotRegistry.isOpenClawRobotId(conversation.getTargetId());
+    }
+
+    private static boolean shouldUseOpenClawPortrait(Message message) {
+        return message != null
+                && message.getConversationType() == Conversation.ConversationType.PRIVATE
+                && (OpenClawRobotRegistry.isOpenClawRobotId(message.getSenderUserId())
+                        || (message.getMessageDirection() == Message.MessageDirection.RECEIVE
+                                && OpenClawRobotRegistry.isOpenClawRobotId(message.getTargetId())));
+    }
+
+    private static void loadOpenClawRobotPortrait(ImageView imageView) {
+        RequestBuilder<Drawable> placeholder =
+                Glide.with(imageView.getContext())
+                        .load(R.drawable.openclaw_ic_ai_robot_avatar)
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()));
+        Glide.with(imageView.getContext())
+                .load(R.drawable.openclaw_ic_ai_robot_avatar)
+                .thumbnail(placeholder)
+                .error(placeholder)
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .into(imageView);
     }
 
     private void initDataCenter() {

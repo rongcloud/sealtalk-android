@@ -2,15 +2,18 @@ package cn.rongcloud.im.im;
 
 import cn.rongcloud.im.im.plugin.CustomAudioPlugin;
 import cn.rongcloud.im.im.plugin.CustomVideoPlugin;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotRegistry;
 import io.rong.callkit.AudioPlugin;
 import io.rong.callkit.VideoPlugin;
 import io.rong.imkit.conversation.extension.DefaultExtensionConfig;
 import io.rong.imkit.conversation.extension.component.plugin.FilePlugin;
 import io.rong.imkit.conversation.extension.component.plugin.IPluginModule;
+import io.rong.imkit.conversation.extension.component.plugin.ImagePlugin;
 import io.rong.imkit.feature.destruct.DestructPlugin;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.sight.SightPlugin;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SealExtensionConfig extends DefaultExtensionConfig {
@@ -68,7 +71,25 @@ public class SealExtensionConfig extends DefaultExtensionConfig {
             pluginList.remove(filePlugin);
             pluginList.add(3, filePlugin);
         }
-        if (targetId.equals(RongIMClient.getInstance().getCurrentUserId())) {
+        if (Conversation.ConversationType.PRIVATE.equals(conversationType)
+                && OpenClawRobotRegistry.isOpenClawRobotId(targetId)) {
+            List<IPluginModule> openClawPlugins = new ArrayList<>();
+            for (IPluginModule pluginModule : pluginList) {
+                if (pluginModule instanceof ImagePlugin) {
+                    openClawPlugins.add(pluginModule);
+                    break;
+                }
+            }
+            if (sightPlugin != null) {
+                openClawPlugins.add(sightPlugin);
+            }
+            if (filePlugin != null) {
+                openClawPlugins.add(filePlugin);
+            }
+            return openClawPlugins;
+        }
+
+        if (targetId != null && targetId.equals(RongIMClient.getInstance().getCurrentUserId())) {
             if (audioPlugin != null) {
                 pluginList.remove(audioPlugin);
             }

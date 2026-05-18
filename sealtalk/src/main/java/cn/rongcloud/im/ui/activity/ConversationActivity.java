@@ -38,6 +38,10 @@ import cn.rongcloud.im.model.ScreenCaptureData;
 import cn.rongcloud.im.model.ScreenCaptureResult;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.TypingInfo;
+import cn.rongcloud.im.openclaw.detail.OpenClawDetailActivity;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotInfo;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotRegistry;
+import cn.rongcloud.im.openclaw.repository.OpenClawRobotRepository;
 import cn.rongcloud.im.sp.UserConfigCache;
 import cn.rongcloud.im.task.AppTask;
 import cn.rongcloud.im.ui.dialog.RencentPicturePopWindow;
@@ -107,6 +111,7 @@ public class ConversationActivity extends RongBaseActivity
     private static List<String> rencentShowIdList = new ArrayList<>();
     private RencentPicturePopWindow rencentPicturePopWindow;
     private UserConfigCache userConfigCache;
+    private OpenClawRobotInfo openClawRobot;
 
     private ScreenCaptureUtil screenCaptureUtil;
     private IRongCoreListener.MessageBlockListener blockListener = new BlockListener(this);
@@ -164,6 +169,7 @@ public class ConversationActivity extends RongBaseActivity
         setListenerToRootView();
         initView();
         initViewModel();
+        initOpenClawRobotContext();
         //        initScreenShotListener();
 
         if (getSharedPreferences("config", MODE_PRIVATE).getBoolean("isDebug", false)
@@ -451,6 +457,51 @@ public class ConversationActivity extends RongBaseActivity
                     }
                 });
         screenCaptureUtil.register();
+    }
+
+    private void initOpenClawRobotContext() {
+        if (!isOpenClawPrivateConversation()) {
+            return;
+        }
+        openClawRobot = OpenClawRobotRegistry.getOrCreate(mTargetId, title);
+        new OpenClawRobotRepository(getApplication())
+                .getMyRobots()
+                .observe(
+                        this,
+                        resource -> {
+                            if (resource.status != Status.SUCCESS || resource.data == null) {
+                                return;
+                            }
+                            OpenClawRobotRegistry.registerAll(resource.data);
+                            for (OpenClawRobotInfo robot : resource.data) {
+                                if (TextUtils.equals(robot.getBotId(), mTargetId)) {
+                                    openClawRobot = robot;
+                                    break;
+                                }
+                            }
+                        });
+    }
+
+    private boolean isOpenClawPrivateConversation() {
+        return mConversationType == Conversation.ConversationType.PRIVATE
+                && SealTalkDebugTestActivity.isUserManagementEnabled(this)
+                && !TextUtils.isEmpty(mTargetId)
+                && OpenClawRobotRegistry.isOpenClawRobotId(mTargetId);
+    }
+
+    private boolean openOpenClawRobotDetail() {
+        if (!isOpenClawPrivateConversation()) {
+            return false;
+        }
+        OpenClawRobotInfo robot =
+                openClawRobot == null
+                        ? OpenClawRobotRegistry.getOrCreate(mTargetId, title)
+                        : openClawRobot;
+        if (robot == null) {
+            return false;
+        }
+        startActivity(OpenClawDetailActivity.newIntent(this, robot, null));
+        return true;
     }
 
     private void initViewModel() {
@@ -1016,6 +1067,9 @@ public class ConversationActivity extends RongBaseActivity
             startActivity(intent);
         } else if (conversationType == Conversation.ConversationType.PRIVATE) {
             if (SealTalkDebugTestActivity.isUserManagementEnabled(this)) {
+                if (openOpenClawRobotDetail()) {
+                    return;
+                }
                 startActivity(
                         UserProfileActivity.newIntent(this, mTargetId, conversationIdentifier));
             } else {

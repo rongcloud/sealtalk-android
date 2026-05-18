@@ -10,6 +10,11 @@ import androidx.annotation.Nullable;
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.newdesign.qrcode.QrCodeDisplayActivity;
 import cn.rongcloud.im.newdesign.searchmsg.SearchMessageActivity;
+import cn.rongcloud.im.openclaw.detail.OpenClawDetailActivity;
+import cn.rongcloud.im.openclaw.group.list.GroupOpenClawRobotsActivity;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotInfo;
+import cn.rongcloud.im.openclaw.model.OpenClawRobotRegistry;
+import cn.rongcloud.im.ui.activity.SealTalkDebugTestActivity;
 import cn.rongcloud.im.utils.ToastUtils;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.usermanage.group.profile.GroupProfileFragment;
@@ -19,6 +24,8 @@ import io.rong.imkit.widget.SettingItemView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.GroupInfo;
+import io.rong.imlib.model.GroupMemberInfo;
+import io.rong.imlib.model.GroupMemberRole;
 
 /**
  * 功能描述:
@@ -32,6 +39,7 @@ public class MyGroupProfileFragment extends GroupProfileFragment {
 
     protected SettingItemView mClearMessagesItem;
     protected SettingItemView mSearchMessagesItem;
+    protected SettingItemView mGroupRobotsItem;
     private ConversationIdentifier conversationIdentifier;
 
     @NonNull
@@ -46,6 +54,7 @@ public class MyGroupProfileFragment extends GroupProfileFragment {
                 getArguments().getParcelable(KitConstants.KEY_CONVERSATION_IDENTIFIER);
         mSearchMessagesItem = view.findViewById(R.id.siv_search_messages);
         mClearMessagesItem = view.findViewById(R.id.siv_clear_messages);
+        mGroupRobotsItem = view.findViewById(R.id.siv_group_robots);
 
         mSearchMessagesItem.setOnClickListener(
                 v -> {
@@ -72,7 +81,51 @@ public class MyGroupProfileFragment extends GroupProfileFragment {
                             }
                         });
 
+        mGroupRobotsItem.setOnClickListener(
+                v -> {
+                    GroupInfo groupInfo = getViewModel().getGroupInfoLiveData().getValue();
+                    if (groupInfo != null) {
+                        boolean canManage =
+                                groupInfo.getRole() == GroupMemberRole.Owner
+                                        || groupInfo.getRole() == GroupMemberRole.Manager;
+                        startActivity(
+                                GroupOpenClawRobotsActivity.newIntent(
+                                        getContext(), groupInfo.getGroupId(), canManage));
+                    }
+                });
+
         return view;
+    }
+
+    @Override
+    protected void onGroupMemberClick(
+            ConversationIdentifier conversationIdentifier, GroupMemberInfo groupMemberInfo) {
+        if (openOpenClawRobotDetail(groupMemberInfo)) {
+            return;
+        }
+        super.onGroupMemberClick(conversationIdentifier, groupMemberInfo);
+    }
+
+    private boolean openOpenClawRobotDetail(GroupMemberInfo groupMemberInfo) {
+        if (getContext() == null
+                || groupMemberInfo == null
+                || !SealTalkDebugTestActivity.isUserManagementEnabled(getContext())
+                || !OpenClawRobotRegistry.isOpenClawRobotId(groupMemberInfo.getUserId())) {
+            return false;
+        }
+        OpenClawRobotInfo robot = OpenClawRobotRegistry.get(groupMemberInfo.getUserId());
+        if (robot == null) {
+            robot = new OpenClawRobotInfo();
+            robot.setBotId(groupMemberInfo.getUserId());
+            robot.setName(
+                    groupMemberInfo.getNickname() == null || groupMemberInfo.getNickname().isEmpty()
+                            ? groupMemberInfo.getName()
+                            : groupMemberInfo.getNickname());
+            robot.setPortraitUri(groupMemberInfo.getPortraitUri());
+            OpenClawRobotRegistry.register(getContext(), robot);
+        }
+        startActivity(OpenClawDetailActivity.newIntent(getContext(), robot, null));
+        return true;
     }
 
     private void showCleanMessageDialog() {

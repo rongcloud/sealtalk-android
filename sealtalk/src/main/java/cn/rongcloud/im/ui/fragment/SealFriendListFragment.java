@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import cn.rongcloud.im.R;
+import cn.rongcloud.im.openclaw.my.MyOpenClawRobotsActivity;
 import cn.rongcloud.im.ui.view.IconTextItemView;
 import io.rong.imkit.config.IMKitThemeManager;
 import io.rong.imkit.config.RongConfigCenter;
@@ -31,6 +32,7 @@ public class SealFriendListFragment extends FriendListFragment {
     private IconTextItemView myGroupView;
     private IconTextItemView groupNotificationView;
     private IconTextItemView myFriendView;
+    private IconTextItemView myAiRobotView;
 
     @NonNull
     @Override
@@ -51,6 +53,7 @@ public class SealFriendListFragment extends FriendListFragment {
         myFriendView = headView.findViewById(R.id.rc_item_my_friend);
         myGroupView = headView.findViewById(R.id.rc_item_my_group);
         groupNotificationView = headView.findViewById(R.id.rc_item_group_notification);
+        myAiRobotView = headView.findViewById(R.id.rc_item_my_ai_robot);
 
         contactListComponent.addHeaderView(headView);
         headComponent.setBackground(null);
@@ -71,6 +74,9 @@ public class SealFriendListFragment extends FriendListFragment {
 
         groupNotificationView.setOnClickListener(
                 v -> startActivity(GroupApplicationsActivity.newIntent(getActivity())));
+
+        myAiRobotView.setOnClickListener(
+                v -> startActivity(MyOpenClawRobotsActivity.newIntent(getContext())));
 
         RongCoreClient.getInstance()
                 .getMyUserProfile(
