@@ -1,10 +1,12 @@
 package cn.rongcloud.im.net;
 
 import cn.rongcloud.im.BuildConfig;
-import cn.rongcloud.im.R;
-import cn.rongcloud.im.SealApp;
 
 public class SealTalkUrl {
+    private static final String BUILD_VARIANT_PUBLISH_GOOGLE = "publishgoogle";
+    private static final String PRIVACY_POLICY_CN = "https://www.wegenmi.com/privacy-cn";
+    private static final String PRIVACY_POLICY_EN = "https://www.wegenmi.com/privacy-en";
+
     public static String DOMAIN = BuildConfig.SEALTALK_SERVER;
 
     public static String getDomain() {
@@ -20,7 +22,10 @@ public class SealTalkUrl {
     }
 
     public static String getPrivacyPolicy() {
-        return SealApp.getApplication().getString(R.string.seal_talk_privacy_policy_link);
+        if (BUILD_VARIANT_PUBLISH_GOOGLE.equals(BuildConfig.BUILD_VARIANT)) {
+            return PRIVACY_POLICY_EN;
+        }
+        return PRIVACY_POLICY_CN;
     }
 
     private static class Doc {

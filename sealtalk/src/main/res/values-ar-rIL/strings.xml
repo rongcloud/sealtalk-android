@@ -752,7 +752,6 @@
     <string name="seal_talk_prompt_text_front">1. لضمان استقرار وأمان تشغيل المنصة، سنطلب أذونات النظام لجمع عنوان IP ومعرف الجهاز ونوع الوصول إلى الشبكة ونظام التشغيل ومعلومات الجهاز الأخرى لاستكشاف مشاكل تشغيل المنصة وإصلاحها</string>
     <string name="seal_talk_prompt_text_front1">2. يرجى قراءة «سياسة الخصوصية» بالتفصيل حول جمع واستخدام معلومات مستخدم الجهاز الشخصي</string>
     <string name="seal_talk_prompt_text_front2">3. بعد تسجيل الدخول إلى التطبيق، يمكنك أيضاً عرض شرح الخصوصية في \"أنا - سياسة الخصوصية\"</string>
-    <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-cn</string>
     <string name="seal_talk_prompt_disagree">عدم الموافقة</string>
     <string name="seal_talk_prompt_agree_and_continue">الموافقة والمتابعة</string>
     

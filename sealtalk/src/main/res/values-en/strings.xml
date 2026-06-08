@@ -712,8 +712,6 @@
                                                </string>
     <string name="seal_talk_prompt_text_front2"> 3.After logging into the application, you can also view the privacy instructions in "Me Privacy Policy"
                                                </string>
-    <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-en</string>
-
     <string name="seal_talk_fraud_tips_dialog_title">Tips</string>
     <string name="seal_talk_fraud_tips_dialog_content">You are using RongCloud IM, SealChat reminds you to beware of fraud and Be cautious of messages involving money.</string>
     <string name="seal_talk_fraud_tips_dialog_confirm">Confirm</string>

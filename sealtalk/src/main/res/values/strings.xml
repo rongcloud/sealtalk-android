@@ -688,7 +688,6 @@
     <string name="seal_talk_prompt_text_front">1.为保障平台运营稳定安全，我们会申请系统权限收集 IP 地址、设备 ID、网络接入类型、操作系统等设备信息用于平台运营问题排查</string>
     <string name="seal_talk_prompt_text_front1">2.请详细阅读《隐私政策》中关于个人设备用户信息的收集和使用说明</string>
     <string name="seal_talk_prompt_text_front2">3.登录应用后，也可以在"我 - 隐私政策"中查看隐私说明</string>
-    <string name="seal_talk_privacy_policy_link">https://www.wegenmi.com/privacy-cn</string>
     <string name="seal_talk_prompt_disagree">不同意</string>
     <string name="seal_talk_prompt_agree_and_continue">同意并继续</string>
 
