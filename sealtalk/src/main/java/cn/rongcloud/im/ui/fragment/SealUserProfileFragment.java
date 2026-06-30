@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import cn.rongcloud.im.R;
+import cn.rongcloud.im.ui.activity.ReportCategoryActivity;
 import cn.rongcloud.im.utils.ToastUtils;
 import io.rong.callkit.RongCallAction;
 import io.rong.callkit.RongVoIPIntent;
@@ -17,6 +21,8 @@ import io.rong.common.RLog;
 import io.rong.imkit.model.UiUserDetail;
 import io.rong.imkit.usermanage.friend.user.profile.UserProfileFragment;
 import io.rong.imkit.usermanage.friend.user.profile.UserProfileViewModel;
+import io.rong.imkit.utils.KitConstants;
+import io.rong.imlib.RongCoreClient;
 import io.rong.imlib.model.Conversation;
 import java.util.Locale;
 
@@ -30,6 +36,25 @@ public class SealUserProfileFragment extends UserProfileFragment {
         btnStartVideo.setVisibility(View.VISIBLE);
         btnStartAudio.setOnClickListener(v -> startVoice());
         btnStartVideo.setOnClickListener(v -> startVideo());
+        initReportAction();
+    }
+
+    private void initReportAction() {
+        Bundle arguments = getArguments();
+        String userId = arguments == null ? null : arguments.getString(KitConstants.KEY_USER_ID);
+        if (TextUtils.isEmpty(userId)
+                || TextUtils.equals(userId, RongCoreClient.getInstance().getCurrentUserId())) {
+            headComponent.getRightTextView().setVisibility(View.GONE);
+            return;
+        }
+        headComponent.setRightText(getString(R.string.report_title));
+        headComponent.setRightClickListener(
+                v ->
+                        startActivity(
+                                ReportCategoryActivity.newIntent(
+                                        requireContext(),
+                                        Conversation.ConversationType.PRIVATE,
+                                        userId)));
     }
 
     /** 发起音频通话 */

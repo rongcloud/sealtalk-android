@@ -311,6 +311,30 @@
                 app:item_switch="true" />
 
             <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_test_reaction_enable"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="开启表情回应功能"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_test_reaction_show_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="消息回应显示用户名"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
+                android:id="@+id/siv_reference_contact_card_custom_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/seal_mine_about_height"
+                app:item_content="名片消息自定义引用展示"
+                app:item_divider="true"
+                app:item_switch="true" />
+
+            <cn.rongcloud.im.ui.view.SettingItemView
                 android:id="@+id/siv_quote_v2_enable"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/seal_mine_about_height"

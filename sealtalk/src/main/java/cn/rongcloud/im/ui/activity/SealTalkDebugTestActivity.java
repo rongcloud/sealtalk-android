@@ -40,6 +40,7 @@ import cn.rongcloud.im.viewmodel.UserInfoViewModel;
 import io.rong.imkit.IMCenter;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.config.ConversationClickListener;
+import io.rong.imkit.config.MessageReactionDisplayMode;
 import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imlib.IRongCoreEnum;
 import io.rong.imlib.IRongCoreListener;
@@ -83,6 +84,9 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     private SettingItemView editMessage; // 消息编辑
     private SettingItemView showSdkReadDetailV5Page; // 进入Kit已读V5详情页
     private SettingItemView replaceFileIcons; // SealApp替换Kit文件Icon，替换后无论哪种主题均展示固定Icon
+    private SettingItemView reactionEnable; // 消息回应开关
+    private SettingItemView reactionShowUserName; // 消息回应是否显示用户名
+    private SettingItemView referenceContactCardCustomContent; // 名片消息自定义引用展示开关
     private SettingItemView quoteV2Enable; // 引用消息V2开关
     private SettingItemView quoteV2Whitelist; // V2引用消息类型白名单配置
     private EditText eTDatabaseOperateThreshold;
@@ -107,6 +111,13 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
     public static final String SEAL_APP_CONFIG = "seal_app_config";
     public static final String SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS =
             "seal_app_config_is_replace_file_icons";
+    public static final String SEAL_APP_CONFIG_REACTION_ENABLED =
+            "seal_app_config_reaction_enabled";
+    public static final String SEAL_APP_CONFIG_REACTION_SHOW_USER_NAME =
+            "seal_app_config_reaction_show_user_name";
+    public static final String SEAL_APP_CONFIG_REFERENCE_CONTACT_CARD_CUSTOM_CONTENT =
+            "seal_app_config_reference_contact_card_custom_content";
+    public static final boolean DEFAULT_REFERENCE_CONTACT_CARD_CUSTOM_CONTENT_ENABLED = false;
     public static final String QUOTE_V2_CONFIG = "quote_v2_config";
     public static final String QUOTE_V2_ENABLED = "quote_v2_enabled";
     public static final String QUOTE_V2_WHITELIST = "quote_v2_whitelist";
@@ -130,14 +141,7 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
             "RC:FileMsg",
             "RC:LBSMsg"
         },
-        {
-            "RC:TxtMsg",
-            "RC:ImgMsg",
-            "RC:SightMsg",
-            "RC:VcMsg",
-            "RC:FileMsg",
-            "RC:LBSMsg"
-        }
+        {"RC:TxtMsg", "RC:ImgMsg", "RC:SightMsg", "RC:VcMsg", "RC:FileMsg", "RC:LBSMsg"}
     };
     private static final String[] QUOTE_V2_DISPLAY_NAMES = {
         "文本", "图片", "GIF", "小视频", "语音", "高清语音", "文件", "位置"
@@ -539,6 +543,43 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
                 (buttonView, isChecked) -> {
                     setSealAppConfig(this, SEAL_APP_CONFIG_IS_REPLACE_FILE_ICONS, isChecked);
                     ToastUtils.showToast("SealApp替换Kit文件Icon配置" + (isChecked ? "开启" : "关闭"));
+                    exit(0);
+                });
+
+        reactionEnable = findViewById(R.id.siv_test_reaction_enable);
+        boolean isReactionEnabled = isReactionEnabled(this);
+        reactionEnable.setChecked(isReactionEnabled);
+        RongConfigCenter.featureConfig().enableMessageReaction(isReactionEnabled);
+        reactionEnable.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    setSealAppConfig(this, SEAL_APP_CONFIG_REACTION_ENABLED, isChecked);
+                    RongConfigCenter.featureConfig().enableMessageReaction(isChecked);
+                    ToastUtils.showToast("表情回应功能已" + (isChecked ? "开启" : "关闭"));
+                });
+
+        reactionShowUserName = findViewById(R.id.siv_test_reaction_show_user_name);
+        boolean showReactionUserName = isReactionShowUserNameEnabled(this);
+        reactionShowUserName.setChecked(showReactionUserName);
+        RongConfigCenter.conversationConfig()
+                .setMessageReactionDisplayMode(getMessageReactionDisplayMode(showReactionUserName));
+        reactionShowUserName.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    setSealAppConfig(this, SEAL_APP_CONFIG_REACTION_SHOW_USER_NAME, isChecked);
+                    RongConfigCenter.conversationConfig()
+                            .setMessageReactionDisplayMode(
+                                    getMessageReactionDisplayMode(isChecked));
+                    ToastUtils.showToast("消息回应显示用户名已" + (isChecked ? "开启" : "关闭"));
+                });
+
+        referenceContactCardCustomContent =
+                findViewById(R.id.siv_reference_contact_card_custom_content);
+        referenceContactCardCustomContent.setChecked(
+                isReferenceContactCardCustomContentEnabled(this));
+        referenceContactCardCustomContent.setSwitchCheckListener(
+                (buttonView, isChecked) -> {
+                    setSealAppConfig(
+                            this, SEAL_APP_CONFIG_REFERENCE_CONTACT_CARD_CUSTOM_CONTENT, isChecked);
+                    ToastUtils.showToast("名片消息自定义引用展示已" + (isChecked ? "开启" : "关闭"));
                     exit(0);
                 });
 
@@ -975,7 +1016,8 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         return new java.util.ArrayList<>(java.util.Arrays.asList(QUOTE_V2_OBJECT_NAMES));
     }
 
-    private static java.util.List<String> normalizeQuoteV2WhiteList(java.util.List<String> whiteList) {
+    private static java.util.List<String> normalizeQuoteV2WhiteList(
+            java.util.List<String> whiteList) {
         if (isLegacyDefaultQuoteV2WhiteList(whiteList)) {
             return getDefaultQuoteV2WhiteList();
         }
@@ -1019,6 +1061,27 @@ public class SealTalkDebugTestActivity extends TitleBaseActivity implements View
         SharedPreferences sp =
                 context.getSharedPreferences(EDIT_MESSAGE_CONFIG, Context.MODE_PRIVATE);
         return sp.getBoolean(EDIT_MESSAGE_ENABLED, true);
+    }
+
+    public static boolean isReactionEnabled(Context context) {
+        return getSealAppConfig(context, SEAL_APP_CONFIG_REACTION_ENABLED, true);
+    }
+
+    public static boolean isReactionShowUserNameEnabled(Context context) {
+        return getSealAppConfig(context, SEAL_APP_CONFIG_REACTION_SHOW_USER_NAME, false);
+    }
+
+    public static boolean isReferenceContactCardCustomContentEnabled(Context context) {
+        return getSealAppConfig(
+                context,
+                SEAL_APP_CONFIG_REFERENCE_CONTACT_CARD_CUSTOM_CONTENT,
+                DEFAULT_REFERENCE_CONTACT_CARD_CUSTOM_CONTENT_ENABLED);
+    }
+
+    public static MessageReactionDisplayMode getMessageReactionDisplayMode(boolean showUserName) {
+        return showUserName
+                ? MessageReactionDisplayMode.DETAIL
+                : MessageReactionDisplayMode.COUNT_ONLY;
     }
 
     /**

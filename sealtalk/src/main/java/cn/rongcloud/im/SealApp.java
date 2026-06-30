@@ -20,6 +20,7 @@ import androidx.multidex.MultiDexApplication;
 import cn.rongcloud.im.common.ErrorCode;
 import cn.rongcloud.im.contact.PhoneContactManager;
 import cn.rongcloud.im.im.IMManager;
+import cn.rongcloud.im.im.reference.ReferenceContactCardDemoHelper;
 import cn.rongcloud.im.model.DataCenterJsonModel;
 import cn.rongcloud.im.newdesign.myprofile.CustomMyProfileFragment;
 import cn.rongcloud.im.openclaw.model.OpenClawRobotRegistry;
@@ -196,6 +197,12 @@ public class SealApp extends MultiDexApplication {
         if (RongCoreClientImpl.isPrivateSDK()) {
             setSSL();
         }
+        RongConfigCenter.featureConfig()
+                .enableMessageReaction(SealTalkDebugTestActivity.isReactionEnabled(this));
+        RongConfigCenter.conversationConfig()
+                .setMessageReactionDisplayMode(
+                        SealTalkDebugTestActivity.getMessageReactionDisplayMode(
+                                SealTalkDebugTestActivity.isReactionShowUserNameEnabled(this)));
         // 初始化 bugly BUG 统计
         //        CrashReport.initCrashReport(getApplicationContext(), "cb8ebab203", true);
         // BlockCanary.install(this, new AppBlockCanaryContext()).start();
@@ -221,6 +228,7 @@ public class SealApp extends MultiDexApplication {
          */
         // 初始化融云IM SDK，初始化 SDK 仅需要在主进程中初始化一次
         IMManager.getInstance().init(this);
+        ReferenceContactCardDemoHelper.apply(this);
 
         // 注册自定义主题（在加载主题之前注册）
         IMKitThemeManager.addTheme(

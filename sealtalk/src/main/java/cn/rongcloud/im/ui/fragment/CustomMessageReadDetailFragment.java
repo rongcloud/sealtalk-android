@@ -3,6 +3,8 @@ package cn.rongcloud.im.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +17,25 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import io.rong.imkit.IMCenter;
+import io.rong.imkit.config.RongConfigCenter;
 import io.rong.imkit.conversation.readreceipt.MessageReadDetailFragment;
 import io.rong.imkit.conversation.readreceipt.MessageReadDetailViewModel;
 import io.rong.imkit.feature.forward.CombineMessage;
+import io.rong.imkit.feature.reaction.ReactionEmojiProvider;
 import io.rong.imkit.picture.tools.ScreenUtils;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.utils.FileTypeUtils;
 import io.rong.imkit.utils.RongDateUtils;
 import io.rong.imlib.IRongCallback;
+import io.rong.imlib.IRongCoreCallback;
+import io.rong.imlib.IRongCoreEnum;
+import io.rong.imlib.RongCoreClient;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.message.LocationMessage;
+import io.rong.imlib.model.ConversationIdentifier;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageReaction;
+import io.rong.imlib.model.MessageReactionSummaryQueryParam;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.CombineV2Message;
 import io.rong.message.FileMessage;
@@ -34,6 +44,10 @@ import io.rong.message.HQVoiceMessage;
 import io.rong.message.ImageMessage;
 import io.rong.message.SightMessage;
 import io.rong.message.TextMessage;
+import io.rong.message.VoiceMessage;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class CustomMessageReadDetailFragment extends MessageReadDetailFragment {
 
@@ -100,6 +114,7 @@ public class CustomMessageReadDetailFragment extends MessageReadDetailFragment {
         if (context == null) {
             return;
         }
+        resetMessageContentViews();
         txtMessageContent.setVisibility(View.VISIBLE);
         if (message.getContent() instanceof TextMessage) {
             String content = ((TextMessage) message.getContent()).getContent();
@@ -141,14 +156,110 @@ public class CustomMessageReadDetailFragment extends MessageReadDetailFragment {
             loadFileIcon(context, (FileMessage) message.getContent());
         } else if (message.getContent() instanceof LocationMessage) {
             txtMessageContent.setText(io.rong.imkit.R.string.rc_message_content_location);
-        } else if (message.getContent() instanceof HQVoiceMessage) {
+        } else if (message.getContent() instanceof HQVoiceMessage
+                || message.getContent() instanceof VoiceMessage) {
             txtMessageContent.setText(io.rong.imkit.R.string.rc_message_content_voice);
         } else if (message.getContent() instanceof CombineMessage
                 || message.getContent() instanceof CombineV2Message) {
             txtMessageContent.setText(io.rong.imkit.R.string.rc_message_content_combine);
         } else {
+            showMessageSummary(context, message);
+        }
+    }
+
+    private void resetMessageContentViews() {
+        txtMessageContent.setVisibility(View.GONE);
+        imageMessageContent.setVisibility(View.GONE);
+        fileName.setVisibility(View.GONE);
+        fileSize.setVisibility(View.GONE);
+    }
+
+    private void showMessageSummary(Context context, Message message) {
+        Spannable summary =
+                RongConfigCenter.conversationConfig()
+                        .getMessageSummary(context, message.getContent());
+        if (!TextUtils.isEmpty(summary)) {
+            txtMessageContent.setText(summary);
+        } else if (message.isHasReactions() && !TextUtils.isEmpty(message.getUId())) {
+            showReactionSummary(message);
+        } else {
             txtMessageContent.setText(R.string.seal_message_content_others);
         }
+    }
+
+    private void showReactionSummary(Message message) {
+        String messageUId = message.getUId();
+        txtMessageContent.setText(io.rong.imkit.R.string.rc_reaction_menu_title);
+        MessageReactionSummaryQueryParam param =
+                new MessageReactionSummaryQueryParam(
+                        ConversationIdentifier.obtain(message),
+                        Collections.singletonList(messageUId));
+        RongCoreClient.getInstance()
+                .batchGetMessageReactionSummaries(
+                        param,
+                        new IRongCoreCallback.ResultCallback<Map<String, List<MessageReaction>>>() {
+                            @Override
+                            public void onSuccess(Map<String, List<MessageReaction>> result) {
+                                List<MessageReaction> reactions =
+                                        result == null ? null : result.get(messageUId);
+                                String summary = formatReactionSummary(reactions);
+                                if (!TextUtils.isEmpty(summary)) {
+                                    setMessageContentText(summary);
+                                }
+                            }
+
+                            @Override
+                            public void onError(IRongCoreEnum.CoreErrorCode e) {}
+                        });
+    }
+
+    private String formatReactionSummary(List<MessageReaction> reactions) {
+        if (reactions == null || reactions.isEmpty()) {
+            return null;
+        }
+        Context context = getContext();
+        if (context == null) {
+            return null;
+        }
+        StringBuilder builder = new StringBuilder();
+        for (MessageReaction reaction : reactions) {
+            if (reaction == null || TextUtils.isEmpty(reaction.getReactionId())) {
+                continue;
+            }
+            if (builder.length() > 0) {
+                builder.append("  ");
+            }
+            builder.append(ReactionEmojiProvider.findUnicodeById(reaction.getReactionId()));
+            int count = reaction.getTotalCount();
+            if (count <= 0 && reaction.getUsers() != null) {
+                count = reaction.getUsers().size();
+            }
+            if (count > 0) {
+                String countText =
+                        count > 99
+                                ? context.getString(
+                                        io.rong.imkit.R.string.rc_reaction_count_overflow)
+                                : String.valueOf(count);
+                builder.append(" ")
+                        .append(
+                                context.getString(
+                                        io.rong.imkit.R.string.rc_reaction_count_format,
+                                        countText));
+            }
+        }
+        return builder.length() == 0 ? null : builder.toString();
+    }
+
+    private void setMessageContentText(String content) {
+        if (txtMessageContent == null || TextUtils.isEmpty(content)) {
+            return;
+        }
+        txtMessageContent.post(
+                () -> {
+                    if (txtMessageContent != null) {
+                        txtMessageContent.setText(content);
+                    }
+                });
     }
 
     private void loadImageThumbUri(Context context, Uri thumbUri) {

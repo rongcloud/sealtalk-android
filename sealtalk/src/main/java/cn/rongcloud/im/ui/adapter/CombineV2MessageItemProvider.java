@@ -29,6 +29,7 @@ import java.util.List;
  * @since 1.0
  */
 public class CombineV2MessageItemProvider extends BaseMessageItemProvider<CombineV2Message> {
+    private static final int REACTION_MARGIN_START_DP = 12;
 
     public CombineV2MessageItemProvider() {}
 
@@ -73,6 +74,29 @@ public class CombineV2MessageItemProvider extends BaseMessageItemProvider<Combin
             textView.setMaxLines(1);
             llSummary.addView(textView);
         }
+        alignReactionViewWithContent(parentHolder);
+    }
+
+    private void alignReactionViewWithContent(ViewHolder parentHolder) {
+        if (parentHolder == null) {
+            return;
+        }
+        View reactionView = parentHolder.getView(io.rong.imkit.R.id.rc_reaction_view);
+        if (reactionView == null) {
+            return;
+        }
+        ViewGroup.LayoutParams params = reactionView.getLayoutParams();
+        if (!(params instanceof LinearLayout.LayoutParams)) {
+            return;
+        }
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) params;
+        layoutParams.setMarginStart(dpToPx(reactionView, REACTION_MARGIN_START_DP));
+        reactionView.setLayoutParams(layoutParams);
+    }
+
+    private int dpToPx(View view, int dp) {
+        float density = view.getResources().getDisplayMetrics().density;
+        return (int) (dp * density + 0.5f);
     }
 
     @Override

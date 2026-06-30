@@ -129,7 +129,7 @@ public class SealTalkUrl {
 
     public static final String GET_FRIEND_PROFILE = "friendship/{friendId}/profile";
 
-    public static final String REPORT_CUSTOMER = "/customer/report";
+    public static final String REPORT_CUSTOMER = "customer/report";
 
     public static final String SET_DISPLAY_NAME = "friendship/set_display_name";
 
